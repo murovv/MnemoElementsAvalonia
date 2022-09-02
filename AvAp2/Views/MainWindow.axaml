@@ -13,9 +13,13 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 	<Grid>
-    
-	<models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Width="300" Height="200" ></models:CAutomaticSwitch>
-		<models:CCellCart x:Name="CCellCart1" Width="100" Height="100" ></models:CCellCart>
-	<Button x:Name="AutomaticSwitchButton" Height="30" Width="180" Margin="50" > Изменить состояние</Button>
+    <UniformGrid Rows="2" Columns="2">
+	    <models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Margin="30"></models:CAutomaticSwitch>
+	    <models:CCellCart x:Name="CCellCart1" ></models:CCellCart>
+	    <Button x:Name="AutomaticSwitchButton" Margin="30" Height="30"> Изменить выключатель</Button>
+	    <Button x:Name="CellCartButton"  Height="30"> Изменить выкатной элемент</Button>
+    </UniformGrid>
+	
+		
 	</Grid>
 </Window>

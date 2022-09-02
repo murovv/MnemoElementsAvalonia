@@ -8,6 +8,14 @@ namespace AvAp2.Models
     [Description("Выкатной элемент ячейки 1")]
     public class CCellCart : BasicCommutationDevice
     {
+        static CCellCart()
+        {
+            AffectsRender<CCellCart>(AngleProperty);
+            AffectsRender<CCellCart>(NormalStateProperty);
+            AffectsRender<CCellCart>(ShowNormalStateProperty);
+            AffectsRender<CCellCart>(IsConnectorExistLeftProperty);
+            AffectsRender<CCellCart>(IsConnectorExistRightProperty);
+        }
         public override string ElementTypeFriendlyName
         {
             get => "Выкатной элемент ячейки";
