@@ -5,7 +5,7 @@ using Avalonia.Media;
 
 namespace AvAp2.Models
 {
-    public abstract class BasicMnemoElement:Control,ICloneable
+    public abstract class BasicMnemoElement:UserControl,ICloneable
     {
         public double Angle
         {

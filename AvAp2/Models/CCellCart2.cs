@@ -1,7 +1,9 @@
 ﻿
 using System.ComponentModel;
 using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Media;
+using Avalonia.Styling;
 
 namespace AvAp2.Models
 {
@@ -52,10 +54,7 @@ namespace AvAp2.Models
                 }
             }
             //}
-            
-                //drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));
-
-                if (IsConnectorExistLeft)
+            if (IsConnectorExistLeft)
                     drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(-15, 15), new Point(4, 15));
                 if (IsConnectorExistRight)
                     drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(86, 15), new Point(105, 15));

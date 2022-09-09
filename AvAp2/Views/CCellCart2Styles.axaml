@@ -1,0 +1,19 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:AvAp2.Models">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    <Styles.Resources>
+        <RectangleGeometry x:Key="RectangleOnHover" Rect="0,0,29,29"></RectangleGeometry>
+    </Styles.Resources>
+    <Style Selector="models|CCellCart2:pointerover">
+        <Setter Property="Content">
+            <Template>
+                <TextBlock>Здесь должен быть контур но чет не рисуется</TextBlock>
+            </Template>
+        </Setter>
+    </Style>
+</Styles>

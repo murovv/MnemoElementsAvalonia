@@ -8,7 +8,9 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="AvAp2"
 	xmlns:models="using:AvAp2.Models">
-
+	<Window.Styles>
+		<StyleInclude Source="/Views/CCellCart2Styles.axaml" />
+	</Window.Styles>
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
@@ -16,7 +18,7 @@
     <UniformGrid Rows="2" Columns="3">
 	    <models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Margin="30"></models:CAutomaticSwitch>
 	    <models:CCellCart x:Name="CCellCart1" ></models:CCellCart>
-	    <models:CCellCart2 x:Name="CCellCart2" ></models:CCellCart2>
+	    <models:CCellCart2 x:Name="CCellCart2"></models:CCellCart2>
 	    <Button x:Name="AutomaticSwitchButton" Margin="30" Height="30"> Изменить выключатель</Button>
 	    <Button x:Name="CellCartButton"  Height="30"> Изменить выкатной элемент</Button>
 	    <Button x:Name="CellCart2Button"  Height="30"> Изменить выкатной элемент 2</Button>
