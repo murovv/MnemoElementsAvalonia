@@ -9,18 +9,10 @@ namespace AvAp2.Models
     [Description("Автоматический выключатель")]
     public class CAutomaticSwitch :  BasicCommutationDevice
     {
-        static CAutomaticSwitch()
+        public CAutomaticSwitch()
         {
-            AffectsRender<CAutomaticSwitch>(AngleProperty);
-            AffectsRender<CAutomaticSwitch>(NormalStateProperty);
-            AffectsRender<CAutomaticSwitch>(ShowNormalStateProperty);
-            AffectsRender<CAutomaticSwitch>(IsConnectorExistLeftProperty);
-            AffectsRender<CAutomaticSwitch>(IsConnectorExistRightProperty);
+            
         }
-
-        
-
-
         public override void Render(DrawingContext drawingContext)
         {
             var brush = Brushes.Green;
@@ -102,6 +94,11 @@ namespace AvAp2.Models
         public override string ElementTypeFriendlyName
         {
             get => "Автоматический выключатель";
+        }
+
+        public override object Clone()
+        {
+            return ObjectCopier.Clone(this);
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 
 namespace AvAp2.Models
 {
-    public abstract class BasicMnemoElement:Control
+    public abstract class BasicMnemoElement:Control,ICloneable
     {
         public double Angle
         {
@@ -15,6 +16,18 @@ namespace AvAp2.Models
         /// Человеческое название мнемоэлемента для подсказок
         /// </summary>
         public abstract string ElementTypeFriendlyName { get; }
+        public bool ControlISHitTestVisible
+        {
+            get => (bool)GetValue(ControlISHitTestVisibleProperty);
+            set
+            {
+                SetValue(ControlISHitTestVisibleProperty, value);
+                //RiseMnemoNeedSave();
+            }
+        }
+
+        public static StyledProperty<bool> ControlISHitTestVisibleProperty =
+            AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISHitTestVisible));
         public BasicMnemoElement()
         {
             BrushContentColor = Brushes.Black;
@@ -48,6 +61,14 @@ namespace AvAp2.Models
         internal protected Pen PenHand;
         
 
+        #endregion
+
+        #region ICloneable
+        /// <summary>
+        /// Клонирование элемента
+        /// </summary>
+        /// <returns></returns>
+        public abstract object Clone();
         #endregion
     }
 }

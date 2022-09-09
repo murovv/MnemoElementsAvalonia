@@ -45,12 +45,18 @@ namespace AvAp2.Models
         public static readonly StyledProperty<bool> ShowNormalStateProperty = AvaloniaProperty.Register<CAutomaticSwitch, bool>(nameof(ShowNormalState));
 
         #endregion нормальный режим
+        
         internal protected Pen PenRed;
         
         internal protected Pen PenNormalState;
 
         public BasicCommutationDevice() : base()
         {
+            AffectsRender<BasicCommutationDevice>(AngleProperty);
+            AffectsRender<BasicCommutationDevice>(IsConnectorExistLeftProperty);
+            AffectsRender<BasicCommutationDevice>(IsConnectorExistRightProperty);
+            AffectsRender<BasicCommutationDevice>(NormalStateProperty);
+            AffectsRender<BasicCommutationDevice>(ShowNormalStateProperty);
             PenRed = new Pen(Brushes.Red, 3);
             PenRed.ToImmutable();
             PenNormalState = new Pen(Brushes.Yellow, 1);

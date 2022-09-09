@@ -10,8 +10,24 @@ namespace AvAp2.Views
             InitializeComponent();
             AutomaticSwitchButton.Click += AutomaticSwitchButton_Click;
             CellCartButton.Click += CellCartButton_Click;
+            CellCart2Button.Click += CellCart2Button_Click;
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
             CCellCart1.TagDataMainState = new TagDataItem(null);
+            CCellCart2.TagDataMainState = new TagDataItem(null);
+        }
+
+        private void CellCart2Button_Click(object? sender, RoutedEventArgs e)
+        {
+            int tag;
+            if (int.TryParse(CCellCart2.TagDataMainState.TagValueString, out tag))
+            {
+                CCellCart2.TagDataMainState.TagValueString = ((tag+1)%4).ToString();
+            }
+            else
+            {
+                CCellCart2.TagDataMainState.TagValueString = "1";
+            }
+            CCellCart2.ShowNormalState = !CCellCart2.ShowNormalState;
         }
 
         private void CellCartButton_Click(object? sender, RoutedEventArgs e)

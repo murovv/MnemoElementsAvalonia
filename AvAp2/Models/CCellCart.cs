@@ -10,15 +10,15 @@ namespace AvAp2.Models
     {
         static CCellCart()
         {
-            AffectsRender<CCellCart>(AngleProperty);
-            AffectsRender<CCellCart>(NormalStateProperty);
-            AffectsRender<CCellCart>(ShowNormalStateProperty);
-            AffectsRender<CCellCart>(IsConnectorExistLeftProperty);
-            AffectsRender<CCellCart>(IsConnectorExistRightProperty);
         }
         public override string ElementTypeFriendlyName
         {
             get => "Выкатной элемент ячейки";
+        }
+
+        public override object Clone()
+        {
+            return ObjectCopier.Clone(this);
         }
 
         public override void Render(DrawingContext drawingContext)
