@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="AvAp2/App.axaml" value="AvAp2/AvAp2.csproj" />
+        <entry key="AvAp2/Styles/CCellCart2Styles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/CCellCart2.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/CCellCart2Styles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/MainWindow.axaml" value="AvAp2/AvAp2.csproj" />

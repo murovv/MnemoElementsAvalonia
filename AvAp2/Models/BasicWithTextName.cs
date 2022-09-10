@@ -103,6 +103,12 @@ namespace AvAp2.Models
             PenWhite1.ToImmutable();
         }
 
+        /*internal protected virtual void DrawText()
+        {
+            TextBlock textBlock = new TextBlock();
+            textBlock
+
+        }*/
         private void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
         {
         }
