@@ -39,7 +39,7 @@ namespace AvAp2.Models
             PenIsSelected = new Pen(Brushes.Red, 1);
             //PenIsSelected.Freeze();
             BrushMouseOver = Brushes.Gray;
-            //BrushMouseOver.Freeze();
+            BrushMouseOver.ToImmutable();
             PenMouseOver = new Pen(Brushes.Black, 1);
             PenMouseOver.ToImmutable();
             BrushHand = Brushes.Green;
@@ -53,10 +53,10 @@ namespace AvAp2.Models
         internal protected ISolidColorBrush BrushContentColor;
         internal protected Pen PenContentColor;
         internal protected Pen PenContentColorThin;
-        internal protected ISolidColorBrush BrushIsSelected;
+        protected internal ISolidColorBrush BrushIsSelected;
         internal protected Pen PenIsSelected;
-        internal protected ISolidColorBrush BrushMouseOver;
-        internal protected Pen PenMouseOver;
+        public ISolidColorBrush BrushMouseOver { get; protected set; }
+        public Pen PenMouseOver{ get; protected set; }
         internal protected ISolidColorBrush BrushHand;
         internal protected Pen PenHand;
         

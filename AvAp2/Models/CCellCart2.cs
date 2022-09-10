@@ -1,14 +1,16 @@
 ﻿
+using System;
 using System.ComponentModel;
 using Avalonia;
 using Avalonia.Animation;
+using Avalonia.Collections;
 using Avalonia.Media;
 using Avalonia.Styling;
 
 namespace AvAp2.Models
 {
     [Description("Выкатной элемент ячейки 2")]
-    public class CCellCart2 : BasicCommutationDevice
+    public class CCellCart2 : BasicCommutationDevice 
     {
 
         public CCellCart2() : base()
@@ -17,6 +19,7 @@ namespace AvAp2.Models
             this.MarginTextName = new Thickness(-30, -40, 0, 0);
             this.TextNameISVisible = false;
             this.ControlISHitTestVisible = true;
+            DataContext = this;
         }
 
         public override string ElementTypeFriendlyName
@@ -27,7 +30,7 @@ namespace AvAp2.Models
         {
             return ObjectCopier.Clone(this);
         }
-
+        
         public override void Render(DrawingContext drawingContext)
         {
 #warning Не лучший вариант, но по 104 Сашина библиотека выдаёт строки "0" и "1"
@@ -90,7 +93,6 @@ namespace AvAp2.Models
 
                 }
 
-
                 else if (state == CommutationDeviceStates.UnDefined)
                 {
                     // Слева
@@ -107,7 +109,6 @@ namespace AvAp2.Models
                     drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(75, 5), new Point(95, 25));
                     drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(75, 25), new Point(95, 5));
                 }
-
                 if (ShowNormalState)
                 {
                     if (state != NormalState)
@@ -117,7 +118,7 @@ namespace AvAp2.Models
                     }
                 }
         }
-
+        
         //TODO
         /*internal protected override void DrawIsSelected()
         {

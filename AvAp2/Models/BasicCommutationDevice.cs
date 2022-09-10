@@ -34,7 +34,7 @@ namespace AvAp2.Models
             get => (CommutationDeviceStates)GetValue(NormalStateProperty);
             set => SetValue(NormalStateProperty, value);
         }
-        public static readonly StyledProperty<CommutationDeviceStates> NormalStateProperty = AvaloniaProperty.Register<CAutomaticSwitch, CommutationDeviceStates>(nameof(NormalState));
+        public static readonly StyledProperty<CommutationDeviceStates> NormalStateProperty = AvaloniaProperty.Register<CAutomaticSwitch, CommutationDeviceStates>(nameof(NormalState), CommutationDeviceStates.On);
 
         [Category("Свойства элемента мнемосхемы"), Description("Отображать отклонения от нормального режима"), DisplayName("Нормальное состояние отображать "), Browsable(true)]
         public bool ShowNormalState
