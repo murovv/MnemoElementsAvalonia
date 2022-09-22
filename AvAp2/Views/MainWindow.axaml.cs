@@ -12,9 +12,18 @@ namespace AvAp2.Views
             AutomaticSwitchButton.Click += AutomaticSwitchButton_Click;
             CellCartButton.Click += CellCartButton_Click;
             CellCart2Button.Click += CellCart2Button_Click;
+            CFuseButton.Click+= CFuseButtonOnClick;
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
             CCellCart1.TagDataMainState = new TagDataItem(null);
             CCellCart2.TagDataMainState = new TagDataItem(null);
+            CFuse.TagDataMainState = new TagDataItem(null);
+
+        }
+
+        private void CFuseButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CFuse.IsConnectorExistLeft = !CFuse.IsConnectorExistLeft;
+            CFuse.IsConnectorExistRight = !CFuse.IsConnectorExistRight;
         }
 
         private void CellCart2Button_Click(object? sender, RoutedEventArgs e)
