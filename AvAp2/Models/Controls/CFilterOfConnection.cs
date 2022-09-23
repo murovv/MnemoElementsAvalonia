@@ -11,6 +11,8 @@ namespace AvAp2.Models
         static CFilterOfConnection()
         {
             AffectsRender<CFilterOfConnection>(TagDataMainStateProperty);
+            AffectsRender<CFilterOfConnection>(TdiStateStringProperty);
+            AffectsRender<CFilterOfConnection>(TagIDMainStateProperty);
         }
         public override string ElementTypeFriendlyName
         {

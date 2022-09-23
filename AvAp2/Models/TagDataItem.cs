@@ -75,6 +75,7 @@ namespace AvAp2
         /// </summary>
         internal protected void RiseValueChanged(string APropertyName, string AOldValue, string ANewValue)
         {
+            
             ValueChanged?.Invoke(this, new EventArgsValueChanged(APropertyName, AOldValue, ANewValue));
         }
 
@@ -133,6 +134,7 @@ namespace AvAp2
             TagValueString = string.Empty;
             Quality = TagValueQuality.Invalid;
             TimeStamp = DateTime.MinValue;
+            
         }
     }
 }

@@ -33,14 +33,11 @@ namespace AvAp2.Views
             string tagData = CFilterOfConnection.TagDataMainState.TagValueString;
             if (String.IsNullOrEmpty(tagData) || tagData == "0")
             {
-                //TODO: почему нужно пересоздавать объект
-                CFilterOfConnection.TagDataMainState = new TagDataItem(null);
                 CFilterOfConnection.TagDataMainState.TagValueString = "1";
 
             }
             else
             {
-                CFilterOfConnection.TagDataMainState = new TagDataItem(null);
                 CFilterOfConnection.TagDataMainState.TagValueString = "0";
             }
         }

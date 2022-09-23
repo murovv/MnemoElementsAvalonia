@@ -4,11 +4,12 @@ using Avalonia;
 namespace AvAp2.Models
 {
     public abstract class BasicWithState:BasicWithColor
-    
     {
         public BasicWithState() : base()
         {
-            
+            AffectsRender<BasicWithState>(TagDataMainStateProperty);
+            AffectsRender<BasicWithState>(TdiStateStringProperty);
+            AffectsRender<BasicWithState>(TagIDMainStateProperty);
         }
 
         public string TdiStateString
@@ -31,8 +32,7 @@ namespace AvAp2.Models
         public TagDataItem TagDataMainState
         {
             get => (TagDataItem)GetValue(TagDataMainStateProperty);
-            set => SetValue(TagDataMainStateProperty, value);
-            /*set
+            set
             {
                 TagDataItem oldValue = GetValue(TagDataMainStateProperty);
                 if (oldValue != value)
@@ -43,8 +43,9 @@ namespace AvAp2.Models
                         value.PropertyChanged += Value_PropertyChanged;
                 }
                 SetValue(TagDataMainStateProperty, value);
-            }*/
+            }
         }
+
         public static StyledProperty<TagDataItem> TagDataMainStateProperty = AvaloniaProperty.Register<BasicWithState, TagDataItem>(nameof(TagDataMainState));
 
 
