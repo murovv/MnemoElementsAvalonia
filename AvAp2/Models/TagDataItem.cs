@@ -9,6 +9,7 @@ namespace AvAp2
     /// </summary>
     public class TagDataItem : INotifyPropertyChanged
     {
+        static TagDataItem(){}
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 

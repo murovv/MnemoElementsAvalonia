@@ -24,7 +24,7 @@ namespace AvAp2.Models
                 //RiseMnemoNeedSave();
             }
         }
-        public static StyledProperty<bool> IsLineThinProperty = AvaloniaProperty.Register<CPEConnector,bool>(nameof(CPEConnector), false);
+        public static StyledProperty<bool> IsLineThinProperty = AvaloniaProperty.Register<CPEConnector,bool>(nameof(IsLineThin), false);
         public override string ElementTypeFriendlyName
         {
             get => "Заземление";

@@ -10,12 +10,13 @@ namespace AvAp2.Models
         {
             
         }
+
         public string TdiStateString
         {
             get => GetValue(TdiStateStringProperty);
             set => SetValue(TdiStateStringProperty, value);
         }
-        public static readonly StyledProperty<string> TdiStateStringProperty = AvaloniaProperty.Register<CAutomaticSwitch, string>(nameof(TdiStateString));
+        public static readonly StyledProperty<string> TdiStateStringProperty = AvaloniaProperty.Register<BasicWithState, string>(nameof(TdiStateString));
 
 
         [Category("Привязки данных"), Description("Идентификатор тега состояния элемента. Для текущих данных - ток или дискрет, для оборудования - наличие напряжения для цвета"), DisplayName("ID тега состояния"), Browsable(true)]
@@ -24,14 +25,14 @@ namespace AvAp2.Models
             get => (string)GetValue(TagIDMainStateProperty);
             set => SetValue(TagIDMainStateProperty, value);
         }
-        public static readonly StyledProperty<string> TagIDMainStateProperty = AvaloniaProperty.Register<CAutomaticSwitch, string>(nameof(TagIDMainState));
+        public static readonly StyledProperty<string> TagIDMainStateProperty = AvaloniaProperty.Register<BasicWithState, string>(nameof(TagIDMainState));
 
-        [Browsable(false)]
+        
         public TagDataItem TagDataMainState
         {
             get => (TagDataItem)GetValue(TagDataMainStateProperty);
-            // set => SetValue(TagDataMainStateProperty, value);
-            set
+            set => SetValue(TagDataMainStateProperty, value);
+            /*set
             {
                 TagDataItem oldValue = GetValue(TagDataMainStateProperty);
                 if (oldValue != value)
@@ -42,9 +43,9 @@ namespace AvAp2.Models
                         value.PropertyChanged += Value_PropertyChanged;
                 }
                 SetValue(TagDataMainStateProperty, value);
-            }
+            }*/
         }
-        public static readonly StyledProperty<TagDataItem> TagDataMainStateProperty = AvaloniaProperty.Register<CAutomaticSwitch, TagDataItem>(nameof(TagDataMainState));
+        public static StyledProperty<TagDataItem> TagDataMainStateProperty = AvaloniaProperty.Register<BasicWithState, TagDataItem>(nameof(TagDataMainState));
 
 
         private void Value_PropertyChanged(object? sender, PropertyChangedEventArgs e)
