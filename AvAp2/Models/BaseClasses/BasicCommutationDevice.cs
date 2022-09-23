@@ -15,7 +15,7 @@ namespace AvAp2.Models
             get => (bool)GetValue(IsConnectorExistLeftProperty);
             set => SetValue(IsConnectorExistLeftProperty, value);
         }
-        public static readonly StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<CAutomaticSwitch, bool>(nameof(IsConnectorExistLeft));
+        public static readonly StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<BasicCommutationDevice, bool>(nameof(IsConnectorExistLeft));
 
         [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя правого "), DisplayName("Видимость соединителя правого "), Browsable(true)]
         public bool IsConnectorExistRight
@@ -23,7 +23,7 @@ namespace AvAp2.Models
             get => (bool)GetValue(IsConnectorExistRightProperty);
             set => SetValue(IsConnectorExistRightProperty, value);
         }
-        public static readonly StyledProperty<bool> IsConnectorExistRightProperty = AvaloniaProperty.Register<CAutomaticSwitch, bool>(nameof(IsConnectorExistRight));
+        public static readonly StyledProperty<bool> IsConnectorExistRightProperty = AvaloniaProperty.Register<BasicCommutationDevice, bool>(nameof(IsConnectorExistRight));
 
         #endregion IConnector
 
@@ -34,7 +34,7 @@ namespace AvAp2.Models
             get => (CommutationDeviceStates)GetValue(NormalStateProperty);
             set => SetValue(NormalStateProperty, value);
         }
-        public static readonly StyledProperty<CommutationDeviceStates> NormalStateProperty = AvaloniaProperty.Register<CAutomaticSwitch, CommutationDeviceStates>(nameof(NormalState), CommutationDeviceStates.On);
+        public static readonly StyledProperty<CommutationDeviceStates> NormalStateProperty = AvaloniaProperty.Register<BasicCommutationDevice, CommutationDeviceStates>(nameof(NormalState), CommutationDeviceStates.On);
 
         [Category("Свойства элемента мнемосхемы"), Description("Отображать отклонения от нормального режима"), DisplayName("Нормальное состояние отображать "), Browsable(true)]
         public bool ShowNormalState
@@ -42,7 +42,7 @@ namespace AvAp2.Models
             get => (bool)GetValue(ShowNormalStateProperty);
             set => SetValue(ShowNormalStateProperty, value);
         }
-        public static readonly StyledProperty<bool> ShowNormalStateProperty = AvaloniaProperty.Register<CAutomaticSwitch, bool>(nameof(ShowNormalState));
+        public static readonly StyledProperty<bool> ShowNormalStateProperty = AvaloniaProperty.Register<BasicCommutationDevice, bool>(nameof(ShowNormalState));
 
         #endregion нормальный режим
         

@@ -13,11 +13,18 @@ namespace AvAp2.Views
             CellCartButton.Click += CellCartButton_Click;
             CellCart2Button.Click += CellCart2Button_Click;
             CFuseButton.Click+= CFuseButtonOnClick;
+            CPEConnectorButton.Click+= CPEConnectorButtonOnClick;
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
             CCellCart1.TagDataMainState = new TagDataItem(null);
             CCellCart2.TagDataMainState = new TagDataItem(null);
             CFuse.TagDataMainState = new TagDataItem(null);
+            CPEConnector.TagDataMainState = new TagDataItem(null);
 
+        }
+
+        private void CPEConnectorButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CPEConnector.IsLineThin = !CPEConnector.IsLineThin;
         }
 
         private void CFuseButtonOnClick(object? sender, RoutedEventArgs e)

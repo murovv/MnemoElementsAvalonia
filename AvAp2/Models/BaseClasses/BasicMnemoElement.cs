@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -16,6 +17,11 @@ namespace AvAp2.Models
         /// Человеческое название мнемоэлемента для подсказок
         /// </summary>
         public abstract string ElementTypeFriendlyName { get; }
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        public virtual bool ControlIs30Step
+        {
+            get => true;
+        }
         public bool ControlISHitTestVisible
         {
             get => (bool)GetValue(ControlISHitTestVisibleProperty);
