@@ -15,7 +15,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 	<Grid>
-    <UniformGrid Rows="2" Columns="8">
+    <UniformGrid Rows="2" Columns="9">
 	    <models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Margin="30"></models:CAutomaticSwitch>
 	    <models:CCellCart x:Name="CCellCart1" ></models:CCellCart>
 	    <models:CCellCart2 x:Name="CCellCart2"></models:CCellCart2>
@@ -24,6 +24,7 @@
 	    <models:CPEConnector x:Name="CPEConnector"></models:CPEConnector>
 	    <models:CFilterOfConnection x:Name="CFilterOfConnection"></models:CFilterOfConnection>
 	    <models:CHighFrequencyLineTrap x:Name="CHighFrequencyLineTrap"></models:CHighFrequencyLineTrap>
+	    <models:CPESwitch x:Name="CpeSwitch"></models:CPESwitch>
 	    <Button x:Name="AutomaticSwitchButton" Margin="30" Height="30"> Изменить выключатель</Button>
 	    <Button x:Name="CellCartButton"  Height="30"> Изменить выкатной элемент</Button>
 	    <Button x:Name="CellCart2Button"  Height="30"> Изменить выкатной элемент 2</Button>
@@ -32,6 +33,7 @@
 	    <Button x:Name="CPEConnectorButton">изменить толщину линии</Button>
 	    <Button x:Name="CFilterOfConnectionButton">изменить состояние</Button> 
 	    <Button x:Name="CHighFrequencyButton">повернуть</Button>
+	    <Button x:Name="CpeSwitchButton"></Button>
     </UniformGrid>
 	
 		
