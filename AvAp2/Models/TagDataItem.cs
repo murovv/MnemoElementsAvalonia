@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Avalonia;
+using AvAp2.Models;
 
 namespace AvAp2
 {
@@ -122,6 +124,8 @@ namespace AvAp2
         }
         private string tagValueString;
 
+        public readonly StyledProperty<string> TagValueStringProperty =
+            AvaloniaProperty.Register<BasicWithState, string>(nameof(BasicWithState));
         #endregion
 
         /// <summary>

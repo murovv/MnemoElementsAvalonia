@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Media;
@@ -8,12 +9,12 @@ namespace AvAp2.Models
     [Description("Фильтр присоединения")]
     public class CFilterOfConnection:BasicEquipment
     {
-        static CFilterOfConnection()
+        public CFilterOfConnection()
         {
-            AffectsRender<CFilterOfConnection>(TagDataMainStateProperty);
-            AffectsRender<CFilterOfConnection>(TdiStateStringProperty);
-            AffectsRender<CFilterOfConnection>(TagIDMainStateProperty);
+            
         }
+        
+
         public override string ElementTypeFriendlyName
         {
             get => "Фильтр присоединения";
@@ -49,7 +50,7 @@ namespace AvAp2.Models
                    14,TextAlignment.Center, TextWrapping.NoWrap, Size.Empty)/*, TextFormattingMode.Ideal*/;
 
             //drawingContext.Pop();
-            drawingContext.DrawText( isActiveState ? BrushContentColor : BrushContentColorAlternate,new Point(15, 4),ft );
+            drawingContext.DrawText( isActiveState ? BrushContentColor : BrushContentColorAlternate,new Point(4, 0),ft );
         }
     }
 }

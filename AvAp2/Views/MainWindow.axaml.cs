@@ -17,6 +17,7 @@ namespace AvAp2.Views
             CFuseButton.Click+= CFuseButtonOnClick;
             CPEConnectorButton.Click+= CPEConnectorButtonOnClick;
             CFilterOfConnectionButton.Click+=CFilterOfConnectionButtonOnClick;
+            CHighFrequencyButton.Click+= CHighFrequencyButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -25,7 +26,14 @@ namespace AvAp2.Views
             CFuse.TagDataMainState = new TagDataItem(null);
             CPEConnector.TagDataMainState = new TagDataItem(null);
             CFilterOfConnection.TagDataMainState = new TagDataItem(null);
+            CHighFrequencyLineTrap.TagDataMainState = new TagDataItem(null);
+
             #endregion
+        }
+
+        private void CHighFrequencyButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CHighFrequencyLineTrap.Angle += 1;
         }
 
         private void CFilterOfConnectionButtonOnClick(object? sender, RoutedEventArgs e)

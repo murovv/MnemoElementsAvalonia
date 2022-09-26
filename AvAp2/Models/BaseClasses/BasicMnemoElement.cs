@@ -36,6 +36,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISHitTestVisible));
         public BasicMnemoElement()
         {
+            AffectsRender<BasicMnemoElement>(AngleProperty);
             BrushContentColor = Brushes.Black;
             BrushContentColor.ToImmutable();
             PenContentColor = new Pen(Brushes.Black,3);
@@ -53,7 +54,7 @@ namespace AvAp2.Models
             PenHand = new Pen(Brushes.DarkGreen, 1);
             PenHand.ToImmutable();
         }
-        public static StyledProperty<double> AngleProperty = AvaloniaProperty.Register<BasicMnemoElement, double>(nameof(Angle));
+        public static StyledProperty<double> AngleProperty = AvaloniaProperty.Register<BasicMnemoElement, double>(nameof(Angle),0);
 
         #region Рисование
         internal protected ISolidColorBrush BrushContentColor;
