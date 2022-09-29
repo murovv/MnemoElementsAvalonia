@@ -222,6 +222,7 @@ namespace AvAp2.Models
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
+            base.OnPointerPressed(e);
             if (IsPointInResizer(e.GetPosition(this)))
             {
                 IsResizerPressed = IsModifyPressed = true;

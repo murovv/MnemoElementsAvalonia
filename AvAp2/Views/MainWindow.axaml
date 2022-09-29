@@ -26,7 +26,8 @@
 	    <models:CFilterOfConnection x:Name="CFilterOfConnection"></models:CFilterOfConnection>
 	    <models:CHighFrequencyLineTrap x:Name="CHighFrequencyLineTrap"></models:CHighFrequencyLineTrap>
 	    <models:CPESwitch x:Name="CpeSwitch"></models:CPESwitch>-->
-	    <models:CLine x:Name="CLine"></models:CLine>
+	    
+	    <models:CLine x:Name="CLine" Margin="30"></models:CLine>
 	    
 	    <!--<Button x:Name="AutomaticSwitchButton" Margin="30" Height="30"> Изменить выключатель</Button>
 	    <Button x:Name="CellCartButton"  Height="30"> Изменить выкатной элемент</Button>

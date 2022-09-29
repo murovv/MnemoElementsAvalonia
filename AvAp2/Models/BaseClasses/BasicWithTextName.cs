@@ -158,6 +158,11 @@ namespace AvAp2.Models
         internal protected bool IsModifyPressed = false;
         internal protected bool IsTextPressed = false;
         internal protected Point ModifyStartPoint = new Point(0, 0);
+        protected override void OnPointerPressed(PointerPressedEventArgs e)
+        {
+            ModifyStartPoint = e.GetPosition(this);
+        }
+
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
         {
             if (IsModifyPressed)
