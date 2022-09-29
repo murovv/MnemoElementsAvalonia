@@ -22,6 +22,18 @@ namespace AvAp2.Models
         {
             get => true;
         }
+        public bool ControlISSelected
+        {
+            get => (bool)GetValue(ControlISSelectedProperty);
+            set => SetValue(ControlISSelectedProperty, value);
+        }
+        public static StyledProperty<bool> ControlISSelectedProperty = AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISSelected), false);
+
+        /*private static void OnSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BasicMnemoElement b = d as BasicMnemoElement;
+            b.DrawingVisualIsSelected.Opacity = b.DrawingVisualResizer.Opacity = (bool)e.NewValue ? .3:0;
+        }*/
         public bool ControlISHitTestVisible
         {
             get => (bool)GetValue(ControlISHitTestVisibleProperty);
@@ -36,7 +48,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISHitTestVisible));
         public BasicMnemoElement()
         {
-            AffectsRender<BasicMnemoElement>(AngleProperty);
+            AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
             BrushContentColor = Brushes.Black;
             BrushContentColor.ToImmutable();
             PenContentColor = new Pen(Brushes.Black,3);
@@ -60,9 +72,9 @@ namespace AvAp2.Models
         internal protected ISolidColorBrush BrushContentColor;
         internal protected Pen PenContentColor;
         internal protected Pen PenContentColorThin;
-        protected internal ISolidColorBrush BrushIsSelected;
-        internal protected Pen PenIsSelected;
-        public ISolidColorBrush BrushMouseOver { get; protected set; }
+        public ISolidColorBrush BrushIsSelected { get; protected internal set; }
+        public Pen PenIsSelected { get; protected internal set; }
+        public ISolidColorBrush BrushMouseOver { get; protected internal set; }
         public Pen PenMouseOver{ get; protected set; }
         internal protected ISolidColorBrush BrushHand;
         internal protected Pen PenHand;
@@ -77,5 +89,31 @@ namespace AvAp2.Models
         /// <returns></returns>
         public abstract object Clone();
         #endregion
+        /// <summary>
+        /// Событие возникает при изменении отступов содержимого элементов мышью. Можно использовать для группового изменения.
+        /// </summary>
+        public static event EventHandler MnemoMarginChanged;
+        public class EventArgsMnemoMarginChanged : EventArgs
+        {
+            #region EventArgsMnemoMarginChanged
+            public string PropertyName
+            {
+                get => propertyName;
+            }
+            private readonly string propertyName;
+            public EventArgsMnemoMarginChanged(string APropertyName)
+            {
+                propertyName = APropertyName;
+            }
+            #endregion EventArgsMnemoMarginChanged
+        }
+        /// <summary>
+        /// Запускает событие при изменении отступов содержимого элементов мышью. Можно использовать для группового изменения.
+        /// </summary>
+        internal protected void RiseMnemoMarginChanged(string APropertyName)
+        {
+            MnemoMarginChanged?.Invoke(this, new EventArgsMnemoMarginChanged(APropertyName));
+        }
+        
     }
 }

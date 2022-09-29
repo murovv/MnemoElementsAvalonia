@@ -1,0 +1,40 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:AvAp2.Models"
+        x:DataType="models:CLine">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    <Style Selector="models|CLine">
+        <Setter Property="Content">
+            <Template>
+                <Canvas>
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+    <Style Selector="models|CLine:pointerover">
+        <Setter Property="Content">
+            <Template>
+                <Canvas>
+                    <Line StartPoint="0,0" EndPoint="{CompiledBinding Coordinate2}" Stroke="{CompiledBinding PenMouseOver.Brush}" StrokeThickness="{CompiledBinding PenMouseOver.Thickness}" />
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+                </Template>
+        </Setter>
+    </Style>
+    <Style Selector="models|CLine[ControlISSelected=True]">
+        <Setter Property="Content">
+            <Template>
+                <Canvas>
+                    <Line Opacity="0.3" StartPoint="0,0" EndPoint="{CompiledBinding Coordinate2}" Stroke="{CompiledBinding PenIsSelected.Brush }" StrokeThickness="{CompiledBinding PenMouseOver.Thickness}" />
+                    <Ellipse Fill="Aqua" Width="{CompiledBinding ResizerWidth}" Height="{CompiledBinding ResizerHeight}" Canvas.Left="{CompiledBinding CoordinateX2}" Canvas.Top="{CompiledBinding CoordinateY2}"/>
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+</Styles>

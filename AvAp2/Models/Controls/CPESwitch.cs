@@ -116,11 +116,6 @@ namespace AvAp2.Models
                         drawingContext.DrawRectangle(Brushes.Transparent, PenNormalState, new Rect(-1, -1, 32, 32));
                 }
             }
-
-            
-
-                
         }
-
     }
 }

@@ -19,6 +19,7 @@ namespace AvAp2.Views
             CFilterOfConnectionButton.Click+=CFilterOfConnectionButtonOnClick;
             CHighFrequencyButton.Click+= CHighFrequencyButtonOnClick;
             CpeSwitchButton.Click+= CpeSwitchButtonOnClick;
+            CLineButton.Click+= CLineButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -30,8 +31,18 @@ namespace AvAp2.Views
             CHighFrequencyLineTrap.TagDataMainState = new TagDataItem(null);
             CpeSwitch.TagDataMainState = new TagDataItem(null);
             CpeSwitch.TagDataMainState.TagValueString = "0";
+            CLine.TagDataMainState = new TagDataItem(null);
+            CLine.CoordinateX2 = 20;
+            CLine.CoordinateY2 = 20;
+            CLine.TextNameISVisible = true;
+            CLine.TextName = "линия 1";
 
             #endregion
+        }
+
+        private void CLineButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CLine.ControlISSelected = !CLine.ControlISSelected;
         }
 
         private void CpeSwitchButtonOnClick(object? sender, RoutedEventArgs e)

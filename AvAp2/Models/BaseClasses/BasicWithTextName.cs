@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Media;
 
 namespace AvAp2.Models
@@ -90,9 +92,15 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<Thickness> MarginTextNameProperty =
-            AvaloniaProperty.Register<BasicWithTextName, Thickness>(nameof(MarginTextName), new Thickness(-40, 0, 0, 0));
+            AvaloniaProperty.Register<BasicWithTextName, Thickness>(nameof(MarginTextName), new Thickness(0, 0, 0, 0));
         public BasicWithTextName() : base()
         {
+            AffectsRender<BasicWithTextName>(MarginTextNameProperty);
+            AffectsRender<BasicWithTextName>(TextNameISVisibleProperty);
+            AffectsRender<BasicWithTextName>(TextNameProperty);
+            DrawingVisualText = new TextBlock();
+            
+            //this.Content = DrawingVisualText;
             TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
             MarginTextNameProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnTextChanged);
             PenBlack = new Pen(Brushes.Black, .5);
@@ -103,22 +111,60 @@ namespace AvAp2.Models
             PenWhite1.ToImmutable();
         }
 
-        /*internal protected virtual void DrawText()
-        {
-            TextBlock textBlock = new TextBlock();
-            textBlock
+        public TextBlock DrawingVisualText { get; set; }
 
-        }*/
+        public override void Render(DrawingContext drawingContext)
+        {
+            if (TextNameISVisible)
+            {
+                /*FormattedText ft = new FormattedText(TextName, new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.SemiBold/*, FontStretch.Normal#1#),
+                    14,TextAlignment.Center, TextWrapping.NoWrap, Size.Empty)/*, TextFormattingMode.Ideal#1#;
+                    
+                //ft.MaxTextWidth = TextNameWidth > 10 ? TextNameWidth: 10;
+                    ft.TextAlignment = TextAlignment.Center;*/
+                    DrawingVisualText.Text = TextName;
+                    
+                    DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
+                    DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
+                    DrawingVisualText.FontStyle = FontStyle.Normal;
+                    DrawingVisualText.FontWeight = FontWeight.SemiBold;
+                    DrawingVisualText.FontSize = 14;
+                    DrawingVisualText.TextAlignment = TextAlignment.Center;
+                   // DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
+                    DrawingVisualText.Margin = MarginTextName;
+                    /*drawingContext.
+                    drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));
+                    drawingContext.PushTransform(new RotateTransform(AngleTextName));*/
+                    DrawingVisualText.Opacity = 1;
+                    
+
+
+            }
+            else
+                DrawingVisualText.Opacity = 0;
+            /*DrawingVisualText.Render(drawingContext);*/
+        }
+
         private void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
         {
         }
-
         private void OnColorChanged(AvaloniaPropertyChangedEventArgs obj)
         {
             BasicWithTextName t = this as BasicWithTextName;
             /*t.BrushTextNameColor = new SolidColorBrush((Color)obj.NewValue);
             t.BrushTextNameColor.ToImmutable();*/
             //t.DrawText();
+        }
+        internal protected bool IsModifyPressed = false;
+        internal protected bool IsTextPressed = false;
+        internal protected Point ModifyStartPoint = new Point(0, 0);
+        protected override void OnPointerReleased(PointerReleasedEventArgs e)
+        {
+            if (IsModifyPressed)
+            {
+                IsTextPressed = IsModifyPressed = false;
+                e.Handled = true;
+            }
         }
         
 
