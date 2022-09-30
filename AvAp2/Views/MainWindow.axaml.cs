@@ -23,6 +23,9 @@ namespace AvAp2.Views
             CArrowButton.Click+= CArrowButtonOnClick;
             CArrowReserveButton.Click+= CArrowReserveButtonOnClick;
             CIsolatingSwitchButton.Click+= CIsolatingSwitchButtonOnClick;
+            CReactorButton.Click+= CReactorButtonOnClick;
+            CResistorButton.Click+= CResistorButtonOnClick;
+            CSurgeSuppressorButton.Click+=CSurgeSuppressorButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -42,8 +45,26 @@ namespace AvAp2.Views
             CLine.TextName = "линия 1";
             CArrow.TagDataMainState = new TagDataItem(null);
             CArrowReserve.TagDataMainState = new TagDataItem(null);
-
+            CResistor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
+            CReactor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
+            CSurgeSuppressor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             #endregion
+        }
+
+        private void CSurgeSuppressorButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CSurgeSuppressor.TagDataMainState.TagValueString = CSurgeSuppressor.TagDataMainState.TagValueString == "0" ? "1" : "0";
+        }
+
+        private void CResistorButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CResistor.IsConnectorExistLeft = !CResistor.IsConnectorExistLeft;
+            CResistor.IsConnectorExistRight = !CResistor.IsConnectorExistRight;
+        }
+
+        private void CReactorButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CReactor.IsRegulator = !CReactor.IsRegulator;
         }
 
         private void CIsolatingSwitchButtonOnClick(object? sender, RoutedEventArgs e)

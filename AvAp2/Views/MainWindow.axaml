@@ -49,13 +49,19 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Controls 2">
-			<UniformGrid Rows="2" Columns="3">
+			<UniformGrid Rows="2" Columns="6">
 				<models:CArrow x:Name="CArrow"></models:CArrow>
 				<models:CArrowReserve x:Name="CArrowReserve"></models:CArrowReserve>
 				<models:CIsolatingSwitch x:Name="CIsolatingSwitch"></models:CIsolatingSwitch>
+				<models:CReactor x:Name="CReactor"></models:CReactor>
+				<models:CResistor x:Name="CResistor"></models:CResistor>
+				<models:CSurgeSuppressor x:Name="CSurgeSuppressor"></models:CSurgeSuppressor>
 				<Button x:Name="CArrowButton"></Button>
 				<Button x:Name="CArrowReserveButton"></Button>
 				<Button x:Name="CIsolatingSwitchButton"></Button>
+				<Button x:Name="CReactorButton"></Button>
+				<Button x:Name="CResistorButton"></Button>
+				<Button x:Name="CSurgeSuppressorButton"></Button>
 			</UniformGrid>
 			
 			
