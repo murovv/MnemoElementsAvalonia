@@ -11,18 +11,21 @@ namespace AvAp2.Views
         {
             InitializeComponent();
             #region OnClicks
-            /*AutomaticSwitchButton.Click += AutomaticSwitchButton_Click;
+            AutomaticSwitchButton.Click += AutomaticSwitchButton_Click;
             CellCartButton.Click += CellCartButton_Click;
             CellCart2Button.Click += CellCart2Button_Click;
             CFuseButton.Click+= CFuseButtonOnClick;
             CPEConnectorButton.Click+= CPEConnectorButtonOnClick;
             CFilterOfConnectionButton.Click+=CFilterOfConnectionButtonOnClick;
-            CHighFrequencyButton.Click+= CHighFrequencyButtonOnClick;*/
-            //CpeSwitchButton.Click+= CpeSwitchButtonOnClick;
+            CHighFrequencyButton.Click+= CHighFrequencyButtonOnClick;
+            CpeSwitchButton.Click+= CpeSwitchButtonOnClick;
             CLineButton.Click+= CLineButtonOnClick;
+            CArrowButton.Click+= CArrowButtonOnClick;
+            CArrowReserveButton.Click+= CArrowReserveButtonOnClick;
+            CIsolatingSwitchButton.Click+= CIsolatingSwitchButtonOnClick;
             #endregion
             #region TagData init
-            /*CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
+            CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
             CCellCart1.TagDataMainState = new TagDataItem(null);
             CCellCart2.TagDataMainState = new TagDataItem(null);
             CFuse.TagDataMainState = new TagDataItem(null);
@@ -30,14 +33,41 @@ namespace AvAp2.Views
             CFilterOfConnection.TagDataMainState = new TagDataItem(null);
             CHighFrequencyLineTrap.TagDataMainState = new TagDataItem(null);
             CpeSwitch.TagDataMainState = new TagDataItem(null);
-            CpeSwitch.TagDataMainState.TagValueString = "0";*/
-            CLine.TagDataMainState = new TagDataItem(null);
+            CpeSwitch.TagDataMainState.TagValueString = "0";
+            CLine.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString="1");
+            CIsolatingSwitch.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CLine.CoordinateX2 = 20;
             CLine.CoordinateY2 = 20;
             CLine.TextNameISVisible = true;
             CLine.TextName = "линия 1";
+            CArrow.TagDataMainState = new TagDataItem(null);
+            CArrowReserve.TagDataMainState = new TagDataItem(null);
 
             #endregion
+        }
+
+        private void CIsolatingSwitchButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            int tag;
+            if (int.TryParse(CIsolatingSwitch.TagDataMainState.TagValueString, out tag))
+            {
+                CIsolatingSwitch.TagDataMainState.TagValueString = ((tag+1)%4).ToString();
+            }
+            else
+            {
+                CIsolatingSwitch.TagDataMainState.TagValueString = "1";
+            }
+            CCellCart2.ShowNormalState = !CCellCart2.ShowNormalState;
+        }
+
+        private void CArrowReserveButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CArrowReserve.TagDataMainState.TagValueString = CArrowReserve.TagDataMainState.TagValueString == "0" ? "1" : "0";
+        }
+
+        private void CArrowButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CArrow.TagDataMainState.TagValueString = CArrow.TagDataMainState.TagValueString == "0" ? "1" : "0";
         }
 
         private void CLineButtonOnClick(object? sender, RoutedEventArgs e)
@@ -45,7 +75,7 @@ namespace AvAp2.Views
             CLine.ControlISSelected = !CLine.ControlISSelected;
         }
 
-        /*private void CpeSwitchButtonOnClick(object? sender, RoutedEventArgs e)
+        private void CpeSwitchButtonOnClick(object? sender, RoutedEventArgs e)
         {
             CpeSwitch.Angle += 5;
             string state = CpeSwitch.TagDataMainState.TagValueString;
@@ -133,6 +163,6 @@ namespace AvAp2.Views
                 CAutomaticSwitch1.TagDataMainState.TagValueString = "1";
             }
             CAutomaticSwitch1.ShowNormalState = !CAutomaticSwitch1.ShowNormalState;
-        }*/
+        }
     }
 }

@@ -15,32 +15,51 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-	<Grid>
-    <UniformGrid Rows="2" Columns="1">
-	    <!--<models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Margin="30"></models:CAutomaticSwitch>
-	    <models:CCellCart x:Name="CCellCart1" ></models:CCellCart>
-	    <models:CCellCart2 x:Name="CCellCart2"></models:CCellCart2>
-	    <models:CDischarger x:Name="CDischarger"></models:CDischarger>
-	    <models:CFuse x:Name="CFuse"></models:CFuse>
-	    <models:CPEConnector x:Name="CPEConnector"></models:CPEConnector>
-	    <models:CFilterOfConnection x:Name="CFilterOfConnection"></models:CFilterOfConnection>
-	    <models:CHighFrequencyLineTrap x:Name="CHighFrequencyLineTrap"></models:CHighFrequencyLineTrap>
-	    <models:CPESwitch x:Name="CpeSwitch"></models:CPESwitch>-->
-	    
-	    <models:CLine x:Name="CLine" Margin="30"></models:CLine>
-	    
-	    <!--<Button x:Name="AutomaticSwitchButton" Margin="30" Height="30"> Изменить выключатель</Button>
-	    <Button x:Name="CellCartButton"  Height="30"> Изменить выкатной элемент</Button>
-	    <Button x:Name="CellCart2Button"  Height="30"> Изменить выкатной элемент 2</Button>
-	    <TextBox Height="30">Интерактивность?...</TextBox>
-	    <Button x:Name="CFuseButton">проводки</Button>
-	    <Button x:Name="CPEConnectorButton">изменить толщину линии</Button>
-	    <Button x:Name="CFilterOfConnectionButton">изменить состояние</Button> 
-	    <Button x:Name="CHighFrequencyButton">повернуть</Button>
-	    <Button x:Name="CpeSwitchButton"></Button>-->
-	    <Button x:Name="CLineButton">select/unselect</Button>
-    </UniformGrid>
+	<TabControl>
+		<TabItem Header="CLine">
+			<UniformGrid Columns="1" Rows="2">
+				<models:CLine x:Name="CLine" Margin="30"></models:CLine>
+				<Button x:Name="CLineButton">select/unselect</Button>
+			</UniformGrid>
+		</TabItem>
+		<TabItem Header="Controls 1">
+			<Grid>
+				<UniformGrid Rows="2" Columns="9">
+					<models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Margin="30"></models:CAutomaticSwitch>
+				    <models:CCellCart x:Name="CCellCart1" ></models:CCellCart>
+				    <models:CCellCart2 x:Name="CCellCart2"></models:CCellCart2>
+				    <models:CDischarger x:Name="CDischarger"></models:CDischarger>
+				    <models:CFuse x:Name="CFuse"></models:CFuse>
+				    <models:CPEConnector x:Name="CPEConnector"></models:CPEConnector>
+				    <models:CFilterOfConnection x:Name="CFilterOfConnection"></models:CFilterOfConnection>
+				    <models:CHighFrequencyLineTrap x:Name="CHighFrequencyLineTrap"></models:CHighFrequencyLineTrap>
+				    <models:CPESwitch x:Name="CpeSwitch"></models:CPESwitch>
+					<Button x:Name="AutomaticSwitchButton" Margin="30" Height="30"> Изменить выключатель</Button>
+					<Button x:Name="CellCartButton"  Height="30"> Изменить выкатной элемент</Button>
+					<Button x:Name="CellCart2Button"  Height="30"> Изменить выкатной элемент 2</Button>
+					<TextBox Height="30">Интерактивность?...</TextBox>
+					<Button x:Name="CFuseButton">проводки</Button>
+					<Button x:Name="CPEConnectorButton">изменить толщину линии</Button>
+					<Button x:Name="CFilterOfConnectionButton">изменить состояние</Button> 
+					<Button x:Name="CHighFrequencyButton">повернуть</Button>
+					<Button x:Name="CpeSwitchButton"></Button>
+				</UniformGrid>
 	
 		
-	</Grid>
+			</Grid>
+		</TabItem>
+		<TabItem Header="Controls 2">
+			<UniformGrid Rows="2" Columns="3">
+				<models:CArrow x:Name="CArrow"></models:CArrow>
+				<models:CArrowReserve x:Name="CArrowReserve"></models:CArrowReserve>
+				<models:CIsolatingSwitch x:Name="CIsolatingSwitch"></models:CIsolatingSwitch>
+				<Button x:Name="CArrowButton"></Button>
+				<Button x:Name="CArrowReserveButton"></Button>
+				<Button x:Name="CIsolatingSwitchButton"></Button>
+			</UniformGrid>
+			
+			
+		</TabItem>
+	</TabControl>
+	
 </Window>
