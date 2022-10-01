@@ -11,15 +11,18 @@
 	<Window.Styles>
 		<StyleInclude Source="/Styles/CCellCart2Styles.axaml" />
 		<StyleInclude Source="/Styles/CLineStyles.axaml" />
+		<StyleInclude Source="/Styles/CRectangleStyles.axaml"></StyleInclude>
 	</Window.Styles>
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 	<TabControl>
-		<TabItem Header="CLine">
-			<UniformGrid Columns="1" Rows="2">
+		<TabItem Header="CLine'n'CRectangle">
+			<UniformGrid Columns="2" Rows="2">
 				<models:CLine x:Name="CLine" Margin="30"></models:CLine>
+				<models:CRectangle x:Name="CRectangle"></models:CRectangle>
 				<Button x:Name="CLineButton">select/unselect</Button>
+				<Button x:Name="CRectangleButton"></Button>
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Controls 1">

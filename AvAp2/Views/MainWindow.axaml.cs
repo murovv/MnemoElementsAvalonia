@@ -26,6 +26,7 @@ namespace AvAp2.Views
             CReactorButton.Click+= CReactorButtonOnClick;
             CResistorButton.Click+= CResistorButtonOnClick;
             CSurgeSuppressorButton.Click+=CSurgeSuppressorButtonOnClick;
+            CRectangleButton.Click+= CRectangleButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -43,12 +44,22 @@ namespace AvAp2.Views
             CLine.CoordinateY2 = 20;
             CLine.TextNameISVisible = true;
             CLine.TextName = "линия 1";
+            CRectangle.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
+            CRectangle.CoordinateX2 = 10;
+            CRectangle.CoordinateY2 = 30;
+            CLine.TextNameISVisible = true;
+            CLine.TextName = "прямоугольничек";
             CArrow.TagDataMainState = new TagDataItem(null);
             CArrowReserve.TagDataMainState = new TagDataItem(null);
             CResistor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CReactor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CSurgeSuppressor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             #endregion
+        }
+
+        private void CRectangleButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CRectangle.ControlISSelected = !CRectangle.ControlISSelected;
         }
 
         private void CSurgeSuppressorButtonOnClick(object? sender, RoutedEventArgs e)
