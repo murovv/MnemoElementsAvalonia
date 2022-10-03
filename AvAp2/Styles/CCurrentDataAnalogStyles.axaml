@@ -1,0 +1,55 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:AvAp2.Models"
+        x:DataType="models:CCurrentDataAnalog">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    <Styles.Resources>
+        <GeometryDrawing x:Key="Hand" Pen="{CompiledBinding PenHand}" Brush="{CompiledBinding BrushHand}" Geometry="{CompiledBinding HandGeometry}"></GeometryDrawing>
+        
+    </Styles.Resources>
+    <Style Selector="models|CCurrentDataAnalog[ControlISSelected=True]">
+        <Setter Property="Content">
+            <Template>
+                <Canvas Opacity="0.3">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="{CompiledBinding Angle}" CenterX="15" CenterY="15"></RotateTransform>
+                    </Canvas.RenderTransform>
+                    <Rectangle Width="{CompiledBinding Bounds.Width}" Height="{CompiledBinding Bounds.Height}" Stroke="{CompiledBinding PenIsSelected}" Fill="{CompiledBinding BrushIsSelected}"></Rectangle>
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+    <Style Selector="models|CCurrentDataAnalog:pointerover">
+        <Setter Property="Content">
+            <Template>
+                <Canvas Opacity="1" Top="{CompiledBinding Bounds.Top}" Left="{CompiledBinding Bounds.Left}">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="{CompiledBinding Angle}" CenterX="15" CenterY="15"></RotateTransform>
+                    </Canvas.RenderTransform>
+                    <Rectangle Width="{CompiledBinding Bounds.Width}" Height="{CompiledBinding Bounds.Height}" Stroke="{CompiledBinding PenMouseOver}" Fill="{CompiledBinding BrushMouseOver}"></Rectangle>
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+    <!--<Style Selector="models|CCurrentDataAnalog">
+        <Setter Property="Content" >
+            <Template>
+                <Canvas><TextBox>hi</TextBox></Canvas>
+                ~1~
+                <GeometryDrawing Pen="{CompiledBinding PenHand}" Brush="{CompiledBinding BrushHand}" Geometry="{CompiledBinding HandGeometry}"></GeometryDrawing>
+                @1@
+                
+            </Template>
+        </Setter>
+    </Style> 
+    -->
+    
+
+    <!-- Add Styles Here -->
+</Styles>

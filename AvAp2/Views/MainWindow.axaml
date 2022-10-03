@@ -12,6 +12,7 @@
 		<StyleInclude Source="/Styles/CCellCart2Styles.axaml" />
 		<StyleInclude Source="/Styles/CLineStyles.axaml" />
 		<StyleInclude Source="/Styles/CRectangleStyles.axaml"></StyleInclude>
+		<!--<StyleInclude Source="/Styles/CCurrentDataAnalogStyles.axaml"></StyleInclude>-->
 	</Window.Styles>
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -52,19 +53,23 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Controls 2">
-			<UniformGrid Rows="2" Columns="6">
+			<UniformGrid Rows="2" Columns="8">
 				<models:CArrow x:Name="CArrow"></models:CArrow>
 				<models:CArrowReserve x:Name="CArrowReserve"></models:CArrowReserve>
 				<models:CIsolatingSwitch x:Name="CIsolatingSwitch"></models:CIsolatingSwitch>
 				<models:CReactor x:Name="CReactor"></models:CReactor>
 				<models:CResistor x:Name="CResistor"></models:CResistor>
 				<models:CSurgeSuppressor x:Name="CSurgeSuppressor"></models:CSurgeSuppressor>
+				<models:CCurrentDataAnalog x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
+				<models:CLineCross x:Name="CLineCross"></models:CLineCross>
 				<Button x:Name="CArrowButton"></Button>
 				<Button x:Name="CArrowReserveButton"></Button>
 				<Button x:Name="CIsolatingSwitchButton"></Button>
 				<Button x:Name="CReactorButton"></Button>
 				<Button x:Name="CResistorButton"></Button>
 				<Button x:Name="CSurgeSuppressorButton"></Button>
+				<Button x:Name="CCurrentDataAnalogButton"></Button>
+				<Button x:Name="button"></Button>
 			</UniformGrid>
 			
 			

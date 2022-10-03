@@ -78,6 +78,17 @@ namespace AvAp2.Models
                 }
             }
         }
+        public double TextNameFontSize
+        {
+            get => (double)GetValue(TextNameFontSizeProperty);
+            set
+            {
+                SetValue(TextNameFontSizeProperty, value);
+                //RiseMnemoNeedSave();
+            }
+        }
+        public static StyledProperty<double> TextNameFontSizeProperty = AvaloniaProperty.Register<BasicWithTextName,double>(nameof(TextNameFontSize), 18);
+
 
         public static StyledProperty<double> TextNameWidthProperty =
             AvaloniaProperty.Register<BasicWithTextName, double>(nameof(TextNameWidth),defaultValue:90);
@@ -110,7 +121,10 @@ namespace AvAp2.Models
             PenWhite1 = new Pen(Brushes.WhiteSmoke, 1);
             PenWhite1.ToImmutable();
         }
-
+        internal protected Brush BrushTextNameColor
+        {
+            get => new SolidColorBrush(TextNameColor);
+        }
         public TextBlock DrawingVisualText { get; set; }
 
         public override void Render(DrawingContext drawingContext)

@@ -27,6 +27,8 @@ namespace AvAp2.Views
             CResistorButton.Click+= CResistorButtonOnClick;
             CSurgeSuppressorButton.Click+=CSurgeSuppressorButtonOnClick;
             CRectangleButton.Click+= CRectangleButtonOnClick;
+            CCurrentDataAnalogButton.Click+= CCurrentDataAnalogButtonOnClick;
+            button.Click+= ButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -54,7 +56,24 @@ namespace AvAp2.Views
             CResistor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CReactor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CSurgeSuppressor.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
+            CCurrentDataAnalog.TagDataMainState =
+                new TagDataItem(new TagDataItem(null).Quality = TagValueQuality.Blocking);
+            CCurrentDataAnalog.TagDataMainState.TagValueString = "1";
+            CCurrentDataAnalog.TextUom = "uom";
+            CCurrentDataAnalog.TextName = "name";
+            CLineCross.TagDataMainState = new TagDataItem(null);
+
             #endregion
+        }
+
+        private void ButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CLineCross.LineThickness++;
+        }
+
+        private void CCurrentDataAnalogButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            //CCurrentDataAnalog.ControlISSelected = !CCurrentDataAnalog.ControlISSelected;
         }
 
         private void CRectangleButtonOnClick(object? sender, RoutedEventArgs e)
