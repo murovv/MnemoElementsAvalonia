@@ -2,6 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using AvAp2.Models;
+using IProjectModel;
 
 namespace AvAp2.Views
 {
@@ -28,7 +29,9 @@ namespace AvAp2.Views
             CSurgeSuppressorButton.Click+=CSurgeSuppressorButtonOnClick;
             CRectangleButton.Click+= CRectangleButtonOnClick;
             CCurrentDataAnalogButton.Click+= CCurrentDataAnalogButtonOnClick;
-            button.Click+= ButtonOnClick;
+            CLineCrossButton.Click+= ButtonOnClick;
+            CCurrentTransformerButton.Click+= CCurrentTransformerButtonOnClick;
+            CTransformerCoilButton.Click+= CTransformerCoilButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -62,8 +65,25 @@ namespace AvAp2.Views
             CCurrentDataAnalog.TextUom = "uom";
             CCurrentDataAnalog.TextName = "name";
             CLineCross.TagDataMainState = new TagDataItem(null);
+            CCurrentTransformer.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
+            CTransformerCoil.TagDataMainState = new TagDataItem(null);
+            CTransformerCoil.IsPower = true;
 
             #endregion
+        }
+
+        private void CTransformerCoilButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CTransformerCoil.TagDataMainState.TagValueString = "1";
+            CTransformerCoil.IsPower = !CTransformerCoil.IsPower;
+            CTransformerCoil.VoltageEnum = (VoltageClasses)((int)(CTransformerCoil.VoltageEnum + 1)%(Enum.GetValues(typeof(VoltageClasses)).Length));
+
+        }
+
+        private void CCurrentTransformerButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CCurrentTransformer.TagDataMainState.TagValueString = "0";
+            CCurrentTransformer.VoltageEnum = (VoltageClasses)((int)(CCurrentTransformer.VoltageEnum + 1)%(Enum.GetValues(typeof(VoltageClasses)).Length));
         }
 
         private void ButtonOnClick(object? sender, RoutedEventArgs e)
@@ -108,7 +128,8 @@ namespace AvAp2.Views
             {
                 CIsolatingSwitch.TagDataMainState.TagValueString = "1";
             }
-            CCellCart2.ShowNormalState = !CCellCart2.ShowNormalState;
+            CIsolatingSwitch.VoltageEnum = (VoltageClasses)((int)(CIsolatingSwitch.VoltageEnum + 1)%(Enum.GetValues(typeof(VoltageClasses)).Length));
+
         }
 
         private void CArrowReserveButtonOnClick(object? sender, RoutedEventArgs e)

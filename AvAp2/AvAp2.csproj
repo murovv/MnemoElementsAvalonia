@@ -59,4 +59,9 @@
   <ItemGroup>
     <Content Include="Styles\CCurrentDataAnalogStyles.axaml" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="IProjectModel">
+      <HintPath>..\..\IProjectModel\bin\Debug\netstandard2.0\IProjectModel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

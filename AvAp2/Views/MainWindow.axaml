@@ -11,7 +11,9 @@
 	<Window.Styles>
 		<StyleInclude Source="/Styles/CCellCart2Styles.axaml" />
 		<StyleInclude Source="/Styles/CLineStyles.axaml" />
-		<StyleInclude Source="/Styles/CRectangleStyles.axaml"></StyleInclude>
+		<StyleInclude Source="/Styles/CRectangleStyles.axaml"/>
+		<StyleInclude Source="/Styles/CTransformerCoilStyles.axaml"/>
+		
 		<!--<StyleInclude Source="/Styles/CCurrentDataAnalogStyles.axaml"></StyleInclude>-->
 	</Window.Styles>
     <Design.DataContext>
@@ -48,12 +50,10 @@
 					<Button x:Name="CHighFrequencyButton">повернуть</Button>
 					<Button x:Name="CpeSwitchButton"></Button>
 				</UniformGrid>
-	
-		
 			</Grid>
 		</TabItem>
 		<TabItem Header="Controls 2">
-			<UniformGrid Rows="2" Columns="8">
+			<UniformGrid Rows="2" Columns="9">
 				<models:CArrow x:Name="CArrow"></models:CArrow>
 				<models:CArrowReserve x:Name="CArrowReserve"></models:CArrowReserve>
 				<models:CIsolatingSwitch x:Name="CIsolatingSwitch"></models:CIsolatingSwitch>
@@ -62,6 +62,7 @@
 				<models:CSurgeSuppressor x:Name="CSurgeSuppressor"></models:CSurgeSuppressor>
 				<models:CCurrentDataAnalog x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
 				<models:CLineCross x:Name="CLineCross"></models:CLineCross>
+				<models:CCurrentTransformer x:Name="CCurrentTransformer"></models:CCurrentTransformer>
 				<Button x:Name="CArrowButton"></Button>
 				<Button x:Name="CArrowReserveButton"></Button>
 				<Button x:Name="CIsolatingSwitchButton"></Button>
@@ -69,10 +70,15 @@
 				<Button x:Name="CResistorButton"></Button>
 				<Button x:Name="CSurgeSuppressorButton"></Button>
 				<Button x:Name="CCurrentDataAnalogButton"></Button>
-				<Button x:Name="button"></Button>
+				<Button x:Name="CLineCrossButton"></Button>
+				<Button x:Name="CCurrentTransformerButton"></Button>
 			</UniformGrid>
-			
-			
+		</TabItem>
+		<TabItem Header="Transformers">
+			<UniformGrid Rows="2" Columns="1">
+				<models:CTransformerCoil x:Name="CTransformerCoil"></models:CTransformerCoil>
+				<Button x:Name="CTransformerCoilButton"></Button>
+			</UniformGrid>
 		</TabItem>
 	</TabControl>
 	
