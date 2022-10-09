@@ -86,10 +86,11 @@ namespace AvAp2.Models
                 {
                     drawingContext.DrawRectangle(Brushes.WhiteSmoke, null, new Rect(3, 3, 23, 24));
                     rotation.Dispose();// Убираем поворот
-                    /*FormattedText ft = new FormattedText("?", new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black),
-                        16,TextAlignment.Center, TextWrapping.NoWrap, Size.Empty);
-                    drawingContext.DrawText(isActiveState ? BrushContentColor : BrushContentColorAlternate, new Point(15, 4),ft);
-                */
+                    FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black, FontStretch.Normal),
+                        16, BrushContentColor);
+                    ft.TextAlignment = TextAlignment.Center;
+                    drawingContext.DrawText(ft, new Point(15, 4));
                 }
                 else if (state == CommutationDeviceStates.Broken)
                 {

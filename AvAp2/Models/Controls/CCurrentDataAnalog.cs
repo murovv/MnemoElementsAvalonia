@@ -79,24 +79,26 @@ namespace AvAp2.Models
             DrawingContext.PushedState rotate;
             using (rotate = drawingContext.PushPostTransform(new RotateTransform(Angle, 15, 15).Value))
             {
-                /*FormattedText ftTextName = new FormattedText(TextName,
-                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal,
-                        FontWeight.Normal /*, FontStretch.Normal#1#),
-                    TextNameFontSize, TextAlignment.Left, TextWrapping.NoWrap, Size.Empty);
-                drawingContext.DrawText(BrushTextNameColor, new Point(4, 0), ftTextName);*/
-                
-                /*FormattedText ftValue = new FormattedText(dataValue,
-                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal,
-                        FontWeight.Normal /*, FontStretch.Normal#1#),
-                    TextNameFontSize, TextAlignment.Left, TextWrapping.NoWrap, Size.Empty);
-                drawingContext.DrawText( BrushContentColor,new Point(ftTextName.Bounds.Width + 9, 0), ftValue);*/
+                FormattedText ftTextName = new FormattedText(TextName, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                    TextNameFontSize, BrushTextNameColor);
+
+                ftTextName.TextAlignment = TextAlignment.Left;
+                drawingContext.DrawText(ftTextName, new Point(4, 0));
+                FormattedText ftValue = new FormattedText(dataValue, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                    TextNameFontSize, BrushContentColor);
+
+                ftValue.TextAlignment = TextAlignment.Left;                
+                drawingContext.DrawText(ftValue, new Point(ftTextName.Width + 9, 0));
                 if (false == string.IsNullOrEmpty(TextUom))
                 {
-                    /*FormattedText ftUoM = new FormattedText(TextUom,
-                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal,
-                            FontWeight.Normal /*, FontStretch.Normal#1#),
-                        TextNameFontSize, TextAlignment.Left, TextWrapping.NoWrap, Size.Empty);
-                    drawingContext.DrawText(BrushContentColor, new Point(ftTextName.Bounds.Width + ftValue.Bounds.Width + 14, 0),ftUoM);*/
+                    FormattedText ftUoM = new FormattedText(TextUom, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                        TextNameFontSize, BrushTextNameColor);
+
+                    ftUoM.TextAlignment = TextAlignment.Left;
+                    drawingContext.DrawText(ftUoM, new Point(ftTextName.Width + ftValue.Width + 14, 0));
                 }
             }
         }

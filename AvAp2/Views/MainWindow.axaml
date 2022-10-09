@@ -22,7 +22,7 @@
 	<TabControl>
 		<TabItem Header="CLine'n'CRectangle">
 			<UniformGrid Columns="2" Rows="2">
-				<models:CLine x:Name="CLine" Margin="30"></models:CLine>
+				<models:CLine x:Name="CLine"></models:CLine>
 				<models:CRectangle x:Name="CRectangle"></models:CRectangle>
 				<Button x:Name="CLineButton">select/unselect</Button>
 				<Button x:Name="CRectangleButton"></Button>

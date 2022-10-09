@@ -229,7 +229,9 @@ namespace AvAp2.Models
                 IsTextPressed = false;
             }
 
-            if (DrawingVisualText.HitTestCustom(e.GetPosition(null)))
+            var t = e.GetPosition(this);
+            #warning в авалонии 11 хит тест начал работать по  другому, так что пока так
+            if (DrawingVisualText.Bounds.Contains(t))
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;
@@ -266,11 +268,13 @@ namespace AvAp2.Models
 
                             ModifyStartPoint = new Point(ModifyStartPoint.X + (deltaX * deltaStep),
                                 ModifyStartPoint.Y + (deltaY * deltaStep));
-                            InvalidateStyles();
+                            
                     }
+                    
 
                     #endregion перетаскивание
                 }
+                InvalidateStyles();
             }
 
         }

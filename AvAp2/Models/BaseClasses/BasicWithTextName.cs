@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 
 namespace AvAp2.Models
@@ -110,9 +111,8 @@ namespace AvAp2.Models
             AffectsRender<BasicWithTextName>(TextNameISVisibleProperty);
             AffectsRender<BasicWithTextName>(TextNameProperty);
             DrawingVisualText = new TextBlock();
-            LogicalChildren.Add(DrawingVisualText);
-            VisualChildren.Add(DrawingVisualText);
-            
+
+            DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
             //this.Content = DrawingVisualText;
             /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
             MarginTextNameProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnTextChanged);*/
@@ -138,28 +138,38 @@ namespace AvAp2.Models
                     
                 //ft.MaxTextWidth = TextNameWidth > 10 ? TextNameWidth: 10;
                     ft.TextAlignment = TextAlignment.Center;*/
-                if (DrawingVisualText.IsLoaded)
-                {
-                    DrawingVisualText.Text = TextName;
-                    DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
-                    DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
-                    DrawingVisualText.FontStyle = FontStyle.Normal;
-                    DrawingVisualText.FontWeight = FontWeight.SemiBold;
-                    DrawingVisualText.FontSize = 14;
-                    DrawingVisualText.TextAlignment = TextAlignment.Center;
-                    // DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
-                    DrawingVisualText.Margin = MarginTextName;
-                    /*drawingContext.
-                    drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));
-                    drawingContext.PushTransform(new RotateTransform(AngleTextName));*/
-                    DrawingVisualText.Opacity = 1;
-                }
+                //TODO почему теперь надо проверять
+                
+                
 
 
             }
             else
                 DrawingVisualText.Opacity = 0;
             /*DrawingVisualText.Render(drawingContext);*/
+        }
+
+        private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
+        {
+            
+            if (TextNameISVisible)
+            {
+            DrawingVisualText.Text = TextName;
+            DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
+            DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
+            DrawingVisualText.FontStyle = FontStyle.Normal;
+            DrawingVisualText.FontWeight = FontWeight.SemiBold;
+            DrawingVisualText.FontSize = 14;
+            DrawingVisualText.TextAlignment = TextAlignment.Center;
+            // DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
+            DrawingVisualText.Margin = MarginTextName;
+            /*drawingContext.
+            drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));
+            drawingContext.PushTransform(new RotateTransform(AngleTextName));*/
+            DrawingVisualText.Opacity = 1;
+            }
+            else
+                DrawingVisualText.Opacity = 0;
         }
 
         private void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
