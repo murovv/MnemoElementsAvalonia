@@ -46,11 +46,11 @@ namespace AvAp2.Models
             drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(40, 5), new Point(40, 25));
             drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(45, 8), new Point(45, 22));
 
-            FormattedText ft = new FormattedText("ФП", new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.SemiBold/*, FontStretch.Normal*/),
-                   14,TextAlignment.Center, TextWrapping.NoWrap, Size.Empty)/*, TextFormattingMode.Ideal*/;
+            /*FormattedText ft = new FormattedText("ФП", new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.SemiBold/*, FontStretch.Normal#1#),
+                   14,TextAlignment.Center, TextWrapping.NoWrap, Size.Empty)/*, TextFormattingMode.Ideal#1#;
 
             //drawingContext.Pop();
-            drawingContext.DrawText( isActiveState ? BrushContentColor : BrushContentColorAlternate,new Point(4, 0),ft );
+            drawingContext.DrawText( isActiveState ? BrushContentColor : BrushContentColorAlternate,new Point(4, 0),ft );*/
         }
     }
 }

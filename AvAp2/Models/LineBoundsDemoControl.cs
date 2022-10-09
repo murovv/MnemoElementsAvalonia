@@ -34,8 +34,8 @@ namespace AvAp2.Models
             var brush = Brushes.Green;
             var point1 = new Point(0, 0);
             var typeface = new Typeface("Arial");
-            var formattedText = new FormattedText("Hello", typeface, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
-            drawingContext.DrawText(brush, point1, formattedText);
+            /*var formattedText = new FormattedText("Hello", typeface, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
+            drawingContext.DrawText(brush, point1, formattedText);*/
 
 
             var lineLength = Math.Sqrt((100 * 100) + (100 * 100));

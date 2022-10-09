@@ -63,10 +63,8 @@ namespace AvAp2.Models
                 }
             }
             //}
-            DrawingContext.PushedState rotation;
-            using (rotation = drawingContext.PushPostTransform(new RotateTransform(Angle, 15, 15).Value))
-            {
-                if (IsConnectorExistLeft)
+            DrawingContext.PushedState rotation = drawingContext.PushPostTransform(new RotateTransform(Angle, 15, 15).Value) ;
+            if (IsConnectorExistLeft)
                     drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(-15, 15), new Point(2, 15));
                 if (IsConnectorExistRight)
                     drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(28, 15), new Point(45, 15));
@@ -77,18 +75,21 @@ namespace AvAp2.Models
                 if (state == CommutationDeviceStates.On)
                 {
                     drawingContext.DrawLine(PenContentColor, new Point(5, 15), new Point(24, 15));
+                    rotation.Dispose();
                 }
                 else if (state == CommutationDeviceStates.Off)
                 {
                     drawingContext.DrawLine(PenContentColor, new Point(15, 5), new Point(15, 25));
+                    rotation.Dispose();
                 }
                 else if (state == CommutationDeviceStates.UnDefined)
                 {
                     drawingContext.DrawRectangle(Brushes.WhiteSmoke, null, new Rect(3, 3, 23, 24));
                     rotation.Dispose();// Убираем поворот
-                    FormattedText ft = new FormattedText("?", new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black),
+                    /*FormattedText ft = new FormattedText("?", new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black),
                         16,TextAlignment.Center, TextWrapping.NoWrap, Size.Empty);
                     drawingContext.DrawText(isActiveState ? BrushContentColor : BrushContentColorAlternate, new Point(15, 4),ft);
+                */
                 }
                 else if (state == CommutationDeviceStates.Broken)
                 {
@@ -101,7 +102,6 @@ namespace AvAp2.Models
                         drawingContext.DrawRectangle(Brushes.Transparent, PenNormalState, new Rect(-1, -1, 32, 32));
                 }
                 
-            } 
         }
     }
 }

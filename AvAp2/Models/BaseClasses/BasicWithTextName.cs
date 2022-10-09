@@ -110,10 +110,12 @@ namespace AvAp2.Models
             AffectsRender<BasicWithTextName>(TextNameISVisibleProperty);
             AffectsRender<BasicWithTextName>(TextNameProperty);
             DrawingVisualText = new TextBlock();
+            LogicalChildren.Add(DrawingVisualText);
+            VisualChildren.Add(DrawingVisualText);
             
             //this.Content = DrawingVisualText;
-            TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
-            MarginTextNameProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnTextChanged);
+            /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
+            MarginTextNameProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnTextChanged);*/
             PenBlack = new Pen(Brushes.Black, .5);
             PenBlack.ToImmutable(); 
             PenBlack1 = new Pen(Brushes.Black, 1);
@@ -136,21 +138,22 @@ namespace AvAp2.Models
                     
                 //ft.MaxTextWidth = TextNameWidth > 10 ? TextNameWidth: 10;
                     ft.TextAlignment = TextAlignment.Center;*/
+                if (DrawingVisualText.IsLoaded)
+                {
                     DrawingVisualText.Text = TextName;
-                    
                     DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
                     DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
                     DrawingVisualText.FontStyle = FontStyle.Normal;
                     DrawingVisualText.FontWeight = FontWeight.SemiBold;
                     DrawingVisualText.FontSize = 14;
                     DrawingVisualText.TextAlignment = TextAlignment.Center;
-                   // DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
+                    // DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
                     DrawingVisualText.Margin = MarginTextName;
                     /*drawingContext.
                     drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));
                     drawingContext.PushTransform(new RotateTransform(AngleTextName));*/
                     DrawingVisualText.Opacity = 1;
-                    
+                }
 
 
             }

@@ -148,13 +148,13 @@ namespace AvAp2.Models
                 else
                     drawingContext.DrawImage(ImageSourceDisabled, new Rect(1, 1, 27, 27));
 
-                FormattedText ftTextName = new FormattedText(TextName,
+                /*FormattedText ftTextName = new FormattedText(TextName,
                     new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal,
-                        FontWeight.Normal /*, FontStretch.Normal*/),
+                        FontWeight.Normal /*, FontStretch.Normal#1#),
                     14, TextAlignment.Left, TextWrapping.NoWrap, Size.Empty);
 
                 ftTextName.TextAlignment = TextAlignment.Left;
-                drawingContext.DrawText(BrushTextNameColor, new Point(35, 0), ftTextName);
+                drawingContext.DrawText(BrushTextNameColor, new Point(35, 0), ftTextName);*/
             }
         }
 

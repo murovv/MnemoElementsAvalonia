@@ -18,8 +18,5 @@
                 </KeyFrame>
             </Animation>
         </Style.Animations>
-        <Setter Property="Content">
-            <GeometryDrawing Geometry=""></GeometryDrawing>
-        </Setter>
     </Style>
 </Styles>

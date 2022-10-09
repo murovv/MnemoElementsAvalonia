@@ -77,9 +77,9 @@ namespace AvAp2.Models
                 {
                     drawingContext.DrawRectangle(Brushes.WhiteSmoke, null, new Rect(2.5, 2.5, 25, 25));
                     // drawingContext.Pop();//Разворот вопросика в нормальное положение даже если КА повёрнут
-                    var formattedText = new FormattedText("?", typeface, 16, TextAlignment.Center, TextWrapping.NoWrap,
+                    /*var formattedText = new FormattedText("?", typeface, 16, TextAlignment.Center, TextWrapping.NoWrap,
                         Size.Infinity);
-                    drawingContext.DrawText(brush, new Point(10, 7), formattedText);
+                    drawingContext.DrawText(brush, new Point(10, 7), formattedText);*/
 
                 }
                 else if (state == CommutationDeviceStates.Broken)
