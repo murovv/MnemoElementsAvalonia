@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Metadata;
 using Avalonia.Styling;
@@ -30,16 +31,24 @@ namespace AvAp2.Models
             AvaloniaProperty.RegisterAttached<TagDataItem, CCurrentDataAnalog, TagValueQuality>("Quality");
 
         public StreamGeometry HandGeometry { get; set; }
-        public FormattedText QuestionSign { get; set; }
+        public GeometryDrawing DrawQualityHandled { get; set; }
+        public GeometryDrawing DrawQualityInvalid { get; set; }
+
+        public void InitDrawQuality()
+        {
+            
+            DrawQualityHandled.Geometry = (StreamGeometry)HandGeometry.Clone();
+            DrawQualityHandled.Geometry.Transform = new TranslateTransform(-15, 0);
+            DrawQualityHandled.Brush = BrushHand;
+            DrawQualityHandled.Pen = PenHand;
+            FormattedText ft = new FormattedText("?", new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal), 12, TextAlignment.Left, TextWrapping.Wrap, Size.Empty);
+
+        }
         public CCurrentDataAnalog() : base()
         {
 
             DataContext = this;
             HandGeometry = HandGeometry();
-            QuestionSign = new FormattedText("?",
-                new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal,
-                    FontWeight.Normal /*, FontStretch.Normal*/),
-                12, TextAlignment.Left, TextWrapping.NoWrap, Size.Empty);
             this.TextNameFontSize = 18;
             this.TextNameColor = Color.FromRgb(255, 190, 0);
             this.ContentColor = Colors.LimeGreen;
