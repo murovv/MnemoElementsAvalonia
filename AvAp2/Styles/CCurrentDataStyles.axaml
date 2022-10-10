@@ -19,7 +19,7 @@
                         <RotateTransform Angle="{CompiledBinding Angle}" CenterX="15" CenterY="15"></RotateTransform>
                     </Canvas.RenderTransform>
                     <Rectangle Width="{CompiledBinding Bounds.Width}" Height="{CompiledBinding Bounds.Height}" Stroke="{CompiledBinding PenIsSelected}" Fill="{CompiledBinding BrushIsSelected}"></Rectangle>
-                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                    <!--<ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>-->
                 </Canvas>
             </Template>
         </Setter>
@@ -37,19 +37,38 @@
             </Template>
         </Setter>
     </Style>
-    <!--<Style Selector="models|CCurrentDataAnalog">
+    <Style Selector="models|CCurrentDataAnalog[Quality=Handled]">
         <Setter Property="Content" >
+            
             <Template>
-                <Canvas><TextBox>hi</TextBox></Canvas>
-                ~1~
-                <GeometryDrawing Pen="{CompiledBinding PenHand}" Brush="{CompiledBinding BrushHand}" Geometry="{CompiledBinding HandGeometry}"></GeometryDrawing>
-                @1@
+                <Canvas>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawQualityHandled}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                </Canvas>
                 
             </Template>
         </Setter>
-    </Style> 
-    -->
+        </Style>
+    <Style Selector="models|CCurrentDataAnalog[Quality=Invalid]">
+        <Setter Property="Content" >
+            
+            <Template>
+                <Canvas>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawQualityInvalid}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                </Canvas>
+                
+            </Template>
+            
+        </Setter>
+    </Style>
     
 
-    <!-- Add Styles Here -->
+        <!-- Add Styles Here -->
 </Styles>

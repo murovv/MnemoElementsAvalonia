@@ -2,6 +2,7 @@
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Metadata;
 using Avalonia.Styling;
@@ -26,9 +27,13 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> TextUomProperty = AvaloniaProperty.Register<CCurrentDataAnalog,string>(nameof(TextUom), "");
         //TODO разобраться как сделать без этого тупняка
-
-        public static AttachedProperty<TagValueQuality> QualityProperty =
-            AvaloniaProperty.RegisterAttached<TagDataItem, CCurrentDataAnalog, TagValueQuality>("Quality");
+        public IProjectModel.TagValueQuality Quality
+        {
+            get => (IProjectModel.TagValueQuality)GetValue(QualityProperty);
+            set => SetValue(QualityProperty, value);
+        }
+        public static AttachedProperty<IProjectModel.TagValueQuality> QualityProperty =
+            AvaloniaProperty.RegisterAttached<TagDataItem, CCurrentDataAnalog, IProjectModel.TagValueQuality>("Quality");
 
         public StreamGeometry HandGeometry { get; set; }
         public GeometryDrawing DrawQualityHandled { get; set; }
@@ -36,21 +41,30 @@ namespace AvAp2.Models
 
         public void InitDrawQuality()
         {
+            DrawQualityHandled = new GeometryDrawing();
+            DrawQualityInvalid = new GeometryDrawing();
+            FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                12, Brushes.Yellow);
             
-            DrawQualityHandled.Geometry = (StreamGeometry)HandGeometry.Clone();
-            DrawQualityHandled.Geometry.Transform = new TranslateTransform(-15, 0);
             DrawQualityHandled.Brush = BrushHand;
             DrawQualityHandled.Pen = PenHand;
-            /*
-            FormattedText ft = new FormattedText("?", new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal), 12, TextAlignment.Left, TextWrapping.Wrap, Size.Empty);
-            */
+            DrawQualityHandled.Geometry = HandGeometry.Clone();
+            DrawQualityHandled.Geometry.Transform = new TranslateTransform(-15, 0);
 
+            DrawQualityInvalid.Geometry = ft.BuildGeometry(new Point(-5, 0));
+            DrawQualityInvalid.Brush = Brushes.Yellow;
+        }
+
+        static CCurrentDataAnalog()
+        {
+            AffectsRender<CCurrentDataAnalog>(QualityProperty);
         }
         public CCurrentDataAnalog() : base()
         {
-
             DataContext = this;
             HandGeometry = HandGeometry();
+            InitDrawQuality();
             this.TextNameFontSize = 18;
             this.TextNameColor = Color.FromRgb(255, 190, 0);
             this.ContentColor = Colors.LimeGreen;

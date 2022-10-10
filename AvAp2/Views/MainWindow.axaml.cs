@@ -93,7 +93,7 @@ namespace AvAp2.Views
 
         private void CCurrentDataAnalogButtonOnClick(object? sender, RoutedEventArgs e)
         {
-            //CCurrentDataAnalog.ControlISSelected = !CCurrentDataAnalog.ControlISSelected;
+            CCurrentDataAnalog.Quality = IProjectModel.TagValueQuality.Handled;
         }
 
         private void CRectangleButtonOnClick(object? sender, RoutedEventArgs e)

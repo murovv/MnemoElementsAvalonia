@@ -13,8 +13,7 @@
 		<StyleInclude Source="/Styles/CLineStyles.axaml" />
 		<StyleInclude Source="/Styles/CRectangleStyles.axaml"/>
 		<StyleInclude Source="/Styles/CTransformerCoilStyles.axaml"/>
-		
-		<!--<StyleInclude Source="/Styles/CCurrentDataAnalogStyles.axaml"></StyleInclude>-->
+		<StyleInclude Source="/Styles/CCurrentDataStyles.axaml"></StyleInclude>
 	</Window.Styles>
     <Design.DataContext>
         <vm:MainWindowViewModel/>
