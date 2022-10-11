@@ -7,24 +7,41 @@
             <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
-
-    <Style Selector="models|CTransformerCoil:pointerover[IsPower=True]">
+    <Style Selector=":is(models|CTransformerCoil)">
         <Setter Property="Content">
             <Template>
                 <Canvas>
-                    <Rectangle Width="40" Height="40"  Canvas.Top="-5" Canvas.Left="-5" Fill="{CompiledBinding BrushMouseOver}" Stroke="{CompiledBinding PenMouseOver}"></Rectangle>
-                    <Rectangle Width="{CompiledBinding DrawingVisualText.Bounds.Width}" Height="{CompiledBinding DrawingVisualText.Bounds.Height}" Canvas.Top="{CompiledBinding DrawingVisualText.Bounds.Top}" Canvas.Left="{CompiledBinding DrawingVisualText.Bounds.Left}" Fill="{CompiledBinding BrushMouseOver}" Stroke="{CompiledBinding PenMouseOver}"></Rectangle>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
+                        </Image.Source>
+                        
+                    </Image>
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
+                
             </Template>
         </Setter>
     </Style>
-    <Style Selector="models|CTransformerCoil:pointerover[IsPower=False]">
+    <Style Selector=":is(models|CTransformerCoil):pointerover">
         <Setter Property="Content">
             <Template>
                 <Canvas>
-                    <Rectangle Width="30" Height="30"  Canvas.Top="0" Canvas.Left="0" Fill="{CompiledBinding BrushMouseOver}" Stroke="{CompiledBinding PenMouseOver}"></Rectangle>
-                    <Rectangle Width="{CompiledBinding DrawingVisualText.Bounds.Width}" Height="{CompiledBinding DrawingVisualText.Bounds.Height}" Canvas.Top="{CompiledBinding DrawingVisualText.Bounds.Top}" Canvas.Left="{CompiledBinding DrawingVisualText.Bounds.Left}" Fill="{CompiledBinding BrushMouseOver}" Stroke="{CompiledBinding PenMouseOver}"></Rectangle>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
+                        </Image.Source>
+                        
+                    </Image>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawingMouseOver}"></DrawingImage>
+                        </Image.Source>
+                        
+                    </Image>
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
+                
             </Template>
         </Setter>
     </Style>

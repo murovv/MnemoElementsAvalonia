@@ -32,6 +32,7 @@ namespace AvAp2.Views
             CLineCrossButton.Click+= ButtonOnClick;
             CCurrentTransformerButton.Click+= CCurrentTransformerButtonOnClick;
             CTransformerCoilButton.Click+= CTransformerCoilButtonOnClick;
+            CTransformerCoil2Button.Click+= CTransformerCoil2ButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -68,8 +69,16 @@ namespace AvAp2.Views
             CCurrentTransformer.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CTransformerCoil.TagDataMainState = new TagDataItem(null);
             CTransformerCoil.IsPower = true;
+            CTransformer2Coils.TagDataMainState = new TagDataItem(null);
+            CTransformer2Coils.IsPower = true;
+            
 
             #endregion
+        }
+
+        private void CTransformerCoil2ButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CTransformer2Coils.IsPower = !CTransformer2Coils.IsPower;
         }
 
         private void CTransformerCoilButtonOnClick(object? sender, RoutedEventArgs e)

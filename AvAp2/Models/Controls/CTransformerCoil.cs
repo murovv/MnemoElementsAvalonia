@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -51,13 +52,12 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<bool> IsPowerProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(IsPower),false);
-        /*private static void OnIsPowerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            BasicMnemoElement b = d as BasicMnemoElement;
-            b.DrawBase();
-            b.DrawIsSelected();
-            b.DrawMouseOver();
-        }*/
+            InitIsSelected();
+            InitMouseOver();
+            InvalidateStyles();
+        }
 
         [Category("Свойства элемента мнемосхемы"), Description("Соединение обмоток трансформатора"), PropertyGridFilterAttribute, DisplayName("Первая обмотка соединение"), Browsable(true)]
         public CoilsConnectionTypes CoilsConnectionType
@@ -364,10 +364,17 @@ namespace AvAp2.Models
         static CTransformerCoil()
         {
             AffectsRender<CTransformerCoil>(IsRegulatorProperty, CoilsConnectionTypeProperty, AutoIsExistProperty, CoilLeftExitIsExistProperty, CoilRightExitIsExistProperty,CoilTopExitIsExistProperty, CoilBottomExitIsExistProperty, IsPowerProperty, AutoVoltageColorProperty, AutoVoltageProperty);
-            
+        }
+
+        private void OnControlISSelectedPropertyChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
+        {
+            InitIsSelected();
+            InvalidateStyles();
         }
         public CTransformerCoil() : base()
         {
+            ControlISSelectedProperty.Changed.Subscribe(OnControlISSelectedPropertyChanged);
+            IsPowerProperty.Changed.Subscribe(OnIsPowerChanged);
             ClipToBounds = false;
             DataContext = this;
             BrushContentColorAutoVoltage = new SolidColorBrush(AutoVoltageColor);
@@ -545,7 +552,7 @@ namespace AvAp2.Models
                 }
             }
             //TODO как сделать нормальный стайлинг
-            if (ControlISSelected)
+            /*if (ControlISSelected)
             {
                 if (IsPower)
                     drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-5, -5, 40, 40));
@@ -556,9 +563,58 @@ namespace AvAp2.Models
                     Rect selectedRect = DrawingVisualText.Bounds;
                     drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, selectedRect);
                 }
-            }
+            }*/
         }
-        
+
+        protected virtual void InitIsSelected()
+        {
+            if (ControlISSelected)
+            {
+                GeometryGroup geometry = new GeometryGroup();
+                if (IsPower)
+                {
+                    geometry.Children.Add(new RectangleGeometry(new Rect(-5, -5, 40, 40)));
+                }
+                else
+                {
+                    geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 30)));
+                }
+
+                if (DrawingVisualText.Bounds.Width > 0)
+                {
+                    Rect selectedRect = DrawingVisualText.Bounds;
+                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                }
+
+                DrawingIsSelected.Geometry = geometry;
+                DrawingIsSelected.Brush = BrushIsSelected;
+                DrawingIsSelected.Pen = PenIsSelected;
+            }
+            else
+                DrawingIsSelected = new GeometryDrawing();
+        }
+
+        protected virtual void InitMouseOver()
+        {
+            GeometryGroup geometry = new GeometryGroup();
+            if (IsPower)
+            {
+                geometry.Children.Add(new RectangleGeometry(new Rect(-5, -5, 40, 40)));
+            }
+            else
+            {
+                geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 30)));
+            }
+            if (DrawingVisualText.Bounds.Width > 0)
+            {
+                Rect selectedRect = DrawingVisualText.Bounds;
+                geometry.Children.Add(new RectangleGeometry(selectedRect));
+            }
+
+            DrawingMouseOver.Geometry = geometry;
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
+        }
         /*internal protected void DrawMouseOver()
         {
             using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())

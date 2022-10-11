@@ -46,8 +46,13 @@ namespace AvAp2.Models
 
         public static StyledProperty<bool> ControlISHitTestVisibleProperty =
             AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISHitTestVisible));
+        public GeometryDrawing DrawingIsSelected { get; set; }
+        public GeometryDrawing DrawingMouseOver { get; set; }
+        
         public BasicMnemoElement()
         {
+            DrawingIsSelected = new GeometryDrawing();
+            DrawingMouseOver = new GeometryDrawing();
             AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
             BrushContentColor = Brushes.Black;
             BrushContentColor.ToImmutable();
