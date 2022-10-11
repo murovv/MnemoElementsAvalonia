@@ -74,11 +74,13 @@
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Transformers">
-			<UniformGrid Rows="2" Columns="2">
+			<UniformGrid Rows="2" Columns="3">
 				<models:CTransformerCoil x:Name="CTransformerCoil"></models:CTransformerCoil>
 				<models:CTransformer2Coils x:Name="CTransformer2Coils"></models:CTransformer2Coils>
+				<models:CTransformer3CoilsV1 x:Name="CTransformer3CoilsV1"></models:CTransformer3CoilsV1>
 				<Button x:Name="CTransformerCoilButton"></Button>
 				<Button x:Name="CTransformerCoil2Button"></Button>
+				<Button x:Name="CTransformer3CoilsV1Button"></Button>
 			</UniformGrid>
 		</TabItem>
 	</TabControl>
