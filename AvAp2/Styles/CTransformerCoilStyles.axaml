@@ -7,13 +7,13 @@
             <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
-    <Style Selector=":is(models|CTransformerCoil)">
+    <Style Selector=":is(models|CAbstractTransformer)">
         <Setter Property="Content">
             <Template>
                 <Canvas>
-                    <Image>
+                    <Image Canvas.Top="{CompiledBinding TranslationX}" Canvas.Left="{CompiledBinding TranslationY}">
                         <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
+                            <DrawingImage   Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
                         </Image.Source>
                         
                     </Image>
@@ -26,14 +26,14 @@
     <Style Selector=":is(models|CTransformerCoil):pointerover">
         <Setter Property="Content">
             <Template>
-                <Canvas>
-                    <Image>
+                <Canvas >
+                    <Image Canvas.Top="{CompiledBinding TranslationX}" Canvas.Left="{CompiledBinding TranslationY}">
                         <Image.Source>
                             <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
                         </Image.Source>
                         
-                    </Image>
-                    <Image>
+                    </Image >
+                    <Image Canvas.Top="{CompiledBinding TranslationX}" Canvas.Left="{CompiledBinding TranslationY}">
                         <Image.Source>
                             <DrawingImage Drawing="{CompiledBinding DrawingMouseOver}"></DrawingImage>
                         </Image.Source>

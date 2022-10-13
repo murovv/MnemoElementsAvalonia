@@ -34,6 +34,10 @@ namespace AvAp2.Views
             CTransformerCoilButton.Click+= CTransformerCoilButtonOnClick;
             CTransformerCoil2Button.Click+= CTransformerCoil2ButtonOnClick;
             CTransformer3CoilsV1Button.Click+= CTransformer3CoilsV1ButtonOnClick;
+            CTransformer3CoilsV1LeftButton.Click+= CTransformer3CoilsV1LeftButtonOnClick;
+            CTransformer3CoilsV2Button.Click+= CTransformer3CoilsV2ButtonOnClick;
+            CTransformer4CoilsButton.Click+= CTransformer4CoilsButtonOnClick;
+            CTransformerNpeButton.Click+=CTransformerNpeButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -73,8 +77,30 @@ namespace AvAp2.Views
             CTransformer2Coils.TagDataMainState = new TagDataItem(null);
             CTransformer2Coils.IsPower = true;
             CTransformer3CoilsV1.IsPower = true;
-
+            CTransformer3CoilsV1Left.IsPower = true;
+            CTransformer3CoilsV2.IsPower = true;
+            CTransformer4Coils.IsPower = true;
             #endregion
+        }
+
+        private void CTransformerNpeButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void CTransformer4CoilsButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CTransformer4Coils.IsPower = !CTransformer4Coils.IsPower;
+        }
+
+        private void CTransformer3CoilsV2ButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CTransformer3CoilsV2.IsPower = !CTransformer3CoilsV2.IsPower;
+        }
+
+        private void CTransformer3CoilsV1LeftButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CTransformer3CoilsV1Left.IsPower = !CTransformer3CoilsV1Left.IsPower;
         }
 
         private void CTransformer3CoilsV1ButtonOnClick(object? sender, RoutedEventArgs e)

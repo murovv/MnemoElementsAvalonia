@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using AvAp2.Converters;
 using IProjectModel;
@@ -144,6 +146,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilBottomExitIsExist3), false);
 
         #endregion выводы обмотки
+
+        static CTransformer3CoilsV1()
+        {
+            AffectsRender<CTransformer3CoilsV1>(CoilsConnectionType3Property, CoilLeftExitIsExist3Property, CoilRightExitIsExist3Property, CoilTopExitIsExist3Property, CoilBottomExitIsExist3Property);
+        }
 
         public CTransformer3CoilsV1() : base()
         {
@@ -487,14 +494,23 @@ namespace AvAp2.Models
         protected override void InitIsSelected()
         {
             Geometry geometry1 = new RectangleGeometry();
-            geometry1.Transform = new RotateTransform(Angle, 15, 15);
+            
             //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
-                geometry1 = new RectangleGeometry(new Rect(-7, -7, 75, 74));
+            {
+                TranslationX = -7;
+                TranslationY = -7;
+                geometry1 = new RectangleGeometry(new Rect(0, 0, 75, 74));
+            }
             else
+            {
+                TranslationX = 0;
+                TranslationY = 0;
                 geometry1 = new RectangleGeometry(new Rect(0, 0, 49, 49));
+            }
 
             GeometryGroup geometry = new GeometryGroup();
+            
             geometry.Children.Add(geometry1);
             if (DrawingVisualText.Bounds.Width > 0)
             {
@@ -503,6 +519,7 @@ namespace AvAp2.Models
             }
             DrawingIsSelected = new GeometryDrawing();
             DrawingIsSelected.Geometry = geometry;
+            
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
         }
@@ -510,13 +527,23 @@ namespace AvAp2.Models
         protected override void InitMouseOver()
         {
             Geometry geometry1 = new RectangleGeometry();
-            geometry1.Transform = new RotateTransform(Angle, 15, 15);
+            var transform = new RotateTransform(Angle, 15, 15).Value;
+            
             //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
-                geometry1 = new RectangleGeometry(new Rect(-7, -7, 75, 74));
+            {
+                TranslationX = -7;
+                TranslationY = -7;
+                geometry1 = new RectangleGeometry(new Rect(0, 0, 75, 74));
+            }
             else
+            {
+                TranslationX = 0;
+                TranslationY = 0;
                 geometry1 = new RectangleGeometry(new Rect(0, 0, 49, 49));
+            }
 
+            geometry1.Transform = new MatrixTransform(transform);
             GeometryGroup geometry = new GeometryGroup();
             geometry.Children.Add(geometry1);
             if (DrawingVisualText.Bounds.Width > 0)
@@ -528,6 +555,7 @@ namespace AvAp2.Models
             DrawingMouseOver.Geometry = geometry;
             DrawingMouseOver.Brush = BrushIsSelected;
             DrawingMouseOver.Pen = PenIsSelected;
+            
         }
     }
     /*internal protected override void DrawIsSelected()

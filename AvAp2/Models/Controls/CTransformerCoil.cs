@@ -13,7 +13,7 @@ using IProjectModel;
 namespace AvAp2.Models
 {
     [Description("Обмотка трансформатора")]
-    public class CTransformerCoil : BasicEquipment, IRegulator
+    public class CTransformerCoil : CAbstractTransformer, IRegulator
     {
         public override bool ControlIs30Step
         {
@@ -44,12 +44,8 @@ namespace AvAp2.Models
         public bool IsPower
         {
             get => (bool)GetValue(IsPowerProperty);
-            set
-            {
-                SetValue(IsPowerProperty, value);
-                InvalidateStyles();
-                //RiseMnemoNeedSave();
-            }
+            set => SetValue(IsPowerProperty, value);
+            //RiseMnemoNeedSave();
         }
         public static StyledProperty<bool> IsPowerProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(IsPower),false);
         private void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
@@ -373,6 +369,8 @@ namespace AvAp2.Models
         }
         public CTransformerCoil() : base()
         {
+            TranslationX = 0;
+            TranslationY = 0;
             ControlISSelectedProperty.Changed.Subscribe(OnControlISSelectedPropertyChanged);
             IsPowerProperty.Changed.Subscribe(OnIsPowerChanged);
             ClipToBounds = false;
@@ -565,15 +563,16 @@ namespace AvAp2.Models
                 }
             }*/
         }
-
-        protected virtual void InitIsSelected()
+        protected override void InitIsSelected()
         {
             if (ControlISSelected)
             {
                 GeometryGroup geometry = new GeometryGroup();
                 if (IsPower)
                 {
-                    geometry.Children.Add(new RectangleGeometry(new Rect(-5, -5, 40, 40)));
+                    TranslationX = -5;
+                    TranslationY = -5;
+                    geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 40)));
                 }
                 else
                 {
@@ -594,7 +593,7 @@ namespace AvAp2.Models
                 DrawingIsSelected = new GeometryDrawing();
         }
 
-        protected virtual void InitMouseOver()
+        protected override void InitMouseOver()
         {
             GeometryGroup geometry = new GeometryGroup();
             if (IsPower)
