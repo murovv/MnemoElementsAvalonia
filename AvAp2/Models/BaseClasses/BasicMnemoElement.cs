@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 
 namespace AvAp2.Models
@@ -62,7 +63,7 @@ namespace AvAp2.Models
             BrushIsSelected.ToImmutable();
             PenIsSelected = new Pen(new SolidColorBrush(Colors.Red, 0.3), 1);
             //PenIsSelected.Freeze();
-            BrushMouseOver = Brushes.Gray;
+            BrushMouseOver = new SolidColorBrush(Colors.Gray, 0.5);
             BrushMouseOver.ToImmutable();
             PenMouseOver = new Pen(Brushes.Black, 1);
             
@@ -71,6 +72,21 @@ namespace AvAp2.Models
             //BrushHand.Freeze();
             PenHand = new Pen(Brushes.DarkGreen, 1);
             PenHand.ToImmutable();
+            ControlISSelectedProperty.Changed.Subscribe(OnControlIsSelectedChanged);
+            this.Loaded+= OnLoaded;
+            DataContext = this;
+        }
+
+        private void OnLoaded(object? sender, RoutedEventArgs e)
+        {
+            DrawIsSelected();
+            DrawMouseOver();
+        }
+
+        private void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
+        {
+            DrawIsSelected();
+            InvalidateStyles();
         }
         public static StyledProperty<double> AngleProperty = AvaloniaProperty.Register<BasicMnemoElement, double>(nameof(Angle),0);
 
@@ -157,6 +173,28 @@ namespace AvAp2.Models
             
             //geometry.Freeze();
             return geometry;
+        }
+
+        protected virtual void DrawIsSelected()
+        {
+            if (ControlISSelected)
+            {
+                DrawingIsSelected.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
+            }
+            else
+            {
+                DrawingIsSelected.Geometry = new GeometryGroup();
+            }
+
+            DrawingIsSelected.Brush = BrushIsSelected;
+            DrawingIsSelected.Pen = PenIsSelected;
+        }
+
+        protected virtual void DrawMouseOver()
+        {
+            DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
         }
         
     }

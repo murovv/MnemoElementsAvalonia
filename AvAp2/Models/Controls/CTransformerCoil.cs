@@ -50,8 +50,8 @@ namespace AvAp2.Models
         public static StyledProperty<bool> IsPowerProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(IsPower),false);
         private void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            InitIsSelected();
-            InitMouseOver();
+            DrawIsSelected();
+            DrawMouseOver();
             InvalidateStyles();
         }
 
@@ -364,7 +364,7 @@ namespace AvAp2.Models
 
         private void OnControlISSelectedPropertyChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            InitIsSelected();
+            DrawIsSelected();
             InvalidateStyles();
         }
         public CTransformerCoil() : base()
@@ -563,7 +563,7 @@ namespace AvAp2.Models
                 }
             }*/
         }
-        protected override void InitIsSelected()
+        protected override void DrawIsSelected()
         {
             if (ControlISSelected)
             {
@@ -593,7 +593,7 @@ namespace AvAp2.Models
                 DrawingIsSelected = new GeometryDrawing();
         }
 
-        protected override void InitMouseOver()
+        protected override void DrawMouseOver()
         {
             GeometryGroup geometry = new GeometryGroup();
             if (IsPower)
@@ -609,7 +609,7 @@ namespace AvAp2.Models
                 Rect selectedRect = DrawingVisualText.Bounds;
                 geometry.Children.Add(new RectangleGeometry(selectedRect));
             }
-
+            
             DrawingMouseOver.Geometry = geometry;
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;

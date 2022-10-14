@@ -9,8 +9,9 @@ namespace AvAp2.Models
     {
         public CArrowReserve() : base()
         {
+            DataContext = this;
             TextName = "Резерв";
-            MarginTextName = new Thickness(-30, -20, 0, 0);
+            MarginTextName = new Thickness(-30, 0, 0, 0);
         }
         public override string ElementTypeFriendlyName
         {

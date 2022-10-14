@@ -5,6 +5,8 @@
       <map>
         <entry key="AvAp2/App.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/CCurrentDataAnalog.axaml" value="AvAp2/AvAp2.csproj" />
+        <entry key="AvAp2/Styles/BasicMnemoElementStyles.axaml" value="AvAp2/AvAp2.csproj" />
+        <entry key="AvAp2/Styles/BasicWithTextNameStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/CAlarmIndicatorStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/CCellCart2Styles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/CCurrentDataAnalogStyles.axaml" value="AvAp2/AvAp2.csproj" />

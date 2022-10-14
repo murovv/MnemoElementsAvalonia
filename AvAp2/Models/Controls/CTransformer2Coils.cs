@@ -307,39 +307,43 @@ namespace AvAp2.Models
            
         }
         //TODO
-        protected override void InitIsSelected()
+        protected override void DrawIsSelected()
         {
-            GeometryGroup geometry1 = new GeometryGroup();
-            geometry1.Transform = new RotateTransform(Angle, 15, 15);
-            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-            if (IsPower)
-            {
-                TranslationX = -5;
-                TranslationY = -5;
-                geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 70)));
-            }
-            else
-            {
-                TranslationX = 0;
-                TranslationY = 0;
-                geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 49)));
-            }
-
             GeometryGroup geometry = new GeometryGroup();
-            geometry.Children.Add(geometry1);
-            if (DrawingVisualText.Bounds.Width > 0)
-            {
-                Rect selectedRect = DrawingVisualText.Bounds;
-                geometry.Children.Add(new RectangleGeometry(selectedRect));
-            }
-
             DrawingIsSelected = new GeometryDrawing();
-            DrawingIsSelected.Geometry = geometry;
+            if (ControlISSelected)
+            {
+                GeometryGroup geometry1 = new GeometryGroup();
+                geometry1.Transform = new RotateTransform(Angle, 15, 15);
+                //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
+                if (IsPower)
+                {
+                    TranslationX = -5;
+                    TranslationY = -5;
+                    geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 70)));
+                }
+                else
+                {
+                    TranslationX = 0;
+                    TranslationY = 0;
+                    geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 49)));
+                }
+
+                
+                geometry.Children.Add(geometry1);
+                if (DrawingVisualText.Bounds.Width > 0)
+                {
+                    Rect selectedRect = DrawingVisualText.Bounds;
+                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                }
+                
+                DrawingIsSelected.Geometry = geometry;
+            }
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
         }
 
-        protected override void InitMouseOver()
+        protected override void DrawMouseOver()
         {
             GeometryGroup geometry1 = new GeometryGroup();
             geometry1.Transform = new RotateTransform(Angle, 15, 15);

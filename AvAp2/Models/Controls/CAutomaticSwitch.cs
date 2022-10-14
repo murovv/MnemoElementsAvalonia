@@ -11,7 +11,7 @@ namespace AvAp2.Models
     {
         public CAutomaticSwitch()
         {
-            
+           
         }
         public override void Render(DrawingContext drawingContext)
         {

@@ -19,7 +19,7 @@
                         <RotateTransform Angle="{CompiledBinding Angle}" CenterX="15" CenterY="15"></RotateTransform>
                     </Canvas.RenderTransform>
                     <Rectangle Width="{CompiledBinding Bounds.Width}" Height="{CompiledBinding Bounds.Height}" Stroke="{CompiledBinding PenIsSelected}" Fill="{CompiledBinding BrushIsSelected}"></Rectangle>
-                    <!--<ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>-->
+                    <ContentControl Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
             </Template>
         </Setter>

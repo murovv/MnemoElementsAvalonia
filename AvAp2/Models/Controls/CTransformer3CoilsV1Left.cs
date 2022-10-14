@@ -265,41 +265,47 @@ namespace AvAp2.Models
                 translate1.Dispose(); 
                 rotate.Dispose();
         }
-        protected override void InitIsSelected()
+        protected override void DrawIsSelected()
         {
             Geometry geometry1 = new RectangleGeometry();
             geometry1.Transform = new RotateTransform(Angle, 15, 15);
-            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-            if (IsPower)
-            {
-                TranslationX = -7;
-                TranslationY = -37;
-                geometry1 = new RectangleGeometry(new Rect(0, 0, 75, 74));
-            }
-            else
-            {
-                TranslationX = 0;
-                TranslationY = -17;
-                geometry1 = new RectangleGeometry(new Rect(0, 0, 49, 49));
-            }
-
             GeometryGroup geometry = new GeometryGroup();
-            geometry.Children.Add(geometry1);
-            if (DrawingVisualText.Bounds.Width > 0)
-            {
-                Rect selectedRect = DrawingVisualText.Bounds;
-                geometry.Children.Add(new RectangleGeometry(selectedRect));
-            }
             DrawingIsSelected = new GeometryDrawing();
-            DrawingIsSelected.Geometry = geometry;
+            if (ControlISSelected)
+            {
+                //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
+                if (IsPower)
+                {
+                    TranslationX = -7;
+                    TranslationY = -37;
+                    geometry1 = new RectangleGeometry(new Rect(0, 0, 75, 75));
+                }
+                else
+                {
+                    TranslationX = 0;
+                    TranslationY = -17;
+                    geometry1 = new RectangleGeometry(new Rect(0, 0, 49, 49));
+                }
+
+
+                geometry.Children.Add(geometry1);
+                if (DrawingVisualText.Bounds.Width > 0)
+                {
+                    Rect selectedRect = DrawingVisualText.Bounds;
+                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                }
+
+                DrawingIsSelected.Geometry = geometry;
+            }
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
         }
         
-        protected override void InitMouseOver()
+        protected override void DrawMouseOver()
         {
             Geometry geometry1 = new RectangleGeometry();
             geometry1.Transform = new RotateTransform(Angle, 15, 15);
+            GeometryGroup geometry = new GeometryGroup();
             //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
             {
@@ -314,17 +320,17 @@ namespace AvAp2.Models
                 geometry1 = new RectangleGeometry(new Rect(0, 0, 49, 49));
             }
 
-            GeometryGroup geometry = new GeometryGroup();
+
             geometry.Children.Add(geometry1);
             if (DrawingVisualText.Bounds.Width > 0)
             {
                 Rect selectedRect = DrawingVisualText.Bounds;
                 geometry.Children.Add(new RectangleGeometry(selectedRect));
             }
-            DrawingMouseOver = new GeometryDrawing();
+
             DrawingMouseOver.Geometry = geometry;
-            DrawingMouseOver.Brush = BrushIsSelected;
-            DrawingMouseOver.Pen = PenIsSelected;
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
         }
     }
 

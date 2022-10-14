@@ -276,6 +276,7 @@ namespace AvAp2.Views
                 CAutomaticSwitch1.TagDataMainState.TagValueString = "1";
             }
             CAutomaticSwitch1.ShowNormalState = !CAutomaticSwitch1.ShowNormalState;
+            CAutomaticSwitch1.ControlISSelected = !CAutomaticSwitch1.ControlISSelected;
         }
     }
 }

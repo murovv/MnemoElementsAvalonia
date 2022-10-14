@@ -11,7 +11,6 @@ namespace AvAp2.Models
         static CTransformer3CoilsV2()
         {
             AffectsRender<CTransformer3CoilsV2>(CoilsConnectionType3Property, CoilLeftExitIsExist3Property, CoilRightExitIsExist3Property, CoilTopExitIsExist3Property, CoilBottomExitIsExist3Property);
-
         }
         public CTransformer3CoilsV2() : base()
         {
@@ -271,70 +270,77 @@ namespace AvAp2.Models
                 rotation.Dispose();
                 
         }
-        protected override void InitIsSelected()
+        protected override void DrawIsSelected()
         {
             Geometry geometry1 = new RectangleGeometry();
-            
-            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-            if (IsPower)
+            var transform = new RotateTransform(Angle, 15, 15).Value;
+            DrawingIsSelected = new GeometryDrawing();
+            GeometryGroup geometry = new GeometryGroup();
+            if (ControlISSelected)
             {
-                TranslationX = -10;
-                TranslationY = -25;
-                geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 75));
-            }
-            else
-            {
-                TranslationX = 0;
-                TranslationY = -12;
-                geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 49));
+                //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
+                if (IsPower)
+                {
+                    TranslationX = -7;
+                    TranslationY = -25;
+                    geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 75));
+                }
+                else
+                {
+                    TranslationX = 0;
+                    TranslationY = -12;
+                    geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 49));
+                }
+
+                geometry1.Transform = new MatrixTransform(transform);
+
+                geometry.Children.Add(geometry1);
+                if (DrawingVisualText.Bounds.Width > 0)
+                {
+                    Rect selectedRect = DrawingVisualText.Bounds;
+                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                }
+
+                DrawingIsSelected.Geometry = geometry;
             }
 
-            GeometryGroup geometry = new GeometryGroup();
-            
-            geometry.Children.Add(geometry1);
-            if (DrawingVisualText.Bounds.Width > 0)
-            {
-                Rect selectedRect = DrawingVisualText.Bounds;
-                geometry.Children.Add(new RectangleGeometry(selectedRect));
-            }
-            DrawingIsSelected = new GeometryDrawing();
-            DrawingIsSelected.Geometry = geometry;
-            
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
         }
         
-        protected override void InitMouseOver()
+        protected override void DrawMouseOver()
         {
             Geometry geometry1 = new RectangleGeometry();
             var transform = new RotateTransform(Angle, 15, 15).Value;
-            
-            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-            if (IsPower)
-            {
-                TranslationX = -7;
-                TranslationY = -25;
-                geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 75));
-            }
-            else
-            {
-                TranslationX = 0;
-                TranslationY = -12;
-                geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 49));
-            }
-
-            geometry1.Transform = new MatrixTransform(transform);
-            GeometryGroup geometry = new GeometryGroup();
-            geometry.Children.Add(geometry1);
-            if (DrawingVisualText.Bounds.Width > 0)
-            {
-                Rect selectedRect = DrawingVisualText.Bounds;
-                geometry.Children.Add(new RectangleGeometry(selectedRect));
-            }
             DrawingMouseOver = new GeometryDrawing();
-            DrawingMouseOver.Geometry = geometry;
-            DrawingMouseOver.Brush = BrushIsSelected;
-            DrawingMouseOver.Pen = PenIsSelected;
+            GeometryGroup geometry = new GeometryGroup();
+            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
+                if (IsPower)
+                {
+                    TranslationX = -7;
+                    TranslationY = -25;
+                    geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 75));
+                }
+                else
+                {
+                    TranslationX = 0;
+                    TranslationY = -12;
+                    geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 49));
+                }
+
+                geometry1.Transform = new MatrixTransform(transform);
+
+                geometry.Children.Add(geometry1);
+                if (DrawingVisualText.Bounds.Width > 0)
+                {
+                    Rect selectedRect = DrawingVisualText.Bounds;
+                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                }
+
+                DrawingMouseOver.Geometry = geometry;
+
+                DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
             
         }
         }
