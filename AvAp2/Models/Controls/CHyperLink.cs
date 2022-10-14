@@ -85,13 +85,13 @@ namespace AvAp2.Models
             get => GetValue(ImageSourceProperty);
             set => SetValue(ImageSourceProperty, value);
         }
-        public static StyledProperty<Bitmap> ImageSourceProperty = AvaloniaProperty.Register<CHyperLink, Bitmap>("ImageSource", new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri("Assets/HyperLink.png", UriKind.Relative))));
+        public static StyledProperty<Bitmap> ImageSourceProperty = AvaloniaProperty.Register<CHyperLink, Bitmap>("ImageSource", new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri($@"avares://{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}/Assets/HyperLink.png"))));
         public CHyperLink() : base()
         {
             this.TextName = "Внешняя ссылка";
             this.ControlISHitTestVisible = true;
-            TextNameWidth = 200;
-            MarginTextName = new Thickness(0);
+            /*TextNameWidth = 200;
+            MarginTextName = new Thickness(0);*/
         }
 
         public override string ElementTypeFriendlyName
@@ -113,7 +113,8 @@ namespace AvAp2.Models
         
         protected override void DrawIsSelected()
         {
-            if (DrawingVisualText.Bounds.Width > 0)
+            
+            if (DrawingVisualText.Bounds.Width > 0 && ControlISSelected)
             {
                 DrawingIsSelected.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
             }
@@ -123,7 +124,7 @@ namespace AvAp2.Models
         }
         protected override void DrawMouseOver()
         {
-            if (DrawingVisualText.Bounds.Width > 0)
+            if (DrawingVisualText.Bounds.Height > 0)
             {
                 DrawingMouseOver.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
             }

@@ -54,11 +54,9 @@ namespace AvAp2.Views
             CLine.CoordinateX2 = 20;
             CLine.CoordinateY2 = 20;
             CLine.TextNameISVisible = true;
-            CLine.TextName = "линия 1";
             CRectangle.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CRectangle.CoordinateX2 = 10;
             CRectangle.CoordinateY2 = 30;
-            CLine.TextNameISVisible = true;
             CLine.TextName = "прямоугольничек";
             CArrow.TagDataMainState = new TagDataItem(null);
             CArrowReserve.TagDataMainState = new TagDataItem(null);
@@ -80,6 +78,9 @@ namespace AvAp2.Views
             CTransformer3CoilsV1Left.IsPower = true;
             CTransformer3CoilsV2.IsPower = true;
             CTransformer4Coils.IsPower = true;
+            CHyperLink.TextName = "asd";
+            CHyperLink.TextNameISVisible = true;
+            
             #endregion
         }
 

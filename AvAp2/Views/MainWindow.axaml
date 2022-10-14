@@ -94,6 +94,12 @@
 				<Button x:Name="CTransformerNpeButton"></Button>
 			</UniformGrid>
 		</TabItem>
+		<TabItem Header="Controls 3">
+			<UniformGrid Rows="2" Columns="1">
+				<models:CHyperLink x:Name="CHyperLink"></models:CHyperLink>
+				<Button x:Name="CHyperLinkButton"></Button>
+			</UniformGrid>
+		</TabItem>
 	</TabControl>
 	
 </Window>

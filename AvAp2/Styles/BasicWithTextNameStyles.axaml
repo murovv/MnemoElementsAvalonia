@@ -11,7 +11,7 @@
     <Style Selector=":is(models|BasicWithTextName)">
         <Setter Property="Content">
             <Template>
-                <Canvas ClipToBounds="False">
+                <Canvas>
                     <Image ClipToBounds="False">
                         <Image.Source>
                             <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>

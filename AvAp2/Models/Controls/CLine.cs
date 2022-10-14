@@ -178,7 +178,6 @@ namespace AvAp2.Models
 
             ResizerWidth = 3;
             ResizerHeight = 3;
-            
 
         }
         public double ResizerWidth { get; private set; }

@@ -105,16 +105,16 @@ namespace AvAp2.Models
         }
         public static StyledProperty<Thickness> MarginTextNameProperty =
             AvaloniaProperty.Register<BasicWithTextName, Thickness>(nameof(MarginTextName), new Thickness(0, 0, 0, 0));
+        //BUG нормально MouseOver отрисовывается только после второго наведения
         public BasicWithTextName() : base()
         {
             AffectsRender<BasicWithTextName>(MarginTextNameProperty);
             AffectsRender<BasicWithTextName>(TextNameISVisibleProperty);
             AffectsRender<BasicWithTextName>(TextNameProperty);
             DrawingVisualText = new TextBlock();
-
-            DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
             DrawingVisualText.ClipToBounds = false;
             ClipToBounds = false;
+            DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
             //this.Content = DrawingVisualText;
             /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
             MarginTextNameProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnTextChanged);*/
@@ -131,23 +131,13 @@ namespace AvAp2.Models
         }
         public TextBlock DrawingVisualText { get; set; }
 
-        public override void Render(DrawingContext drawingContext)
-        {
-            if (TextNameISVisible)
-            {
-                
-            }
-            else
-                DrawingVisualText.Opacity = 0;
-            /*DrawingVisualText.Render(drawingContext);*/
-        }
-
-        private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
+        protected virtual void DrawText()
         {
             if (TextNameISVisible)
             {
                 DrawingVisualText.Text = TextName;
                 DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
+                DrawingVisualText.TextWrapping = TextWrapping.Wrap;
                 DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
                 DrawingVisualText.FontStyle = FontStyle.Normal;
                 DrawingVisualText.FontWeight = FontWeight.SemiBold;
@@ -162,6 +152,14 @@ namespace AvAp2.Models
             }
             else
                 DrawingVisualText.Opacity = 0;
+            
+        }
+
+        private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
+        {
+            DrawText();
+            DrawIsSelected();
+            DrawMouseOver();
         }
 
         private void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)

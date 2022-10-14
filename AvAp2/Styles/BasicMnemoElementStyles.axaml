@@ -13,7 +13,7 @@
                 <Canvas ClipToBounds="False">
                     <Image ClipToBounds="False">
                         <Image.Source>
-                            <DrawingImage   Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
+                            <DrawingImage  Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
                         </Image.Source>
                         
                     </Image>
