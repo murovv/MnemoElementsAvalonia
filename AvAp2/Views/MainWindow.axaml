@@ -11,11 +11,12 @@
 	<Window.Styles>
 		<StyleInclude Source="/Styles/BasicMnemoElementStyles.axaml"></StyleInclude>
 		<StyleInclude Source="/Styles/BasicWithTextNameStyles.axaml"></StyleInclude>
+		<StyleInclude Source="/Styles/BasicWithStateStyles.axaml"></StyleInclude>
 		<StyleInclude Source="/Styles/CCellCart2Styles.axaml" />
 		<StyleInclude Source="/Styles/CLineStyles.axaml" />
 		<StyleInclude Source="/Styles/CRectangleStyles.axaml"/>
 		<StyleInclude Source="/Styles/CTransformerCoilStyles.axaml"/>
-		<StyleInclude Source="/Styles/CCurrentDataStyles.axaml"></StyleInclude>
+		
 		
 	</Window.Styles>
     <Design.DataContext>

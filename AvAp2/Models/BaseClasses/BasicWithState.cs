@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using Avalonia;
+using Avalonia.Interactivity;
+using Avalonia.Media;
 
 namespace AvAp2.Models
 {
@@ -10,6 +13,21 @@ namespace AvAp2.Models
             AffectsRender<BasicWithState>(TagDataMainStateProperty);
             AffectsRender<BasicWithState>(TdiStateStringProperty);
             AffectsRender<BasicWithState>(TagIDMainStateProperty);
+            DrawingQuality = new GeometryDrawing();
+            Loaded+= OnLoaded;
+            DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
+        }
+
+        private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
+        {
+            DrawMouseOver();
+            DrawIsSelected();
+        }
+
+        private void OnLoaded(object? sender, RoutedEventArgs e)
+        {
+            DrawText();
+            DrawQuality();
         }
 
         public string TdiStateString
@@ -55,9 +73,44 @@ namespace AvAp2.Models
             {
                 if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
                     TdiStateString = ((TagDataItem)sender).TagValueString;
-                //if (e.PropertyName.Equals(nameof(TagDataItem.Quality)))
-                //    Render();
+
+                if (e.PropertyName.Equals(nameof(TagDataItem.Quality)))
+                {
+                    DrawQuality();
+                }
             }
+        }
+        
+        public GeometryDrawing DrawingQuality { get; protected set; }
+
+        protected virtual void DrawQuality()
+        {
+            if (TagDataMainState != null)
+            {
+                if (TagDataMainState.Quality == TagValueQuality.Handled)
+                {
+                    StreamGeometry geometry = HandGeometry();
+                    geometry.Transform = new TranslateTransform(-10, -10);
+                    DrawingQuality.Geometry = geometry;
+                    DrawingQuality.Brush = BrushContentColor;
+                    DrawingQuality.Pen = PenHand;
+                }
+                else if (TagDataMainState.Quality == TagValueQuality.Invalid)
+                {
+
+                    FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                        12, BrushContentColor);
+                    DrawingQuality.Geometry = ft.BuildGeometry(new Point(-10, -10));
+                    DrawingQuality.Brush = BrushContentColor;
+
+                }
+                else
+                {
+                    DrawingQuality.Geometry = new StreamGeometry();
+                }
+            }
+            InvalidateStyles();
         }
         
     }

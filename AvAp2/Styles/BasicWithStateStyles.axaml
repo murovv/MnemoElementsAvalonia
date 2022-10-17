@@ -1,14 +1,15 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:models="clr-namespace:AvAp2.Models"
-        x:DataType="models:BasicWithTextName">
+        x:DataType="models:BasicWithState">
     <Design.PreviewWith>
         <Border Padding="20">
             <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
 
-    <Style Selector=":is(models|BasicWithTextName)">
+    <!-- Add Styles Here -->
+    <Style Selector=":is(models|BasicWithState)">
         <Setter Property="Content">
             <Template>
                 <Canvas>
@@ -17,12 +18,17 @@
                             <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
                         </Image.Source>
                     </Image>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
                     <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
             </Template>
         </Setter>
     </Style>
-    <Style Selector=":is(models|BasicWithTextName):pointerover">
+    <Style Selector=":is(models|BasicWithState):pointerover">
         <Setter Property="Content">
             <Template>
                 <Canvas ClipToBounds="False">
@@ -34,6 +40,11 @@
                     <Image Canvas.Top="{CompiledBinding DrawingVisualText.Bounds.Top}" Canvas.Left="{CompiledBinding DrawingVisualText.Bounds.Left}" ClipToBounds="False">
                         <Image.Source>
                             <DrawingImage Drawing="{CompiledBinding DrawingMouseOver}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
                         </Image.Source>
                     </Image>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>

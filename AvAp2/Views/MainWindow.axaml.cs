@@ -38,6 +38,7 @@ namespace AvAp2.Views
             CTransformer3CoilsV2Button.Click+= CTransformer3CoilsV2ButtonOnClick;
             CTransformer4CoilsButton.Click+= CTransformer4CoilsButtonOnClick;
             CTransformerNpeButton.Click+=CTransformerNpeButtonOnClick;
+            CHyperLinkButton.Click+= CHyperLinkButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -82,6 +83,11 @@ namespace AvAp2.Views
             CHyperLink.TextNameISVisible = true;
             
             #endregion
+        }
+
+        private void CHyperLinkButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CHyperLink.ControlISSelected = !CHyperLink.ControlISSelected;
         }
 
         private void CTransformerNpeButtonOnClick(object? sender, RoutedEventArgs e)
@@ -135,7 +141,7 @@ namespace AvAp2.Views
 
         private void CCurrentDataAnalogButtonOnClick(object? sender, RoutedEventArgs e)
         {
-            CCurrentDataAnalog.Quality = IProjectModel.TagValueQuality.Handled;
+            CCurrentDataAnalog.TagDataMainState.Quality = TagValueQuality.Handled;
         }
 
         private void CRectangleButtonOnClick(object? sender, RoutedEventArgs e)

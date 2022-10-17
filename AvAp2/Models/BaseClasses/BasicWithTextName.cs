@@ -175,9 +175,18 @@ namespace AvAp2.Models
         internal protected bool IsModifyPressed = false;
         internal protected bool IsTextPressed = false;
         internal protected Point ModifyStartPoint = new Point(0, 0);
+        internal protected bool IsResizerPressed = false;
+
+        
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
             ModifyStartPoint = e.GetPosition(this);
+#warning в авалонии 11 хит тест начал работать по  другому, так что пока так
+            if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
+            {
+                IsTextPressed = IsModifyPressed = true;
+                IsResizerPressed = false;
+            }
         }
 
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
@@ -188,7 +197,24 @@ namespace AvAp2.Models
                 e.Handled = true;
             }
         }
-        
 
+        protected override void OnPointerMoved(PointerEventArgs e)
+        {
+            if (IsModifyPressed && ControlISSelected)
+            {
+                Point currentPoint = e.GetPosition(this);
+                double dX = currentPoint.X - ModifyStartPoint.X;
+                double dY = currentPoint.Y - ModifyStartPoint.Y;
+                if (IsTextPressed)
+                {
+                    ModifyStartPoint = currentPoint;
+                    MarginTextName = new Thickness(MarginTextName.Left + dX, MarginTextName.Top + dY, 0, 0);
+                    RiseMnemoMarginChanged(nameof(MarginTextName));
+                }
+                DrawIsSelected();
+                DrawMouseOver();
+                InvalidateStyles();
+            }
+        }
     }
 }

@@ -27,34 +27,44 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> TextUomProperty = AvaloniaProperty.Register<CCurrentDataAnalog,string>(nameof(TextUom), "");
         //TODO разобраться как сделать без этого тупняка
-        public IProjectModel.TagValueQuality Quality
+        public TagValueQuality Quality
         {
-            get => (IProjectModel.TagValueQuality)GetValue(QualityProperty);
+            get => (TagValueQuality)GetValue(QualityProperty);
             set => SetValue(QualityProperty, value);
         }
-        public static AttachedProperty<IProjectModel.TagValueQuality> QualityProperty =
-            AvaloniaProperty.RegisterAttached<TagDataItem, CCurrentDataAnalog, IProjectModel.TagValueQuality>("Quality");
-
-        public StreamGeometry HandGeometry { get; set; }
-        public GeometryDrawing DrawQualityHandled { get; set; }
-        public GeometryDrawing DrawQualityInvalid { get; set; }
-
-        public void InitDrawQuality()
+        public static AttachedProperty<TagValueQuality> QualityProperty =
+            AvaloniaProperty.RegisterAttached<TagDataItem, CCurrentDataAnalog, TagValueQuality>("Quality");
+        
+        protected override void DrawQuality()
         {
-            DrawQualityHandled = new GeometryDrawing();
-            DrawQualityInvalid = new GeometryDrawing();
-            FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
-                12, Brushes.Yellow);
-            
-            DrawQualityHandled.Brush = BrushHand;
-            DrawQualityHandled.Pen = PenHand;
-            DrawQualityHandled.Geometry = HandGeometry.Clone();
-            DrawQualityHandled.Geometry.Transform = new TranslateTransform(-15, 0);
+            if (TagDataMainState != null)
+            {
+                if (TagDataMainState.Quality == TagValueQuality.Handled)
+                {
+                    StreamGeometry geometry = HandGeometry();
+                    geometry.Transform = new TranslateTransform(-15, 0);
+                    DrawingQuality.Geometry = geometry;
+                    DrawingQuality.Brush = BrushContentColor;
+                    DrawingQuality.Pen = PenHand;
+                }
+                else if (TagDataMainState.Quality == TagValueQuality.Invalid)
+                {
 
-            DrawQualityInvalid.Geometry = ft.BuildGeometry(new Point(-5, 0));
-            DrawQualityInvalid.Brush = Brushes.Yellow;
+                    FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                        12, BrushContentColor);
+                    DrawingQuality.Geometry = ft.BuildGeometry(new Point(-5, 0));
+                    DrawingQuality.Brush = BrushContentColor;
+
+                }
+                else
+                {
+                    DrawingQuality.Geometry = new StreamGeometry();
+                }
+                InvalidateStyles();
+            }
         }
+        
 
         static CCurrentDataAnalog()
         {
@@ -63,8 +73,6 @@ namespace AvAp2.Models
         public CCurrentDataAnalog() : base()
         {
             DataContext = this;
-            HandGeometry = HandGeometry();
-            InitDrawQuality();
             this.TextNameFontSize = 18;
             this.TextNameColor = Color.FromRgb(255, 190, 0);
             this.ContentColor = Colors.LimeGreen;
@@ -115,6 +123,7 @@ namespace AvAp2.Models
                     drawingContext.DrawText(ftUoM, new Point(ftTextName.Width + ftValue.Width + 14, 0));
                 }
             }
+            
         }
         //TODO 
         /*internal protected override void DrawIsSelected()
