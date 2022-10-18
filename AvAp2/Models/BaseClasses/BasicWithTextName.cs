@@ -105,6 +105,17 @@ namespace AvAp2.Models
         }
         public static StyledProperty<Thickness> MarginTextNameProperty =
             AvaloniaProperty.Register<BasicWithTextName, Thickness>(nameof(MarginTextName), new Thickness(0, 0, 0, 0));
+        public double AngleTextName
+        {
+            get => (double)GetValue(AngleTextNameProperty);
+            set
+            {
+                SetValue(AngleTextNameProperty, value);
+                //RiseMnemoNeedSave();
+            }
+        }
+        public static StyledProperty<double> AngleTextNameProperty = AvaloniaProperty.Register<BasicWithTextName, double>(nameof(AngleTextName),0.0);
+
         //BUG нормально MouseOver отрисовывается только после второго наведения
         public BasicWithTextName() : base()
         {

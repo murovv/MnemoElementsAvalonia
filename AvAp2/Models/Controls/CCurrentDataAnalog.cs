@@ -2,6 +2,7 @@
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Metadata;
@@ -49,13 +50,11 @@ namespace AvAp2.Models
                 }
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
-
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushContentColor);
                     DrawingQuality.Geometry = ft.BuildGeometry(new Point(-5, 0));
                     DrawingQuality.Brush = BrushContentColor;
-
                 }
                 else
                 {
@@ -72,7 +71,6 @@ namespace AvAp2.Models
         }
         public CCurrentDataAnalog() : base()
         {
-            DataContext = this;
             this.TextNameFontSize = 18;
             this.TextNameColor = Color.FromRgb(255, 190, 0);
             this.ContentColor = Colors.LimeGreen;
@@ -124,6 +122,34 @@ namespace AvAp2.Models
                 }
             }
             
+        }
+        protected override void DrawIsSelected()
+        {
+            if (this.Bounds.Width > 0 && ControlISSelected)
+            {
+                DrawingIsSelected.Geometry = new RectangleGeometry(this.Bounds);
+                DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
+            }
+
+            DrawingIsSelected.Brush = BrushIsSelected;
+            DrawingIsSelected.Pen = PenIsSelected;
+        }
+        
+        protected override void DrawMouseOver()
+        {
+            
+            if (this.Bounds.Width > 0)
+            {
+                DrawingMouseOver.Geometry = new RectangleGeometry(this.Bounds);
+                DrawingMouseOver.Geometry.Transform = new RotateTransform(Angle, 15, 15);
+            }
+
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
+        }
+        protected override void DrawText()
+        {
+            DrawingVisualText.Opacity = 0;
         }
         //TODO 
         /*internal protected override void DrawIsSelected()

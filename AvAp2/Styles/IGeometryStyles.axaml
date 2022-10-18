@@ -1,0 +1,65 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:AvAp2.Models"
+        xmlns:interfaces="clr-namespace:AvAp2.Interfaces">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector=":is(models|CRectangle)">
+        <Setter Property="Content">
+            <Template>
+                <Canvas ClipToBounds="False">
+                    <Image ClipToBounds="False">
+                        <Image.Source>
+                            <DrawingImage  Drawing="{Binding DrawingIsSelected}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <Image Canvas.Top="{Binding CoordinateY2}" Canvas.Left="{Binding CoordinateX2}" ClipToBounds="False">
+                        <Image.Source>
+                            <DrawingImage  Drawing="{Binding DrawingResizer}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <Image ClipToBounds="False">
+                        <Image.Source>
+                            <DrawingImage  Drawing="{Binding DrawingQuality}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <ContentControl ClipToBounds="False" Content="{Binding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+    <Style Selector=":is(models|CRectangle):pointerover">
+        <Setter Property="Content">
+            <Template>
+                <Canvas ClipToBounds="False">
+                    <Image ClipToBounds="False">
+                        <Image.Source>
+                            <DrawingImage  Drawing="{Binding DrawingIsSelected}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    
+                    <Image ClipToBounds="False">
+                        <Image.Source>
+                            <DrawingImage  Drawing="{Binding DrawingMouseOver}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <Image Canvas.Top="{Binding CoordinateY2}" Canvas.Left="{Binding CoordinateX2}" ClipToBounds="False">
+                        <Image.Source>
+                            <DrawingImage  Drawing="{Binding DrawingResizer}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <Image ClipToBounds="False">
+                        <Image.Source>
+                            <DrawingImage  Drawing="{Binding DrawingQuality}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <ContentControl ClipToBounds="False" Content="{Binding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+</Styles>

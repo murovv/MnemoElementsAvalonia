@@ -129,8 +129,8 @@ namespace AvAp2.Models
         {
             return ObjectCopier.Clone(this);
         }
-        
-        private bool IsPointInResizer(Point point)
+
+        protected bool IsPointInResizer(Point point)
         {
             return Math.Abs(point.X - CoordinateX2) < ResizerWidth && Math.Abs(point.Y - CoordinateY2) < ResizerHeight;
         }
@@ -149,6 +149,33 @@ namespace AvAp2.Models
                         isActiveState = true;
             }
             drawingContext.DrawRectangle(Brushes.Transparent, isActiveState ? PenContentColor : PenContentColorAlternate, Border);
+        }
+
+        protected override void DrawIsSelected()
+        {
+            DrawingIsSelected = new GeometryDrawing();
+            DrawingResizer = new GeometryDrawing();
+            if (ControlISSelected)
+            {
+                DrawingIsSelected.Geometry = new RectangleGeometry(new Rect(0, 0, CoordinateX2, CoordinateY2));
+                var ellipse = new EllipseGeometry();
+                
+                ellipse.Center = new Point(CoordinateX2, CoordinateY2);
+                ellipse.RadiusX = ellipse.RadiusY = 3;
+                DrawingResizer.Geometry = ellipse;
+            }
+
+            DrawingIsSelected.Brush = BrushIsSelected;
+            DrawingIsSelected.Pen = PenIsSelected;
+            DrawingResizer.Brush = Brushes.WhiteSmoke;
+        }
+
+        protected override void DrawMouseOver()
+        {
+
+            DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, CoordinateX2, CoordinateY2)); 
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
         }
 
         /*internal protected override void DrawIsSelected()
@@ -222,6 +249,7 @@ namespace AvAp2.Models
                     }
                     #endregion перетаскивание
                 }
+                InvalidateStyles();
             }
         }
 

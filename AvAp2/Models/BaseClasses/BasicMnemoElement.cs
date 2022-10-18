@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 
@@ -48,12 +49,16 @@ namespace AvAp2.Models
         public static StyledProperty<bool> ControlISHitTestVisibleProperty =
             AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISHitTestVisible));
         public GeometryDrawing DrawingIsSelected { get; set; }
+        public GeometryDrawing DrawingResizer { get; set; }
         public GeometryDrawing DrawingMouseOver { get; set; }
         
         public BasicMnemoElement()
         {
             DrawingIsSelected = new GeometryDrawing();
             DrawingMouseOver = new GeometryDrawing();
+            DrawingResizer = new GeometryDrawing();
+            DrawingResizer.Brush = Brushes.WhiteSmoke;
+            DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
             AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
             BrushContentColor = Brushes.Black;
             BrushContentColor.ToImmutable();
@@ -195,6 +200,12 @@ namespace AvAp2.Models
             DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
+        }
+        
+        protected override void OnPointerEntered(PointerEventArgs e)
+        {
+            //BUG почему авалония сама присваивает стиль pointerover буквально через раз? по идее не нужно вообще инвалидировать стили
+            InvalidateStyles();
         }
         
     }

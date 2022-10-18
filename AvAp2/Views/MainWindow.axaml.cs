@@ -39,6 +39,8 @@ namespace AvAp2.Views
             CTransformer4CoilsButton.Click+= CTransformer4CoilsButtonOnClick;
             CTransformerNpeButton.Click+=CTransformerNpeButtonOnClick;
             CHyperLinkButton.Click+= CHyperLinkButtonOnClick;
+            CCurrentDataDiscretButton.Click+= CCurrentDataDiscretButtonOnClick;
+            CDiagnosticDeviceButton.Click+= CDiagnosticDeviceButtonOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -69,6 +71,10 @@ namespace AvAp2.Views
             CCurrentDataAnalog.TagDataMainState.TagValueString = "1";
             CCurrentDataAnalog.TextUom = "uom";
             CCurrentDataAnalog.TextName = "name";
+            CCurrentDataDiscret.TagDataMainState =
+                new TagDataItem(new TagDataItem(null).Quality = TagValueQuality.Blocking);
+            CCurrentDataDiscret.TagDataMainState.TagValueString = "1";
+            CCurrentDataDiscret.TextName = "discret";
             CLineCross.TagDataMainState = new TagDataItem(null);
             CCurrentTransformer.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CTransformerCoil.TagDataMainState = new TagDataItem(null);
@@ -79,10 +85,18 @@ namespace AvAp2.Views
             CTransformer3CoilsV1Left.IsPower = true;
             CTransformer3CoilsV2.IsPower = true;
             CTransformer4Coils.IsPower = true;
-            CHyperLink.TextName = "asd";
-            CHyperLink.TextNameISVisible = true;
-            
+            CDiagnosticDevice.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             #endregion
+        }
+
+        private void CDiagnosticDeviceButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CDiagnosticDevice.ControlISSelected = !CDiagnosticDevice.ControlISSelected;
+        }
+
+        private void CCurrentDataDiscretButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            CCurrentDataDiscret.TagDataMainState.Quality = TagValueQuality.Handled;
         }
 
         private void CHyperLinkButtonOnClick(object? sender, RoutedEventArgs e)

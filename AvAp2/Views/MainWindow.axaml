@@ -14,21 +14,22 @@
 		<StyleInclude Source="/Styles/BasicWithStateStyles.axaml"></StyleInclude>
 		<StyleInclude Source="/Styles/CCellCart2Styles.axaml" />
 		<StyleInclude Source="/Styles/CLineStyles.axaml" />
-		<StyleInclude Source="/Styles/CRectangleStyles.axaml"/>
+		<!--<StyleInclude Source="/Styles/CRectangleStyles.axaml"/>-->
 		<StyleInclude Source="/Styles/CTransformerCoilStyles.axaml"/>
-		
-		
+		<StyleInclude Source="/Styles/IGeometryStyles.axaml"></StyleInclude>
 	</Window.Styles>
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 	<TabControl>
 		<TabItem Header="CLine'n'CRectangle">
-			<UniformGrid Columns="2" Rows="2">
+			<UniformGrid Columns="2" Rows="3">
 				<models:CLine x:Name="CLine"></models:CLine>
 				<models:CRectangle x:Name="CRectangle"></models:CRectangle>
+				<models:CDiagnosticDevice x:Name="CDiagnosticDevice"></models:CDiagnosticDevice>
 				<Button x:Name="CLineButton">select/unselect</Button>
 				<Button x:Name="CRectangleButton"></Button>
+				<Button x:Name="CDiagnosticDeviceButton"></Button>
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Controls 1">
@@ -56,14 +57,14 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Controls 2">
-			<UniformGrid Rows="2" Columns="9">
+			<UniformGrid Rows="2" Columns="8">
 				<models:CArrow x:Name="CArrow"></models:CArrow>
 				<models:CArrowReserve x:Name="CArrowReserve"></models:CArrowReserve>
 				<models:CIsolatingSwitch x:Name="CIsolatingSwitch"></models:CIsolatingSwitch>
 				<models:CReactor x:Name="CReactor"></models:CReactor>
 				<models:CResistor x:Name="CResistor"></models:CResistor>
 				<models:CSurgeSuppressor x:Name="CSurgeSuppressor"></models:CSurgeSuppressor>
-				<models:CCurrentDataAnalog x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
+				
 				<models:CLineCross x:Name="CLineCross"></models:CLineCross>
 				<models:CCurrentTransformer x:Name="CCurrentTransformer"></models:CCurrentTransformer>
 				<Button x:Name="CArrowButton"></Button>
@@ -72,7 +73,7 @@
 				<Button x:Name="CReactorButton"></Button>
 				<Button x:Name="CResistorButton"></Button>
 				<Button x:Name="CSurgeSuppressorButton"></Button>
-				<Button x:Name="CCurrentDataAnalogButton"></Button>
+				
 				<Button x:Name="CLineCrossButton"></Button>
 				<Button x:Name="CCurrentTransformerButton"></Button>
 			</UniformGrid>
@@ -96,9 +97,17 @@
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Controls 3">
-			<UniformGrid Rows="2" Columns="1">
+			<UniformGrid Rows="2" Columns="5">
 				<models:CHyperLink x:Name="CHyperLink"></models:CHyperLink>
+				<models:CWebCamera x:Name="CWebCamera"></models:CWebCamera>
+				<models:CText x:Name="CText"></models:CText>
+				<models:CCurrentDataAnalog x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
+				<models:CCurrentDataDiscret x:Name="CCurrentDataDiscret"></models:CCurrentDataDiscret>
 				<Button x:Name="CHyperLinkButton"></Button>
+				<Button x:Name="CWebCameraButton"></Button>
+				<Button x:Name="CTextButton"></Button>
+				<Button x:Name="CCurrentDataAnalogButton"></Button>
+				<Button x:Name="CCurrentDataDiscretButton"></Button>
 			</UniformGrid>
 		</TabItem>
 	</TabControl>
