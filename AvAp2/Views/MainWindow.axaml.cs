@@ -86,6 +86,8 @@ namespace AvAp2.Views
             CTransformer3CoilsV2.IsPower = true;
             CTransformer4Coils.IsPower = true;
             CDiagnosticDevice.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
+            CAlarmIndicator.IsReceipt = true;
+
             #endregion
         }
 

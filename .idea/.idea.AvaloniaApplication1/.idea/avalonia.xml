@@ -9,12 +9,14 @@
         <entry key="AvAp2/Styles/BasicWithStateStyle.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/BasicWithStateStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/BasicWithTextNameStyles.axaml" value="AvAp2/AvAp2.csproj" />
+<!--
         <entry key="AvAp2/Styles/CAlarmIndicatorStyles.axaml" value="AvAp2/AvAp2.csproj" />
+-->
         <entry key="AvAp2/Styles/CCellCart2Styles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/CCurrentDataAnalogStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/CCurrentDataStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/CLineStyles.axaml" value="AvAp2/AvAp2.csproj" />
-        <!--<entry key="AvAp2/Styles/CRectangleStyles.axaml" value="AvAp2/AvAp2.csproj" />-->
+        <entry key="AvAp2/Styles/CRectangleStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/CTransformerCoilStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Styles/IGeometryStyles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/CCellCart2.axaml" value="AvAp2/AvAp2.csproj" />

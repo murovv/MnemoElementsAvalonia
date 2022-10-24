@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using AvAp2.Models;
 using AvAp2.ViewModels;
 using AvAp2.Views;
 
@@ -10,6 +11,7 @@ namespace AvAp2
     {
         public override void Initialize()
         {
+            BlinkAnimationController.GetInstance();
             AvaloniaXamlLoader.Load(this);
         }
 
