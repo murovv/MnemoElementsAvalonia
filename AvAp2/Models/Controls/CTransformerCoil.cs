@@ -591,6 +591,7 @@ namespace AvAp2.Models
             }
             else
                 DrawingIsSelected = new GeometryDrawing();
+            
         }
 
         protected override void DrawMouseOver()

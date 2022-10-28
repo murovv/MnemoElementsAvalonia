@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui"
+﻿    <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:models="clr-namespace:AvAp2.Models"
         x:DataType="models:BasicWithTextName">
@@ -11,12 +11,10 @@
     <Style Selector=":is(models|BasicWithTextName)">
         <Setter Property="Content">
             <Template>
-                <Canvas>
-                    <Image Canvas.Top="{CompiledBinding DrawingVisualText.Bounds.Top}" Canvas.Left="{CompiledBinding DrawingVisualText.Bounds.Left}" ClipToBounds="False">
-                        <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
-                        </Image.Source>
-                    </Image>
+                <Canvas ClipToBounds="False">
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}">
+                    </ContentControl>
+                    
                     <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
             </Template>
@@ -26,16 +24,8 @@
         <Setter Property="Content">
             <Template>
                 <Canvas ClipToBounds="False">
-                    <Image Canvas.Top="{CompiledBinding DrawingVisualText.Bounds.Top}" Canvas.Left="{CompiledBinding DrawingVisualText.Bounds.Left}" ClipToBounds="False">
-                        <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingIsSelected}"></DrawingImage>
-                        </Image.Source>
-                    </Image>
-                    <Image Canvas.Top="{CompiledBinding DrawingVisualText.Bounds.Top}" Canvas.Left="{CompiledBinding DrawingVisualText.Bounds.Left}" ClipToBounds="False">
-                        <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingMouseOver}"></DrawingImage>
-                        </Image.Source>
-                    </Image>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingMouseOverWrapper}"></ContentControl>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
             </Template>

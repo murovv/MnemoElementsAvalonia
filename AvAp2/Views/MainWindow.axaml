@@ -111,6 +111,13 @@
 				<Button x:Name="CAlarmButton"></Button>
 			</UniformGrid>
 		</TabItem>
+		<TabItem Header="Text text">
+			<Canvas>
+				<models:CText x:Name="TestText" Margin="30 30 30 30" TextName="какой то текст" ControlISSelected="True" Padding="30 30 30 30">
+				</models:CText>
+				<Button x:Name="RotateText"></Button>
+			</Canvas>
+		</TabItem>
 	</TabControl>
 	
 </Window>

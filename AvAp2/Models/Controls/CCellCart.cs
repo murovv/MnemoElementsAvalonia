@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -24,6 +25,7 @@ namespace AvAp2.Models
         {
             return ObjectCopier.Clone(this);
         }
+        
 
         public override void Render(DrawingContext drawingContext)
         {
@@ -50,7 +52,6 @@ namespace AvAp2.Models
                         break;
                 }
             }
-            
             var rotate = drawingContext.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
 
                 if (IsConnectorExistLeft)

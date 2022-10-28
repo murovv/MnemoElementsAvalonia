@@ -41,6 +41,7 @@ namespace AvAp2.Views
             CHyperLinkButton.Click+= CHyperLinkButtonOnClick;
             CCurrentDataDiscretButton.Click+= CCurrentDataDiscretButtonOnClick;
             CDiagnosticDeviceButton.Click+= CDiagnosticDeviceButtonOnClick;
+            RotateText.Click+= RotateTextOnClick;
             #endregion
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
@@ -91,10 +92,15 @@ namespace AvAp2.Views
             #endregion
         }
 
+        private void RotateTextOnClick(object? sender, RoutedEventArgs e)
+        {
+            TestText.AngleTextName += 5;
+        }
+
         private void CDiagnosticDeviceButtonOnClick(object? sender, RoutedEventArgs e)
         {
             CDiagnosticDevice.ControlISSelected = !CDiagnosticDevice.ControlISSelected;
-        }
+        }       
 
         private void CCurrentDataDiscretButtonOnClick(object? sender, RoutedEventArgs e)
         {

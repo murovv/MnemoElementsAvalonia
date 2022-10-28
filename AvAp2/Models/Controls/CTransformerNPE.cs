@@ -126,6 +126,7 @@ namespace AvAp2.Models
 
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
+            
         }
         
         protected override void DrawMouseOver()

@@ -1,13 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using AvAp2.Interfaces;
 
 namespace AvAp2.Models
 {
-    public abstract class BasicWithTextName:BasicMnemoElement
+    public abstract class BasicWithTextName:BasicMnemoElement, IBasicWithTextName
     {
         internal protected Pen PenBlack;
         internal protected Pen PenBlack1;
@@ -20,7 +22,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TextNameProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
@@ -46,26 +48,40 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TextNameISVisibleProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
         public static StyledProperty<bool> TextNameISVisibleProperty =
             AvaloniaProperty.Register<BasicWithTextName, bool>(nameof(TextNameISVisible), defaultValue: true);
 
-        private Color _textNameColor = Color.FromArgb(255, 0, 0, 0);
+
 
         [Category("Свойства элемента мнемосхемы"), Description("Цвет текста диспетчерского наименования в 16-ричном представлении 0x FF(прозрачность) FF(красный) FF(зелёный) FF(синий)"), PropertyGridFilterAttribute, DisplayName("Текст цвет (hex)"), Browsable(true)]
         public Color TextNameColor
         {
-            get => _textNameColor;
+            get => GetValue(TextNameColorProperty);
             set
             {
-                SetAndRaise(TextNameColorProperty,ref _textNameColor, value);
-                //RiseMnemoNeedSave();
+                SetValue(TextNameColorProperty,value);
+                RiseMnemoNeedSave();
             }
         }
-        public static DirectProperty<BasicWithTextName,Color> TextNameColorProperty = AvaloniaProperty.RegisterDirect<BasicWithTextName, Color>(nameof(TextNameColor),x=>x.TextNameColor);
+        public static StyledProperty<Color> TextNameColorProperty = AvaloniaProperty.Register<BasicWithTextName, Color>(nameof(TextNameColor),Color.FromArgb(255, 0, 0, 0));
+
+        public void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        {
+            DrawText();
+            InvalidateStyles();
+        }
+
+        public void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
+        {
+            DrawText();
+            DrawIsSelected();
+            DrawMouseOver();
+            InvalidateStyles();
+        }
         [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
         public virtual double TextNameWidth
         {
@@ -75,7 +91,7 @@ namespace AvAp2.Models
                 if (value > 0)
                 {
                     SetValue(TextNameWidthProperty, value);
-                    //RiseMnemoNeedSave();
+                    RiseMnemoNeedSave();
                 }
             }
         }
@@ -85,7 +101,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TextNameFontSizeProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> TextNameFontSizeProperty = AvaloniaProperty.Register<BasicWithTextName,double>(nameof(TextNameFontSize), 18);
@@ -100,7 +116,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(MarginTextNameProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<Thickness> MarginTextNameProperty =
@@ -126,6 +142,15 @@ namespace AvAp2.Models
             DrawingVisualText.ClipToBounds = false;
             ClipToBounds = false;
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
+            #region subscribtions
+            TextNameColorProperty.Changed.Subscribe(OnColorChanged);
+            TextNameProperty.Changed.Subscribe(OnTextChanged);
+            TextNameISVisibleProperty.Changed.Subscribe(OnTextChanged);
+            TextNameWidthProperty.Changed.Subscribe(OnTextChanged);
+            TextNameFontSizeProperty.Changed.Subscribe(OnTextChanged);
+            MarginTextNameProperty.Changed.Subscribe(OnTextChanged);
+            AngleTextNameProperty.Changed.Subscribe(OnTextChanged);
+            #endregion
             //this.Content = DrawingVisualText;
             /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
             MarginTextNameProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnTextChanged);*/
@@ -154,12 +179,12 @@ namespace AvAp2.Models
                 DrawingVisualText.FontWeight = FontWeight.SemiBold;
                 DrawingVisualText.FontSize = 14;
                 DrawingVisualText.TextAlignment = TextAlignment.Center;
-                // DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
+                // DrawingVisualText.RenderTransform = ;
                 DrawingVisualText.Margin = MarginTextName;
-                /*drawingContext.
-                drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));
-                drawingContext.PushTransform(new RotateTransform(AngleTextName));*/
+                /*Matrix transform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value;
+                transform.Prepend();*/
                 DrawingVisualText.Opacity = 1;
+                DrawingVisualText.RenderTransform = new RotateTransform(AngleTextName);
             }
             else
                 DrawingVisualText.Opacity = 0;
@@ -172,17 +197,7 @@ namespace AvAp2.Models
             DrawIsSelected();
             DrawMouseOver();
         }
-
-        private void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
-        {
-        }
-        private void OnColorChanged(AvaloniaPropertyChangedEventArgs obj)
-        {
-            BasicWithTextName t = this as BasicWithTextName;
-            /*t.BrushTextNameColor = new SolidColorBrush((Color)obj.NewValue);
-            t.BrushTextNameColor.ToImmutable();*/
-            //t.DrawText();
-        }
+        
         internal protected bool IsModifyPressed = false;
         internal protected bool IsTextPressed = false;
         internal protected Point ModifyStartPoint = new Point(0, 0);

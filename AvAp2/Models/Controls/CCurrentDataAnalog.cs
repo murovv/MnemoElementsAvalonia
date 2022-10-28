@@ -128,7 +128,6 @@ namespace AvAp2.Models
             if (this.Bounds.Width > 0 && ControlISSelected)
             {
                 DrawingIsSelected.Geometry = new RectangleGeometry(this.Bounds);
-                DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
             }
 
             DrawingIsSelected.Brush = BrushIsSelected;

@@ -95,6 +95,16 @@ namespace AvAp2.Models
         public GeometryDrawing DrawingIsSelected { get; set; }
         public GeometryDrawing DrawingResizer { get; set; }
         public GeometryDrawing DrawingMouseOver { get; set; }
+        public Image DrawingMouseOverWrapper { get=> new Image
+        {
+            Source = new DrawingImage(DrawingMouseOver),
+            RenderTransform = new RotateTransform(Angle)
+        };}
+        public Image DrawingIsSelectedWrapper { get=> new Image
+        {
+            Source = new DrawingImage(DrawingIsSelected),
+            RenderTransform = new RotateTransform(Angle)
+        };}
         
         public BasicMnemoElement()
         {
@@ -246,7 +256,7 @@ namespace AvAp2.Models
             if (ControlISSelected)
             {
                 DrawingIsSelected.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
-                DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
+                //DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
             }
             else
             {
@@ -255,12 +265,13 @@ namespace AvAp2.Models
             
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
+            
         }
 
         protected virtual void DrawMouseOver()
         {
             DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
-            DrawingMouseOver.Geometry.Transform = new RotateTransform(Angle);
+            //DrawingMouseOver.Geometry.Transform = new RotateTransform(Angle);
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
         }
