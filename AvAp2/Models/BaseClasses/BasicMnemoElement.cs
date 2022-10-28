@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
@@ -45,9 +46,52 @@ namespace AvAp2.Models
                 //RiseMnemoNeedSave();
             }
         }
+        
+        /// <summary>
+        /// Используется для реализации клика мыши касания на тачскрине и перетаскивания мнемосхемы.
+        /// </summary>
+        public bool IsBeginPressed { get; set; }
 
         public static StyledProperty<bool> ControlISHitTestVisibleProperty =
             AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISHitTestVisible));
+         #region Привязки
+        [Category("Привязки данных"), Description("ID привязанных устройств. Для привязки достаточно перетащить устройство на элемент из дерева проекта слева"), PropertyGridFilterAttribute, DisplayName("ID привязанных устройств"), Browsable(true)]
+        public List<string> DeviceIDs
+        {
+            get => (List<string>)GetValue(DeviceIDsProperty);
+            set
+            {
+                SetValue(DeviceIDsProperty, value);
+                RiseMnemoNeedSave();
+            }
+        }
+        public static StyledProperty<List<string>> DeviceIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(DeviceIDs),  new List<string>());
+
+        [Category("Привязки данных"), Description("ID привязанных тегов для всплывающих подсказок. Например, токи фаз. Для привязки достаточно перетащить тег на элемент из дерева проекта слева"), PropertyGridFilterAttribute, DisplayName("ID тегов подсказок"), Browsable(true)]
+        public List<string> ToolTipsTagIDs
+        {
+            get => (List<string>)GetValue(ToolTipsTagIDsProperty);
+            set
+            {
+                SetValue(ToolTipsTagIDsProperty, value);
+                RiseMnemoNeedSave();
+            }
+        }
+        public static StyledProperty<List<string>> ToolTipsTagIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(ToolTipsTagIDs), new List<string>());
+
+        [Category("Привязки данных"), Description("ID привязанных произвольных команд. Например, 'пуск осциллографа' для терминала РЗА или 'РПН больше' для трансформатора. Для привязки достаточно перетащить команду на элемент из дерева проекта слева"), PropertyGridFilterAttribute, DisplayName("ID команд"), Browsable(true)]
+        public List<string> CommandIDs
+        {
+            get => (List<string>)GetValue(CommandIDsProperty);
+            set
+            {
+                SetValue(CommandIDsProperty, value);
+                RiseMnemoNeedSave();
+            }
+        }
+        public static StyledProperty<List<string>> CommandIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(CommandIDs),new List<string>());
+        #endregion Привязки
+        
         public GeometryDrawing DrawingIsSelected { get; set; }
         public GeometryDrawing DrawingResizer { get; set; }
         public GeometryDrawing DrawingMouseOver { get; set; }
@@ -78,6 +122,7 @@ namespace AvAp2.Models
             PenHand = new Pen(Brushes.DarkGreen, 1);
             PenHand.ToImmutable();
             ControlISSelectedProperty.Changed.Subscribe(OnControlIsSelectedChanged);
+            AngleProperty.Changed.Subscribe(OnAngleChanged);
             this.Loaded+= OnLoaded;
             DataContext = this;
         }
@@ -90,6 +135,13 @@ namespace AvAp2.Models
 
         private void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
+            DrawIsSelected();
+            InvalidateStyles();
+        }
+
+        private void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+        {
+            DrawMouseOver();
             DrawIsSelected();
             InvalidateStyles();
         }
@@ -137,6 +189,15 @@ namespace AvAp2.Models
         /// <summary>
         /// Запускает событие при изменении отступов содержимого элементов мышью. Можно использовать для группового изменения.
         /// </summary>
+        public static event EventHandler MnemoNeedSave;
+       
+        /// <summary>
+        /// Запускает событие при изменении свойств, требующих сохранения шага в истории изменений
+        /// </summary>
+        internal protected void RiseMnemoNeedSave()
+        {
+            MnemoNeedSave?.Invoke(this, new EventArgs());
+        }
         internal protected void RiseMnemoMarginChanged(string APropertyName)
         {
             MnemoMarginChanged?.Invoke(this, new EventArgsMnemoMarginChanged(APropertyName));
@@ -185,12 +246,13 @@ namespace AvAp2.Models
             if (ControlISSelected)
             {
                 DrawingIsSelected.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
+                DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
             }
             else
             {
                 DrawingIsSelected.Geometry = new GeometryGroup();
             }
-
+            
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
         }
@@ -198,6 +260,7 @@ namespace AvAp2.Models
         protected virtual void DrawMouseOver()
         {
             DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
+            DrawingMouseOver.Geometry.Transform = new RotateTransform(Angle);
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
         }
