@@ -8,6 +8,10 @@ namespace AvAp2.Models
     [Description("Выкатной элемент ячейки 1")]
     public class CCellCart : BasicCommutationDevice
     {
+        public CCellCart()
+        {
+            ControlISHitTestVisible = true;
+        }
         static CCellCart()
         {
         }
@@ -47,7 +51,7 @@ namespace AvAp2.Models
                 }
             }
             
-            //drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));
+            var rotate = drawingContext.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
 
                 if (IsConnectorExistLeft)
                     drawingContext.DrawLine(isActiveState ? PenContentColor : PenContentColorAlternate, new Point(-15, 15), new Point(4, 15));
@@ -87,6 +91,7 @@ namespace AvAp2.Models
                     if (state != NormalState)
                         drawingContext.DrawRectangle(Brushes.Transparent, PenNormalState, new Rect(-1, -1, 32, 32));
                 }
+                rotate.Dispose();
         }
     }
 }

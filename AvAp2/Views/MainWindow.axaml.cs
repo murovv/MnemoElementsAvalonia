@@ -283,6 +283,7 @@ namespace AvAp2.Views
                 CCellCart1.TagDataMainState.TagValueString = "1";
             }
             CCellCart1.ShowNormalState = !CCellCart1.ShowNormalState;
+            CCellCart1.Angle+=5;
         }
 
         private void AutomaticSwitchButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
