@@ -46,6 +46,16 @@ namespace AvAp2.Views
             #region TagData init
             CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
             CCellCart1.TagDataMainState = new TagDataItem(null);
+            CCellCart1.TagIDBlockState = "1";
+            CCellCart1.TagIDDeblock = "1";
+            CCellCart1.TagDataDeblock = new TagDataItem(null);
+            CCellCart1.TagDataDeblock.TagValueString = "1";
+            CCellCart1.TagDataDeblock.Quality = TagValueQuality.Good;
+            CCellCart1.TagDataBanners = new TagDataItem(null);
+            CCellCart1.TagDataBanners.TagValueString = "1";
+            CCellCart1.TagDataControlMode = new TagDataItem(null);
+            CCellCart1.TagDataControlMode.TagValueString = "1";
+            CCellCart1.ControlISSelected = true;
             CCellCart2.TagDataMainState = new TagDataItem(null);
             CFuse.TagDataMainState = new TagDataItem(null);
             CPEConnector.TagDataMainState = new TagDataItem(null);

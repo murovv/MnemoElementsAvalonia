@@ -1,0 +1,50 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:AvAp2.Models"
+        x:DataType="models:BasicCommutationDevice">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector=":is(models|BasicCommutationDevice)">
+        <Setter Property="Content">
+            <Template>
+                <Canvas>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingDeblockWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingControlModeWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBannerWrapper}"/>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+    <Style Selector=":is(models|BasicCommutationDevice):pointerover">
+        <Setter Property="Content">
+            <Template>
+                <Canvas ClipToBounds="False">
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingMouseOverWrapper}"></ContentControl>
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingDeblockWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingControlModeWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBannerWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+</Styles>

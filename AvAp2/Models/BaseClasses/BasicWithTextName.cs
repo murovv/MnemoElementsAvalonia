@@ -215,6 +215,8 @@ namespace AvAp2.Models
             }
         }
 
+
+
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
         {
             if (IsModifyPressed)

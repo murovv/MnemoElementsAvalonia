@@ -276,11 +276,11 @@ namespace AvAp2.Models
             DrawingMouseOver.Pen = PenMouseOver;
         }
         
-        protected override void OnPointerEntered(PointerEventArgs e)
+        /*protected override void OnPointerEntered(PointerEventArgs e)
         {
             //BUG почему авалония сама присваивает стиль pointerover буквально через раз? по идее не нужно вообще инвалидировать стили
             InvalidateStyles();
-        }
+        }*/
         
     }
 }
