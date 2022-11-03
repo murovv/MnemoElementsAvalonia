@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Media;
 using AvAp2.Interfaces;
@@ -14,24 +15,26 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ContentColorProperty, value);
-                ContentColorChanged();
+                RiseMnemoNeedSave();
+                
             }
         }
         public static StyledProperty<Color> ContentColorProperty = AvaloniaProperty.Register<BasicWithColor,Color>(nameof(ContentColor));
 
         [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента"),
          DisplayName("Цвет содержимого"), Browsable(true)]
-        public void ContentColorChanged()
+        private void ContentColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            BrushContentColor = new SolidColorBrush(ContentColor);
-            BrushContentColor.ToImmutable();
+            BasicWithColor sender = obj.Sender as BasicWithColor;
+            sender.BrushContentColor = new SolidColorBrush(obj.NewValue.Value);
+            sender.BrushContentColor.ToImmutable();
             
-            PenContentColor = new Pen(BrushContentColor, (this as IGeometry)?.LineThickness ?? 3);
-            if (this is IGeometry && ((IGeometry)this).IsDash)
-                PenContentColor.DashStyle = DashStyle.Dash;
-            PenContentColor.ToImmutable();
-            PenContentColorThin = new Pen(BrushContentColor, 1);
-            PenContentColorThin.ToImmutable();
+            sender.PenContentColor = new Pen(sender.BrushContentColor, (sender as IGeometry)?.LineThickness ?? 3);
+            if (sender is IGeometry && ((IGeometry)sender).IsDash)
+                sender.PenContentColor.DashStyle = DashStyle.Dash;
+            sender.PenContentColor.ToImmutable();
+            sender.PenContentColorThin = new Pen(sender.BrushContentColor, 1);
+            sender.PenContentColorThin.ToImmutable();
         }
         public virtual Color ContentColorAlternate// У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
         {
@@ -39,27 +42,34 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ContentColorAlternateProperty, value);
-                ContentColorAlternateChanged();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<Color> ContentColorAlternateProperty = AvaloniaProperty.Register<BasicWithColor,Color>(nameof(ContentColorAlternate));
-        public void ContentColorAlternateChanged()
+        private void ContentColorAlternateChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            BrushContentColorAlternate = new SolidColorBrush(ContentColorAlternate);
-            BrushContentColorAlternate.ToImmutable();
+            BasicWithColor sender = obj.Sender as BasicWithColor;
+            sender.BrushContentColorAlternate = new SolidColorBrush(obj.NewValue.Value);
+            sender.BrushContentColorAlternate.ToImmutable();
             
-            PenContentColorAlternate = new Pen(BrushContentColorAlternate, (this as IGeometry)?.LineThickness ?? 3);
-            if (this is IGeometry && ((IGeometry)this).IsDash)
-                PenContentColorAlternate.DashStyle = DashStyle.Dash;
-            PenContentColorAlternate.ToImmutable();
-            PenContentColorThinAlternate = new Pen(BrushContentColorAlternate, 1);
-            PenContentColorThinAlternate.ToImmutable();
+            sender.PenContentColorAlternate = new Pen(BrushContentColorAlternate, (sender as IGeometry)?.LineThickness ?? 3);
+            if (sender is IGeometry && ((IGeometry)sender).IsDash)
+                sender.PenContentColorAlternate.DashStyle = DashStyle.Dash;
+            sender.PenContentColorAlternate.ToImmutable();
+            sender.PenContentColorThinAlternate = new Pen(sender.BrushContentColorAlternate, 1);
+            sender.PenContentColorThinAlternate.ToImmutable();
+        }
+
+        static BasicWithColor()
+        {
+            AffectsRender<BasicWithColor>(ContentColorProperty, ContentColorAlternateProperty);
         }
         public BasicWithColor() : base()
         {
-            AffectsRender<BasicWithColor>(ContentColorProperty, ContentColorAlternateProperty);
             ContentColor = Colors.Green;
             ContentColorAlternate = Colors.Red;
+            ContentColorProperty.Changed.Subscribe(ContentColorChanged);
+            ContentColorAlternateProperty.Changed.Subscribe(ContentColorAlternateChanged);
             BrushContentColor = new SolidColorBrush(ContentColor);
             BrushContentColor.ToImmutable();
             PenContentColor= new Pen(BrushContentColor, 3);

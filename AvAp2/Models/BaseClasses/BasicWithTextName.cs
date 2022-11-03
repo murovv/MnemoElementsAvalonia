@@ -71,6 +71,7 @@ namespace AvAp2.Models
 
         public void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
+            BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
             DrawText();
             InvalidateStyles();
         }
@@ -127,17 +128,21 @@ namespace AvAp2.Models
             set
             {
                 SetValue(AngleTextNameProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> AngleTextNameProperty = AvaloniaProperty.Register<BasicWithTextName, double>(nameof(AngleTextName),0.0);
 
         //BUG нормально MouseOver отрисовывается только после второго наведения
-        public BasicWithTextName() : base()
+        static BasicWithTextName()
         {
             AffectsRender<BasicWithTextName>(MarginTextNameProperty);
             AffectsRender<BasicWithTextName>(TextNameISVisibleProperty);
             AffectsRender<BasicWithTextName>(TextNameProperty);
+        }
+        public BasicWithTextName() : base()
+        {
+            BrushTextNameColor = new SolidColorBrush(TextNameColor);
             DrawingVisualText = new TextBlock();
             DrawingVisualText.ClipToBounds = false;
             ClipToBounds = false;
@@ -161,10 +166,9 @@ namespace AvAp2.Models
             PenWhite1 = new Pen(Brushes.WhiteSmoke, 1);
             PenWhite1.ToImmutable();
         }
-        internal protected Brush BrushTextNameColor
-        {
-            get => new SolidColorBrush(TextNameColor);
-        }
+
+        internal protected Brush BrushTextNameColor;
+
         public TextBlock DrawingVisualText { get; set; }
 
         protected virtual void DrawText()

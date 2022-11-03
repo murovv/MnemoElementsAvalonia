@@ -9,12 +9,9 @@ namespace AvAp2.Models
     [Description("Выкатной элемент ячейки 1")]
     public class CCellCart : BasicCommutationDevice
     {
-        public CCellCart()
+        public CCellCart():base()
         {
             ControlISHitTestVisible = true;
-        }
-        static CCellCart()
-        {
         }
         public override string ElementTypeFriendlyName
         {

@@ -88,9 +88,9 @@ namespace AvAp2.Views
             CCurrentDataDiscret.TextName = "discret";
             CLineCross.TagDataMainState = new TagDataItem(null);
             CCurrentTransformer.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
-            CTransformerCoil.TagDataMainState = new TagDataItem(null);
+            
             CTransformerCoil.IsPower = true;
-            CTransformer2Coils.TagDataMainState = new TagDataItem(null);
+            
             CTransformer2Coils.IsPower = true;
             CTransformer3CoilsV1.IsPower = true;
             CTransformer3CoilsV1Left.IsPower = true;
@@ -154,8 +154,6 @@ namespace AvAp2.Views
 
         private void CTransformerCoilButtonOnClick(object? sender, RoutedEventArgs e)
         {
-            CTransformerCoil.TagDataMainState.TagValueString = "1";
-            CTransformerCoil.IsPower = !CTransformerCoil.IsPower;
             CTransformerCoil.VoltageEnum = (VoltageClasses)((int)(CTransformerCoil.VoltageEnum + 1)%(Enum.GetValues(typeof(VoltageClasses)).Length));
 
         }

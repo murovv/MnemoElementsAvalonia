@@ -3,16 +3,20 @@ using System.Globalization;
 using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using AvAp2.Interfaces;
 
 namespace AvAp2.Models
 {
-    public abstract class BasicWithState:BasicWithColor
+    public abstract class BasicWithState:BasicWithColor, IBasicWithState
     {
-        public BasicWithState() : base()
+        static BasicWithState()
         {
             AffectsRender<BasicWithState>(TagDataMainStateProperty);
             AffectsRender<BasicWithState>(TdiStateStringProperty);
             AffectsRender<BasicWithState>(TagIDMainStateProperty);
+        }
+        public BasicWithState() : base()
+        { 
             DrawingQuality = new GeometryDrawing();
             Loaded+= OnLoaded;
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
@@ -71,12 +75,10 @@ namespace AvAp2.Models
         {
             if (e.PropertyName != null)
             {
-                if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
-                    TdiStateString = ((TagDataItem)sender).TagValueString;
-
                 if (e.PropertyName.Equals(nameof(TagDataItem.Quality)))
                 {
                     DrawQuality();
+                    InvalidateStyles();
                 }
             }
         }

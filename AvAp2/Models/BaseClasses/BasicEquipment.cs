@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Media;
 using AvAp2.Converters;
@@ -17,8 +18,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ContentColorProperty, value);
-                ContentColorChanged();
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента альтернативный"), PropertyGridFilterAttribute, DisplayName("Цвет содержимого альтернативный"), Browsable(false)]
@@ -41,7 +41,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoLoginProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoLoginProperty = AvaloniaProperty.Register<BasicEquipment,string>(nameof(VideoLogin), "admin");
@@ -53,7 +53,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoPasswordProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoPasswordProperty = AvaloniaProperty.Register<BasicEquipment,string>(nameof(VideoPassword), "");
@@ -65,7 +65,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoChannelIDProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoChannelIDProperty = AvaloniaProperty.Register<BasicEquipment,string>(nameof(VideoChannelID), "");
@@ -77,7 +77,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoChannelPTZProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoChannelPTZProperty = AvaloniaProperty.Register<BasicEquipment,string>("VideoChannelPTZ", "");
@@ -93,16 +93,14 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VoltageEnumProperty, value);
-                ContentColor = VoltageEnumColors.VoltageColors[value];
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<VoltageClasses> VoltageEnumProperty = AvaloniaProperty.Register<BasicEquipment,VoltageClasses>(nameof(VoltageEnum),VoltageClasses.kV110);
-        /*private static void OnVoltageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void OnVoltageChanged(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
         {
             #region Смена цвета при изменении класса напряжения
-            BasicWithState b = d as BasicWithState;
-            b.ContentColor = VoltageEnumColors.VoltageColors[(VoltageClasses)e.NewValue];
+            ((obj.Sender as BasicWithColor)!).ContentColor = VoltageEnumColors.VoltageColors[obj.NewValue.Value];
             #region switch
             //switch ((VoltageClasses)e.NewValue)
             //{
@@ -154,10 +152,16 @@ namespace AvAp2.Models
             //} 
             #endregion
             #endregion
-        }*/
+        }
+
+        static BasicEquipment()
+        {
+            AffectsRender<BasicEquipment>(VoltageEnumProperty);
+        }
         public BasicEquipment() : base()
         {
-            AffectsRender<BasicEquipment>(VoltageEnumProperty, ContentColorProperty);
+            VoltageEnumProperty.Changed.Subscribe(OnVoltageChanged);
+            
             ContentColor = VoltageEnumColors.VoltageColors[VoltageClasses.kV110];// Для состояния под напряжением
             ContentColorAlternate = VoltageEnumColors.VoltageColors[VoltageClasses.kVEmpty];// Для состояния без напряжения
         }
