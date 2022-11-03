@@ -140,7 +140,6 @@ namespace AvAp2.Models
             if (this.Bounds.Width > 0)
             {
                 DrawingMouseOver.Geometry = new RectangleGeometry(this.Bounds);
-                DrawingMouseOver.Geometry.Transform = new RotateTransform(Angle, 15, 15);
             }
 
             DrawingMouseOver.Brush = BrushMouseOver;
@@ -150,78 +149,5 @@ namespace AvAp2.Models
         {
             DrawingVisualText.Opacity = 0;
         }
-        //TODO 
-        /*internal protected override void DrawIsSelected()
-        {
-            using (var drawingContext = DrawingVisualIsSelected.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));                
-                if (DrawingVisualBase.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualBase.ContentBounds;
-                    drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsSelected.Opacity = ControlISSelected ? .3 : 0;
-        }
-
-        internal protected override void DrawMouseOver()
-        {
-            using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));
-                
-                if (DrawingVisualBase.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualBase.ContentBounds;
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsMouseOver.Opacity = 0;
-        }
-
-        internal protected override void DrawText()
-        {
-            DrawingVisualText.Opacity = 0;
-        }
-
-        internal protected override void DrawBaseQuality()
-        {
-            if (TagDataMainState != null)
-            {
-                if (TagDataMainState.Quality == (TagValueQuality)IProjectModel.TagValueQuality.Handled)
-                {
-                    StreamGeometry geometry = HandGeometry();
-                    geometry.Transform = new TranslateTransform(-15, 0);
-                    geometry.Freeze();
-                    using (var drawingContext = DrawingVisualQuality.RenderOpen())
-                    {
-                        drawingContext.DrawGeometry(BrushHand, PenHand, geometry);
-                        drawingContext.Close();
-                    }
-                }
-                else if (TagDataMainState.Quality == IProjectModel.TagValueQuality.Invalid)
-                {
-                    using (var drawingContext = DrawingVisualQuality.RenderOpen())
-                    {
-                        FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                            new Typeface(new FontFamily("Segoe UI"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal),
-                            12, Brushes.Yellow, null, TextFormattingMode.Ideal);
-
-                        drawingContext.DrawText(ft, new Point(-5, 0));
-                        drawingContext.Close();
-                    }
-                }
-                else
-                {
-                    using (var drawingContext = DrawingVisualQuality.RenderOpen())
-                    {
-                        drawingContext.Close();
-                    }
-                }
-            }
-        }*/
     }
 }

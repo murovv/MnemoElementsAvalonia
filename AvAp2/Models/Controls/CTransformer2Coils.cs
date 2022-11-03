@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using AvAp2.Converters;
 using IProjectModel;
@@ -10,6 +11,7 @@ namespace AvAp2.Models
     [Description("Двухобмоточный трансформатор")]
     public class CTransformer2Coils : CTransformerCoil
     {
+        
         [Category("Свойства элемента мнемосхемы"), Description("Соединение вторых обмоток трансформатора"), PropertyGridFilterAttribute, DisplayName("Вторая обмотка соединение"), Browsable(true)]
         public CoilsConnectionTypes CoilsConnectionType2
         {
@@ -17,7 +19,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilsConnectionType2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<CoilsConnectionTypes> CoilsConnectionType2Property = AvaloniaProperty.Register<CTransformer2Coils, CoilsConnectionTypes>(nameof(CoilsConnectionType2), CoilsConnectionTypes.DeltaConnection);
@@ -33,7 +35,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(Voltage2ColorProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<Color> Voltage2ColorProperty = AvaloniaProperty.Register<CTransformer2Coils, Color>(nameof(Voltage2Color), Color.FromArgb(255, 0, 180, 200));
@@ -54,7 +56,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(Voltage2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<VoltageClasses> Voltage2Property = AvaloniaProperty.Register<CTransformer2Coils, VoltageClasses>(nameof(Voltage2), VoltageClasses.kV110);
@@ -76,7 +78,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilLeftExitIsExist2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilLeftExitIsExist2Property = AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilLeftExitIsExist2), false);
@@ -88,7 +90,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilTopExitIsExist2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilTopExitIsExist2Property = AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilTopExitIsExist2), false);
@@ -100,7 +102,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilRightExitIsExist2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilRightExitIsExist2Property = AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilRightExitIsExist2), false);
@@ -112,7 +114,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilBottomExitIsExist2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilBottomExitIsExist2Property = AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilBottomExitIsExist2), false);
@@ -350,8 +352,11 @@ namespace AvAp2.Models
             geometry1.Transform = new RotateTransform(Angle, 15, 15);
             //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
-                geometry1.Children.Add(new RectangleGeometry(new Rect(-5, -5, 40, 70)));
-                
+            {
+                TranslationX = -5;
+                TranslationY = -5;
+                geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 70)));
+            }
             else
                 geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 49)));
 

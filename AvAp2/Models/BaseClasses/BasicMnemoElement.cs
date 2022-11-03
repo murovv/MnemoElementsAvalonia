@@ -92,15 +92,15 @@ namespace AvAp2.Models
         public static StyledProperty<List<string>> CommandIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(CommandIDs),new List<string>());
         #endregion Привязки
         
-        public GeometryDrawing DrawingIsSelected { get; set; }
+        public virtual GeometryDrawing DrawingIsSelected { get; set; }
         public GeometryDrawing DrawingResizer { get; set; }
         public GeometryDrawing DrawingMouseOver { get; set; }
-        public Image DrawingMouseOverWrapper { get=> new Image
+        public virtual Image DrawingMouseOverWrapper { get=> new Image
         {
             Source = new DrawingImage(DrawingMouseOver),
             RenderTransform = new RotateTransform(Angle)
         };}
-        public Image DrawingIsSelectedWrapper { get=> new Image
+        public virtual Image DrawingIsSelectedWrapper { get=> new Image
         {
             Source = new DrawingImage(DrawingIsSelected),
             RenderTransform = new RotateTransform(Angle)

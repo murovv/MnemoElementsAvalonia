@@ -281,14 +281,14 @@ namespace AvAp2.Models
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
-                    TranslationX = -7;
-                    TranslationY = -25;
+                    TranslationY = -7;
+                    TranslationX = -25;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 75));
                 }
                 else
                 {
-                    TranslationX = 0;
-                    TranslationY = -12;
+                    TranslationY = 0;
+                    TranslationX = -12;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 49));
                 }
 
@@ -317,14 +317,14 @@ namespace AvAp2.Models
             //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
-                    TranslationX = -7;
-                    TranslationY = -25;
+                    TranslationY = -7;
+                    TranslationX = -25;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 75));
                 }
                 else
                 {
-                    TranslationX = 0;
-                    TranslationY = -12;
+                    TranslationY = 0;
+                    TranslationX = -12;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 49));
                 }
 

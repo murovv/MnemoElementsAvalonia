@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using AvAp2.Interfaces;
 
@@ -8,6 +9,7 @@ namespace AvAp2.Models
     [Description("Трансформатор заземления нейтрали")]
     public class CTransformerNPE : CAbstractTransformer, IConnector
     {
+        
         #region IConnector
         [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя левого "), PropertyGridFilterAttribute, DisplayName("Видимость соединителя левого"), Browsable(true)]
         public bool IsConnectorExistLeft
@@ -16,7 +18,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsConnectorExistLeftProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<CTransformerNPE, bool>(nameof(IsConnectorExistLeft), true);
@@ -28,7 +30,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsConnectorExistRightProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsConnectorExistRightProperty = AvaloniaProperty.Register<CTransformerNPE, bool>("IsConnectorExistRight", true);
@@ -140,8 +142,6 @@ namespace AvAp2.Models
             TranslationY = -5;
             geometry1 = new RectangleGeometry(new Rect(0, 0, 40, 40));
 
-
-            geometry1.Transform = new MatrixTransform(transform);
             GeometryGroup geometry = new GeometryGroup();
             geometry.Children.Add(geometry1);
             if (DrawingVisualText.Bounds.Width > 0)

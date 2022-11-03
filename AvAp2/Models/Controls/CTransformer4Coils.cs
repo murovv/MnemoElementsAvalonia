@@ -17,7 +17,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilsConnectionType4Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<CoilsConnectionTypes> CoilsConnectionType4Property = AvaloniaProperty.Register<CTransformer4Coils, CoilsConnectionTypes >(nameof(CoilsConnectionType4), CoilsConnectionTypes.DeltaConnection);
@@ -33,7 +33,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(Voltage4ColorProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<Color> Voltage4ColorProperty = AvaloniaProperty.Register<CTransformer4Coils, Color>(nameof(Voltage4Color), Color.FromArgb(255, 0, 180, 200));
@@ -55,7 +55,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(Voltage4Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<VoltageClasses> Voltage4Property = AvaloniaProperty.Register<CTransformer4Coils, VoltageClasses>(nameof(Voltage4), VoltageClasses.kV110);
@@ -77,7 +77,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilLeftExitIsExist4Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilLeftExitIsExist4Property = AvaloniaProperty.Register<CTransformer4Coils,bool >(nameof(CoilLeftExitIsExist4), false);
@@ -89,7 +89,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilTopExitIsExist4Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilTopExitIsExist4Property = AvaloniaProperty.Register<CTransformer4Coils, bool>(nameof(CoilTopExitIsExist4), false);
@@ -101,7 +101,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilRightExitIsExist4Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilRightExitIsExist4Property = AvaloniaProperty.Register<CTransformer4Coils, bool>(nameof(CoilRightExitIsExist4), false);
@@ -113,7 +113,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilBottomExitIsExist4Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilBottomExitIsExist4Property = AvaloniaProperty.Register<CTransformer4Coils, bool>(nameof(CoilBottomExitIsExist4),false);
@@ -474,14 +474,14 @@ namespace AvAp2.Models
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
-                    TranslationX = -7;
-                    TranslationY = -25;
+                    TranslationY = -7;
+                    TranslationX = -25;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 100));
                 }
                 else
                 {
-                    TranslationX = 0;
-                    TranslationY = -12;
+                    TranslationY = 0;
+                    TranslationX = -12;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 67));
                 }
 
@@ -511,14 +511,14 @@ namespace AvAp2.Models
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
-                    TranslationX = -7;
-                    TranslationY = -25;
+                    TranslationY = -7;
+                    TranslationX = -25;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 100));
                 }
                 else
                 {
-                    TranslationX = 0;
-                    TranslationY = -12;
+                    TranslationY = 0;
+                    TranslationX = -12;
                     geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 67));
                 }
 

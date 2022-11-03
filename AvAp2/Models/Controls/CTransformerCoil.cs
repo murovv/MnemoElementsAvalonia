@@ -599,7 +599,9 @@ namespace AvAp2.Models
             GeometryGroup geometry = new GeometryGroup();
             if (IsPower)
             {
-                geometry.Children.Add(new RectangleGeometry(new Rect(-5, -5, 40, 40)));
+                TranslationX = -5;
+                TranslationY = -5;
+                geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 40)));
             }
             else
             {
