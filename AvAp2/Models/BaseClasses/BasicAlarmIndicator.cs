@@ -184,23 +184,33 @@ namespace AvAp2.Models
         {
             DrawingVisualText = new TextBlock();
         }
+        protected override void DrawIsSelected()
+        {
+            if (ControlISSelected)
+            {
+                DrawingIsSelected.Geometry = new RectangleGeometry(this.Bounds);
+                //DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
+            }
+            else
+            {
+                DrawingIsSelected.Geometry = new GeometryGroup();
+            }
+            
+            DrawingIsSelected.Brush = BrushIsSelected;
+            DrawingIsSelected.Pen = PenIsSelected;
+        }
+
+        protected override void DrawMouseOver()
+        {
+            DrawingMouseOver.Geometry = new RectangleGeometry(this.Bounds);
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
+        }
     }
 }
 
-/*internal protected override void DrawIsSelected()
-        {
-            using (var drawingContext = DrawingVisualIsSelected.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));
-                if (DrawingVisualBase.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualBase.ContentBounds;
-                    drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsSelected.Opacity = ControlISSelected ? .3 : 0;
-        }
+ 
+/*
 
         internal protected override void DrawMouseOver()
         {
