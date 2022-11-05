@@ -19,7 +19,30 @@ namespace AvAp2.Views.TestViews
             EventGroupId.Click+= EventGroupIdOnClick;
             CArrowIsActive.Click+= CArrowIsActiveOnClick;
             CArrowAngle.Click+= CArrowAngleOnClick;
+            CArrowReserveAngle.Click+= CArrowReserveAngleOnClick;
+            CArrowReserveIsActive.Click+= CArrowReserveIsActiveOnClick;
         }
+
+        private void CArrowReserveIsActiveOnClick(object? sender, RoutedEventArgs e)
+        {
+            if (CArrowReserve1.TagDataMainState == null)
+            {
+                CArrowReserve1.TagDataMainState = new TagDataItem(null)
+                {
+                    TagValueString = "0"
+                };
+            }
+            else
+            {
+                CArrowReserve1.TagDataMainState = null;
+            }
+        }
+
+        private void CArrowReserveAngleOnClick(object? sender, RoutedEventArgs e)
+        {
+            CArrowReserve1.Angle += 5;;
+        }
+        
 
         private void CArrowAngleOnClick(object? sender, RoutedEventArgs e)
         {

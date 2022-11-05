@@ -41,6 +41,16 @@
                 </StackPanel>
             </StackPanel>
         </TabItem>
+        <TabItem Header="CArrowReserve">
+            <StackPanel>
+                <models:CArrowReserve x:Name="CArrowReserve" Height="50"></models:CArrowReserve>
+                <models:CArrowReserve x:Name="CArrowReserve1" Height="50"></models:CArrowReserve>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CArrowReserveIsActive">IsActive</Button>
+                    <Button x:Name="CArrowReserveAngle">Angle</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
     </TabControl>
     
 </Window>
