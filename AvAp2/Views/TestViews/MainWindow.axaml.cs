@@ -17,6 +17,28 @@ namespace AvAp2.Views.TestViews
             IsActive.Click+= IsActiveOnClick;
             Angle.Click+= AngleOnClick;
             EventGroupId.Click+= EventGroupIdOnClick;
+            CArrowIsActive.Click+= CArrowIsActiveOnClick;
+            CArrowAngle.Click+= CArrowAngleOnClick;
+        }
+
+        private void CArrowAngleOnClick(object? sender, RoutedEventArgs e)
+        {
+            CArrow1.Angle += 5;
+        }
+
+        private void CArrowIsActiveOnClick(object? sender, RoutedEventArgs e)
+        {
+            if (CArrow1.TagDataMainState == null)
+            {
+                CArrow1.TagDataMainState = new TagDataItem(null)
+                {
+                    TagValueString = "0"
+                };
+            }
+            else
+            {
+                CArrow1.TagDataMainState = null;
+            }
         }
 
         private void EventGroupIdOnClick(object? sender, RoutedEventArgs e)
