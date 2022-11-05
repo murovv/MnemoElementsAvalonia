@@ -19,6 +19,9 @@
         <entry key="AvAp2/Views/CCellCart2.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/CCellCart2Styles.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/MainWindow.axaml" value="AvAp2/AvAp2.csproj" />
+        <entry key="AvAp2/Views/MainWindowOld.axaml" value="AvAp2/AvAp2.csproj" />
+        <entry key="AvAp2/Views/TestViews/MainWindow.axaml" value="AvAp2/AvAp2.csproj" />
+        <entry key="AvAp2/Views/TestViews/MainWindowOld.axaml" value="AvAp2/AvAp2.csproj" />
       </map>
     </option>
   </component>

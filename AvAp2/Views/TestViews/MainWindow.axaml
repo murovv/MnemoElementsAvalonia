@@ -1,0 +1,36 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:AvAp2.Models"
+        xmlns:viewModels="clr-namespace:AvAp2.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvAp2.Views.TestViews.MainWindow"
+        Title="MainWindow">
+    <Window.Styles>
+        <StyleInclude Source="/Styles/BasicMnemoElementStyles.axaml"></StyleInclude>
+        <StyleInclude Source="/Styles/BasicWithTextNameStyles.axaml"></StyleInclude>
+        <StyleInclude Source="/Styles/BasicWithStateStyles.axaml"></StyleInclude>
+        <StyleInclude Source="/Styles/BasicCommutationDeviceStyles.axaml"></StyleInclude>
+        <StyleInclude Source="/Styles/CLineStyles.axaml" />
+        <StyleInclude Source="/Styles/IGeometryStyles.axaml"></StyleInclude>
+    </Window.Styles>
+    <Design.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Design.DataContext>
+    <TabControl>
+        <TabItem Header="CAlarmIndicator">
+            <StackPanel>
+                <models:CAlarmIndicator x:Name="CAlarmIndicator" Height="30"></models:CAlarmIndicator>
+                <models:CAlarmIndicator x:Name="CAlarmIndicator1" Height="30"></models:CAlarmIndicator>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="ChangeIsReceipt">IsReceipt</Button> 
+                    <Button x:Name="IsActive">IsActive</Button>
+                    <Button x:Name ="Angle">Angle</Button>
+                    <Button x:Name="EventGroupId">EventId</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+    
+</Window>

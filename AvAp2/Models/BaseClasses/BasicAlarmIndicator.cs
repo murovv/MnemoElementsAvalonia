@@ -35,7 +35,11 @@ namespace AvAp2.Models
 
         public void OnOpacityChanged(AvaloniaPropertyChangedEventArgs<double> obj)
         {
-            Opacity = obj.NewValue.Value;
+            if (IsReceipt.HasValue && IsReceipt.Value)
+            {
+                this.Opacity = obj.NewValue.Value;
+            }
+            
         }
 
         private void OnReceiptChanged(AvaloniaPropertyChangedEventArgs<bool?> e)
@@ -49,10 +53,10 @@ namespace AvAp2.Models
                 {
                     if ((bool?)e.OldValue.Value == true)
 
-                        Binding.Dispose();
+                        (e.Sender as BasicAlarmIndicator).Binding.Dispose();
                     else
                     {
-                        Binding = BlinkAnimationController.BlinkOpacityProperty.Changed.Subscribe(OnOpacityChanged);
+                        (e.Sender as BasicAlarmIndicator).Binding = BlinkAnimationController.BlinkOpacityProperty.Changed.Subscribe(OnOpacityChanged);
                     }
                 }
                 else
@@ -75,7 +79,7 @@ namespace AvAp2.Models
         public static StyledProperty<int> EventGroupIDProperty =
             AvaloniaProperty.Register<BasicAlarmIndicator, int>(nameof(EventGroupID), -1);
 
-        private static void OnAlarmChanged(AvaloniaPropertyChangedEventArgs<int> e)
+        private void OnAlarmChanged(AvaloniaPropertyChangedEventArgs e)
         {
             BasicAlarmIndicator? ai = e.Sender as BasicAlarmIndicator;
             if (ai != null)
@@ -117,12 +121,14 @@ namespace AvAp2.Models
 
         static BasicAlarmIndicator()
         {
-            AffectsRender<BasicAlarmIndicator>(IsActiveProperty);
+            AffectsRender<BasicAlarmIndicator>(IsActiveProperty, EventGroupIDProperty);
         }
 
         public BasicAlarmIndicator() : base()
         {
             IsReceiptProperty.Changed.Subscribe(OnReceiptChanged);
+            IsActiveProperty.Changed.Subscribe(OnAlarmChanged);
+            EventGroupIDProperty.Changed.Subscribe(OnAlarmChanged);
             var assests = AvaloniaLocator.Current.GetService<IAssetLoader>();
             var name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             ImageSourceTransparent =

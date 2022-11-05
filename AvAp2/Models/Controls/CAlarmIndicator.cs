@@ -27,7 +27,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TagIDMainStateProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> TagIDMainStateProperty = AvaloniaProperty.Register<CAlarmIndicator, string>(nameof(TagIDMainState), "-1");
@@ -75,10 +75,14 @@ namespace AvAp2.Models
         }
         public static StyledProperty<decimal> EventTagValueActiveProperty = AvaloniaProperty.Register<CAlarmIndicator, decimal>("EventTagValueActive", 1M);
 
+        static CAlarmIndicator()
+        {
+            AffectsRender<CAlarmIndicator>(OpacityProperty, TagDataMainStateProperty, EventGroupIDProperty);
+        }
 
         public CAlarmIndicator() : base()
         {
-            AffectsRender<CAlarmIndicator>(OpacityProperty);
+
             BlinkAnimationController.BlinkOpacityProperty.Changed.Subscribe();
             this.TextName = "Индикатор тревоги";
             this.ControlISHitTestVisible = true;

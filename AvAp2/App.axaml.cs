@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using AvAp2.Models;
 using AvAp2.ViewModels;
 using AvAp2.Views;
+using AvAp2.Views.TestViews;
 
 namespace AvAp2
 {
