@@ -79,6 +79,9 @@ namespace AvAp2.Models
                 {
                     DrawQuality();
                     InvalidateStyles();
+                }else if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
+                {
+                    InvalidateVisual();
                 }
             }
         }

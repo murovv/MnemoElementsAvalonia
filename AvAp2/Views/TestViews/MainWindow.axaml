@@ -51,6 +51,16 @@
                 </StackPanel>
             </StackPanel>
         </TabItem>
+        <TabItem Header="CAutomaticSwitch">
+            <StackPanel>
+                <models:CAutomaticSwitch x:Name="CAutomaticSwitch" Height="50"></models:CAutomaticSwitch>
+                <models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Height="50"></models:CAutomaticSwitch>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CAutomaticSwitchState">State</Button>
+                    <Button x:Name="CAutomaticSwitchShowNormal">NormalState</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
     </TabControl>
     
 </Window>

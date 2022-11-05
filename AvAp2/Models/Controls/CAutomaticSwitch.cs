@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using System;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace AvAp2.Models
 {
@@ -11,13 +12,16 @@ namespace AvAp2.Models
     {
         public CAutomaticSwitch()
         {
-           
+            this.TextNameWidth = (double)60;
+            this.MarginTextName = new Thickness(-30, -7, 0, 0);
+            this.TextNameISVisible = true;
+            this.ControlISHitTestVisible = true;  
         }
         public override void Render(DrawingContext drawingContext)
         {
-            using (drawingContext.PushPreTransform(new RotateTransform(Angle,15,15).Value))
-            {
-                var brush = Brushes.Green;
+            DrawingContext.PushedState rotate =
+                   drawingContext.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            var brush = Brushes.Green;
                 var typeface = new Typeface("Arial");
                 //var formattedText = new FormattedText("Hello", typeface, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
                 //drawingContext.DrawText(brush, point1, formattedText);
@@ -76,10 +80,12 @@ namespace AvAp2.Models
                 else if (state == CommutationDeviceStates.UnDefined)
                 {
                     drawingContext.DrawRectangle(Brushes.WhiteSmoke, null, new Rect(2.5, 2.5, 25, 25));
-                    // drawingContext.Pop();//Разворот вопросика в нормальное положение даже если КА повёрнут
-                    /*var formattedText = new FormattedText("?", typeface, 16, TextAlignment.Center, TextWrapping.NoWrap,
-                        Size.Infinity);
-                    drawingContext.DrawText(brush, new Point(10, 7), formattedText);*/
+                    rotate.Dispose(); //Разворот вопросика в нормальное положение даже если КА повёрнут
+                    var ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black,
+                            FontStretch.Normal),
+                        16, BrushContentColor);
+                    drawingContext.DrawText(ft, new Point(10, 7));
 
                 }
                 else if (state == CommutationDeviceStates.Broken)
@@ -94,7 +100,13 @@ namespace AvAp2.Models
                         drawingContext.DrawRectangle(Brushes.Transparent, PenNormalState, new Rect(-1, -1, 32, 32));
                 }
 
-            }
+                if (state != CommutationDeviceStates.UnDefined)
+                {
+                    rotate.Dispose();
+                }
+            
+
+
         }
 
         public override string ElementTypeFriendlyName

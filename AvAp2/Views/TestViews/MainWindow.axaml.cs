@@ -21,6 +21,34 @@ namespace AvAp2.Views.TestViews
             CArrowAngle.Click+= CArrowAngleOnClick;
             CArrowReserveAngle.Click+= CArrowReserveAngleOnClick;
             CArrowReserveIsActive.Click+= CArrowReserveIsActiveOnClick;
+            CAutomaticSwitch1.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "1"
+            };
+            CAutomaticSwitch1.ControlISSelected = true;
+            CAutomaticSwitchState.Click+= CAutomaticSwitchStateOnClick;
+            CAutomaticSwitchShowNormal.Click+= CAutomaticSwitchShowNormalOnClick;
+        }
+
+        private void CAutomaticSwitchShowNormalOnClick(object? sender, RoutedEventArgs e)
+        {
+            CAutomaticSwitch1.ShowNormalState = !CAutomaticSwitch1.ShowNormalState;
+        }
+
+        private void CAutomaticSwitchStateOnClick(object? sender, RoutedEventArgs e)
+        {
+            switch (CAutomaticSwitch1.TagDataMainState.TagValueString)
+            {
+                case "1":
+                    CAutomaticSwitch1.TagDataMainState.TagValueString = "2";
+                    break;
+                case "2":
+                    CAutomaticSwitch1.TagDataMainState.TagValueString = "3";
+                    break;
+                case "3":
+                    CAutomaticSwitch1.TagDataMainState.TagValueString = "1";
+                    break;
+            }
         }
 
         private void CArrowReserveIsActiveOnClick(object? sender, RoutedEventArgs e)
