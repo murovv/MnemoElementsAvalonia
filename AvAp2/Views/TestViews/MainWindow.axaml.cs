@@ -28,6 +28,41 @@ namespace AvAp2.Views.TestViews
             CAutomaticSwitch1.ControlISSelected = true;
             CAutomaticSwitchState.Click+= CAutomaticSwitchStateOnClick;
             CAutomaticSwitchShowNormal.Click+= CAutomaticSwitchShowNormalOnClick;
+            CCellCart21.ControlISSelected = true;
+            CCellCart2State.Click+= CCellCart2StateOnClick;
+ 
+            CCellCart2LeftConnector.Click+= CCellCart2LeftConnectorOnClick;
+            CCellCart2RightConnector.Click+= CCellCart2RightConnectorOnClick;
+            CCellCart21.TagDataMainState = new TagDataItem(null){
+                TagValueString = "1"
+            };
+        }
+
+        private void CCellCart2RightConnectorOnClick(object? sender, RoutedEventArgs e)
+        {
+            CCellCart21.IsConnectorExistRight = !CCellCart21.IsConnectorExistRight;
+        }
+
+        private void CCellCart2LeftConnectorOnClick(object? sender, RoutedEventArgs e)
+        {
+            CCellCart21.IsConnectorExistLeft = !CCellCart21.IsConnectorExistLeft;
+        }
+        
+
+        private void CCellCart2StateOnClick(object? sender, RoutedEventArgs e)
+        {
+            switch (CCellCart21.TagDataMainState.TagValueString)
+            {
+                case "1":
+                    CCellCart21.TagDataMainState.TagValueString = "2";
+                    break;
+                case "2":
+                    CCellCart21.TagDataMainState.TagValueString = "3";
+                    break;
+                case "3":
+                    CCellCart21.TagDataMainState.TagValueString = "1";
+                    break;
+            }
         }
 
         private void CAutomaticSwitchShowNormalOnClick(object? sender, RoutedEventArgs e)

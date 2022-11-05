@@ -118,6 +118,35 @@ namespace AvAp2.Models
                     }
                 }
         }
+        protected override void DrawIsSelected()
+        {
+            if (ControlISSelected)
+            {
+                DrawingIsSelected.Geometry = new CombinedGeometry{
+                    Geometry1 = new RectangleGeometry(new Rect(0, 0, 29, 29)),
+                    Geometry2 = new RectangleGeometry(new Rect(60, 0, 29, 29)),
+                    GeometryCombineMode = GeometryCombineMode.Union
+                };
+            }
+            else
+            {
+                DrawingIsSelected.Geometry = new GeometryGroup();
+            }
+            
+            DrawingIsSelected.Brush = BrushIsSelected;
+            DrawingIsSelected.Pen = PenIsSelected;
+        }
+
+        protected override void DrawMouseOver()
+        {
+            DrawingMouseOver.Geometry = new CombinedGeometry{
+                    Geometry1 = new RectangleGeometry(new Rect(0, 0, 29, 29)),
+                    Geometry2 = new RectangleGeometry(new Rect(60, 0, 29, 29)),
+                    GeometryCombineMode = GeometryCombineMode.Union
+            };
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
+        }
         
         //TODO
         /*internal protected override void DrawIsSelected()

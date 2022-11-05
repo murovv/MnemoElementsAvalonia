@@ -61,6 +61,18 @@
                 </StackPanel>
             </StackPanel>
         </TabItem>
+        <TabItem Header = "CCellCart">
+            <StackPanel>
+                <models:CCellCart2 x:Name="CCellCart2" Height="50"></models:CCellCart2>
+                <models:CCellCart2 x:Name="CCellCart21" Height="50"></models:CCellCart2>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CCellCart2LeftConnector">Left connector</Button>
+                    <Button x:Name="CCellCart2RightConnector">Right connector</Button>
+                    <Button x:Name="CCellCart2IsActive">IsActive</Button>
+                    <Button x:Name="CCellCart2State">State</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
     </TabControl>
     
 </Window>
