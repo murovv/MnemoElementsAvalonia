@@ -16,7 +16,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsConnectorExistLeftProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<CResistor,bool>(nameof(IsConnectorExistLeft), true);
@@ -28,7 +28,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsConnectorExistRightProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsConnectorExistRightProperty = AvaloniaProperty.Register<CResistor,bool>(nameof(IsConnectorExistRight),true);

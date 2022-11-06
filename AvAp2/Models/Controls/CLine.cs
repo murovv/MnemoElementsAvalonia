@@ -19,7 +19,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ContentColorProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента альтернативный"), PropertyGridFilterAttribute, DisplayName("Цвет содержимого альтернативный"), Browsable(true)]
@@ -29,7 +29,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ContentColorAlternateProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         #endregion  У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
@@ -42,7 +42,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoordinateX2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> CoordinateX2Property = AvaloniaProperty.Register<CLine, double>(nameof(CoordinateX2), 0.0);
@@ -54,7 +54,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoordinateY2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> CoordinateY2Property = AvaloniaProperty.Register<CLine, double>(nameof(CoordinateY2), 0.0);
@@ -71,7 +71,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(LineThicknessProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> LineThicknessProperty = AvaloniaProperty.Register<CLine, double>(nameof(LineThickness),3.0, notifying: OnLineThicknessChanged);
@@ -109,7 +109,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsDashProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsDashProperty = AvaloniaProperty.Register<CLine, bool>(nameof(IsDash), false, notifying:OnIsDashChanged);
@@ -143,7 +143,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(StringStateIsConnectedProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> StringStateIsConnectedProperty = AvaloniaProperty.Register<CLine, string>(nameof(StringStateIsConnected), "1" );
@@ -156,9 +156,12 @@ namespace AvAp2.Models
             get => false;
         }
 
+        static CLine()
+        {
+            AffectsRender<CLine>(CoordinateX2Property, CoordinateY2Property, IsDashProperty, LineThicknessProperty);
+        }
         public CLine() : base()
         {
-            AffectsRender<CLine>(CoordinateX2Property, CoordinateY2Property, IsDashProperty);
             DataContext = this;
             PenContentColor = new Pen(BrushContentColor, LineThickness);
             PenContentColorAlternate = new Pen(BrushContentColorAlternate, LineThickness);
@@ -281,89 +284,6 @@ namespace AvAp2.Models
         #endregion
 
         
-        //Реализовано в стилях
-        /*internal protected override void DrawIsSelected()
-        {
-            using (var drawingContext = DrawingVisualIsSelected.RenderOpen())
-            {
-                drawingContext.DrawLine( PenIsSelected, new Point(0, 0), new Point(CoordinateX2, CoordinateY2));
-                drawingContext.Close();
-            }
-            using (var drawingContext = DrawingVisualResizer.RenderOpen())
-            {
-                drawingContext.DrawEllipse(Brushes.WhiteSmoke, null, new Point(CoordinateX2, CoordinateY2), 3,3);
-                drawingContext.Close();
-            }
-            DrawingVisualIsSelected.Opacity = DrawingVisualResizer.Opacity = ControlISSelected ? .3 : 0;
-        }
-
-        internal protected override void DrawMouseOver()
-        {
-            using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())
-            {
-                drawingContext.DrawLine(PenMouseOver, new Point(0, 0), new Point(CoordinateX2, CoordinateY2));
-                drawingContext.Close();
-            }
-            DrawingVisualIsMouseOver.Opacity = 0;
-        }
-
-        #region Изменение размеров
-        internal protected bool IsResizerPressed = false;
-        internal protected override void BasicWithTextName_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (IsModifyPressed && ControlISSelected)
-            {
-                Point currentPoint = e.GetPosition(this);
-                double dX = currentPoint.X - ModifyStartPoint.X;
-                double dY = currentPoint.Y - ModifyStartPoint.Y;
-                if (IsTextPressed)
-                {
-                ModifyStartPoint = currentPoint;
-                    MarginTextName = new Thickness(MarginTextName.Left + dX, MarginTextName.Top + dY, 0, 0);
-                    RiseMnemoMarginChanged(nameof(MarginTextName));
-                }
-                if (IsResizerPressed)
-                {
-                    #region перетаскивание
-                    int deltaStep = 30;
-                   
-                    int deltaX = (int)(currentPoint.X - ModifyStartPoint.X) / deltaStep;
-                    int deltaY = (int)(currentPoint.Y - ModifyStartPoint.Y) / deltaStep;
-
-                    if ((Math.Abs(deltaX) > 0) || ((Math.Abs(deltaY) > 0)))
-                    {
-                        CLine l = sender as CLine;
-                        if (l != null)
-                        {
-                            l.SetValue(CoordinateX2Property, CoordinateX2 + (deltaX * deltaStep));
-                            l.SetValue(CoordinateY2Property, CoordinateY2 + (deltaY * deltaStep));
-
-                            ModifyStartPoint = new Point(ModifyStartPoint.X + (deltaX * deltaStep), ModifyStartPoint.Y + (deltaY * deltaStep));
-                        }
-                    }
-                    #endregion перетаскивание
-                }
-            }
-        }
-
-        internal protected override HitTestResultBehavior myCallback(HitTestResult result)
-        {
-            if (result.VisualHit == DrawingVisualText)
-            {
-                Mouse.Capture(this);
-                IsTextPressed = IsModifyPressed = true;
-                IsResizerPressed = false;
-            }
-            if (result.VisualHit == DrawingVisualResizer)
-            {
-                Mouse.Capture(this);
-                IsResizerPressed = IsModifyPressed = true;
-                IsTextPressed = false;
-            }
-            return HitTestResultBehavior.Stop;
-        }
-
-        #endregion Изменение размеров
-    }*/
+       
     }
 }

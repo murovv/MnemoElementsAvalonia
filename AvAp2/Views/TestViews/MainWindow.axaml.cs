@@ -1,7 +1,12 @@
-﻿using Avalonia;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using AvAp2.Models;
+using DynamicData;
 
 namespace AvAp2.Views.TestViews
 {
@@ -36,6 +41,66 @@ namespace AvAp2.Views.TestViews
             CCellCart21.TagDataMainState = new TagDataItem(null){
                 TagValueString = "1"
             };
+
+            CCurrentDataAnalog1.TextUom = "0";
+            CCurrentDataAnalog1.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "0",
+                Quality = TagValueQuality.Good
+            };
+            CCurrentDataAnalog1.TextName = "name";
+            CCurrentDataAnalogChangeName.Click+= CCurrentDataAnalogChangeNameOnClick;
+            CCurrentDataAnalogChangeVoltage.Click+= CCurrentDataAnalogChangeVoltageOnClick;
+            CCurrentDataAnalogChangeTagValueString.Click+= CCurrentDataAnalogChangeTagValueStringOnClick;
+            CCurrentDataAnalogChangeQuality.Click+= CCurrentDataAnalogChangeQualityOnClick;
+            CDiagnosticDeviceSetImageSource.Click+= CDiagnosticDeviceSetImageSourceOnClick;
+            CDiagnosticDeviceIsSelected.Click+= CDiagnosticDeviceIsSelectedOnClick;
+            CDiagnosticDevice1.TextName = "картинка";
+            BasicWithTextNameChangeName.Click+= BasicWithTextNameChangeNameOnClick;
+        }
+
+        private void BasicWithTextNameChangeNameOnClick(object? sender, RoutedEventArgs e)
+        {
+            CPointOnLine1.TextName = BasicWithTextNameInputName.Text;
+        }
+
+        private void CDiagnosticDeviceIsSelectedOnClick(object? sender, RoutedEventArgs e)
+        {
+            CDiagnosticDevice1.ControlISSelected = !CDiagnosticDevice1.ControlISSelected;
+        }
+
+        private void CDiagnosticDeviceSetImageSourceOnClick(object? sender, RoutedEventArgs e)
+        {
+            CDiagnosticDevice1.ImageFileName = CDiagnosticDeviceImageSource.Text;
+        }
+
+        private void CCurrentDataAnalogChangeQualityOnClick(object? sender, RoutedEventArgs e)
+        {
+            var t = Enum.GetValues(typeof(TagValueQuality)).OfType<TagValueQuality>().ToList();
+            var i = t.FindIndex(x=>x == CCurrentDataAnalog1.TagDataMainState.Quality);
+            CCurrentDataAnalog1.TagDataMainState.Quality = t[(i + 1) % t.Count];
+        }
+
+        private void CCurrentDataAnalogChangeTagValueStringOnClick(object? sender, RoutedEventArgs e)
+        {
+            CCurrentDataAnalog1.TagDataMainState.TagValueString = (int.Parse(CCurrentDataAnalog1.TagDataMainState.TagValueString) + 1).ToString();
+        }
+
+        private void CCurrentDataAnalogChangeVoltageOnClick(object? sender, RoutedEventArgs e)
+        {
+            CCurrentDataAnalog1.TextUom = (int.Parse(CCurrentDataAnalog1.TextUom) + 1).ToString();
+        }
+
+        private void CCurrentDataAnalogChangeNameOnClick(object? sender, RoutedEventArgs e)
+        {
+            if (CCurrentDataAnalog1.TextName == "name")
+            {
+                CCurrentDataAnalog1.TextName = "other name";
+            }
+            else
+            {
+                CCurrentDataAnalog1.TextName = "name";
+            }
         }
 
         private void CCellCart2RightConnectorOnClick(object? sender, RoutedEventArgs e)

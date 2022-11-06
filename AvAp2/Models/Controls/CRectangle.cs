@@ -19,7 +19,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoordinateX2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> CoordinateX2Property = AvaloniaProperty.Register<CRectangle,double>(nameof(CoordinateX2), 0.0);
@@ -31,7 +31,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoordinateY2Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> CoordinateY2Property = AvaloniaProperty.Register<CRectangle,double>(nameof(CoordinateY2), 0.0);
@@ -61,7 +61,7 @@ namespace AvAp2.Models
 
                 PenMouseOver = new Pen(Brushes.Black, LineThickness);
                 PenMouseOver.ToImmutable();
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> LineThicknessProperty = AvaloniaProperty.Register<CRectangle,double>(nameof(LineThickness), 1.0);
@@ -91,7 +91,7 @@ namespace AvAp2.Models
             {
                 SetValue(IsDashProperty, value);
                 ReturnContentPenToDefault();
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsDashProperty = AvaloniaProperty.Register<CRectangle,bool>(nameof(IsDash), false);

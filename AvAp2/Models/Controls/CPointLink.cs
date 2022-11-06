@@ -17,7 +17,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(StringStateIsConnectedProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> StringStateIsConnectedProperty = AvaloniaProperty.Register<CPointLink,string>(nameof(StringStateIsConnected), "1");

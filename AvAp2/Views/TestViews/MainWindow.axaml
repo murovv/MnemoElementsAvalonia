@@ -73,6 +73,48 @@
                 </StackPanel>
             </StackPanel>
         </TabItem>
+        <TabItem Header = "CCurrentDataAnalog">
+            <StackPanel>
+                <models:CCurrentDataAnalog x:Name="CCurrentDataAnalog" Height="50"></models:CCurrentDataAnalog>
+                <models:CCurrentDataAnalog x:Name="CCurrentDataAnalog1" Height="50"></models:CCurrentDataAnalog>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CCurrentDataAnalogChangeName"></Button>
+                    <Button x:Name="CCurrentDataAnalogChangeVoltage">+U</Button>
+                    <Button x:Name="CCurrentDataAnalogChangeTagValueString">TagValue</Button>
+                    <Button x:Name="CCurrentDataAnalogChangeQuality">Quality</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header = "CDiagnosticDevice">
+            <StackPanel>
+                <models:CDiagnosticDevice x:Name="CDiagnosticDevice" Height="50"></models:CDiagnosticDevice>
+                <models:CDiagnosticDevice x:Name="CDiagnosticDevice1" Height="50"></models:CDiagnosticDevice>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="CDiagnosticDeviceImageSource"></TextBox>
+                    <Button x:Name="CDiagnosticDeviceSetImageSource">Set image source</Button>
+                    <Button x:Name="CDiagnosticDeviceIsSelected">Select</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header = "CFilterOfConnection">
+            <StackPanel>
+                <models:CFilterOfConnection Margin="40" x:Name="CFilterOfConnection" Height="50"></models:CFilterOfConnection>
+                <models:CFilterOfConnection Margin="40" x:Name="CFilterOfConnection1" Height="50"></models:CFilterOfConnection>
+                <StackPanel Orientation="Horizontal">
+                    
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header = "BasicWithTextName">
+            <StackPanel>
+                <models:CPointOnLine Margin="40" x:Name="CPointOnLine" Height="50"></models:CPointOnLine>
+                <models:CPointOnLine Margin="40" x:Name="CPointOnLine1" Height="50"></models:CPointOnLine>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="BasicWithTextNameInputName"></TextBox>
+                    <Button x:Name="BasicWithTextNameChangeName">Change Name</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
     </TabControl>
     
 </Window>

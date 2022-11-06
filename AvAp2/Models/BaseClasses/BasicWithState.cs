@@ -115,7 +115,6 @@ namespace AvAp2.Models
                     DrawingQuality.Geometry = new StreamGeometry();
                 }
             }
-            InvalidateStyles();
         }
         
     }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -39,7 +40,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsConnectorExistLeftProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<CDiagnosticDevice, bool>(nameof(IsConnectorExistLeft), false);
@@ -51,7 +52,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsConnectorExistRightProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsConnectorExistRightProperty = AvaloniaProperty.Register<CDiagnosticDevice, bool>(nameof(IsConnectorExistRight), false);
@@ -80,7 +81,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ImageFileNameProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> ImageFileNameProperty = AvaloniaProperty.Register<CDiagnosticDevice, string>(nameof(ImageFileName), "HyperLink.png");
@@ -95,7 +96,7 @@ namespace AvAp2.Models
                     
                     var img = new Bitmap(assests.Open(new Uri($@"avares://{name}/Assets/{obj.NewValue.Value}")));
                    
-                    ImageSource = img;
+                    (obj.Sender as CDiagnosticDevice).ImageSource = img;
                     return;
                 }
                 catch (Exception) { }// Если по какой-либо причине не удалось, установим по умолчанию
@@ -103,11 +104,11 @@ namespace AvAp2.Models
             try
             {
                 Bitmap imgDef = new Bitmap(assests.Open(new Uri($@"avares://{name}/Assets/Device.png")));
-                ImageSource = imgDef;
+                (obj.Sender as CDiagnosticDevice).ImageSource = imgDef;
                 return;
             }
             catch (Exception) { }// Если по какой-либо причине не удалось, установим по умолчанию
-            ImageSource = null;
+            (obj.Sender as CDiagnosticDevice).ImageSource = null;
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Источник изображения"), PropertyGridFilterAttribute, DisplayName("Изображение"), Browsable(false)]
@@ -118,8 +119,13 @@ namespace AvAp2.Models
         }
         public static StyledProperty<Bitmap> ImageSourceProperty = AvaloniaProperty.Register<CDiagnosticDevice, Bitmap>("ImageSource", new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri($@"avares://{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}/Assets/HyperLink.png"))));
 
+        static CDiagnosticDevice()
+        {
+            AffectsRender<CDiagnosticDevice>(IsConnectorExistLeftProperty, IsConnectorExistRightProperty, ImageSourceProperty);
+        }
         public CDiagnosticDevice() : base()
         {
+            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
             this.CoordinateX2 = 90;
             this.CoordinateY2 = 30;
             this.ControlISHitTestVisible = true;
@@ -141,6 +147,18 @@ namespace AvAp2.Models
         /// <summary>
         /// Метод отрисовки качества сигнала состояния самого элемента (плохое/ручной ввод)
         /// </summary>
+        public override Image DrawingIsSelectedWrapper => new Image()
+        {
+            Source = new DrawingImage(DrawingIsSelected),
+            RenderTransform = new TranslateTransform(-1, -1)
+        };
+
+        public override Image DrawingMouseOverWrapper => new Image()
+        {
+            Source = new DrawingImage(DrawingMouseOver),
+            RenderTransform = new TranslateTransform(-1, -1)
+        };
+
         protected override void DrawQuality()
         {
             if (TagDataMainState != null)
@@ -148,19 +166,17 @@ namespace AvAp2.Models
                 if (TagDataMainState.Quality == TagValueQuality.Handled)
                 {
                     StreamGeometry geometry = HandGeometry();
-                    geometry.Transform = new TranslateTransform(-10, -10);
                     DrawingQuality.Geometry = geometry;
                     DrawingQuality.Brush = BrushContentColor;
                     DrawingQuality.Pen = PenHand;
                 }
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
-
-                        FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                            new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
-                            12, BrushContentColor);
-                        DrawingQuality.Geometry = ft.BuildGeometry(new Point(-10, -10));
-                        DrawingQuality.Brush = BrushContentColor;
+                    FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                        12, BrushContentColor);
+                    DrawingQuality.Geometry = ft.BuildGeometry(new Point(-10, -10));
+                    DrawingQuality.Brush = BrushContentColor;
                 }
             }
         }
@@ -244,7 +260,7 @@ namespace AvAp2.Models
                 DrawingVisualText.FontWeight = FontWeight.SemiBold;
                 DrawingVisualText.FontSize = 14;
                 DrawingVisualText.TextAlignment = TextAlignment.Center;
-                // DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
+                DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
                 DrawingVisualText.Margin = MarginTextName;
                 /*drawingContext.
                 drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));

@@ -16,7 +16,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ManualPENumberProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> ManualPENumberProperty = AvaloniaProperty.Register<CPESwitch,string>(nameof(ManualPENumber),"");

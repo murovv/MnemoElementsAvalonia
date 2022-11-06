@@ -19,7 +19,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoLoginProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoLoginProperty = AvaloniaProperty.Register<CWebCamera, string>(nameof(VideoLogin), "admin");
@@ -31,7 +31,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoPasswordProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoPasswordProperty = AvaloniaProperty.Register<CWebCamera, string>(nameof(VideoPassword), "");
@@ -43,7 +43,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoChannelIDProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoChannelIDProperty = AvaloniaProperty.Register<CWebCamera, string>(nameof(VideoChannelID), "");
@@ -55,7 +55,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(VideoChannelPTZProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> VideoChannelPTZProperty = AvaloniaProperty.Register<CWebCamera, string>(nameof(VideoChannelPTZ),"");

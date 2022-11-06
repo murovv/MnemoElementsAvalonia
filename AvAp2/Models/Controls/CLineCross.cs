@@ -15,7 +15,7 @@ namespace AvAp2.Models
             {
                 SetValue(LineThicknessProperty, value);
                 SetBrushes();
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> LineThicknessProperty = AvaloniaProperty.Register<CLineCross, double>(nameof(LineThickness), 3.0);

@@ -26,16 +26,10 @@ namespace AvAp2.Models
             get => (string)GetValue(TextUomProperty);
             set => SetValue(TextUomProperty, value);
         }
+        //TODO оно и не должно влиять на рендер? пока сделаю чтоб влиял.
         public static StyledProperty<string> TextUomProperty = AvaloniaProperty.Register<CCurrentDataAnalog,string>(nameof(TextUom), "");
-        //TODO разобраться как сделать без этого тупняка
-        public TagValueQuality Quality
-        {
-            get => (TagValueQuality)GetValue(QualityProperty);
-            set => SetValue(QualityProperty, value);
-        }
-        public static AttachedProperty<TagValueQuality> QualityProperty =
-            AvaloniaProperty.RegisterAttached<TagDataItem, CCurrentDataAnalog, TagValueQuality>("Quality");
-        
+
+       
         protected override void DrawQuality()
         {
             if (TagDataMainState != null)
@@ -67,7 +61,7 @@ namespace AvAp2.Models
 
         static CCurrentDataAnalog()
         {
-            AffectsRender<CCurrentDataAnalog>(QualityProperty);
+            AffectsRender<CCurrentDataAnalog>(TextUomProperty);
         }
         public CCurrentDataAnalog() : base()
         {

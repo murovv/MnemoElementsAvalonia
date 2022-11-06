@@ -14,16 +14,19 @@ namespace AvAp2.Models
             set
             {
                 SetValue(PointDiameterProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<double> PointDiameterProperty = AvaloniaProperty.Register<CPointOnLine,double>("PointDiameter", 6.0);
-        
 
+        static CPointOnLine()
+        {
+            AffectsRender<CPointOnLine>(PointDiameterProperty);
+
+        }
 
         public CPointOnLine() : base()
         {
-            AffectsRender<CPointOnLine>(PointDiameterProperty);
             this.TextNameWidth = (double)50;
             this.MarginTextName = new Thickness(0, -20, 0, 0);
         }

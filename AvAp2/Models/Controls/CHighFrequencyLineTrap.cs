@@ -16,7 +16,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsRegulatorProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 

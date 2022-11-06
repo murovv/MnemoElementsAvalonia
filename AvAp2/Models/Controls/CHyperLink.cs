@@ -22,7 +22,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(LinkRightsProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<UserInterfaceRights> LinkRightsProperty = AvaloniaProperty.Register<CHyperLink, UserInterfaceRights>(nameof(LinkRights), UserInterfaceRights.Base);// { AffectsRender = true });
@@ -42,7 +42,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(HyperLinkURLProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> HyperLinkURLProperty = AvaloniaProperty.Register<CHyperLink, string>(nameof(HyperLinkURL), "http://address.com");
@@ -54,7 +54,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ImageFileNameProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> ImageFileNameProperty = AvaloniaProperty.Register<CHyperLink, string>(nameof(ImageFileName), "HyperLink.png");
@@ -90,8 +90,9 @@ namespace AvAp2.Models
         {
             this.TextName = "Внешняя ссылка";
             this.ControlISHitTestVisible = true;
-            /*TextNameWidth = 200;
-            MarginTextName = new Thickness(0);*/
+            TextNameWidth = 200;
+            MarginTextName = new Thickness(0);
+            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
         }
 
         public override string ElementTypeFriendlyName

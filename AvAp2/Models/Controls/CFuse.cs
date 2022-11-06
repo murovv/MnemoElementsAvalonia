@@ -24,7 +24,11 @@ namespace AvAp2.Models
         public bool IsConnectorExistLeft
         {
             get => (bool)GetValue(IsConnectorExistLeftProperty);
-            set => SetValue(IsConnectorExistLeftProperty, value);
+            set
+            {
+                SetValue(IsConnectorExistLeftProperty, value);
+                RiseMnemoNeedSave();
+            }
         }
         public static readonly StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<CFuse, bool>(nameof(IsConnectorExistLeft),true);
 
@@ -32,7 +36,11 @@ namespace AvAp2.Models
         public bool IsConnectorExistRight
         {
             get => (bool)GetValue(IsConnectorExistRightProperty);
-            set => SetValue(IsConnectorExistRightProperty, value);
+            set
+            {
+                SetValue(IsConnectorExistRightProperty, value);
+                RiseMnemoNeedSave();
+            }
         }
         public static readonly StyledProperty<bool> IsConnectorExistRightProperty = AvaloniaProperty.Register<CFuse, bool>(nameof(IsConnectorExistRight),true);
 

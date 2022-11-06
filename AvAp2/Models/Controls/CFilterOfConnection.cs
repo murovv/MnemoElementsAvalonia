@@ -52,7 +52,7 @@ namespace AvAp2.Models
             ft.TextAlignment = TextAlignment.Center;
                 
             //drawingContext.Pop();
-            drawingContext.DrawText(ft, new Point(15, 4));
+            drawingContext.DrawText(ft, new Point(4, 4));
         }
     }
 }

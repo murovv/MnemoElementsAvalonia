@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 
@@ -8,6 +9,17 @@ namespace AvAp2.Models
     [Description("Текстовое поле")]
     public class CText : BasicWithTextName
     {
+        public override Image DrawingIsSelectedWrapper => new Image()
+        {
+            Source = new DrawingImage(DrawingIsSelected),
+            RenderTransform = new RotateTransform(AngleTextName, 15, 15)
+        };
+
+        public override Image DrawingMouseOverWrapper =>new Image(){
+            Source = new DrawingImage(DrawingMouseOver),
+            RenderTransform = new RotateTransform(AngleTextName, 15, 15)
+        };
+
         [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {

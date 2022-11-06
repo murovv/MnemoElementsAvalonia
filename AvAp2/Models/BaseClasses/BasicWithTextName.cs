@@ -71,7 +71,7 @@ namespace AvAp2.Models
 
         public void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
+            (obj.Sender as BasicWithTextName).BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
             DrawText();
             InvalidateStyles();
         }
