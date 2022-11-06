@@ -120,6 +120,7 @@ namespace AvAp2.Views
         private void CHyperLinkButtonOnClick(object? sender, RoutedEventArgs e)
         {
             CHyperLink.ControlISSelected = !CHyperLink.ControlISSelected;
+            CHyperLink.AngleTextName += 5;
         }
 
         private void CTransformerNpeButtonOnClick(object? sender, RoutedEventArgs e)

@@ -171,6 +171,24 @@ namespace AvAp2.Models
 
         public TextBlock DrawingVisualText { get; set; }
 
+        public override Image DrawingMouseOverWrapper => new Image()
+        {
+            Source = new DrawingImage(DrawingMouseOver),
+            RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(AngleTextName).Value.Append(
+                        new TranslateTransform( MarginTextName.Left, MarginTextName.Top).Value))
+        };
+        
+        public override Image DrawingIsSelectedWrapper => new Image()
+        {
+            Source = new DrawingImage(DrawingIsSelected),
+            RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(AngleTextName).Value.Append(
+                        new TranslateTransform( MarginTextName.Left, MarginTextName.Top).Value))
+        };
+
         protected virtual void DrawText()
         {
             if (TextNameISVisible)

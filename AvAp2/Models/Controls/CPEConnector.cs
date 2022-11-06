@@ -21,7 +21,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsLineThinProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsLineThinProperty = AvaloniaProperty.Register<CPEConnector,bool>(nameof(IsLineThin), false);

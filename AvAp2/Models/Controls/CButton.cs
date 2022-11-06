@@ -20,7 +20,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CommandIDProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> CommandIDProperty = AvaloniaProperty.Register<CButton, string>(nameof(CommandID), "-1");
@@ -32,7 +32,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CommandParameterProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<byte> CommandParameterProperty = AvaloniaProperty.Register<CButton, byte>("CommandParameter", (byte)1);

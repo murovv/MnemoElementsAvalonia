@@ -28,7 +28,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ContentColorAlternateProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         #endregion  У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан

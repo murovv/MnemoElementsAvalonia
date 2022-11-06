@@ -19,7 +19,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilsConnectionType3Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
@@ -41,7 +41,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(Voltage3ColorProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
@@ -67,7 +67,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(Voltage3Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
@@ -93,7 +93,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilLeftExitIsExist3Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
@@ -108,7 +108,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilTopExitIsExist3Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
@@ -123,7 +123,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilRightExitIsExist3Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 
@@ -138,7 +138,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilBottomExitIsExist3Property, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
 

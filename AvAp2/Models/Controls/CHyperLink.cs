@@ -119,6 +119,10 @@ namespace AvAp2.Models
             {
                 DrawingIsSelected.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
             }
+            else
+            {
+                DrawingIsSelected.Geometry = new GeometryGroup();
+            }
 
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;

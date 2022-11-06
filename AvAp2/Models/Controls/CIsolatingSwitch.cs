@@ -15,7 +15,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(ShortCircuitIsExistProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> ShortCircuitIsExistProperty = AvaloniaProperty.Register<CIsolatingSwitch,bool>(nameof(ShortCircuitIsExist), false);

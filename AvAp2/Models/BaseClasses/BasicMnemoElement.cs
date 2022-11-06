@@ -31,19 +31,14 @@ namespace AvAp2.Models
             set => SetValue(ControlISSelectedProperty, value);
         }
         public static StyledProperty<bool> ControlISSelectedProperty = AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISSelected), false);
-
-        /*private static void OnSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            BasicMnemoElement b = d as BasicMnemoElement;
-            b.DrawingVisualIsSelected.Opacity = b.DrawingVisualResizer.Opacity = (bool)e.NewValue ? .3:0;
-        }*/
+        
         public bool ControlISHitTestVisible
         {
             get => (bool)GetValue(ControlISHitTestVisibleProperty);
             set
             {
                 SetValue(ControlISHitTestVisibleProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         
@@ -145,6 +140,7 @@ namespace AvAp2.Models
 
         private void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
+            (obj.Sender as BasicMnemoElement).ControlISSelected = obj.NewValue.Value;
             DrawIsSelected();
             InvalidateStyles();
         }

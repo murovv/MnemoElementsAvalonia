@@ -28,7 +28,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(IsRegulatorProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> IsRegulatorProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(IsRegulator), false);
@@ -44,8 +44,11 @@ namespace AvAp2.Models
         public bool IsPower
         {
             get => (bool)GetValue(IsPowerProperty);
-            set => SetValue(IsPowerProperty, value);
-            //RiseMnemoNeedSave();
+            set
+            {
+                SetValue(IsPowerProperty, value);
+                RiseMnemoNeedSave();
+            }
         }
         public static StyledProperty<bool> IsPowerProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(IsPower),false);
         private void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
@@ -62,7 +65,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilsConnectionTypeProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<CoilsConnectionTypes> CoilsConnectionTypeProperty = AvaloniaProperty.Register<CTransformerCoil,CoilsConnectionTypes>(nameof(CoilsConnectionType), CoilsConnectionTypes.StarConnection);
@@ -76,7 +79,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(AutoIsExistProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> AutoIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(AutoIsExist),false);
@@ -95,7 +98,7 @@ namespace AvAp2.Models
                 BrushContentColorAutoVoltage.ToImmutable();
                 PenContentColorAutoVoltage = new Pen(BrushContentColorAutoVoltage, 3);
                 PenContentColorAutoVoltage.ToImmutable();
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<Color> AutoVoltageColorProperty = AvaloniaProperty.Register<CTransformerCoil,Color>(nameof(AutoVoltageColor), Color.FromArgb(255, 0, 180, 200));
@@ -117,7 +120,7 @@ namespace AvAp2.Models
             {
                 SetValue(AutoVoltageProperty, value);
                 AutoVoltageColor = VoltageEnumColors.VoltageColors[AutoVoltage];
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<VoltageClasses> AutoVoltageProperty = AvaloniaProperty.Register<CTransformerCoil,VoltageClasses>(nameof(AutoVoltage), VoltageClasses.kV110);
@@ -194,7 +197,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilLeftExitIsExistProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilLeftExitIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(CoilLeftExitIsExist), false);
@@ -206,7 +209,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilTopExitIsExistProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilTopExitIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(CoilTopExitIsExist),false);
@@ -218,7 +221,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilRightExitIsExistProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilRightExitIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(CoilRightExitIsExist), false);
@@ -230,7 +233,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CoilBottomExitIsExistProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<bool> CoilBottomExitIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>("CoilBottomExitIsExist",false);
@@ -245,7 +248,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TagIDCommandRPNMoreProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> TagIDCommandRPNMoreProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNMore), "-1");
@@ -257,7 +260,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CommandParameterRPNMoreProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<byte> CommandParameterRPNMoreProperty = AvaloniaProperty.Register<CTransformerCoil,byte>(nameof(CommandParameterRPNMore), (byte)1);
@@ -269,7 +272,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TagIDCommandRPNLessProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> TagIDCommandRPNLessProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNLess),"-1");
@@ -281,7 +284,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(CommandParameterRPNLessProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<byte> CommandParameterRPNLessProperty = AvaloniaProperty.Register<CTransformerCoil,byte>(nameof(CommandParameterRPNLess), (byte)1);
@@ -295,7 +298,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TagIDCommandRPNAutoProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> TagIDCommandRPNAutoProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNAuto), "-1");
@@ -315,7 +318,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TagIDCommandRPNManualProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> TagIDCommandRPNManualProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNManual), "-1");
@@ -338,7 +341,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TagIDControlModeProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> TagIDControlModeProperty = AvaloniaProperty.Register<CTransformerCoil,string>("TagIDControlMode","-1");
@@ -350,7 +353,7 @@ namespace AvAp2.Models
             set
             {
                 SetValue(TagIDControlModeManualProperty, value);
-                //RiseMnemoNeedSave();
+                RiseMnemoNeedSave();
             }
         }
         public static StyledProperty<string> TagIDControlModeManualProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDControlModeManual), "-1");

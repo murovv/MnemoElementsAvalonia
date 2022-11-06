@@ -651,8 +651,9 @@ namespace AvAp2.Models
             TagIDBannersProperty.Changed.Subscribe(OnBannersChanged);
             TagDataBannersProperty.Changed.Subscribe(OnBannersChanged);
             MarginBannerProperty.Changed.Subscribe(OnBannersChanged);
-            
-            
+
+            ContentColorProperty.Changed.Subscribe(OnBannersChanged);
+            ContentColorAlternateProperty.Changed.Subscribe(OnBannersChanged);
 
             #endregion
 
