@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Rendering;
@@ -150,6 +151,15 @@ namespace AvAp2.Models
             }
             drawingContext.DrawRectangle(Brushes.Transparent, isActiveState ? PenContentColor : PenContentColorAlternate, Border);
         }
+
+        public override Image DrawingIsSelectedWrapper => new Image()
+        {
+            Source = new DrawingImage(new DrawingGroup()
+            {
+                Children = new DrawingCollection(new[] { DrawingIsSelected, DrawingResizer })
+            }),
+            RenderTransform = new RotateTransform(Angle,15,15)
+        };
 
         protected override void DrawIsSelected()
         {

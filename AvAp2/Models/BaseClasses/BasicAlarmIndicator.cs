@@ -1,10 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Globalization;
-using System.IO;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -24,7 +21,7 @@ namespace AvAp2.Models
          DisplayName("Квитирование тревоги"), Browsable(false)]
         public bool? IsReceipt
         {
-            get => (bool?)GetValue(IsReceiptProperty);
+            get => GetValue(IsReceiptProperty);
             set => SetValue(IsReceiptProperty, value);
         }
 
@@ -47,11 +44,11 @@ namespace AvAp2.Models
             #region Мигание индикатора
 
             //BasicAlarmIndicator ai = e.Sender as CAlarmIndicator;
-            if ((bool?)e.OldValue.Value != (bool?)e.NewValue.Value)
+            if (e.OldValue.Value != e.NewValue.Value)
             {
                 if (e.NewValue.HasValue)
                 {
-                    if ((bool?)e.OldValue.Value == true)
+                    if (e.OldValue.Value == true)
 
                         (e.Sender as BasicAlarmIndicator).Binding.Dispose();
                     else
@@ -72,7 +69,7 @@ namespace AvAp2.Models
          DisplayName("Группа"), Browsable(false)]
         public int EventGroupID
         {
-            get => (int)GetValue(EventGroupIDProperty);
+            get => GetValue(EventGroupIDProperty);
             set => SetValue(EventGroupIDProperty, value);
         }
 

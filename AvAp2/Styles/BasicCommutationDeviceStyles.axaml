@@ -13,11 +13,7 @@
             <Template>
                 <Canvas>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
-                    <Image>
-                        <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
-                        </Image.Source>
-                    </Image>
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
                     <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingDeblockWrapper}"/>
@@ -33,11 +29,7 @@
                 <Canvas ClipToBounds="False">
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingMouseOverWrapper}"></ContentControl>
-                    <Image>
-                        <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
-                        </Image.Source>
-                    </Image>
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingDeblockWrapper}"/>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingControlModeWrapper}"/>

@@ -14,11 +14,7 @@
             <Template>
                 <Canvas>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
-                    <Image>
-                        <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
-                        </Image.Source>
-                    </Image>
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
                     <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
             </Template>
@@ -30,11 +26,7 @@
                 <Canvas ClipToBounds="False">
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingMouseOverWrapper}"></ContentControl>
-                    <Image>
-                        <Image.Source>
-                            <DrawingImage Drawing="{CompiledBinding DrawingQuality}"></DrawingImage>
-                        </Image.Source>
-                    </Image>
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
             </Template>

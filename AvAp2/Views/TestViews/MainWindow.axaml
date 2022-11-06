@@ -115,6 +115,11 @@
                 </StackPanel>
             </StackPanel>
         </TabItem>
+        <TabItem Header = "CRectangle">
+            <StackPanel>
+                <models:CRectangle x:Name="CRectangle" ControlISSelected="True"></models:CRectangle>
+            </StackPanel>
+        </TabItem>
     </TabControl>
     
 </Window>
