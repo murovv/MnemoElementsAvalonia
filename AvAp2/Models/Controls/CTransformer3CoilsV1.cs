@@ -516,7 +516,7 @@ namespace AvAp2.Models
 
                 geometry1.Transform = new MatrixTransform(transform);
                 geometry.Children.Add(geometry1);
-                if (DrawingVisualText.Bounds.Width > 0)
+                if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
                     Rect selectedRect = DrawingVisualText.Bounds;
                     geometry.Children.Add(new RectangleGeometry(selectedRect));

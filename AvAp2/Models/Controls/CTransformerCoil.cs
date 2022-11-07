@@ -581,8 +581,8 @@ namespace AvAp2.Models
                 {
                     geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 30)));
                 }
-
-                if (DrawingVisualText.Bounds.Width > 0)
+                //ControlIsSelected может быть изменен до того как будет создан VisualText
+                if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
                     Rect selectedRect = DrawingVisualText.Bounds;
                     geometry.Children.Add(new RectangleGeometry(selectedRect));

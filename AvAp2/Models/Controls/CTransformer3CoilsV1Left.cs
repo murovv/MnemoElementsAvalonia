@@ -289,7 +289,7 @@ namespace AvAp2.Models
 
 
                 geometry.Children.Add(geometry1);
-                if (DrawingVisualText.Bounds.Width > 0)
+                if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
                     Rect selectedRect = DrawingVisualText.Bounds;
                     geometry.Children.Add(new RectangleGeometry(selectedRect));

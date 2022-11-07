@@ -165,11 +165,18 @@ namespace AvAp2.Models
             PenBlack1.ToImmutable();
             PenWhite1 = new Pen(Brushes.WhiteSmoke, 1);
             PenWhite1.ToImmutable();
+            Loaded+= OnLoaded;
+        }
+
+        private void OnLoaded(object? sender, RoutedEventArgs e)
+        {
+            DrawText();
+            InvalidateStyles();
         }
 
         internal protected Brush BrushTextNameColor;
 
-        public TextBlock DrawingVisualText { get; set; }
+        public TextBlock DrawingVisualText { get; set; } = new TextBlock();
 
         public override Image DrawingMouseOverWrapper => new Image()
         {

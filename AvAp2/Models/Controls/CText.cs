@@ -9,17 +9,6 @@ namespace AvAp2.Models
     [Description("Текстовое поле")]
     public class CText : BasicWithTextName
     {
-        public override Image DrawingIsSelectedWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingIsSelected),
-            RenderTransform = new RotateTransform(AngleTextName, 15, 15)
-        };
-
-        public override Image DrawingMouseOverWrapper =>new Image(){
-            Source = new DrawingImage(DrawingMouseOver),
-            RenderTransform = new RotateTransform(AngleTextName, 15, 15)
-        };
-
         [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
@@ -47,13 +36,11 @@ namespace AvAp2.Models
             if (DrawingVisualText.Bounds.Width > 0 && ControlISSelected)
             {
                 DrawingIsSelected.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
-                //DrawingIsSelected.Geometry.Transform = new RotateTransform(AngleTextName,15, 15);
             }
 
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(AngleTextName);
+
             
         }
         protected override void DrawMouseOver()
@@ -66,8 +53,7 @@ namespace AvAp2.Models
 
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(AngleTextName);
+
 
         }
 

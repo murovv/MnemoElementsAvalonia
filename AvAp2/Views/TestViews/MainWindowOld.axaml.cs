@@ -98,6 +98,26 @@ namespace AvAp2.Views
             CTransformer4Coils.IsPower = true;
             CDiagnosticDevice.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CAlarmIndicator.IsReceipt = true;
+            CFuse.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "1"
+            };
+            CPEConnector.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "1"
+            };
+            CFilterOfConnection.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "1"
+            };
+            CHighFrequencyLineTrap.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "1"
+            };
+            CpeSwitch.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "1"
+            };
 
             #endregion
         }
