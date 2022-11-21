@@ -251,7 +251,6 @@ namespace AvAp2.Models
             if (IsModifyPressed)
             {
                 IsTextPressed = IsModifyPressed = false;
-                e.Handled = true;
             }
         }
 

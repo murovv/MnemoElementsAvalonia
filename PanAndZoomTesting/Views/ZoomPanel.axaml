@@ -1,0 +1,21 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:AvAp2.Models;assembly=AvAp2"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PanAndZoomTesting.Views.ZoomPanel">
+    <Panel Margin="12" Width="300" Height="300" Background="Gray">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+    <ZoomBorder x:Name="ZoomBorder" EnableZoom="True" PanButton="Right" Stretch="None" ZoomSpeed="1.5" Background="Azure" EnableConstrains="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ClipToBounds="True" Focusable="True" >
+        <Canvas >
+            <models:CAutomaticSwitch x:Name="CAutomaticSwitch" ControlISSelected="True">
+            </models:CAutomaticSwitch>
+            <models:CArrow Name="Arrow" Canvas.Left="50"></models:CArrow>
+        </Canvas>
+        
+    </ZoomBorder>
+        </ScrollViewer>
+    </Panel>
+</UserControl>

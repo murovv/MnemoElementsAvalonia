@@ -44,7 +44,7 @@ namespace AvAp2.Views
             RotateText.Click+= RotateTextOnClick;
             #endregion
             #region TagData init
-            CAutomaticSwitch1.TagDataMainState = new TagDataItem(null);
+            
             CCellCart1.TagDataMainState = new TagDataItem(null);
             CCellCart1.TagIDBlockState = "1";
             CCellCart1.TagIDDeblock = "1";

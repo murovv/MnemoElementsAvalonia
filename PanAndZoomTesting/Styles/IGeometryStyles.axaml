@@ -1,0 +1,36 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:AvAp2.Models"
+        xmlns:interfaces="clr-namespace:AvAp2.Interfaces"
+        xmlns:models1="clr-namespace:AvAp2.Models;assembly=AvAp2"
+        x:DataType="models1:CRectangle">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector=":is(models1|CRectangle)">
+        <Setter Property="Content">
+            <Template>
+                <Canvas >
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+    <Style Selector=":is(models1|CRectangle):pointerover">
+        <Setter Property="Content">
+            <Template>
+                <Canvas ClipToBounds="False">
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingMouseOverWrapper}"></ContentControl>
+                    <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
+                </Canvas>
+            </Template>
+        </Setter>
+    </Style>
+</Styles>

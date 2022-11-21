@@ -1351,7 +1351,6 @@ namespace AvAp2.Models
             if (IsModifyPressed)
             {
                 IsTextPressed = IsModifyPressed = IsBannersPressed = IsBlockPressed = IsDeblockPressed = IsControlModePressed = false;
-                e.Handled = true;
             }
         }
     }
