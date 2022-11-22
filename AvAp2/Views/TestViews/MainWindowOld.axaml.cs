@@ -68,7 +68,6 @@ namespace AvAp2.Views
             CLine.CoordinateX2 = 20;
             CLine.CoordinateY2 = 20;
             CLine.TextNameISVisible = true;
-            CRectangle.TagDataMainState = new TagDataItem(new TagDataItem(null).TagValueString = "0");
             CRectangle.CoordinateX2 = 10;
             CRectangle.CoordinateY2 = 30;
             CLine.TextName = "прямоугольничек";

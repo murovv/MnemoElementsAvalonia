@@ -10,7 +10,7 @@
         Title="PanAndZoomTesting">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
     <Window.Styles>
         <StyleInclude Source="/Styles/BasicMnemoElementStyles.axaml"></StyleInclude>

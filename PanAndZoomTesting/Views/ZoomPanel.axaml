@@ -8,13 +8,13 @@
     <Panel Margin="12" Width="300" Height="300" Background="Gray">
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
-    <ZoomBorder x:Name="ZoomBorder" EnableZoom="True" PanButton="Right" Stretch="None" ZoomSpeed="1.5" Background="Azure" EnableConstrains="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ClipToBounds="True" Focusable="True" >
+    <ZoomBorder x:Name="ZoomBorder" EnableZoom="True" PanButton="Left" Stretch="None" ZoomSpeed="1.5" Background="Azure" EnableConstrains="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ClipToBounds="True" Focusable="True" >
         <Canvas >
             <models:CAutomaticSwitch x:Name="CAutomaticSwitch" ControlISSelected="True">
             </models:CAutomaticSwitch>
             <models:CArrow Name="Arrow" Canvas.Left="50"></models:CArrow>
+            <models:CRectangle CoordinateX2="30" CoordinateY2="30" Name="Rectangle" Canvas.Left="100" ControlISSelected="True"></models:CRectangle>
         </Canvas>
-        
     </ZoomBorder>
         </ScrollViewer>
     </Panel>

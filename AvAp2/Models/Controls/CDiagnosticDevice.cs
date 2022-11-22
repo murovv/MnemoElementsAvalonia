@@ -324,6 +324,7 @@ namespace AvAp2.Models
             {
                 IsResizerPressed = IsModifyPressed = true;
                 IsTextPressed = false;
+                e.Handled = true;
             }
         }
         

@@ -51,11 +51,10 @@ namespace AvAp2.Models
         }
         public static readonly StyledProperty<string> TagIDMainStateProperty = AvaloniaProperty.Register<BasicWithState, string>(nameof(TagIDMainState));
 
-        
         public TagDataItem TagDataMainState
         {
             get => (TagDataItem)GetValue(TagDataMainStateProperty);
-            set
+            set     
             {
                 TagDataItem oldValue = GetValue(TagDataMainStateProperty);
                 if (oldValue != value)

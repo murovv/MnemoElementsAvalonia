@@ -14,7 +14,6 @@ namespace AvAp2.Models
         internal protected Pen PenBlack;
         internal protected Pen PenBlack1;
         internal protected Pen PenWhite1;
-        
         [Category("Свойства элемента мнемосхемы"), Description("Диспетчерское наименование элемента"), PropertyGridFilterAttribute, DisplayName("Диспетчерское наименование"), Browsable(true)]
         public string TextName
         {
@@ -25,6 +24,7 @@ namespace AvAp2.Models
                 RiseMnemoNeedSave();
             }
         }
+        
 
         public static StyledProperty<string> TextNameProperty =
             AvaloniaProperty.Register<BasicWithTextName, string>(nameof(TextName), defaultValue: "");
@@ -241,6 +241,7 @@ namespace AvAp2.Models
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;
+                e.Handled = true;
             }
         }
 

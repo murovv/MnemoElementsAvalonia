@@ -229,6 +229,7 @@ namespace AvAp2.Models
             {
                 IsResizerPressed = IsModifyPressed = true;
                 IsTextPressed = false;
+                e.Handled = true;
             }
 
             var t = e.GetPosition(this);
@@ -237,6 +238,7 @@ namespace AvAp2.Models
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;
+                e.Handled = true;
             }
         }
         

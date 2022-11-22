@@ -270,12 +270,13 @@ namespace AvAp2.Models
             {
                 IsResizerPressed = IsModifyPressed = true;
                 IsTextPressed = false;
+                e.Handled = true;
             }
-
-            if (DrawingVisualText.HitTestCustom(e.GetPosition(null)))
+            if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;
+                e.Handled = true;
             }
         }
 

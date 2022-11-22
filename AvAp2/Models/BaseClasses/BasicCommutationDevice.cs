@@ -1279,34 +1279,37 @@ namespace AvAp2.Models
         {
             e.Pointer.Capture(this);
             ModifyStartPoint = e.GetPosition(this);
+            e.Handled = true;
             if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsBlockPressed = IsDeblockPressed = IsBannersPressed = IsControlModePressed = false;
             }
-            if (DrawingBlock.GetBounds().Contains(ModifyStartPoint))
+            else if (DrawingBlock.GetBounds().Contains(ModifyStartPoint))
             {
                 IsBlockPressed = IsModifyPressed = true;
                 IsTextPressed = IsDeblockPressed = IsBannersPressed = IsControlModePressed = false;
             }
-            if (DrawingDeblock.GetBounds().Contains(ModifyStartPoint))
+            else if (DrawingDeblock.GetBounds().Contains(ModifyStartPoint))
             {
                 IsDeblockPressed = IsModifyPressed = true;
                 IsTextPressed = IsBlockPressed = IsBannersPressed = IsControlModePressed = false;
             }
-            if (DrawingControlMode.GetBounds().Contains(ModifyStartPoint))
+            else if (DrawingControlMode.GetBounds().Contains(ModifyStartPoint))
             {
                 IsControlModePressed = IsModifyPressed = true; 
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsBannersPressed = false;
-            }
-
-            var t = DrawingBanners.GetBounds();
-            
-            if (DrawingBanners.GetBounds().Contains(ModifyStartPoint))
+            }else if (DrawingBanners.GetBounds().Contains(ModifyStartPoint))
             {
                 IsBannersPressed = IsModifyPressed = true;
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsControlModePressed = false;
             }
+            else
+            {
+                e.Handled = false;
+            }
+
+            
         }
 
         protected override void OnPointerMoved(PointerEventArgs e)
