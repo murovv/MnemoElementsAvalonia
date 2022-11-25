@@ -15,10 +15,10 @@
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
                     <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
                     <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
-                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
+                    <!--<ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingDeblockWrapper}"/>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingControlModeWrapper}"/>
-                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBannerWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBannerWrapper}"/>-->
                 </Canvas>
             </Template>
         </Setter>
@@ -30,10 +30,10 @@
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingIsSelectedWrapper}"></ContentControl>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingMouseOverWrapper}"></ContentControl>
                     <ContentControl  ClipToBounds="False" Content="{CompiledBinding DrawingQualityWrapper}"></ContentControl>
-                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
+                    <!--<ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBlockWrapper}"/>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingDeblockWrapper}"/>
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingControlModeWrapper}"/>
-                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBannerWrapper}"/>
+                    <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingBannerWrapper}"/>-->
                     <ContentControl ClipToBounds="False" Content="{CompiledBinding DrawingVisualText}"></ContentControl>
                 </Canvas>
             </Template>

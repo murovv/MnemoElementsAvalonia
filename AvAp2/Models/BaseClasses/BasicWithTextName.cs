@@ -73,7 +73,7 @@ namespace AvAp2.Models
         {
             (obj.Sender as BasicWithTextName).BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
             DrawText();
-            InvalidateStyles();
+            
         }
 
         public void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
@@ -81,7 +81,7 @@ namespace AvAp2.Models
             DrawText();
             DrawIsSelected();
             DrawMouseOver();
-            InvalidateStyles();
+            
         }
         [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
         public virtual double TextNameWidth
@@ -165,13 +165,18 @@ namespace AvAp2.Models
             PenBlack1.ToImmutable();
             PenWhite1 = new Pen(Brushes.WhiteSmoke, 1);
             PenWhite1.ToImmutable();
+            if (this.Content is null)
+            {
+                Content = new Canvas();
+            }
+            (this.Content as Canvas).Children.Add(DrawingVisualText);
             Loaded+= OnLoaded;
         }
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawText();
-            InvalidateStyles();
+            
         }
 
         internal protected Brush BrushTextNameColor;
@@ -270,7 +275,6 @@ namespace AvAp2.Models
                 }
                 DrawIsSelected();
                 DrawMouseOver();
-                InvalidateStyles();
             }
         }
     }

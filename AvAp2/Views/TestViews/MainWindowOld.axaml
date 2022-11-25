@@ -9,12 +9,12 @@
         Title="AvAp2"
 	xmlns:models="using:AvAp2.Models">
 	<Window.Styles>
-		<StyleInclude Source="/Styles/BasicMnemoElementStyles.axaml"></StyleInclude>
+		<!--<StyleInclude Source="/Styles/BasicMnemoElementStyles.axaml"></StyleInclude>
 		<StyleInclude Source="/Styles/BasicWithTextNameStyles.axaml"></StyleInclude>
 		<StyleInclude Source="/Styles/BasicWithStateStyles.axaml"></StyleInclude>
 		<StyleInclude Source="/Styles/BasicCommutationDeviceStyles.axaml"></StyleInclude>
 		<StyleInclude Source="/Styles/CLineStyles.axaml" />
-		<StyleInclude Source="/Styles/IGeometryStyles.axaml"></StyleInclude>
+		<StyleInclude Source="/Styles/IGeometryStyles.axaml"></StyleInclude>-->
 	</Window.Styles>
     <Design.DataContext>
         <vm:MainWindowViewModel/>

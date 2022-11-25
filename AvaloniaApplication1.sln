@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MnemoElementsLibrary", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanAndZoomTesting", "PanAndZoomTesting\PanAndZoomTesting.csproj", "{D38801D6-77FA-4FF9-8666-19DE0A0C5C58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StressTest", "StressTest\StressTest.csproj", "{529510D3-3D8A-42AF-8BEE-17D1094AA5DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{D38801D6-77FA-4FF9-8666-19DE0A0C5C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D38801D6-77FA-4FF9-8666-19DE0A0C5C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D38801D6-77FA-4FF9-8666-19DE0A0C5C58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{529510D3-3D8A-42AF-8BEE-17D1094AA5DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{529510D3-3D8A-42AF-8BEE-17D1094AA5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{529510D3-3D8A-42AF-8BEE-17D1094AA5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{529510D3-3D8A-42AF-8BEE-17D1094AA5DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

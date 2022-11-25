@@ -114,7 +114,6 @@ namespace AvAp2.Models
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
                 DrawControlMode();
-                InvalidateStyles();
             }
 
         }
@@ -188,7 +187,6 @@ namespace AvAp2.Models
             DrawControlMode();
             DrawIsSelected();
             DrawMouseOver();
-            InvalidateStyles();
         }
 
         [Category("Свойства элемента мнемосхемы"),
@@ -216,7 +214,6 @@ namespace AvAp2.Models
             BrushControlModeTextColor = new SolidColorBrush((Color)obj.NewValue.Value);
             BrushControlModeTextColor.ToImmutable();
             DrawControlMode();
-            InvalidateStyles();
         }
 
 
@@ -269,7 +266,7 @@ namespace AvAp2.Models
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
                 DrawBlock();
-                InvalidateStyles();
+             
             }
 
         }
@@ -297,7 +294,7 @@ namespace AvAp2.Models
             DrawBlock();
             DrawIsSelected();
             DrawMouseOver();
-            InvalidateStyles();
+         
         }
 
         [Category("Привязки данных"), Description("ID тега состояния реле готовности"), PropertyGridFilterAttribute,
@@ -368,7 +365,7 @@ namespace AvAp2.Models
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
                 DrawDeblock();
-                InvalidateStyles();
+             
             }
 
         }
@@ -397,7 +394,7 @@ namespace AvAp2.Models
             DrawDeblock();
             DrawIsSelected();
             DrawMouseOver();
-            InvalidateStyles();
+         
         }
 
 
@@ -486,7 +483,7 @@ namespace AvAp2.Models
                 DrawBanners();
                 DrawIsSelected();
                 DrawMouseOver();
-                InvalidateStyles();
+             
             }
         }
 
@@ -518,7 +515,7 @@ namespace AvAp2.Models
             DrawBanners();
             DrawIsSelected();
             DrawMouseOver();
-            InvalidateStyles();
+         
         }
 
 
@@ -686,6 +683,16 @@ namespace AvAp2.Models
             DrawingBanners = new DrawingGroup();
             DrawingControlMode = new DrawingGroup();
             DrawingDeblock = new DrawingGroup();
+            DrawingBlockWrapper = new Image();
+            DrawingDeblockWrapper = new Image();
+            DrawingBannerWrapper = new Image();
+            DrawingControlModeWrapper = new Image();
+            if (this.Content is null)
+            {
+                this.Content = new Canvas();
+            }
+            (this.Content as Canvas).Children.AddRange(new[]
+                { DrawingBannerWrapper, DrawingBlockWrapper, DrawingDeblockWrapper, DrawingControlModeWrapper });
             Loaded += OnLoaded;
         }
 
@@ -695,7 +702,6 @@ namespace AvAp2.Models
             DrawDeblock();
             DrawControlMode();
             DrawBanners();
-            InvalidateStyles();
         }
 
         private static StreamGeometry LockGeometry()
@@ -814,11 +820,8 @@ namespace AvAp2.Models
                 DrawingBlock.Transform = transform;
             }
 
-            DrawingBlockWrapper = new Image
-            {
-                Source = new DrawingImage(DrawingBlock),
-                RenderTransform = transform
-            };
+            DrawingBlockWrapper.Source = new DrawingImage(DrawingBlock);
+            DrawingBlockWrapper.RenderTransform = transform;
         }
 
         internal protected virtual void DrawDeblock()
@@ -877,11 +880,9 @@ namespace AvAp2.Models
 
             }
 
-            DrawingDeblockWrapper = new Image
-            {
-                Source = new DrawingImage(DrawingDeblock),
-                RenderTransform = transform
-            };
+            DrawingDeblockWrapper.Source = new DrawingImage(DrawingDeblock);
+            DrawingDeblockWrapper.RenderTransform = transform;
+            
         }
 
         protected virtual void DrawControlMode()
@@ -944,11 +945,8 @@ namespace AvAp2.Models
                 
             }
 
-            DrawingControlModeWrapper = new Image
-            {
-                Source = new DrawingImage(DrawingControlMode),
-                RenderTransform = transform
-            };
+            DrawingControlModeWrapper.Source = new DrawingImage(DrawingControlMode);
+            DrawingControlModeWrapper.RenderTransform = transform;
         }
 
         protected virtual void DrawBanners()
@@ -1268,11 +1266,8 @@ namespace AvAp2.Models
             }
 
             DrawingBanners.Transform = transform;
-            DrawingBannerWrapper = new Image
-            {
-                Source = new DrawingImage(DrawingBanners),
-                RenderTransform = transform
-            };
+            DrawingBannerWrapper.Source = new DrawingImage(DrawingBanners);
+            DrawingBannerWrapper.RenderTransform = transform;
         }
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
