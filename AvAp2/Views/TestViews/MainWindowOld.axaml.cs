@@ -324,6 +324,7 @@ namespace AvAp2.Views
         {
             CAutomaticSwitch1.IsConnectorExistLeft = !CAutomaticSwitch1.IsConnectorExistLeft;
             CAutomaticSwitch1.IsConnectorExistRight= !CAutomaticSwitch1.IsConnectorExistRight;
+            CAutomaticSwitch1.TagDataMainState.TagValueString = "1";
             int tag;
             if (int.TryParse(CAutomaticSwitch1.TagDataMainState.TagValueString, out tag))
             {

@@ -152,14 +152,7 @@ namespace AvAp2.Models
             drawingContext.DrawRectangle(Brushes.Transparent, isActiveState ? PenContentColor : PenContentColorAlternate, Border);
         }
 
-        public override Image DrawingIsSelectedWrapper => new Image()
-        {
-            Source = new DrawingImage(new DrawingGroup()
-            {
-                Children = new DrawingCollection(new[] { DrawingIsSelected, DrawingResizer })
-            }),
-            RenderTransform = new RotateTransform(Angle,15,15)
-        };
+        
 
         protected override void DrawIsSelected()
         {
@@ -178,6 +171,12 @@ namespace AvAp2.Models
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
             DrawingResizer.Brush = Brushes.WhiteSmoke;
+            DrawingIsSelectedWrapper.Source = new DrawingImage(new DrawingGroup
+                {
+                    Children = new DrawingCollection(new []{DrawingIsSelected, DrawingResizer})
+                }
+            );
+            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle, 15, 15);
         }
 
         protected override void DrawMouseOver()
@@ -186,6 +185,8 @@ namespace AvAp2.Models
             DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, CoordinateX2, CoordinateY2)); 
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
+            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
+            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
         }
 
         /*internal protected override void DrawIsSelected()
@@ -259,7 +260,6 @@ namespace AvAp2.Models
                     }
                     #endregion перетаскивание
                 }
-                InvalidateStyles();
             }
         }
 

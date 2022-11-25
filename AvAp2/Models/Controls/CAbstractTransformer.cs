@@ -5,28 +5,48 @@ namespace AvAp2.Models
 {
     public abstract class CAbstractTransformer:BasicEquipment
     {
-        public double TranslationX { get;protected set; }
-        public double TranslationY { get; protected set; }
-        public override Image DrawingMouseOverWrapper
-        {
-            get => new Image
+        private double _translationX;
+        private double _translationY;
+        public double TranslationX { 
+            get => _translationX;
+            protected set
             {
-                Source = new DrawingImage(DrawingMouseOver),
-                RenderTransform =
+                _translationX = value;
+                DrawingMouseOverWrapper.RenderTransform =
                     new MatrixTransform(
-                        new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY).Value))
-            };
+                        new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(_translationX, _translationY)
+                            .Value));
+                DrawingIsSelectedWrapper.RenderTransform = new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(_translationX, _translationY)
+                        .Value));
+                
+            } }
+        public double TranslationY { get => _translationY;
+            protected set
+            {
+                _translationY = value;
+                DrawingMouseOverWrapper.RenderTransform =
+                    new MatrixTransform(
+                        new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(_translationX, _translationY)
+                            .Value));
+                DrawingIsSelectedWrapper.RenderTransform = new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(_translationX, _translationY)
+                        .Value));
+                
+            }  }
+
+        public CAbstractTransformer()
+        {
+            DrawingMouseOverWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
+                        .Value));
+            DrawingIsSelectedWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
+                        .Value));
         }
         
-        public override Image DrawingIsSelectedWrapper
-        {
-            get => new Image
-            {
-                Source = new DrawingImage(DrawingIsSelected),
-                RenderTransform =
-                    new MatrixTransform(
-                        new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY).Value))
-            };
-        }
+       
     }
 }

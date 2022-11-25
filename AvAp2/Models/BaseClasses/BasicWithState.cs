@@ -19,8 +19,15 @@ namespace AvAp2.Models
         public BasicWithState() : base()
         { 
             DrawingQuality = new GeometryDrawing();
+            DrawingQualityWrapper = new Image();
+            if (Content is null)
+            {
+                Content = new Canvas();
+            }
+            (Content as Canvas).Children.Add(DrawingQualityWrapper);
             Loaded+= OnLoaded;
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
+            
         }
 
         private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
@@ -78,7 +85,6 @@ namespace AvAp2.Models
                 if (e.PropertyName.Equals(nameof(TagDataItem.Quality)))
                 {
                     DrawQuality();
-                    InvalidateStyles();
                 }else if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
                 {
                     InvalidateVisual();
@@ -88,13 +94,7 @@ namespace AvAp2.Models
         
         public GeometryDrawing DrawingQuality { get; protected set; }
 
-        public virtual Image DrawingQualityWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingQuality),
-            RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value))
-        };
+        public Image DrawingQualityWrapper { get; set; }
 
         protected virtual void DrawQuality()
         {
@@ -121,6 +121,11 @@ namespace AvAp2.Models
                     DrawingQuality.Geometry = new StreamGeometry();
                 }
             }
+
+            DrawingQualityWrapper.Source = new DrawingImage(DrawingQuality);
+            DrawingQualityWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value));
         }
         
     }

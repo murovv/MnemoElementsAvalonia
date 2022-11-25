@@ -125,6 +125,8 @@ namespace AvAp2.Models
         }
         public CDiagnosticDevice() : base()
         {
+            DrawingMouseOverWrapper.RenderTransform = new TranslateTransform(-1, -1);
+            DrawingIsSelectedWrapper.RenderTransform = new TranslateTransform(-1, -1);
             ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
             this.CoordinateX2 = 90;
             this.CoordinateY2 = 30;
@@ -147,17 +149,8 @@ namespace AvAp2.Models
         /// <summary>
         /// Метод отрисовки качества сигнала состояния самого элемента (плохое/ручной ввод)
         /// </summary>
-        public override Image DrawingIsSelectedWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingIsSelected),
-            RenderTransform = new TranslateTransform(-1, -1)
-        };
-
-        public override Image DrawingMouseOverWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingMouseOver),
-            RenderTransform = new TranslateTransform(-1, -1)
-        };
+        
+        
 
         protected override void DrawQuality()
         {
@@ -179,6 +172,10 @@ namespace AvAp2.Models
                     DrawingQuality.Brush = BrushContentColor;
                 }
             }
+            DrawingQualityWrapper.Source = new DrawingImage(DrawingQuality);
+            DrawingQualityWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value));
         }
 
         public override void Render(DrawingContext drawingContext)
@@ -239,6 +236,15 @@ namespace AvAp2.Models
             DrawingIsSelected.Pen = PenIsSelected;
             DrawingResizer.Brush = Brushes.WhiteSmoke;
             DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
+            DrawingIsSelectedWrapper.Source = new DrawingImage(new DrawingGroup
+                {
+                    Children = new DrawingCollection(new []{DrawingIsSelected, DrawingResizer})
+                }
+            );
+            DrawingIsSelectedWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-1, -1)
+                        .Value));
         }
 
         protected override void DrawMouseOver()
@@ -246,6 +252,11 @@ namespace AvAp2.Models
             DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(-1, -1, CoordinateX2 > 0 ? CoordinateX2+2 : 1, CoordinateY2 > 0 ? CoordinateY2+2 : 1));
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
+            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
+            DrawingMouseOverWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-1, -1)
+                        .Value));
         }
         
         protected override void DrawText()
@@ -314,7 +325,6 @@ namespace AvAp2.Models
                     }
                     #endregion перетаскивание
                 }
-                InvalidateStyles();
             }
         }
         protected override void OnPointerPressed(PointerPressedEventArgs e)

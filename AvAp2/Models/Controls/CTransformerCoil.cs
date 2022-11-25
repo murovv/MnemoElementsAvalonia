@@ -55,7 +55,6 @@ namespace AvAp2.Models
         {
             DrawIsSelected();
             DrawMouseOver();
-            InvalidateStyles();
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Соединение обмоток трансформатора"), PropertyGridFilterAttribute, DisplayName("Первая обмотка соединение"), Browsable(true)]
@@ -368,7 +367,6 @@ namespace AvAp2.Models
         private void OnControlISSelectedPropertyChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
             DrawIsSelected();
-            InvalidateStyles();
         }
         public CTransformerCoil() : base()
         {
@@ -594,7 +592,12 @@ namespace AvAp2.Models
             }
             else
                 DrawingIsSelected = new GeometryDrawing();
-            
+            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
+            DrawingIsSelectedWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
+                        .Value));
+
         }
 
         protected override void DrawMouseOver()
@@ -619,6 +622,11 @@ namespace AvAp2.Models
             DrawingMouseOver.Geometry = geometry;
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
+            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
+            DrawingMouseOverWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
+                        .Value));
         }
         /*internal protected void DrawMouseOver()
         {

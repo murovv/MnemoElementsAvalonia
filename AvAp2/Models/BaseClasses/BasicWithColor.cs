@@ -65,19 +65,12 @@ namespace AvAp2.Models
         {
             AffectsRender<BasicWithColor>(ContentColorProperty, ContentColorAlternateProperty);
         }
-        public override Image DrawingMouseOverWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingMouseOver),
-            RenderTransform = new RotateTransform(Angle,15,15)
-        };
+
         
-        public override Image DrawingIsSelectedWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingIsSelected),
-            RenderTransform = new RotateTransform(Angle,15,15)
-        };
         public BasicWithColor() : base()
         {
+            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle);
             ContentColor = Colors.Green;
             ContentColorAlternate = Colors.Red;
             ContentColorProperty.Changed.Subscribe(ContentColorChanged);

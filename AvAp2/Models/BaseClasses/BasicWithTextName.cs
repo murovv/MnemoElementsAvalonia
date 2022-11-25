@@ -78,6 +78,7 @@ namespace AvAp2.Models
 
         public void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
         {
+            
             DrawText();
             DrawIsSelected();
             DrawMouseOver();
@@ -142,6 +143,13 @@ namespace AvAp2.Models
         }
         public BasicWithTextName() : base()
         {
+            DrawingMouseOverWrapper.RenderTransform =
+                new MatrixTransform(
+                    new RotateTransform(AngleTextName).Value.Append(
+                        new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value));
+            DrawingIsSelectedWrapper.RenderTransform = new MatrixTransform(
+                new RotateTransform(AngleTextName).Value.Append(
+                    new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value));
             BrushTextNameColor = new SolidColorBrush(TextNameColor);
             DrawingVisualText = new TextBlock();
             DrawingVisualText.ClipToBounds = false;
@@ -182,24 +190,7 @@ namespace AvAp2.Models
         internal protected Brush BrushTextNameColor;
 
         public TextBlock DrawingVisualText { get; set; } = new TextBlock();
-
-        public override Image DrawingMouseOverWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingMouseOver),
-            RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(AngleTextName).Value.Append(
-                        new TranslateTransform( MarginTextName.Left, MarginTextName.Top).Value))
-        };
         
-        public override Image DrawingIsSelectedWrapper => new Image()
-        {
-            Source = new DrawingImage(DrawingIsSelected),
-            RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(AngleTextName).Value.Append(
-                        new TranslateTransform( MarginTextName.Left, MarginTextName.Top).Value))
-        };
 
         protected virtual void DrawText()
         {
@@ -277,5 +268,25 @@ namespace AvAp2.Models
                 DrawMouseOver();
             }
         }
-    }
+
+
+        protected override void DrawMouseOver()
+        {
+            var geometryGroup = new GeometryGroup
+            {
+                FillRule = FillRule.NonZero
+            };
+            /*if (DrawingVisualText.Bounds.Height > 0)
+            {
+                geometryGroup.Children.Add( new RectangleGeometry(DrawingVisualText.Bounds));
+                // DrawingMouseOver.Geometry.Transform = new RotateTransform(AngleTextName);
+            }*/
+            geometryGroup.Children.Add(new RectangleGeometry(new Rect(0,0,29,29)));
+            DrawingMouseOver.Geometry = geometryGroup;
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
+            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
+            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+        }
+        }
 }

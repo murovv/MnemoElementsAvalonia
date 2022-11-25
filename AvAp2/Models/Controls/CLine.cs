@@ -202,6 +202,40 @@ namespace AvAp2.Models
         {
             return ObjectCopier.Clone(this);
         }
+        
+        protected override void DrawIsSelected()
+        {
+            DrawingIsSelected = new GeometryDrawing();
+            DrawingResizer = new GeometryDrawing();
+            if (ControlISSelected)
+            {
+                DrawingIsSelected.Geometry = new LineGeometry(new Point(0, 0),new Point( CoordinateX2, CoordinateY2));
+                var ellipse = new EllipseGeometry();
+                
+                ellipse.Center = new Point(CoordinateX2, CoordinateY2);
+                ellipse.RadiusX = ellipse.RadiusY = 3;
+                DrawingResizer.Geometry = ellipse;
+            }
+
+            DrawingIsSelected.Brush = BrushIsSelected;
+            DrawingIsSelected.Pen = PenIsSelected;
+            DrawingResizer.Brush = Brushes.WhiteSmoke;
+            DrawingIsSelectedWrapper.Source = new DrawingImage(new DrawingGroup
+                {
+                    Children = new DrawingCollection(new []{DrawingIsSelected, DrawingResizer})
+                }
+            );
+            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle, 15, 15);
+        }
+
+        protected override void DrawMouseOver()
+        {
+            DrawingMouseOver.Geometry = new LineGeometry(new Point(0,0), new Point(CoordinateX2, CoordinateY2));
+            DrawingMouseOver.Brush = BrushMouseOver;
+            DrawingMouseOver.Pen = PenMouseOver;
+            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
+            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+        }
 
 
         public override void Render(DrawingContext drawingContext)
@@ -278,7 +312,6 @@ namespace AvAp2.Models
 
                     #endregion перетаскивание
                 }
-                InvalidateStyles();
             }
 
         }

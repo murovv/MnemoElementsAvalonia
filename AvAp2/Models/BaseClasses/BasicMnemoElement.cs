@@ -87,25 +87,20 @@ namespace AvAp2.Models
         public static StyledProperty<List<string>> CommandIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(CommandIDs),new List<string>());
         #endregion Привязки
         
-        public virtual GeometryDrawing DrawingIsSelected { get; set; }
+        public GeometryDrawing DrawingIsSelected { get; set; }
         public GeometryDrawing DrawingResizer { get; set; }
         public GeometryDrawing DrawingMouseOver { get; set; }
-        public virtual Image DrawingMouseOverWrapper { get=> new Image
-        {
-            Source = new DrawingImage(DrawingMouseOver),
-            RenderTransform = new RotateTransform(Angle)
-        };}
-        public virtual Image DrawingIsSelectedWrapper { get=> new Image
-        {
-            Source = new DrawingImage(DrawingIsSelected),
-            RenderTransform = new RotateTransform(Angle)
-        };}
+        public Image DrawingMouseOverWrapper { get; set; }
+        public Image DrawingIsSelectedWrapper { get; set; }
         
         public BasicMnemoElement()
         {
             DrawingIsSelected = new GeometryDrawing();
             DrawingMouseOver = new GeometryDrawing();
             DrawingResizer = new GeometryDrawing();
+            DrawingMouseOverWrapper = new Image();
+            DrawingIsSelectedWrapper = new Image();
+            DrawingMouseOverWrapper.Opacity = 0;
             DrawingResizer.Brush = Brushes.WhiteSmoke;
             DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
             AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
@@ -120,7 +115,6 @@ namespace AvAp2.Models
             BrushMouseOver = new SolidColorBrush(Colors.Gray, 0.5);
             BrushMouseOver.ToImmutable();
             PenMouseOver = new Pen(Brushes.Black, 1);
-            
             PenMouseOver.ToImmutable();
             BrushHand = Brushes.Green;
             //BrushHand.Freeze();
@@ -128,9 +122,29 @@ namespace AvAp2.Models
             PenHand.ToImmutable();
             ControlISSelectedProperty.Changed.Subscribe(OnControlIsSelectedChanged);
             AngleProperty.Changed.Subscribe(OnAngleChanged);
+
+            if (this.Content is null)
+            {
+                this.Content = new Canvas();
+            }
+            (this.Content as Canvas).Children.AddRange(new []{DrawingMouseOverWrapper, DrawingIsSelectedWrapper});
             this.Loaded+= OnLoaded;
+            PointerEntered+= OnPointerEntered;
+            PointerExited+= OnPointerExited;
             DataContext = this;
         }
+
+        private void OnPointerExited(object? sender, PointerEventArgs e)
+        {
+            DrawingMouseOverWrapper.Opacity = 0;
+        }
+
+        private void OnPointerEntered(object? sender, PointerEventArgs e)
+        {
+            DrawingMouseOverWrapper.Opacity = 0.3;
+        }
+        
+
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
@@ -142,14 +156,12 @@ namespace AvAp2.Models
         {
             (obj.Sender as BasicMnemoElement).ControlISSelected = obj.NewValue.Value;
             DrawIsSelected();
-            InvalidateStyles();
         }
 
         private void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
         {
             DrawMouseOver();
             DrawIsSelected();
-            InvalidateStyles();
         }
         public static StyledProperty<double> AngleProperty = AvaloniaProperty.Register<BasicMnemoElement, double>(nameof(Angle),0);
 
@@ -261,7 +273,8 @@ namespace AvAp2.Models
             
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
-            
+            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
+            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle);
         }
 
         protected virtual void DrawMouseOver()
@@ -270,6 +283,8 @@ namespace AvAp2.Models
             //DrawingMouseOver.Geometry.Transform = new RotateTransform(Angle);
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
+            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
+            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
         }
     }
 }

@@ -37,10 +37,15 @@ namespace AvAp2.Models
             {
                 DrawingIsSelected.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
             }
+            else
+            {
+                DrawingIsSelected.Geometry = new GeometryGroup();
+            }
 
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
-
+            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
+            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(AngleTextName);
             
         }
         protected override void DrawMouseOver()
@@ -53,8 +58,8 @@ namespace AvAp2.Models
 
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
-
-
+            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
+            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(AngleTextName);
         }
 
         
