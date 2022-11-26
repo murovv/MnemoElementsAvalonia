@@ -18,6 +18,7 @@ namespace AvAp2.Models.SubControls
         private Pen PenBlack => (Parent.Parent as BasicCommutationDevice).PenBlack;
 
         private Pen PenContentColorThin => (Parent.Parent as BasicCommutationDevice).PenContentColorThin;
+        private Thickness MarginBanner => (Parent.Parent as BasicCommutationDevice).MarginBanner;
 
         public DrawingBanners()
         {
@@ -25,6 +26,7 @@ namespace AvAp2.Models.SubControls
         }
         public override void Render(DrawingContext ctx)
         {
+            var transform = ctx.PushPostTransform(new TranslateTransform(MarginBanner.Left, MarginBanner.Top).Value);
             if (TagDataBanners == null) //На время настройки
             {
                 #region На время настройки
@@ -68,9 +70,8 @@ namespace AvAp2.Models.SubControls
 
                                 ft.MaxTextWidth = 60;
                                 ft.TextAlignment = TextAlignment.Left;
-                                ctx.DrawText(ft, new Point(4, 7));
                                 ctx.DrawRectangle(BrushBlue, PenBlack, new Rect(0, 0, 60, 30));
-
+                                ctx.DrawText(ft, new Point(4, 7));
                                 #endregion 1. Заземлено
                             }
 
@@ -174,6 +175,7 @@ namespace AvAp2.Models.SubControls
                 }
                 #endregion В работе
             }
+            transform.Dispose();
         }
     }
 }

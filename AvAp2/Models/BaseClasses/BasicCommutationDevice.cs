@@ -978,7 +978,7 @@ namespace AvAp2.Models
             {
                 IsControlModePressed = IsModifyPressed = true; 
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsBannersPressed = false;
-            }else if (DrawingBanners.Bounds.Contains(ModifyStartPoint))
+            }else if (DrawingBanners.IsPointerOver)
             {
                 IsBannersPressed = IsModifyPressed = true;
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsControlModePressed = false;
