@@ -44,9 +44,8 @@ namespace AvAp2.Models
 
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(AngleTextName);
-            
+            DrawingIsSelectedTransform = new RotateTransform(AngleTextName, DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value;
+            DrawingIsSelectedWrapper.InvalidateVisual();
         }
         protected override void DrawMouseOver()
         {

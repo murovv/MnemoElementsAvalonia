@@ -128,7 +128,6 @@ namespace AvAp2.Models
 
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
             DrawingIsSelectedWrapper.RenderTransform =
                 new MatrixTransform(
                     new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)

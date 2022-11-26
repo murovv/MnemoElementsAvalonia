@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using AvAp2.Models.SubControls;
 
 namespace AvAp2.Models
 {
@@ -91,7 +92,7 @@ namespace AvAp2.Models
         public GeometryDrawing DrawingResizer { get; set; }
         public GeometryDrawing DrawingMouseOver { get; set; }
         public Image DrawingMouseOverWrapper { get; set; }
-        public Image DrawingIsSelectedWrapper { get; set; }
+        public DrawingIsSelected DrawingIsSelectedWrapper { get; set; }
         
         public BasicMnemoElement()
         {
@@ -99,7 +100,7 @@ namespace AvAp2.Models
             DrawingMouseOver = new GeometryDrawing();
             DrawingResizer = new GeometryDrawing();
             DrawingMouseOverWrapper = new Image();
-            DrawingIsSelectedWrapper = new Image();
+            DrawingIsSelectedWrapper = new DrawingIsSelected();
             DrawingMouseOverWrapper.Opacity = 0;
             DrawingResizer.Brush = Brushes.WhiteSmoke;
             DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
@@ -127,7 +128,7 @@ namespace AvAp2.Models
             {
                 this.Content = new Canvas();
             }
-            (this.Content as Canvas).Children.AddRange(new []{DrawingMouseOverWrapper, DrawingIsSelectedWrapper});
+            (this.Content as Canvas).Children.AddRange(new Control[]{DrawingMouseOverWrapper, DrawingIsSelectedWrapper});
             this.Loaded+= OnLoaded;
             PointerEntered+= OnPointerEntered;
             PointerExited+= OnPointerExited;
@@ -273,9 +274,11 @@ namespace AvAp2.Models
             
             DrawingIsSelected.Brush = BrushIsSelected;
             DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle);
+            DrawingIsSelectedTransform = new RotateTransform(Angle,15,15).Value;
+            DrawingIsSelectedWrapper.InvalidateVisual();
         }
+
+        public Matrix DrawingIsSelectedTransform { get; set; }
 
         protected virtual void DrawMouseOver()
         {

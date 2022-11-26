@@ -15,6 +15,7 @@ namespace AvAp2.Models
         public CArrow() : base()
         {
             DataContext = this;
+            Angle = 5;
             /*TextName = "Линия";
             MarginTextName = new Thickness(-30, -20, 0, 0);*/
         }

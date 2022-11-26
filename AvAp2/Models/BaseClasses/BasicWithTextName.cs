@@ -143,13 +143,6 @@ namespace AvAp2.Models
         }
         public BasicWithTextName() : base()
         {
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(AngleTextName).Value.Append(
-                        new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value));
-            DrawingIsSelectedWrapper.RenderTransform = new MatrixTransform(
-                new RotateTransform(AngleTextName).Value.Append(
-                    new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value));
             BrushTextNameColor = new SolidColorBrush(TextNameColor);
             DrawingVisualText = new TextBlock();
             DrawingVisualText.ClipToBounds = false;
@@ -184,7 +177,7 @@ namespace AvAp2.Models
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawText();
-            
+            DrawIsSelected();
         }
 
         internal protected Brush BrushTextNameColor;

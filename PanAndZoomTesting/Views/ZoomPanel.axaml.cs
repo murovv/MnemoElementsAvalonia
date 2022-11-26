@@ -11,8 +11,6 @@ public partial class ZoomPanel : UserControl
     public ZoomPanel()
     {
         InitializeComponent();
-        
-        
     }
 
     private void InitializeComponent()

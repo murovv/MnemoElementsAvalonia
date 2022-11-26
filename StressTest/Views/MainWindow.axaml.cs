@@ -9,9 +9,9 @@ namespace StressTest.Views
 {
     public partial class MainWindow : Window
     {
-        private int width = 20;
-        private int height = 20;
-        private List<CAutomaticSwitch> children = new List<CAutomaticSwitch>();
+        private int width = 30;
+        private int height = 30;
+        private List<CArrow> children = new List<CArrow>();
         public MainWindow()
         {
             InitializeComponent();
@@ -20,12 +20,11 @@ namespace StressTest.Views
                 StackPanel column = new StackPanel();
                 for (int j = 0; j < height; j++)
                 {
-                    var arrow = new CAutomaticSwitch()
+                    var arrow = new CArrow()
                     {
                         Height = 30,
                         Width = 30,
-                        ControlISSelected = false,
-                        TextNameISVisible = false,
+                        ControlISSelected = true
                     };
                     column.Children.Add(arrow);
                     children.Add(arrow);
@@ -40,7 +39,7 @@ namespace StressTest.Views
         {
             foreach (var arrow in children)
             {
-                arrow.VoltageEnum = VoltageClasses.kV04;
+                arrow.Angle += 5;
             }
         }
     }

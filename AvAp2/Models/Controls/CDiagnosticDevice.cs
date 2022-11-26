@@ -236,11 +236,6 @@ namespace AvAp2.Models
             DrawingIsSelected.Pen = PenIsSelected;
             DrawingResizer.Brush = Brushes.WhiteSmoke;
             DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
-            DrawingIsSelectedWrapper.Source = new DrawingImage(new DrawingGroup
-                {
-                    Children = new DrawingCollection(new []{DrawingIsSelected, DrawingResizer})
-                }
-            );
             DrawingIsSelectedWrapper.RenderTransform =
                 new MatrixTransform(
                     new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-1, -1)
