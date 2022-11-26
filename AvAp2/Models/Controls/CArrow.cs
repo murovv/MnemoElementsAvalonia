@@ -15,8 +15,8 @@ namespace AvAp2.Models
         public CArrow() : base()
         {
             DataContext = this;
-            TextName = "Линия";
-            MarginTextName = new Thickness(-30, -20, 0, 0);
+            /*TextName = "Линия";
+            MarginTextName = new Thickness(-30, -20, 0, 0);*/
         }
 
         public override object Clone()
@@ -60,17 +60,6 @@ namespace AvAp2.Models
                 drawingContext.DrawGeometry(BrushContentColor,
                     isActiveState ? PenContentColor : PenContentColorAlternate, geometry);
             }
-
-            //internal protected override void DrawIsSelected()
-            //{
-            //    using (var drawingContext = DrawingVisualIsSelected.RenderOpen())
-            //    {
-            //        drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-5, -5, 39, 39));
-            //        drawingContext.Close();
-            //    }
-            //    DrawingVisualIsSelected.Opacity = ControlISSelected ? .3 : 0;
-            //}
-
         }
     }
 }

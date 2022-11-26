@@ -1,0 +1,23 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StressTest.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:StressTest.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="StressTest.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="StressTest">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Canvas>
+        <ZoomBorder x:Name="ZoomBorder" PanButton="Left" ZoomSpeed="1.5">
+            <StackPanel x:Name="Panel" Orientation="Horizontal"></StackPanel>
+        </ZoomBorder>
+        <Button x:Name="Button">Run</Button>
+    </Canvas>
+    
+    
+</Window>

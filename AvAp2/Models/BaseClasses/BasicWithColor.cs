@@ -9,6 +9,8 @@ namespace AvAp2.Models
 {
     public abstract class BasicWithColor:BasicWithTextName
     {
+        public static Pen TestPen1 = new Pen(Brushes.Blue);
+        public static ISolidColorBrush TestBrush1 = Brushes.Black;
         [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента"), DisplayName("Цвет содержимого"), Browsable(true)]
         public virtual Color ContentColor// У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
         {
@@ -27,15 +29,10 @@ namespace AvAp2.Models
         private void ContentColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             BasicWithColor sender = obj.Sender as BasicWithColor;
-            sender.BrushContentColor = new SolidColorBrush(obj.NewValue.Value);
-            sender.BrushContentColor.ToImmutable();
+            sender.BrushContentColor = TestBrush1;
             
-            sender.PenContentColor = new Pen(sender.BrushContentColor, (sender as IGeometry)?.LineThickness ?? 3);
-            if (sender is IGeometry && ((IGeometry)sender).IsDash)
-                sender.PenContentColor.DashStyle = DashStyle.Dash;
-            sender.PenContentColor.ToImmutable();
-            sender.PenContentColorThin = new Pen(sender.BrushContentColor, 1);
-            sender.PenContentColorThin.ToImmutable();
+            sender.PenContentColor = TestPen1;
+            sender.PenContentColorThin = TestPen1;
         }
         public virtual Color ContentColorAlternate// У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
         {
@@ -50,15 +47,9 @@ namespace AvAp2.Models
         private void ContentColorAlternateChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             BasicWithColor sender = obj.Sender as BasicWithColor;
-            sender.BrushContentColorAlternate = new SolidColorBrush(obj.NewValue.Value);
-            sender.BrushContentColorAlternate.ToImmutable();
-            
-            sender.PenContentColorAlternate = new Pen(BrushContentColorAlternate, (sender as IGeometry)?.LineThickness ?? 3);
-            if (sender is IGeometry && ((IGeometry)sender).IsDash)
-                sender.PenContentColorAlternate.DashStyle = DashStyle.Dash;
-            sender.PenContentColorAlternate.ToImmutable();
-            sender.PenContentColorThinAlternate = new Pen(sender.BrushContentColorAlternate, 1);
-            sender.PenContentColorThinAlternate.ToImmutable();
+            sender.BrushContentColorAlternate = TestBrush1;
+            sender.PenContentColorAlternate = TestPen1;
+            sender.PenContentColorThinAlternate = TestPen1;
         }
 
         static BasicWithColor()
@@ -76,26 +67,20 @@ namespace AvAp2.Models
             ContentColorProperty.Changed.Subscribe(ContentColorChanged);
             ContentColorAlternateProperty.Changed.Subscribe(ContentColorAlternateChanged);
             BrushContentColor = new SolidColorBrush(ContentColor);
-            BrushContentColor.ToImmutable();
             PenContentColor= new Pen(BrushContentColor, 3);
             if (this is IGeometry)
                 PenContentColor.DashStyle = ((IGeometry)this).IsDash ? DashStyle.Dash : DashStyle.DashDotDot;
-            PenContentColor.ToImmutable();
             PenContentColorThin = new Pen(BrushContentColor, 1);
-            PenContentColorThin.ToImmutable();
 
             BrushContentColorAlternate = new SolidColorBrush(ContentColorAlternate);
-            BrushContentColorAlternate.ToImmutable();            
             PenContentColorAlternate = new Pen(BrushContentColorAlternate, (this is IGeometry) ? ((IGeometry)this).LineThickness : 3);
             if (this is IGeometry)
                 PenContentColorAlternate.DashStyle = ((IGeometry)this).IsDash ? DashStyle.Dash : DashStyle.DashDotDot;
-            PenContentColorAlternate.ToImmutable();
             PenContentColorThinAlternate = new Pen(BrushContentColorAlternate, 1) ;
-            PenContentColorThinAlternate.ToImmutable();
         }
         #region Рисование
 
-        internal protected Brush BrushContentColorAlternate;
+        internal protected ISolidColorBrush BrushContentColorAlternate;
         internal protected Pen PenContentColorAlternate;
         internal protected Pen PenContentColorThinAlternate;
         #endregion Рисование

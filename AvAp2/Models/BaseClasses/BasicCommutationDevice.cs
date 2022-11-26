@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using AvAp2.Interfaces;
+using AvAp2.Models.SubControls;
 
 namespace AvAp2.Models
 {
@@ -590,7 +591,7 @@ namespace AvAp2.Models
         internal protected DrawingGroup DrawingBlock;
         internal protected DrawingGroup DrawingDeblock;
         internal protected DrawingGroup DrawingControlMode;
-        internal protected DrawingGroup DrawingBanners;
+        internal protected DrawingBanners DrawingBanners;
 
         public Image DrawingBlockWrapper { get; set; }
 
@@ -680,19 +681,18 @@ namespace AvAp2.Models
             PenNormalState = new Pen(Brushes.Yellow, 1);
             PenNormalState.ToImmutable();
             DrawingBlock = new DrawingGroup();
-            DrawingBanners = new DrawingGroup();
+            DrawingBanners = new DrawingBanners();
             DrawingControlMode = new DrawingGroup();
             DrawingDeblock = new DrawingGroup();
             DrawingBlockWrapper = new Image();
             DrawingDeblockWrapper = new Image();
-            DrawingBannerWrapper = new Image();
             DrawingControlModeWrapper = new Image();
             if (this.Content is null)
             {
                 this.Content = new Canvas();
             }
-            (this.Content as Canvas).Children.AddRange(new[]
-                { DrawingBannerWrapper, DrawingBlockWrapper, DrawingDeblockWrapper, DrawingControlModeWrapper });
+            (this.Content as Canvas).Children.AddRange(new Control[]
+                { DrawingBanners, DrawingBlockWrapper, DrawingDeblockWrapper, DrawingControlModeWrapper });
             Loaded += OnLoaded;
         }
 
@@ -951,323 +951,7 @@ namespace AvAp2.Models
 
         protected virtual void DrawBanners()
         {
-            DrawingBanners = new DrawingGroup();
-            
-            var transform = new TranslateTransform(MarginBanner.Left, MarginBanner.Top);
-            
-            if (TagDataBanners == null) //На время настройки
-            {
-                #region На время настройки
-
-                var geometry = new GeometryGroup
-                {
-                    Children = new GeometryCollection(new[]
-                    {
-                        new RectangleGeometry(new Rect(0, 0, 60, 30)),
-                        new RectangleGeometry(new Rect(2, 2, 60, 30)),
-                        new RectangleGeometry(new Rect(4, 4, 60, 30)),
-                        new RectangleGeometry(new Rect(6, 6, 60, 30)),
-                        new RectangleGeometry(new Rect(8, 8, 60, 30))
-                    })
-                };
-                var rects = new GeometryDrawing
-                {
-                    Geometry = geometry,
-                    Brush = BrushContentColorAlternate,
-                    Pen = PenContentColorThin
-                };
-                FormattedText ft = new FormattedText("Плакаты", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black,
-                        FontStretch.Normal),
-                    12, BrushContentColor);
-                ft.TextAlignment = TextAlignment.Left;
-                var text = new GeometryDrawing
-                {
-                    Geometry = ft.BuildGeometry(new Point(12, 13)),
-                    Brush = BrushContentColor
-                };
-               
-                DrawingBanners = new DrawingGroup
-                {
-                    Children = new DrawingCollection(new[] { text, rects }),
-                    Transform = transform
-                };
-
-                #endregion На время настройки
-            }
-            else
-            {
-                #region В работе
-                if (TagDataBanners?.TagValueString != null)
-                {
-                    int bannersState = 0;
-                    
-                    if (int.TryParse(TagDataBanners.TagValueString, out bannersState))
-                    {
-                        if (bannersState > 0)
-                        {
-                            if (Convert.ToBoolean(bannersState & 1))
-                            {
-                                #region 1. Заземлено
-                                var banner = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry(new Rect(0, 0, 60, 30)),
-                                    Brush = BrushBlue,
-                                    Pen = PenBlack
-                                };
-                                
-                                FormattedText ft = new FormattedText("Заземлено", CultureInfo.CurrentCulture,
-                                    FlowDirection.LeftToRight,
-                                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
-                                        FontStretch.Normal),
-                                    10, Brushes.WhiteSmoke);
-                                
-                                ft.MaxTextWidth = 60;
-                                ft.TextAlignment = TextAlignment.Left;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(4, 7)),
-                                    Brush = Brushes.WhiteSmoke
-                                };
-                               
-                                DrawingBanners.Children.Add(banner);
-                                DrawingBanners.Children.Add(text);
-
-                                #endregion 1. Заземлено
-                            }
-
-                            if (Convert.ToBoolean(bannersState & 2))
-                            {
-                                #region 2. ИСПЫТАНИЕ
-
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(2, 2, 60, 30),
-                                        
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
-
-                                FormattedText ft = new FormattedText("ИСПЫТАНИЕ опасно для жизни",
-                                    CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
-                                        FontStretch.Normal),
-                                    6.2, Brushes.WhiteSmoke);
-
-                                ft.MaxTextWidth = 60;
-                                ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(2, 7)),
-                                    Brush = Brushes.WhiteSmoke
-                                };
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(text);
-                                #endregion 2. ИСПЫТАНИЕ
-                            }
-
-                            if (Convert.ToBoolean(bannersState & 4))
-                            {
-                                #region 3. Транзит разомкнут
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(4, 4, 60, 30),
-                                        
-                                    },
-                                    Brush = BrushBlue,
-                                    Pen = PenBlack
-                                };
-                                var rect1 = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(8, 8, 52, 22),
-                                        
-                                    },
-                                    Brush = Brushes.WhiteSmoke,
-                                    Pen = PenBlack
-                                };
-                                
-
-                                FormattedText ft = new FormattedText("Транзит разомкнут", CultureInfo.CurrentCulture,
-                                    FlowDirection.LeftToRight,
-                                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
-                                        FontStretch.Normal),
-                                    7, Brushes.Black);
-
-                                ft.MaxTextWidth = 50;
-                                ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(9, 8.5)),
-                                    Brush = Brushes.Black
-                                };
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(rect1);
-                                DrawingBanners.Children.Add(text);
-                                #endregion 3. Транзит разомкнут
-                            }
-
-                            if (Convert.ToBoolean(bannersState & 8))
-                            {
-                                #region 4. Работа под напряжением
-
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(6, 6, 60, 30),
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
-                                var rect1 = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(10, 10, 52, 22),
-                                    },
-                                    Brush = Brushes.WhiteSmoke,
-                                    Pen = PenBlack
-                                };
-                                FormattedText ft = new FormattedText("Работа под напряжением \nповторно не включать",
-                                    CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
-                                        FontStretch.Normal),
-                                    4.5, Brushes.Red);
-
-                                ft.MaxTextWidth = 56;
-                                ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(10, 11)),
-                                    Brush = Brushes.Red
-                                };
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(rect1);
-                                DrawingBanners.Children.Add(text);
-                                #endregion 4. Работа под напряжением
-                            }
-
-                            if (Convert.ToBoolean(bannersState & 16))
-                            {
-                                #region 5. НЕ ВКЛЮЧАТЬ! Работают люди
-                                
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(8, 8, 60, 30),
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
-                                var rect1 = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(12, 12, 52, 22),
-                                    },
-                                    Brush = Brushes.WhiteSmoke,
-                                    Pen = PenBlack
-                                };
-
-                                FormattedText ft = new FormattedText("НЕ ВКЛЮЧАТЬ!\nРаботают люди",
-                                    CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
-                                        FontStretch.Normal),
-                                    6, Brushes.Red);
-
-                                ft.MaxTextWidth = 56;
-                                ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(12, 15)),
-                                    Brush = Brushes.Red
-                                };
-
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(rect1);
-                                DrawingBanners.Children.Add(text);
-                                #endregion 5. НЕ ВКЛЮЧАТЬ! Работают люди
-                            }
-
-                            if (Convert.ToBoolean(bannersState & 32))
-                            {
-                                #region 6. НЕ ВКЛЮЧАТЬ! Работа на линии
-                                
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(10, 10, 60, 30),
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
-                                
-                                FormattedText ft = new FormattedText("НЕ ВКЛЮЧАТЬ!\nРабота на линии",
-                                    CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                                    new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
-                                        FontStretch.Normal),
-                                    6, Brushes.WhiteSmoke);
-
-                                ft.MaxTextWidth = 56;
-                                ft.TextAlignment = TextAlignment.Center;
-
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(12, 17)),
-                                    Brush = Brushes.WhiteSmoke
-                                };
-                                
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(text);
-                                DrawingBanners.Transform = transform;
-
-                                #endregion 6. НЕ ВКЛЮЧАТЬ! Работа на линии
-                            }
-                        }
-                        /*
-
-                              
-
-                              <Border Grid.Row="2" Grid.Column="2" Width="85" Height="40" Visibility="{TemplateBinding ASUBanner2Visibility}" Margin="5"  BorderBrush="Black" BorderThickness="1" CornerRadius="1">
-                                  <Border BorderBrush="Red" BorderThickness="3" CornerRadius="1">
-                                      <Border BorderBrush="Black" BorderThickness="1" CornerRadius="1" Background="White">
-                                          <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                              <TextBlock FontSize="8" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Text="НЕ ВКЛЮЧАТЬ!" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                              <TextBlock FontSize="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Text="Работают люди" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                          </StackPanel>
-                                      </Border>
-                                  </Border>
-                              </Border>
-
-                              <Border Grid.Row="2" Grid.Column="2" Width="85" Height="40" Visibility="{TemplateBinding ASUBanner1Visibility}" Margin="5"  BorderBrush="Black" BorderThickness="1" CornerRadius="1">
-                                  <Border Background="Red" BorderBrush="Red" BorderThickness="1" CornerRadius="1">
-                                      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                          <TextBlock FontSize="8" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="НЕ ВКЛЮЧАТЬ!" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                          <TextBlock FontSize="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="Работа на линии" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                      </StackPanel>
-                                  </Border>
-                              </Border>
-                       
-                        
-                         */
-                    }
-                }
-
-                #endregion В работе
-            }
-
-            DrawingBanners.Transform = transform;
-            DrawingBannerWrapper.Source = new DrawingImage(DrawingBanners);
-            DrawingBannerWrapper.RenderTransform = transform;
+            DrawingBanners.InvalidateVisual();
         }
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
@@ -1294,7 +978,7 @@ namespace AvAp2.Models
             {
                 IsControlModePressed = IsModifyPressed = true; 
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsBannersPressed = false;
-            }else if (DrawingBanners.GetBounds().Contains(ModifyStartPoint))
+            }else if (DrawingBanners.Bounds.Contains(ModifyStartPoint))
             {
                 IsBannersPressed = IsModifyPressed = true;
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsControlModePressed = false;

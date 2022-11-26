@@ -57,6 +57,8 @@ namespace AvAp2.Views
             CCellCart1.TagDataControlMode.TagValueString = "1";
             CCellCart1.ControlISSelected = true;
             CCellCart2.TagDataMainState = new TagDataItem(null);
+            CCellCart2.TagDataBanners = new TagDataItem(null);
+            CCellCart2.TagDataBanners.TagValueString = "3";
             CFuse.TagDataMainState = new TagDataItem(null);
             CPEConnector.TagDataMainState = new TagDataItem(null);
             CFilterOfConnection.TagDataMainState = new TagDataItem(null);
