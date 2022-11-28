@@ -12,9 +12,9 @@ namespace AvAp2.Models
     {
         public CAutomaticSwitch()
         {
-            this.TextNameWidth = (double)60;
+            /*this.TextNameWidth = (double)60;
             this.MarginTextName = new Thickness(-30, -7, 0, 0);
-            this.TextNameISVisible = true;
+            this.TextNameISVisible = true;*/
             this.ControlISHitTestVisible = true;  
         }
         public override void Render(DrawingContext drawingContext)

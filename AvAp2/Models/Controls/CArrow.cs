@@ -15,8 +15,8 @@ namespace AvAp2.Models
         public CArrow() : base()
         {
             DataContext = this;
-            TextName = "Линия";
-            MarginTextName = new Thickness(-30, -20, 0, 0);
+            /*TextName = "Линия";
+            MarginTextName = new Thickness(-30, -20, 0, 0);*/
         }
 
         public override object Clone()
