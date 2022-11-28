@@ -265,45 +265,35 @@ namespace AvAp2.Models
                 translate1.Dispose(); 
                 rotate.Dispose();
         }
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            Geometry geometry1 = new RectangleGeometry();
-            geometry1.Transform = new RotateTransform(Angle, 15, 15);
-            GeometryGroup geometry = new GeometryGroup();
-            DrawingIsSelected = new GeometryDrawing();
             if (ControlISSelected)
             {
+                var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                DrawingContext.PushedState translate;
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
+                    
                     TranslationX = -37;
                     TranslationY = -7;
-                    geometry1 = new RectangleGeometry(new Rect(0, 0, 75, 75));
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 75, 75));
                 }
                 else
                 {
                     TranslationX = -17;
                     TranslationY = 0;
-                    geometry1 = new RectangleGeometry(new Rect(0, 0, 49, 49));
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 49, 49));
                 }
-
-
-                geometry.Children.Add(geometry1);
                 if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
-                    Rect selectedRect = DrawingVisualText.Bounds;
-                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
                 }
-
-                DrawingIsSelected.Geometry = geometry;
+                translate.Dispose();
+                rotate.Dispose();
             }
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            
-            DrawingIsSelectedWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
         }
         
         protected override void DrawMouseOver()

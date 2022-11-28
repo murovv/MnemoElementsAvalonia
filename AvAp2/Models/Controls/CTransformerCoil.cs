@@ -53,7 +53,7 @@ namespace AvAp2.Models
         public static StyledProperty<bool> IsPowerProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(IsPower),false);
         private void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
             DrawMouseOver();
         }
 
@@ -366,7 +366,7 @@ namespace AvAp2.Models
 
         private void OnControlISSelectedPropertyChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
         }
         public CTransformerCoil() : base()
         {
@@ -564,38 +564,35 @@ namespace AvAp2.Models
                 }
             }*/
         }
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
             if (ControlISSelected)
             {
-                GeometryGroup geometry = new GeometryGroup();
+                var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                DrawingContext.PushedState translate;
+                //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
+                    
                     TranslationX = -5;
                     TranslationY = -5;
-                    geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 40)));
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 40, 40));
                 }
                 else
                 {
-                    geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 30)));
+                    TranslationX = 0;
+                    TranslationY = 0;
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 30, 30));
                 }
-                //ControlIsSelected может быть изменен до того как будет создан VisualText
                 if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
-                    Rect selectedRect = DrawingVisualText.Bounds;
-                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
                 }
-
-                DrawingIsSelected.Geometry = geometry;
-                DrawingIsSelected.Brush = BrushIsSelected;
-                DrawingIsSelected.Pen = PenIsSelected;
+                translate.Dispose();
+                rotate.Dispose();
             }
-            else
-                DrawingIsSelected = new GeometryDrawing();
-            DrawingIsSelectedWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
 
         }
 

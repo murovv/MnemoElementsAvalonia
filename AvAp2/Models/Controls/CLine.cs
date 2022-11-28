@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using Avalonia.Rendering;
 using AvAp2.Interfaces;
 
@@ -203,24 +204,15 @@ namespace AvAp2.Models
             return ObjectCopier.Clone(this);
         }
         
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            DrawingIsSelected = new GeometryDrawing();
-            DrawingResizer = new GeometryDrawing();
             if (ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new LineGeometry(new Point(0, 0),new Point( CoordinateX2, CoordinateY2));
-                var ellipse = new EllipseGeometry();
-                
-                ellipse.Center = new Point(CoordinateX2, CoordinateY2);
-                ellipse.RadiusX = ellipse.RadiusY = 3;
-                DrawingResizer.Geometry = ellipse;
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                ctx.DrawLine(PenIsSelected, new Point(0, 0),new Point( CoordinateX2, CoordinateY2));
+                ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+                transform.Dispose();
             }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingResizer.Brush = Brushes.WhiteSmoke;
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle, 15, 15);
         }
 
         protected override void DrawMouseOver()

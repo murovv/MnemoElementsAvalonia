@@ -80,7 +80,7 @@ namespace AvAp2.Models
         {
             
             DrawText();
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
             DrawMouseOver();
             
         }
@@ -177,7 +177,7 @@ namespace AvAp2.Models
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawText();
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
         }
 
         internal protected Brush BrushTextNameColor;
@@ -212,7 +212,7 @@ namespace AvAp2.Models
         private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawText();
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
             DrawMouseOver();
         }
         
@@ -257,7 +257,7 @@ namespace AvAp2.Models
                     MarginTextName = new Thickness(MarginTextName.Left + dX, MarginTextName.Top + dY, 0, 0);
                     RiseMnemoMarginChanged(nameof(MarginTextName));
                 }
-                DrawIsSelected();
+                DrawingIsSelected.InvalidateVisual();
                 DrawMouseOver();
             }
         }
@@ -265,7 +265,7 @@ namespace AvAp2.Models
 
         protected override void DrawMouseOver()
         {
-            var geometryGroup = new GeometryGroup
+            /*var geometryGroup = new GeometryGroup
             {
                 FillRule = FillRule.NonZero
             };
@@ -273,13 +273,13 @@ namespace AvAp2.Models
             {
                 geometryGroup.Children.Add( new RectangleGeometry(DrawingVisualText.Bounds));
                 // DrawingMouseOver.Geometry.Transform = new RotateTransform(AngleTextName);
-            }*/
+            }#1#
             geometryGroup.Children.Add(new RectangleGeometry(new Rect(0,0,29,29)));
             DrawingMouseOver.Geometry = geometryGroup;
             DrawingMouseOver.Brush = BrushMouseOver;
             DrawingMouseOver.Pen = PenMouseOver;
             DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);*/
         }
         }
 }

@@ -88,19 +88,17 @@ namespace AvAp2.Models
         public static StyledProperty<List<string>> CommandIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(CommandIDs),new List<string>());
         #endregion Привязки
         
-        public GeometryDrawing DrawingIsSelected { get; set; }
+        public Control DrawingIsSelected { get; set; }
         public GeometryDrawing DrawingResizer { get; set; }
         public GeometryDrawing DrawingMouseOver { get; set; }
         public Image DrawingMouseOverWrapper { get; set; }
-        public DrawingIsSelected DrawingIsSelectedWrapper { get; set; }
-        
+
         public BasicMnemoElement()
         {
-            DrawingIsSelected = new GeometryDrawing();
+            DrawingIsSelected = new RenderCaller(DrawIsSelected);
             DrawingMouseOver = new GeometryDrawing();
             DrawingResizer = new GeometryDrawing();
             DrawingMouseOverWrapper = new Image();
-            DrawingIsSelectedWrapper = new DrawingIsSelected();
             DrawingMouseOverWrapper.Opacity = 0;
             DrawingResizer.Brush = Brushes.WhiteSmoke;
             DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
@@ -128,7 +126,7 @@ namespace AvAp2.Models
             {
                 this.Content = new Canvas();
             }
-            (this.Content as Canvas).Children.AddRange(new Control[]{DrawingMouseOverWrapper, DrawingIsSelectedWrapper});
+            (this.Content as Canvas).Children.AddRange(new Control[]{DrawingMouseOverWrapper, DrawingIsSelected});
             this.Loaded+= OnLoaded;
             PointerEntered+= OnPointerEntered;
             PointerExited+= OnPointerExited;
@@ -149,20 +147,20 @@ namespace AvAp2.Models
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
             DrawMouseOver();
         }
 
         private void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
             (obj.Sender as BasicMnemoElement).ControlISSelected = obj.NewValue.Value;
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
         }
 
         private void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
         {
             DrawMouseOver();
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
         }
         public static StyledProperty<double> AngleProperty = AvaloniaProperty.Register<BasicMnemoElement, double>(nameof(Angle),0);
 
@@ -260,22 +258,14 @@ namespace AvAp2.Models
             return geometry;
         }
 
-        protected virtual void DrawIsSelected()
+        protected virtual void DrawIsSelected(DrawingContext ctx)
         {
             if (ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
-                //DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 29, 29));
+                transform.Dispose();
             }
-            else
-            {
-                DrawingIsSelected.Geometry = new GeometryGroup();
-            }
-            
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedTransform = new RotateTransform(Angle,15,15).Value;
-            DrawingIsSelectedWrapper.InvalidateVisual();
         }
 
         public Matrix DrawingIsSelectedTransform { get; set; }

@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 
 namespace AvAp2.Models
 {
@@ -30,22 +31,14 @@ namespace AvAp2.Models
         }
 
 
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            
             if (DrawingVisualText.Bounds.Width > 0 && ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
+                var transform = ctx.PushPostTransform(new RotateTransform(AngleTextName, DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
+                transform.Dispose();
             }
-            else
-            {
-                DrawingIsSelected.Geometry = new GeometryGroup();
-            }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedTransform = new RotateTransform(AngleTextName, DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value;
-            DrawingIsSelectedWrapper.InvalidateVisual();
         }
         protected override void DrawMouseOver()
         {

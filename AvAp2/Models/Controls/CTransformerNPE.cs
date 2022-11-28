@@ -45,7 +45,7 @@ namespace AvAp2.Models
         {
             DataContext = this;
             DrawMouseOver();
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
         }
         public override string ElementTypeFriendlyName
         {
@@ -103,35 +103,22 @@ namespace AvAp2.Models
 
                 rotation.Dispose();
             }
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            Geometry geometry1 = new RectangleGeometry();
-            GeometryGroup geometry = new GeometryGroup();
-            DrawingIsSelected = new GeometryDrawing();
             if (ControlISSelected)
             {
+                var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                DrawingContext.PushedState translate;
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-                TranslationX = -5;
-                TranslationY = -5;
-                geometry1 = new RectangleGeometry(new Rect(0, 0, 40, 40));
-
-
-                geometry.Children.Add(geometry1);
-                if (DrawingVisualText.Bounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualText.Bounds;
-                    geometry.Children.Add(new RectangleGeometry(selectedRect));
-                }
-
-                DrawingIsSelected.Geometry = geometry;
+                TranslationX = -0;
+                TranslationY = -0;
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 40, 40));
+                if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
+                translate.Dispose();
+                rotate.Dispose();
             }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
 
         }
         

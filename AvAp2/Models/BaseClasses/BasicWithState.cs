@@ -33,7 +33,7 @@ namespace AvAp2.Models
         private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawMouseOver();
-            DrawIsSelected();
+            DrawingIsSelected.InvalidateVisual();
         }
 
         private void OnLoaded(object? sender, RoutedEventArgs e)

@@ -187,21 +187,12 @@ namespace AvAp2.Models
         {
             DrawingVisualText = new TextBlock();
         }
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
             if (ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(this.Bounds);
-                //DrawingIsSelected.Geometry.Transform = new RotateTransform(Angle, 15, 15);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, this.Bounds);
             }
-            else
-            {
-                DrawingIsSelected.Geometry = new GeometryGroup();
-            }
-            
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle);
         }
 
         protected override void DrawMouseOver()

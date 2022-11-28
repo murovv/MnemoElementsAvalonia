@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Rendering;
+using Avalonia.VisualTree;
 using AvAp2;
 using AvAp2.Models;
 using IProjectModel;
@@ -10,9 +12,9 @@ namespace StressTest.Views
 {
     public partial class MainWindow : Window
     {
-        private int width = 15;
-        private int height = 15;
-        private List<CAutomaticSwitch> children = new List<CAutomaticSwitch>();
+        private int width = 50;
+        private int height = 50;
+        private List<CArrow> children = new List<CArrow>();
         public MainWindow()
         {
             InitializeComponent();
@@ -21,21 +23,18 @@ namespace StressTest.Views
                 StackPanel column = new StackPanel();
                 for (int j = 0; j < height; j++)
                 {
-                    var arrow = new CAutomaticSwitch()
+                    var arrow = new CArrow()
                     {
                         Height = 30,
                         Width = 30,
                         ControlISSelected = true,
                         Angle = 5,
-                        TagDataBanners = new TagDataItem(null)
-                        {
-                            TagValueString = "3"
-                        }
                     };
                     column.Children.Add(arrow);
                     children.Add(arrow);
                 }
                 Panel.Children.Add(column);
+                this.Renderer.DrawFps = true;
             }
             
             Button.Click+= ButtonOnClick;
