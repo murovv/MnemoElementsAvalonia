@@ -215,13 +215,12 @@ namespace AvAp2.Models
             }
         }
 
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            DrawingMouseOver.Geometry = new LineGeometry(new Point(0,0), new Point(CoordinateX2, CoordinateY2));
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            ctx.DrawLine(PenMouseOver, new Point(0, 0),new Point( CoordinateX2, CoordinateY2));
+            ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+            transform.Dispose();
         }
 
 

@@ -340,76 +340,32 @@ namespace AvAp2.Models
             }
         }
 
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            GeometryGroup geometry1 = new GeometryGroup();
-            geometry1.Transform = new RotateTransform(Angle, 15, 15);
+            var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            DrawingContext.PushedState translate;
             //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
             {
+                    
                 TranslationX = -5;
                 TranslationY = -5;
-                geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 70)));
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 40, 70));
             }
             else
-                geometry1.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 49)));
-
-            GeometryGroup geometry = new GeometryGroup();
-            geometry.Children.Add(geometry1);
-            if (DrawingVisualText.Bounds.Width > 0)
             {
-                Rect selectedRect = DrawingVisualText.Bounds;
-                geometry.Children.Add(new RectangleGeometry(selectedRect));
+                TranslationX = 0;
+                TranslationY = 0;
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 30, 49));
             }
-            
-            DrawingMouseOver = new GeometryDrawing();
-            DrawingMouseOver.Geometry = geometry;
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
+            if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
+            {
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+            }
+            translate.Dispose();
+            rotate.Dispose();
         }
-        /*internal protected override void DrawIsSelected()
-        {
-            using (var drawingContext = DrawingVisualIsSelected.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));//Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-                if (IsPower)
-                    drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-5, -5, 40, 70));
-                else
-                    drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 30, 49));
-                drawingContext.Pop(); 
-                if (DrawingVisualText.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualText.ContentBounds;
-                    drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsSelected.Opacity = ControlISSelected ? .3 : 0;
-        }*/
-        
-        /*internal protected override void DrawMouseOver()
-        {
-            using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));//Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-                if (IsPower)
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(-5, -5, 40, 70));
-                else
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 30, 49));
-                drawingContext.Pop();
-                if (DrawingVisualText.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualText.ContentBounds;
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsMouseOver.Opacity = 0;
-        }*/
     }
 }

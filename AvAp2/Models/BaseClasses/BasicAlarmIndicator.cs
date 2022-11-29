@@ -195,13 +195,9 @@ namespace AvAp2.Models
             }
         }
 
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            DrawingMouseOver.Geometry = new RectangleGeometry(this.Bounds);
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, this.Bounds);
         }
     }
 }

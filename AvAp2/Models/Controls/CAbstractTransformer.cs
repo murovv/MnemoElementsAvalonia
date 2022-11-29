@@ -12,29 +12,15 @@ namespace AvAp2.Models
             protected set
             {
                 _translationX = value;
-                DrawingMouseOverWrapper.RenderTransform =
-                    new MatrixTransform(
-                        new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(_translationX, _translationY)
-                            .Value));
-
             } }
         public double TranslationY { get => _translationY;
             protected set
             {
                 _translationY = value;
-                DrawingMouseOverWrapper.RenderTransform =
-                    new MatrixTransform(
-                        new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(_translationX, _translationY)
-                            .Value));
-
             }  }
 
         public CAbstractTransformer()
         {
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
         }
         
        

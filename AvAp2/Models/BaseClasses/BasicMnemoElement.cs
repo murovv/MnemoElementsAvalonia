@@ -89,19 +89,13 @@ namespace AvAp2.Models
         #endregion Привязки
         
         public Control DrawingIsSelected { get; set; }
-        public GeometryDrawing DrawingResizer { get; set; }
-        public GeometryDrawing DrawingMouseOver { get; set; }
-        public Image DrawingMouseOverWrapper { get; set; }
+        public Control DrawingMouseOver { get; set; }
 
         public BasicMnemoElement()
         {
             DrawingIsSelected = new RenderCaller(DrawIsSelected);
-            DrawingMouseOver = new GeometryDrawing();
-            DrawingResizer = new GeometryDrawing();
-            DrawingMouseOverWrapper = new Image();
-            DrawingMouseOverWrapper.Opacity = 0;
-            DrawingResizer.Brush = Brushes.WhiteSmoke;
-            DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
+            DrawingMouseOver = new RenderCaller(DrawMouseOver);
+            DrawingMouseOver.Opacity = 0;
             AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
             BrushContentColor = Brushes.Black;
             BrushContentColor.ToImmutable();
@@ -126,7 +120,7 @@ namespace AvAp2.Models
             {
                 this.Content = new Canvas();
             }
-            (this.Content as Canvas).Children.AddRange(new Control[]{DrawingMouseOverWrapper, DrawingIsSelected});
+            (this.Content as Canvas).Children.AddRange(new Control[]{DrawingMouseOver, DrawingIsSelected});
             this.Loaded+= OnLoaded;
             PointerEntered+= OnPointerEntered;
             PointerExited+= OnPointerExited;
@@ -135,12 +129,12 @@ namespace AvAp2.Models
 
         private void OnPointerExited(object? sender, PointerEventArgs e)
         {
-            DrawingMouseOverWrapper.Opacity = 0;
+            DrawingMouseOver.Opacity = 0;
         }
 
         private void OnPointerEntered(object? sender, PointerEventArgs e)
         {
-            DrawingMouseOverWrapper.Opacity = 0.3;
+            DrawingMouseOver.Opacity = 0.3;
         }
         
 
@@ -148,7 +142,7 @@ namespace AvAp2.Models
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
         }
 
         private void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
@@ -159,7 +153,7 @@ namespace AvAp2.Models
 
         private void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
         {
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
             DrawingIsSelected.InvalidateVisual();
         }
         public static StyledProperty<double> AngleProperty = AvaloniaProperty.Register<BasicMnemoElement, double>(nameof(Angle),0);
@@ -268,16 +262,11 @@ namespace AvAp2.Models
             }
         }
 
-        public Matrix DrawingIsSelectedTransform { get; set; }
-
-        protected virtual void DrawMouseOver()
+        protected virtual void DrawMouseOver(DrawingContext ctx)
         {
-            DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, 29, 29));
-            //DrawingMouseOver.Geometry.Transform = new RotateTransform(Angle);
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 29, 29));
+            transform.Dispose();
         }
     }
 }

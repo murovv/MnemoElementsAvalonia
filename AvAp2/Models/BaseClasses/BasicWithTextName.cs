@@ -81,7 +81,7 @@ namespace AvAp2.Models
             
             DrawText();
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingIsSelected.InvalidateVisual();
             
         }
         [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
@@ -213,7 +213,7 @@ namespace AvAp2.Models
         {
             DrawText();
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
         }
         
         internal protected bool IsModifyPressed = false;
@@ -258,28 +258,33 @@ namespace AvAp2.Models
                     RiseMnemoMarginChanged(nameof(MarginTextName));
                 }
                 DrawingIsSelected.InvalidateVisual();
-                DrawMouseOver();
+                DrawingMouseOver.InvalidateVisual();
             }
         }
-
-
-        protected override void DrawMouseOver()
+        
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            /*var geometryGroup = new GeometryGroup
+            if (ControlISSelected)
             {
-                FillRule = FillRule.NonZero
-            };
-            /*if (DrawingVisualText.Bounds.Height > 0)
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                if (DrawingVisualText.Bounds.Width > 0)
+                {
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
+                }
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0,0,30,30));
+                transform.Dispose();
+            }
+        }
+        
+        protected override void DrawMouseOver(DrawingContext ctx)
+        {
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            if (DrawingVisualText.Bounds.Width > 0)
             {
-                geometryGroup.Children.Add( new RectangleGeometry(DrawingVisualText.Bounds));
-                // DrawingMouseOver.Geometry.Transform = new RotateTransform(AngleTextName);
-            }#1#
-            geometryGroup.Children.Add(new RectangleGeometry(new Rect(0,0,29,29)));
-            DrawingMouseOver.Geometry = geometryGroup;
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);*/
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+            }
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0,0,30,30));
+            transform.Dispose();
         }
-        }
+    }
 }

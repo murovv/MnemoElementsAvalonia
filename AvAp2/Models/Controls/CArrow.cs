@@ -16,8 +16,8 @@ namespace AvAp2.Models
         {
             DataContext = this;
             Angle = 5;
-            /*TextName = "Линия";
-            MarginTextName = new Thickness(-30, -20, 0, 0);*/
+            TextName = "Линия";
+            MarginTextName = new Thickness(-30, -20, 0, 0);
         }
 
         public override object Clone()

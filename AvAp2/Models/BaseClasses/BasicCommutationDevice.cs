@@ -187,7 +187,7 @@ namespace AvAp2.Models
         {
             DrawControlMode();
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
         }
 
         [Category("Свойства элемента мнемосхемы"),
@@ -294,7 +294,7 @@ namespace AvAp2.Models
         {
             DrawBlock();
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
          
         }
 
@@ -394,7 +394,7 @@ namespace AvAp2.Models
         {
             DrawDeblock();
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
          
         }
 
@@ -483,7 +483,7 @@ namespace AvAp2.Models
             {
                 InvalidateBanners();
                 DrawingIsSelected.InvalidateVisual();
-                DrawMouseOver();
+                DrawingMouseOver.InvalidateVisual();
              
             }
         }
@@ -515,7 +515,7 @@ namespace AvAp2.Models
         {
             InvalidateBanners();
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
          
         }
 

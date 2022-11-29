@@ -121,17 +121,11 @@ namespace AvAp2.Models
                 transform.Dispose();
             }
         }
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            if (DrawingVisualText.Bounds.Height > 0)
-            {
-                DrawingMouseOver.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
-            }
-
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+            transform.Dispose();
         }
     }
 }

@@ -54,7 +54,7 @@ namespace AvAp2.Models
         private void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
             DrawingIsSelected.InvalidateVisual();
-            DrawMouseOver();
+            DrawingMouseOver.InvalidateVisual();
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Соединение обмоток трансформатора"), PropertyGridFilterAttribute, DisplayName("Первая обмотка соединение"), Browsable(true)]
@@ -596,33 +596,32 @@ namespace AvAp2.Models
 
         }
 
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            GeometryGroup geometry = new GeometryGroup();
+            var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            DrawingContext.PushedState translate;
+            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
             {
+                    
                 TranslationX = -5;
                 TranslationY = -5;
-                geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 40)));
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 40, 40));
             }
             else
             {
-                geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 30)));
+                TranslationX = 0;
+                TranslationY = 0;
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 30, 30));
             }
-            if (DrawingVisualText.Bounds.Width > 0)
+            if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
             {
-                Rect selectedRect = DrawingVisualText.Bounds;
-                geometry.Children.Add(new RectangleGeometry(selectedRect));
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
             }
-            
-            DrawingMouseOver.Geometry = geometry;
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
+            translate.Dispose();
+            rotate.Dispose();
         }
         /*internal protected void DrawMouseOver()
         {

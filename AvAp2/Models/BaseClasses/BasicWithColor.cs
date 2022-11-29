@@ -60,7 +60,6 @@ namespace AvAp2.Models
         
         public BasicWithColor() : base()
         {
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
             ContentColor = Colors.Green;
             ContentColorAlternate = Colors.Red;
             ContentColorProperty.Changed.Subscribe(ContentColorChanged);

@@ -129,17 +129,12 @@ namespace AvAp2.Models
             }
         }
 
-        protected override void DrawMouseOver()
-        {
-            DrawingMouseOver.Geometry = new CombinedGeometry{
-                    Geometry1 = new RectangleGeometry(new Rect(0, 0, 29, 29)),
-                    Geometry2 = new RectangleGeometry(new Rect(60, 0, 29, 29)),
-                    GeometryCombineMode = GeometryCombineMode.Union
-            };
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+        protected override void DrawMouseOver(DrawingContext ctx)
+        { 
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 29, 29));
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(60, 0, 29, 29));
+            transform.Dispose();
         }
         
         //TODO
