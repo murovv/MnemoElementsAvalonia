@@ -12,8 +12,8 @@ namespace StressTest.Views
 {
     public partial class MainWindow : Window
     {
-        private int width = 35;
-        private int height = 35;
+        private int width = 50;
+        private int height = 50;
         private List<CArrow> children = new List<CArrow>();
         public MainWindow()
         {

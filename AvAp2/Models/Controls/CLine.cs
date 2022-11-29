@@ -254,7 +254,7 @@ namespace AvAp2.Models
 
             var t = e.GetPosition(this);
             #warning в авалонии 11 хит тест начал работать по  другому, так что пока так
-            if (DrawingVisualText.Bounds.Contains(t))
+            if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;
@@ -298,6 +298,9 @@ namespace AvAp2.Models
 
                     #endregion перетаскивание
                 }
+                DrawingVisualText.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
 
         }

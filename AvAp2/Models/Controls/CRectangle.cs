@@ -245,6 +245,9 @@ namespace AvAp2.Models
                     }
                     #endregion перетаскивание
                 }
+                DrawingVisualText.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
         }
 
@@ -257,7 +260,7 @@ namespace AvAp2.Models
                 IsTextPressed = false;
                 e.Handled = true;
             }
-            if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
+            if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;

@@ -183,9 +183,9 @@ namespace AvAp2.Models
             }
         }
 
-        protected override void DrawText()
+        protected override void DrawText(DrawingContext ctx)
         {
-            DrawingVisualText = new TextBlock();
+            DrawingVisualText = new Control();
         }
         protected override void DrawIsSelected(DrawingContext ctx)
         {

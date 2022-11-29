@@ -233,28 +233,19 @@ namespace AvAp2.Models
             transform.Dispose();
         }
         
-        protected override void DrawText()
+        protected override void DrawText(DrawingContext ctx)
         {
-            if (TextNameISVisible)
+            if (TextNameISVisible && !String.IsNullOrEmpty(TextName))
             {
-                DrawingVisualText.Text = TextName;
-                DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
-                DrawingVisualText.TextWrapping = TextWrapping.Wrap;
-                DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
-                DrawingVisualText.FontStyle = FontStyle.Normal;
-                DrawingVisualText.FontWeight = FontWeight.SemiBold;
-                DrawingVisualText.FontSize = 14;
-                DrawingVisualText.TextAlignment = TextAlignment.Center;
-                DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
-                DrawingVisualText.Margin = MarginTextName;
-                /*drawingContext.
-                drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));
-                drawingContext.PushTransform(new RotateTransform(AngleTextName));*/
-                DrawingVisualText.Opacity = 1;
-                DrawingVisualText.Padding = new Thickness(0, CoordinateY2 > TextNameFontSize*3 ? CoordinateY2 - TextNameFontSize*3 : 30);
+                FormattedText ft = new FormattedText(TextName, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                        TextNameFontSize, BrushTextNameColor);
+                ft.MaxTextWidth = CoordinateX2 > 10 ? CoordinateX2 : 10;
+                ft.TextAlignment = TextAlignment.Center;
+                ft.MaxLineCount = 2;
+                ft.Trimming = TextTrimming.None;
+                ctx.DrawText(ft, new Point(0, CoordinateY2 > TextNameFontSize*3 ? CoordinateY2 - TextNameFontSize*3 : 30));
             }
-            else
-                DrawingVisualText.Opacity = 0;
         }
 
         #region Изменение размеров
@@ -299,6 +290,9 @@ namespace AvAp2.Models
                     }
                     #endregion перетаскивание
                 }
+                DrawingVisualText.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
         }
         protected override void OnPointerPressed(PointerPressedEventArgs e)

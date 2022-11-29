@@ -1111,7 +1111,7 @@ namespace AvAp2.Models
             e.Pointer.Capture(this);
             ModifyStartPoint = e.GetPosition(this);
             e.Handled = true;
-            if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
+            if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsBlockPressed = IsDeblockPressed = IsBannersPressed = IsControlModePressed = false;

@@ -38,7 +38,7 @@ namespace AvAp2.Models
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
-            DrawText();
+            DrawingVisualText.InvalidateVisual();
             DrawQuality();
         }
 

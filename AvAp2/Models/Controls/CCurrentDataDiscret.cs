@@ -94,7 +94,7 @@ namespace AvAp2.Models
             }
         }
 
-        protected override void DrawText()
+        protected override void DrawText(DrawingContext ctx)
         {
             DrawingVisualText.Opacity = 0;
         }

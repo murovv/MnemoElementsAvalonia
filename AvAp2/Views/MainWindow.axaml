@@ -7,18 +7,20 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvAp2.Views.TestViews.MainWindow"
         Title="MainWindow">
-    <Window.Styles>
-        <StyleInclude Source="/Styles/BasicMnemoElementStyles.axaml"></StyleInclude>
-        <StyleInclude Source="/Styles/BasicWithTextNameStyles.axaml"></StyleInclude>
-        <StyleInclude Source="/Styles/BasicWithStateStyles.axaml"></StyleInclude>
-        <StyleInclude Source="/Styles/BasicCommutationDeviceStyles.axaml"></StyleInclude>
-        <StyleInclude Source="/Styles/CLineStyles.axaml" />
-        <StyleInclude Source="/Styles/IGeometryStyles.axaml"></StyleInclude>
-    </Window.Styles>
     <Design.DataContext>
         <viewModels:MainWindowViewModel/>
     </Design.DataContext>
     <TabControl>
+        <TabItem Header="CArrow">
+            <StackPanel>
+                <models:CArrow x:Name="CArrow" Height="50"></models:CArrow>
+                <models:CArrow x:Name="CArrow1" Height="50"></models:CArrow>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CArrowIsActive">IsActive</Button>
+                    <Button x:Name="CArrowAngle">Angle</Button>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
         <TabItem Header="CAlarmIndicator">
             <StackPanel>
                 <models:CAlarmIndicator x:Name="CAlarmIndicator" Height="30"></models:CAlarmIndicator>
@@ -31,16 +33,7 @@
                 </StackPanel>
             </StackPanel>
         </TabItem>
-        <TabItem Header="CArrow">
-            <StackPanel>
-                <models:CArrow x:Name="CArrow" Height="50"></models:CArrow>
-                <models:CArrow x:Name="CArrow1" Height="50"></models:CArrow>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="CArrowIsActive">IsActive</Button>
-                    <Button x:Name="CArrowAngle">Angle</Button>
-                </StackPanel>
-            </StackPanel>
-        </TabItem>
+        
         <TabItem Header="CArrowReserve">
             <StackPanel>
                 <models:CArrowReserve x:Name="CArrowReserve" Height="50"></models:CArrowReserve>
