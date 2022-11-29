@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 
 namespace AvAp2.Models
@@ -96,39 +97,28 @@ namespace AvAp2.Models
 
         protected override void DrawText(DrawingContext ctx)
         {
-            DrawingVisualText.Opacity = 0;
+            DrawingVisualText = new Control();
         }
 
-        protected override void DrawQuality()
+        protected override void DrawQuality(DrawingContext ctx)
         {
             if (TagDataMainState != null)
             {
                 if (TagDataMainState.Quality == TagValueQuality.Handled)
                 {
-                    StreamGeometry geometry = HandGeometry();
-                    geometry.Transform = new TranslateTransform(-15, 0);
-                    DrawingQuality.Geometry = geometry;
-                    DrawingQuality.Brush = BrushContentColor;
-                    DrawingQuality.Pen = PenHand;
+                    var translate = ctx.PushPostTransform(new TranslateTransform(-15, 0).Value);
+                    ctx.DrawGeometry(BrushContentColor, PenHand, HandGeometry());
+                    translate.Dispose();
                 }
-
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
+
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushContentColor);
-                    DrawingQuality.Geometry = ft.BuildGeometry(new Point(-5, 0));
-                    DrawingQuality.Brush = BrushContentColor;
-                }
-                else
-                {
-                    DrawingQuality.Geometry = new StreamGeometry();
+                    ctx.DrawText(ft, new Point(-5,0));
                 }
             }
-            DrawingQualityWrapper.Source = new DrawingImage(DrawingQuality);
-            DrawingQualityWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value));
         }
     }
 }

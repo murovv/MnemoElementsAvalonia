@@ -7,6 +7,7 @@ using Avalonia.VisualTree;
 using AvAp2;
 using AvAp2.Models;
 using IProjectModel;
+using TagValueQuality = AvAp2.TagValueQuality;
 
 namespace StressTest.Views
 {
@@ -14,7 +15,7 @@ namespace StressTest.Views
     {
         private int width = 50;
         private int height = 50;
-        private List<CArrow> children = new List<CArrow>();
+        private List<CAutomaticSwitch> children = new List<CAutomaticSwitch>();
         public MainWindow()
         {
             InitializeComponent();
@@ -23,12 +24,40 @@ namespace StressTest.Views
                 StackPanel column = new StackPanel();
                 for (int j = 0; j < height; j++)
                 {
-                    var arrow = new CArrow()
+                    var arrow = new CAutomaticSwitch()
                     {
                         Height = 30,
                         Width = 30,
                         ControlISSelected = true,
                         Angle = 5,
+                        TextName = "всем тестам тест",
+                        TagDataMainState = new TagDataItem(null)
+                        {
+                            Quality = TagValueQuality.Handled
+                        },
+                        TagDataBanners = new TagDataItem(null)
+                        {
+                            TagValueString = "63"
+                        },
+                        TagDataControlMode = new TagDataItem(null)
+                        {
+                            TagValueString = "1",
+                            Quality = TagValueQuality.Good
+                        },
+                        TagDataBlock = new TagDataItem(null)
+                        {
+                            TagValueString = "1",
+                            Quality = TagValueQuality.Good
+                        },
+                        TagDataDeblock = new TagDataItem(null)
+                        {
+                            TagValueString = "1",
+                            Quality = TagValueQuality.Good
+                        },
+                        TagIDBlockState = "1",
+                        TagIDDeblock = "1",
+                        TagIDControlMode = "1"
+
                     };
                     column.Children.Add(arrow);
                     children.Add(arrow);

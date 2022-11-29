@@ -151,30 +151,23 @@ namespace AvAp2.Models
         
         
 
-        protected override void DrawQuality()
+        protected override void DrawQuality(DrawingContext ctx)
         {
             if (TagDataMainState != null)
             {
                 if (TagDataMainState.Quality == TagValueQuality.Handled)
                 {
-                    StreamGeometry geometry = HandGeometry();
-                    DrawingQuality.Geometry = geometry;
-                    DrawingQuality.Brush = BrushContentColor;
-                    DrawingQuality.Pen = PenHand;
+                    ctx.DrawGeometry(BrushContentColor, PenHand, HandGeometry());
                 }
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
+
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushContentColor);
-                    DrawingQuality.Geometry = ft.BuildGeometry(new Point(-10, -10));
-                    DrawingQuality.Brush = BrushContentColor;
+                    ctx.DrawText(ft, new Point(-10,-10));
                 }
             }
-            DrawingQualityWrapper.Source = new DrawingImage(DrawingQuality);
-            DrawingQualityWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value));
         }
 
         public override void Render(DrawingContext drawingContext)
