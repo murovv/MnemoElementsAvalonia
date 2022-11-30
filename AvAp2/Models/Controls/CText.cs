@@ -15,7 +15,6 @@ namespace AvAp2.Models
         {
             get => false;
         }
-
         public CText() : base()
         {
             this.MarginTextName = new Thickness(0);

@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Timers;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Rendering;
 using Avalonia.VisualTree;
@@ -15,16 +19,16 @@ namespace StressTest.Views
     {
         private int width = 50;
         private int height = 50;
-        private List<CAutomaticSwitch> children = new List<CAutomaticSwitch>();
-        public MainWindow()
+        public void Run()
         {
-            InitializeComponent();
+            Panel.Children.Clear();
+            DateTime start = DateTime.Now;
             for (int i = 0; i < width; i++)
             {
                 StackPanel column = new StackPanel();
                 for (int j = 0; j < height; j++)
                 {
-                    var arrow = new CAutomaticSwitch()
+                    var arrow = new CAutomaticSwitch2()
                     {
                         Height = 30,
                         Width = 30,
@@ -60,21 +64,22 @@ namespace StressTest.Views
 
                     };
                     column.Children.Add(arrow);
-                    children.Add(arrow);
                 }
                 Panel.Children.Add(column);
-                this.Renderer.DrawFps = true;
             }
-            
+            TimeSpan dt = DateTime.Now-start;
+            TextBlock.Text = dt.ToString();
+        }
+        public MainWindow()
+        {
+            InitializeComponent();
+            Run();
             Button.Click+= ButtonOnClick;
         }
 
         private void ButtonOnClick(object? sender, RoutedEventArgs e)
         {
-            foreach (var arrow in children)
-            {
-                arrow.Angle += 5;
-            }
+            Run();
         }
     }
 }

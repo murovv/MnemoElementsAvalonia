@@ -840,7 +840,6 @@ namespace AvAp2.Models
             }
         }
         
-
         protected virtual void DrawBanners(DrawingContext ctx)
         {
             var transform = ctx.PushPostTransform(new TranslateTransform(MarginBanner.Left, MarginBanner.Top).Value);
