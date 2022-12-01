@@ -75,11 +75,11 @@ namespace AvAp2.Models
                 RiseMnemoNeedSave();
             }
         }
-        public static StyledProperty<double> LineThicknessProperty = AvaloniaProperty.Register<CLine, double>(nameof(LineThickness),3.0, notifying: OnLineThicknessChanged);
+        public static StyledProperty<double> LineThicknessProperty = AvaloniaProperty.Register<CLine, double>(nameof(LineThickness),3.0);
 
-        private static void OnLineThicknessChanged(IAvaloniaObject arg1, bool arg2)
+        private static void OnLineThicknessChanged(AvaloniaPropertyChangedEventArgs<double> obj)
         {
-            CLine? l = arg1 as CLine;
+            CLine? l = obj.Sender as CLine;
             l.PenContentColor = new Pen(l.BrushContentColor, l.LineThickness);
             if (l.IsDash)
             {
@@ -113,15 +113,15 @@ namespace AvAp2.Models
                 RiseMnemoNeedSave();
             }
         }
-        public static StyledProperty<bool> IsDashProperty = AvaloniaProperty.Register<CLine, bool>(nameof(IsDash), false, notifying:OnIsDashChanged);
+        public static StyledProperty<bool> IsDashProperty = AvaloniaProperty.Register<CLine, bool>(nameof(IsDash), false);
         
 
-        private static void OnIsDashChanged(IAvaloniaObject arg1, bool arg2)
+        private static void OnIsDashChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
             
-            CLine l = arg1 as CLine;
+            CLine l = obj.Sender as CLine;
             l.PenContentColor = new Pen(l.BrushContentColor, l.LineThickness);
-            if (arg2 && l.IsDash)
+            if (l.IsDash)
             {
                 l.PenContentColor.DashStyle = DashStyle.Dash;
                 l.PenContentColorAlternate.DashStyle = DashStyle.Dash;
@@ -160,6 +160,8 @@ namespace AvAp2.Models
         static CLine()
         {
             AffectsRender<CLine>(CoordinateX2Property, CoordinateY2Property, IsDashProperty, LineThicknessProperty);
+            LineThicknessProperty.Changed.Subscribe(OnLineThicknessChanged);
+            IsDashProperty.Changed.Subscribe(OnIsDashChanged);
         }
         public CLine() : base()
         {

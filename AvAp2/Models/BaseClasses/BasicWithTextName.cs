@@ -71,18 +71,18 @@ namespace AvAp2.Models
         }
         public static StyledProperty<Color> TextNameColorProperty = AvaloniaProperty.Register<BasicWithTextName, Color>(nameof(TextNameColor),Color.FromArgb(255, 0, 0, 0));
 
-        public void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        public static void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             (obj.Sender as BasicWithTextName).BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
-            DrawingVisualText.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
             
         }
 
-        public void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
+        public static void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawingVisualText.InvalidateVisual();
-            DrawingIsSelected.InvalidateVisual();
-            DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
             
         }
         [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
@@ -141,13 +141,6 @@ namespace AvAp2.Models
             AffectsRender<BasicWithTextName>(MarginTextNameProperty);
             AffectsRender<BasicWithTextName>(TextNameISVisibleProperty);
             AffectsRender<BasicWithTextName>(TextNameProperty);
-        }
-        public BasicWithTextName() : base()
-        {
-            BrushTextNameColor = new SolidColorBrush(TextNameColor);
-            DrawingVisualText = new RenderCaller(DrawText);
-            ClipToBounds = false;
-            #region subscribtions
             TextNameColorProperty.Changed.Subscribe(OnColorChanged);
             TextNameProperty.Changed.Subscribe(OnTextChanged);
             TextNameISVisibleProperty.Changed.Subscribe(OnTextChanged);
@@ -155,6 +148,14 @@ namespace AvAp2.Models
             TextNameFontSizeProperty.Changed.Subscribe(OnTextChanged);
             MarginTextNameProperty.Changed.Subscribe(OnTextChanged);
             AngleTextNameProperty.Changed.Subscribe(OnTextChanged);
+        }
+        public BasicWithTextName() : base()
+        {
+            BrushTextNameColor = new SolidColorBrush(TextNameColor);
+            DrawingVisualText = new RenderCaller(DrawText);
+            ClipToBounds = false;
+            #region subscribtions
+            
             #endregion
             //this.Content = DrawingVisualText;
             /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);

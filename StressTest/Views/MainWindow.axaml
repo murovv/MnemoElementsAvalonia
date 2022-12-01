@@ -17,7 +17,8 @@
             <StackPanel x:Name="Panel" Orientation="Horizontal"></StackPanel>
         </ZoomBorder>
         <Button x:Name="Button">Run</Button>
-        <TextBlock Canvas.Left="30" x:Name="TextBlock"></TextBlock>
+        <Button Canvas.Left="30" x:Name="ButtonChange"></Button>
+        <TextBlock Canvas.Left="60" x:Name="TextBlock"></TextBlock>
     </Canvas>
     
     

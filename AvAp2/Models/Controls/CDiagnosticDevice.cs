@@ -86,7 +86,7 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<string> ImageFileNameProperty = AvaloniaProperty.Register<CDiagnosticDevice, string>(nameof(ImageFileName), "HyperLink.png");
-        private void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
+        private static void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
         {
             var assests = AvaloniaLocator.Current.GetService<IAssetLoader>();
             var name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
@@ -94,7 +94,6 @@ namespace AvAp2.Models
             {
                 try
                 {
-                    
                     var img = new Bitmap(assests.Open(new Uri($@"avares://{name}/Assets/{obj.NewValue.Value}")));
                    
                     (obj.Sender as CDiagnosticDevice).ImageSource = img;
@@ -123,10 +122,11 @@ namespace AvAp2.Models
         static CDiagnosticDevice()
         {
             AffectsRender<CDiagnosticDevice>(IsConnectorExistLeftProperty, IsConnectorExistRightProperty, ImageSourceProperty);
+            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
         }
         public CDiagnosticDevice() : base()
         {
-            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
+            
             this.CoordinateX2 = 90;
             this.CoordinateY2 = 30;
             this.ControlISHitTestVisible = true;

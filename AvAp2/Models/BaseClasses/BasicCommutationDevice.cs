@@ -183,11 +183,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginControlMode),
                 new Thickness(-20, 0, 0, -10));
 
-        private void OnControlModeChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnControlModeChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawingControlMode.InvalidateVisual();
-            DrawingIsSelected.InvalidateVisual();
-            DrawingMouseOver.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingControlMode?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingIsSelected?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingMouseOver?.InvalidateVisual();
         }
 
         [Category("Свойства элемента мнемосхемы"),
@@ -209,11 +209,11 @@ namespace AvAp2.Models
                 Color.FromArgb(255, 255, 190, 0));
 
 
-        private void OnControlModeColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void OnControlModeColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
 
             (obj.Sender as BasicCommutationDevice).BrushControlModeTextColor = new SolidColorBrush((Color)obj.NewValue.Value);
-            DrawingControlMode.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingControlMode.InvalidateVisual();
         }
 
 
@@ -246,12 +246,9 @@ namespace AvAp2.Models
                 if (oldValue != value)
                 {
                     if (oldValue != null)
-                        oldValue.PropertyChanged -= TdiBlockState_PropertyChanged;
+                        oldValue.PropertyChanged -= OnTagDataBlockChanged;
                     if (value != null)
-                    {
-                        value.PropertyChanged += TdiBlockState_PropertyChanged;
-                    }
-
+                        value.PropertyChanged += OnTagDataBlockChanged;
                     SetValue(TagDataBlockProperty, value);
                 }
             }
@@ -260,13 +257,12 @@ namespace AvAp2.Models
         public static StyledProperty<TagDataItem> TagDataBlockProperty =
             AvaloniaProperty.Register<BasicCommutationDevice, TagDataItem>(nameof(TagDataBlock), null);
 
-        private void TdiBlockState_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTagDataBlockChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
-                DrawingBlock.InvalidateVisual();
-
+                DrawingControlMode.InvalidateVisual();
             }
 
         }
@@ -289,12 +285,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginBlock),
                 new Thickness(-20, 0, 0, -10));
 
-        private void OnBlockChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnBlockChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawingBlock.InvalidateVisual();
-            DrawingIsSelected.InvalidateVisual();
-            DrawingMouseOver.InvalidateVisual();
-         
+            (obj.Sender as BasicCommutationDevice).DrawingBlock.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingMouseOver.InvalidateVisual();
         }
 
         [Category("Привязки данных"), Description("ID тега состояния реле готовности"), PropertyGridFilterAttribute,
@@ -389,11 +384,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginDeblock),
                 new Thickness(-20, 0, 0, -10));
 
-        private void OnDeblockChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnDeblockChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawingDeblock.InvalidateVisual();
-            DrawingIsSelected.InvalidateVisual();
-            DrawingMouseOver.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingDeblock.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingMouseOver.InvalidateVisual();
          
         }
 
@@ -483,7 +478,6 @@ namespace AvAp2.Models
                 DrawingBanners.InvalidateVisual();
                 DrawingIsSelected.InvalidateVisual();
                 DrawingMouseOver.InvalidateVisual();
-             
             }
         }
 
@@ -510,11 +504,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginBanner),
                 new Thickness(-30, 0, 0, -40));
 
-        private void OnBannersChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnBannersChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawingBanners.InvalidateVisual();
-            DrawingIsSelected.InvalidateVisual();
-            DrawingMouseOver.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice)?.DrawingBanners?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice)?.DrawingIsSelected?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice)?.DrawingMouseOver.InvalidateVisual();
          
         }
 
@@ -615,9 +609,6 @@ namespace AvAp2.Models
             AffectsRender<BasicCommutationDevice>(IsConnectorExistRightProperty);
             AffectsRender<BasicCommutationDevice>(NormalStateProperty);
             AffectsRender<BasicCommutationDevice>(ShowNormalStateProperty);
-        }
-        public BasicCommutationDevice() : base()
-        {
             #region subscriptions
 
             TagIDControlModeProperty.Changed.Subscribe(OnControlModeChanged);
@@ -644,6 +635,14 @@ namespace AvAp2.Models
             ContentColorAlternateProperty.Changed.Subscribe(OnBannersChanged);
 
             #endregion
+        }
+        public BasicCommutationDevice() : base()
+        {   
+            DrawingBlock = new RenderCaller(DrawBlock);
+            DrawingBanners = new RenderCaller(DrawBanners);
+            DrawingControlMode = new RenderCaller(DrawControlMode);
+            DrawingDeblock = new RenderCaller(DrawDeblock);
+            
 
             BrushControlModeTextColor = new SolidColorBrush(ControlModeTextColor);
             BrushControlModeTextColor.ToImmutable();
@@ -670,10 +669,7 @@ namespace AvAp2.Models
             PenDeblock.ToImmutable();
             PenNormalState = new Pen(Brushes.Yellow, 1);
             PenNormalState.ToImmutable();
-            DrawingBlock = new RenderCaller(DrawBlock);
-            DrawingBanners = new RenderCaller(DrawBanners);
-            DrawingControlMode = new RenderCaller(DrawControlMode);
-            DrawingDeblock = new RenderCaller(DrawDeblock);
+            
             if (this.Content is null)
             {
                 this.Content = new Canvas();

@@ -37,15 +37,15 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<Color> Voltage4ColorProperty = AvaloniaProperty.Register<CTransformer4Coils, Color>(nameof(Voltage4Color), Color.FromArgb(255, 0, 180, 200));
-        private void OnVoltage4ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void OnVoltage4ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            
-            BrushContentColorVoltage4 = new SolidColorBrush(Voltage4Color);
-            BrushContentColorVoltage4.ToImmutable();
-            PenContentColorVoltage4 = new Pen(BrushContentColorVoltage4, 3);
-            PenContentColorVoltage4.ToImmutable();
-            PenContentColorVoltage4Thin = new Pen(BrushContentColorVoltage4, 1);
-            PenContentColorVoltage4Thin.ToImmutable();
+            var sender = obj.Sender as CTransformer4Coils;
+            sender.BrushContentColorVoltage4 = new SolidColorBrush(sender.Voltage4Color);
+            sender.BrushContentColorVoltage4.ToImmutable();
+            sender.PenContentColorVoltage4 = new Pen(sender.BrushContentColorVoltage4, 3);
+            sender.PenContentColorVoltage4.ToImmutable();
+            sender.PenContentColorVoltage4Thin = new Pen(sender.BrushContentColorVoltage4, 1);
+            sender.PenContentColorVoltage4Thin.ToImmutable();
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения четвёртой обмотки"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка напряжение"), Browsable(true)]
@@ -60,11 +60,11 @@ namespace AvAp2.Models
         }
         public static StyledProperty<VoltageClasses> Voltage4Property = AvaloniaProperty.Register<CTransformer4Coils, VoltageClasses>(nameof(Voltage4), VoltageClasses.kV110);
 
-        private void OnVoltage4Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
+        private static void OnVoltage4Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
         {
             #region класс напряжения 2 обмотки
             
-            Voltage4Color = VoltageEnumColors.VoltageColors[Voltage4];
+            (obj.Sender as CTransformer4Coils).Voltage4Color = VoltageEnumColors.VoltageColors[(obj.Sender as CTransformer4Coils).Voltage4];
 
             #endregion класс напряжения 2 обмотки
         }
@@ -122,6 +122,8 @@ namespace AvAp2.Models
         static CTransformer4Coils()
         {
             AffectsRender<CTransformer4Coils>(CoilBottomExitIsExist4Property, CoilsConnectionType4Property, CoilLeftExitIsExist4Property, CoilRightExitIsExist4Property, CoilTopExitIsExist4Property, Voltage4Property, Voltage4ColorProperty);
+            Voltage4ColorProperty.Changed.Subscribe(OnVoltage4ColorChanged);
+            Voltage4Property.Changed.Subscribe(OnVoltage4Changed);
         }
         
         public CTransformer4Coils() : base()
@@ -132,8 +134,7 @@ namespace AvAp2.Models
             PenContentColorVoltage4.ToImmutable();
             PenContentColorVoltage4Thin = new Pen(BrushContentColorVoltage4, 1);
             PenContentColorVoltage4Thin.ToImmutable();
-            Voltage4ColorProperty.Changed.Subscribe(OnVoltage4ColorChanged);
-            Voltage4Property.Changed.Subscribe(OnVoltage4Changed);
+            
         }
         public override string ElementTypeFriendlyName
         {

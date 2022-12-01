@@ -39,14 +39,12 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<Color> Voltage2ColorProperty = AvaloniaProperty.Register<CTransformer2Coils, Color>(nameof(Voltage2Color), Color.FromArgb(255, 0, 180, 200));
-        private void OnVoltage2ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void OnVoltage2ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            BrushContentColorVoltage2 = new SolidColorBrush(Voltage2Color);
-            BrushContentColorVoltage2.ToImmutable();
-            PenContentColorVoltage2 = new Pen(BrushContentColorVoltage2, 3); 
-            PenContentColorVoltage2.ToImmutable();
-            PenContentColorVoltage2Thin = new Pen(BrushContentColorVoltage2, 1);
-            PenContentColorVoltage2Thin.ToImmutable();
+            CTransformer2Coils sender = obj.Sender as CTransformer2Coils; 
+            sender.BrushContentColorVoltage2 = new SolidColorBrush(sender.Voltage2Color);
+            sender.PenContentColorVoltage2 = new Pen(sender.BrushContentColorVoltage2, 3);
+            sender.PenContentColorVoltage2Thin = new Pen(sender.BrushContentColorVoltage2, 1);
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения вторичной обмотки"), PropertyGridFilterAttribute, DisplayName("Вторая обмотка напряжение"), Browsable(true)]
@@ -61,11 +59,11 @@ namespace AvAp2.Models
         }
         public static StyledProperty<VoltageClasses> Voltage2Property = AvaloniaProperty.Register<CTransformer2Coils, VoltageClasses>(nameof(Voltage2), VoltageClasses.kV110);
 
-        private void OnVoltage2Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
+        private static void OnVoltage2Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
         {
             #region класс напряжения 2 обмотки
             
-            Voltage2Color = VoltageEnumColors.VoltageColors[Voltage2];
+            (obj.Sender as CTransformer2Coils).Voltage2Color = VoltageEnumColors.VoltageColors[(obj.Sender as CTransformer2Coils).Voltage2];
 
             #endregion класс напряжения 2 обмотки
         }
@@ -123,18 +121,15 @@ namespace AvAp2.Models
         static CTransformer2Coils()
         {
             AffectsRender<CTransformer2Coils>(CoilsConnectionType2Property, CoilLeftExitIsExist2Property, CoilRightExitIsExist2Property, CoilTopExitIsExist2Property, CoilBottomExitIsExist2Property);
+            Voltage2Property.Changed.Subscribe(OnVoltage2Changed);
+            Voltage2ColorProperty.Changed.Subscribe(OnVoltage2ColorChanged);
         }
         
         public CTransformer2Coils() : base()
         {
-            Voltage2Property.Changed.Subscribe(OnVoltage2Changed);
-            Voltage2ColorProperty.Changed.Subscribe(OnVoltage2ColorChanged);
             BrushContentColorVoltage2 = new SolidColorBrush(Voltage2Color);
-            BrushContentColorVoltage2.ToImmutable();
             PenContentColorVoltage2 = new Pen(BrushContentColorVoltage2, 3);
-            PenContentColorVoltage2.ToImmutable();
             PenContentColorVoltage2Thin = new Pen(BrushContentColorVoltage2, 1);
-            PenContentColorVoltage2Thin.ToImmutable();
         }
       
         public override string ElementTypeFriendlyName

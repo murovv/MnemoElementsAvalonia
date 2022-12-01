@@ -58,9 +58,8 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<string> ImageFileNameProperty = AvaloniaProperty.Register<CHyperLink, string>(nameof(ImageFileName), "HyperLink.png");
-        private void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
+        private static void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
         {
-            
             if (obj.NewValue.Value.Length > 0)
             {
                 try
@@ -68,8 +67,7 @@ namespace AvAp2.Models
                     var assests = AvaloniaLocator.Current.GetService<IAssetLoader>();
                     var name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
                     var img = new Bitmap(assests.Open(new Uri($@"avares://{name}/Assets/{obj.NewValue.Value}")));
-                   
-                    ImageSource = img;
+                    (obj.Sender as CHyperLink).ImageSource = img;
                     return;
                 }
                 catch (Exception) { }// Если по какой-либо причине не удалось, установим по умолчанию
@@ -86,13 +84,17 @@ namespace AvAp2.Models
             set => SetValue(ImageSourceProperty, value);
         }
         public static StyledProperty<Bitmap> ImageSourceProperty = AvaloniaProperty.Register<CHyperLink, Bitmap>("ImageSource", new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri($@"avares://{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}/Assets/HyperLink.png"))));
+
+        static CHyperLink()
+        {
+            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
+        }
         public CHyperLink() : base()
         {
-            this.TextName = "Внешняя ссылка";
-            this.ControlISHitTestVisible = true;
+            TextName = "Внешняя ссылка";
+            ControlISHitTestVisible = true;
             TextNameWidth = 200;
             MarginTextName = new Thickness(0);
-            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
         }
 
         public override string ElementTypeFriendlyName

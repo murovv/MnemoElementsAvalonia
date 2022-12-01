@@ -149,7 +149,6 @@ public class CAutomaticSwitch2 : Control
                 {
                     value.PropertyChanged += TdiControlMode_PropertyChanged;
                 }
-
                 SetValue(TagDataControlModeProperty, value);
             }
         }
@@ -160,11 +159,8 @@ public class CAutomaticSwitch2 : Control
 
     private void TdiControlMode_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
-            e.PropertyName.Equals(nameof(TagDataItem.Quality)))
-        {
+        if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) || e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             InvalidateVisual();
-        }
     }
 
     [Category("Свойства элемента мнемосхемы"), Description("Подсказка ключа режима"), PropertyGridFilterAttribute,
@@ -231,9 +227,9 @@ public class CAutomaticSwitch2 : Control
         AvaloniaProperty.Register<CAutomaticSwitch2, Thickness>(nameof(MarginControlMode),
             new Thickness(-20, 0, 0, -10));
 
-    private void OnControlModeChanged(AvaloniaPropertyChangedEventArgs obj)
+    private static void OnControlModeChanged(AvaloniaPropertyChangedEventArgs obj)
     {
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     [Category("Свойства элемента мнемосхемы"),
@@ -255,10 +251,10 @@ public class CAutomaticSwitch2 : Control
             Color.FromArgb(255, 255, 190, 0));
 
 
-    private void OnControlModeColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+    private static void OnControlModeColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
     {
         (obj.Sender as CAutomaticSwitch2).BrushControlModeTextColor = new SolidColorBrush((Color)obj.NewValue.Value);
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     internal protected bool IsBlockPressed = false;
@@ -348,9 +344,9 @@ public class CAutomaticSwitch2 : Control
         AvaloniaProperty.Register<CAutomaticSwitch2, Thickness>(nameof(MarginBlock),
             new Thickness(-20, 0, 0, -10));
 
-    private void OnBlockChanged(AvaloniaPropertyChangedEventArgs obj)
+    private static void OnBlockChanged(AvaloniaPropertyChangedEventArgs obj)
     {
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     [Category("Привязки данных"), Description("ID тега состояния реле готовности"), PropertyGridFilterAttribute,
@@ -417,11 +413,8 @@ public class CAutomaticSwitch2 : Control
 
     private void TdiDeblock_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
-            e.PropertyName.Equals(nameof(TagDataItem.Quality)))
-        {
+        if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) || e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             InvalidateVisual();
-        }
     }
 
 
@@ -443,9 +436,9 @@ public class CAutomaticSwitch2 : Control
         AvaloniaProperty.Register<CAutomaticSwitch2, Thickness>(nameof(MarginDeblock),
             new Thickness(-20, 0, 0, -10));
 
-    private void OnDeblockChanged(AvaloniaPropertyChangedEventArgs obj)
+    private static void OnDeblockChanged(AvaloniaPropertyChangedEventArgs obj)
     {
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     #endregion ОБ
@@ -488,6 +481,11 @@ public class CAutomaticSwitch2 : Control
         }
     }
 
+    
+
+    public static StyledProperty<TagDataItem> TagDataBannersProperty =
+        AvaloniaProperty.Register<CAutomaticSwitch2, TagDataItem>(nameof(TagDataBanners), null);
+
     private void ValueOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
@@ -496,11 +494,6 @@ public class CAutomaticSwitch2 : Control
             InvalidateVisual();
         }
     }
-
-    public static StyledProperty<TagDataItem> TagDataBannersProperty =
-        AvaloniaProperty.Register<CAutomaticSwitch2, TagDataItem>(nameof(TagDataBanners), null);
-
-
     [Category("Свойства элемента мнемосхемы"),
      Description(
          "Отступ плакатов в формате (0,0,0,0). Через запятую отступ слева, сверху, справа, снизу. Отступ может быть отрицательным (-10). Имеет значение только отступ слева и сверху."),
@@ -519,9 +512,9 @@ public class CAutomaticSwitch2 : Control
         AvaloniaProperty.Register<CAutomaticSwitch2, Thickness>(nameof(MarginBanner),
             new Thickness(-30, 0, 0, -40));
 
-    private void OnBannersChanged(AvaloniaPropertyChangedEventArgs obj)
+    private static void OnBannersChanged(AvaloniaPropertyChangedEventArgs obj)
     {
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     #endregion Баннеры
@@ -739,7 +732,7 @@ public class CAutomaticSwitch2 : Control
     public static StyledProperty<VoltageClasses> VoltageEnumProperty =
         AvaloniaProperty.Register<CAutomaticSwitch2, VoltageClasses>(nameof(VoltageEnum), VoltageClasses.kV110);
 
-    private void OnVoltageChanged(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
+    private static void OnVoltageChanged(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
     {
         #region Смена цвета при изменении класса напряжения
 
@@ -833,36 +826,19 @@ public class CAutomaticSwitch2 : Control
         get => (TagDataItem)GetValue(TagDataMainStateProperty);
         set
         {
-            TagDataItem oldValue = GetValue(TagDataMainStateProperty);
-            if (oldValue != value)
-            {
-                if (oldValue != null)
-                    oldValue.PropertyChanged -= Value_PropertyChanged;
-                if (value != null)
-                    value.PropertyChanged += Value_PropertyChanged;
-            }
-
             SetValue(TagDataMainStateProperty, value);
         }
     }
+    
+    
 
     public static StyledProperty<TagDataItem> TagDataMainStateProperty =
         AvaloniaProperty.Register<CAutomaticSwitch2, TagDataItem>(nameof(TagDataMainState));
 
 
-    private void Value_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private static void OnTagDataMainStateChanged(AvaloniaPropertyChangedEventArgs<TagDataItem> obj)
     {
-        if (e.PropertyName != null)
-        {
-            if (e.PropertyName.Equals(nameof(TagDataItem.Quality)))
-            {
-                InvalidateVisual();
-            }
-            else if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
-            {
-                InvalidateVisual();
-            }
-        }
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     #endregion
@@ -973,15 +949,15 @@ public class CAutomaticSwitch2 : Control
     public static StyledProperty<Color> TextNameColorProperty =
         AvaloniaProperty.Register<CAutomaticSwitch2, Color>(nameof(TextNameColor), Color.FromArgb(255, 0, 0, 0));
 
-    public void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+    public static void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
     {
         (obj.Sender as CAutomaticSwitch2).BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
-    public void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
+    public static void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
     {
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     [Category("Свойства элемента мнемосхемы"),
@@ -1191,15 +1167,15 @@ public class CAutomaticSwitch2 : Control
     #endregion Привязки
 
 
-    private void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
+    private static void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
     {
         (obj.Sender as CAutomaticSwitch2).ControlISSelected = obj.NewValue.Value;
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
-    private void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+    private static void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
     {
-        InvalidateVisual();
+        (obj.Sender as CAutomaticSwitch2).InvalidateVisual();
     }
 
     public static StyledProperty<double> AngleProperty =
@@ -1236,7 +1212,17 @@ public class CAutomaticSwitch2 : Control
         AffectsRender<CAutomaticSwitch2>(TextNameISVisibleProperty);
         AffectsRender<CAutomaticSwitch2>(TextNameProperty);
         AffectsRender<CAutomaticSwitch2>(AngleProperty,ControlISSelectedProperty);
-
+        ControlISSelectedProperty.Changed.Subscribe(OnControlIsSelectedChanged);
+        AngleProperty.Changed.Subscribe(OnAngleChanged);
+        TextNameColorProperty.Changed.Subscribe(OnColorChanged);
+        TextNameProperty.Changed.Subscribe(OnTextChanged);
+        TextNameISVisibleProperty.Changed.Subscribe(OnTextChanged);
+        TextNameWidthProperty.Changed.Subscribe(OnTextChanged);
+        TextNameFontSizeProperty.Changed.Subscribe(OnTextChanged);
+        MarginTextNameProperty.Changed.Subscribe(OnTextChanged);
+        AngleTextNameProperty.Changed.Subscribe(OnTextChanged);
+        VoltageEnumProperty.Changed.Subscribe(OnVoltageChanged);
+        TagDataMainStateProperty.Changed.Subscribe(OnTagDataMainStateChanged);
     }
 
     public CAutomaticSwitch2()
@@ -1257,18 +1243,11 @@ public class CAutomaticSwitch2 : Control
         //BrushHand.Freeze();
         PenHand = new Pen(Brushes.DarkGreen, 1);
         PenHand.ToImmutable();
-        ControlISSelectedProperty.Changed.Subscribe(OnControlIsSelectedChanged);
-        AngleProperty.Changed.Subscribe(OnAngleChanged);
+        
 
         ClipToBounds = false;
         #region subscribtions
-        TextNameColorProperty.Changed.Subscribe(OnColorChanged);
-        TextNameProperty.Changed.Subscribe(OnTextChanged);
-        TextNameISVisibleProperty.Changed.Subscribe(OnTextChanged);
-        TextNameWidthProperty.Changed.Subscribe(OnTextChanged);
-        TextNameFontSizeProperty.Changed.Subscribe(OnTextChanged);
-        MarginTextNameProperty.Changed.Subscribe(OnTextChanged);
-        AngleTextNameProperty.Changed.Subscribe(OnTextChanged);
+        
         #endregion
         //this.Content = DrawingVisualText;
         /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
@@ -1295,7 +1274,7 @@ public class CAutomaticSwitch2 : Control
             PenContentColorAlternate.DashStyle = ((IGeometry)this).IsDash ? DashStyle.Dash : DashStyle.DashDotDot;
         PenContentColorThinAlternate = new Pen(BrushContentColorAlternate, 1) ;
 
-        VoltageEnumProperty.Changed.Subscribe(OnVoltageChanged);
+        
             
         ContentColor = VoltageEnumColors.VoltageColors[VoltageClasses.kV110];// Для состояния под напряжением
         ContentColorAlternate = VoltageEnumColors.VoltageColors[VoltageClasses.kVEmpty];// Для состояния без напряжения

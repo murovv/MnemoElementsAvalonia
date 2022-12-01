@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
@@ -49,14 +50,15 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<CTransformer2Coils, Color>(nameof(Voltage3Color),
                 Color.FromArgb(255, 0, 180, 200));
 
-        private void OnVoltage3ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void OnVoltage3ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            BrushContentColorVoltage3 = new SolidColorBrush(Voltage3Color);
-            BrushContentColorVoltage3.ToImmutable();
-            PenContentColorVoltage3 = new Pen(BrushContentColorVoltage3, 3);
-            PenContentColorVoltage3.ToImmutable();
-            PenContentColorVoltage3Thin = new Pen(BrushContentColorVoltage3, 1);
-            PenContentColorVoltage3Thin.ToImmutable();
+            CTransformer3CoilsV1 sender = obj.Sender as CTransformer3CoilsV1;
+            sender.BrushContentColorVoltage3 = new SolidColorBrush(sender.Voltage3Color);
+            sender.BrushContentColorVoltage3.ToImmutable();
+            sender.PenContentColorVoltage3 = new Pen(sender.BrushContentColorVoltage3, 3);
+            sender.PenContentColorVoltage3.ToImmutable();
+            sender.PenContentColorVoltage3Thin = new Pen(sender.BrushContentColorVoltage3, 1);
+            sender.PenContentColorVoltage3Thin.ToImmutable();
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения третьей обмотки"),
@@ -74,11 +76,11 @@ namespace AvAp2.Models
         public static StyledProperty<VoltageClasses> Voltage3Property =
             AvaloniaProperty.Register<CTransformer2Coils, VoltageClasses>(nameof(Voltage3), VoltageClasses.kV110);
 
-        private void OnVoltage3Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
+        private static void OnVoltage3Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
         {
             #region класс напряжения 2 обмотки
 
-            Voltage3Color = VoltageEnumColors.VoltageColors[Voltage3];
+            (obj.Sender as CTransformer3CoilsV1).Voltage3Color = VoltageEnumColors.VoltageColors[(obj.Sender as CTransformer3CoilsV1).Voltage3];
 
             #endregion класс напряжения 2 обмотки
         }
@@ -150,6 +152,8 @@ namespace AvAp2.Models
         static CTransformer3CoilsV1()
         {
             AffectsRender<CTransformer3CoilsV1>(CoilsConnectionType3Property, CoilLeftExitIsExist3Property, CoilRightExitIsExist3Property, CoilTopExitIsExist3Property, CoilBottomExitIsExist3Property);
+            Voltage3ColorProperty.Changed.Subscribe(OnVoltage3ColorChanged);
+            Voltage3Property.Changed.Subscribe(OnVoltage3Changed);
         }
 
         public CTransformer3CoilsV1() : base()

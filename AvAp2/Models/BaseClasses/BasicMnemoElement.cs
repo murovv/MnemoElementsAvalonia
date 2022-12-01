@@ -91,12 +91,17 @@ namespace AvAp2.Models
         public Control DrawingIsSelected { get; set; }
         public Control DrawingMouseOver { get; set; }
 
+        static BasicMnemoElement()
+        {
+            ControlISSelectedProperty.Changed.Subscribe(OnControlIsSelectedChanged);
+            AngleProperty.Changed.Subscribe(OnAngleChanged);
+            AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
+        }
         public BasicMnemoElement()
         {
             DrawingIsSelected = new RenderCaller(DrawIsSelected);
             DrawingMouseOver = new RenderCaller(DrawMouseOver);
             DrawingMouseOver.Opacity = 0;
-            AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
             BrushContentColor = Brushes.Black;
             BrushContentColor.ToImmutable();
             PenContentColor = new Pen(Brushes.Black,3);
@@ -113,9 +118,6 @@ namespace AvAp2.Models
             //BrushHand.Freeze();
             PenHand = new Pen(Brushes.DarkGreen, 1);
             PenHand.ToImmutable();
-            ControlISSelectedProperty.Changed.Subscribe(OnControlIsSelectedChanged);
-            AngleProperty.Changed.Subscribe(OnAngleChanged);
-
             if (this.Content is null)
             {
                 this.Content = new Canvas();
@@ -136,25 +138,22 @@ namespace AvAp2.Models
         {
             DrawingMouseOver.Opacity = 0.3;
         }
-        
-
-
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawingIsSelected.InvalidateVisual();
             DrawingMouseOver.InvalidateVisual();
         }
 
-        private void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
+        private static void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
             (obj.Sender as BasicMnemoElement).ControlISSelected = obj.NewValue.Value;
-            DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicMnemoElement).DrawingIsSelected.InvalidateVisual();
         }
 
-        private void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+        private static void OnAngleChanged(AvaloniaPropertyChangedEventArgs<double> obj)
         {
-            DrawingMouseOver.InvalidateVisual();
-            DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicMnemoElement).DrawingMouseOver.InvalidateVisual();
+            (obj.Sender as BasicMnemoElement).DrawingIsSelected.InvalidateVisual();
         }
         public static StyledProperty<double> AngleProperty = AvaloniaProperty.Register<BasicMnemoElement, double>(nameof(Angle),0);
 
