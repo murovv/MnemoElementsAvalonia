@@ -20,7 +20,7 @@ namespace AvAp2
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindowOld
+                desktop.MainWindow = new MainWindowOld()
                 {
                     DataContext = new MainWindowViewModel(),
                 };

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using AvAp2.Interfaces;
+using AvAp2.Models.SubControls;
 
 namespace AvAp2.Models
 {
@@ -69,19 +71,18 @@ namespace AvAp2.Models
         }
         public static StyledProperty<Color> TextNameColorProperty = AvaloniaProperty.Register<BasicWithTextName, Color>(nameof(TextNameColor),Color.FromArgb(255, 0, 0, 0));
 
-        public void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        public static void OnColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             (obj.Sender as BasicWithTextName).BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
-            DrawText();
+            (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
             
         }
 
-        public void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
+        public static void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            
-            DrawText();
-            DrawIsSelected();
-            DrawMouseOver();
+            (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
             
         }
         [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
@@ -140,22 +141,6 @@ namespace AvAp2.Models
             AffectsRender<BasicWithTextName>(MarginTextNameProperty);
             AffectsRender<BasicWithTextName>(TextNameISVisibleProperty);
             AffectsRender<BasicWithTextName>(TextNameProperty);
-        }
-        public BasicWithTextName() : base()
-        {
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(AngleTextName).Value.Append(
-                        new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value));
-            DrawingIsSelectedWrapper.RenderTransform = new MatrixTransform(
-                new RotateTransform(AngleTextName).Value.Append(
-                    new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value));
-            BrushTextNameColor = new SolidColorBrush(TextNameColor);
-            DrawingVisualText = new TextBlock();
-            DrawingVisualText.ClipToBounds = false;
-            ClipToBounds = false;
-            DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
-            #region subscribtions
             TextNameColorProperty.Changed.Subscribe(OnColorChanged);
             TextNameProperty.Changed.Subscribe(OnTextChanged);
             TextNameISVisibleProperty.Changed.Subscribe(OnTextChanged);
@@ -163,6 +148,14 @@ namespace AvAp2.Models
             TextNameFontSizeProperty.Changed.Subscribe(OnTextChanged);
             MarginTextNameProperty.Changed.Subscribe(OnTextChanged);
             AngleTextNameProperty.Changed.Subscribe(OnTextChanged);
+        }
+        public BasicWithTextName() : base()
+        {
+            BrushTextNameColor = new SolidColorBrush(TextNameColor);
+            DrawingVisualText = new RenderCaller(DrawText);
+            ClipToBounds = false;
+            #region subscribtions
+            
             #endregion
             //this.Content = DrawingVisualText;
             /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
@@ -178,50 +171,34 @@ namespace AvAp2.Models
                 Content = new Canvas();
             }
             (this.Content as Canvas).Children.Add(DrawingVisualText);
-            Loaded+= OnLoaded;
         }
-
-        private void OnLoaded(object? sender, RoutedEventArgs e)
-        {
-            DrawText();
-            
-        }
+        
 
         internal protected Brush BrushTextNameColor;
 
-        public TextBlock DrawingVisualText { get; set; } = new TextBlock();
+        public Control DrawingVisualText { get; set; }
         
 
-        protected virtual void DrawText()
+        protected virtual void DrawText(DrawingContext ctx)
         {
-            if (TextNameISVisible)
+            if (TextNameISVisible && !String.IsNullOrEmpty(TextName))
             {
-                DrawingVisualText.Text = TextName;
-                DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
-                DrawingVisualText.TextWrapping = TextWrapping.Wrap;
-                DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
-                DrawingVisualText.FontStyle = FontStyle.Normal;
-                DrawingVisualText.FontWeight = FontWeight.SemiBold;
-                DrawingVisualText.FontSize = 14;
-                DrawingVisualText.TextAlignment = TextAlignment.Center;
-                // DrawingVisualText.RenderTransform = ;
-                DrawingVisualText.Margin = MarginTextName;
-                /*Matrix transform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value;
-                transform.Prepend();*/
-                DrawingVisualText.Opacity = 1;
-                DrawingVisualText.RenderTransform = new RotateTransform(AngleTextName);
+                
+                FormattedText ft = new FormattedText(TextName, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Expanded),
+                        TextNameFontSize, BrushTextNameColor);
+                
+                ft.MaxTextWidth = TextNameWidth > 10 ? TextNameWidth: 10;
+                ft.TextAlignment = TextAlignment.Center;
+                ft.Trimming = TextTrimming.None;
+                var translate = ctx.PushPostTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value);
+                var rotate = ctx.PushPostTransform(new RotateTransform(AngleTextName).Value);
+                ctx.DrawText(ft, new Point(0, 0));
+                rotate.Dispose();
+                translate.Dispose();
             }
-            else
-                DrawingVisualText.Opacity = 0;
-            
         }
-
-        private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
-        {
-            DrawText();
-            DrawIsSelected();
-            DrawMouseOver();
-        }
+        
         
         internal protected bool IsModifyPressed = false;
         internal protected bool IsTextPressed = false;
@@ -233,7 +210,7 @@ namespace AvAp2.Models
         {
             ModifyStartPoint = e.GetPosition(this);
 #warning в авалонии 11 хит тест начал работать по  другому, так что пока так
-            if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
+            if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;
@@ -264,29 +241,35 @@ namespace AvAp2.Models
                     MarginTextName = new Thickness(MarginTextName.Left + dX, MarginTextName.Top + dY, 0, 0);
                     RiseMnemoMarginChanged(nameof(MarginTextName));
                 }
-                DrawIsSelected();
-                DrawMouseOver();
+                DrawingVisualText.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
         }
-
-
-        protected override void DrawMouseOver()
+        
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            var geometryGroup = new GeometryGroup
+            if (ControlISSelected)
             {
-                FillRule = FillRule.NonZero
-            };
-            /*if (DrawingVisualText.Bounds.Height > 0)
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                if (DrawingVisualText.Bounds.Width > 0)
+                {
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
+                }
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0,0,30,30));
+                transform.Dispose();
+            }
+        }
+        
+        protected override void DrawMouseOver(DrawingContext ctx)
+        {
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            if (DrawingVisualText.Bounds.Width > 0)
             {
-                geometryGroup.Children.Add( new RectangleGeometry(DrawingVisualText.Bounds));
-                // DrawingMouseOver.Geometry.Transform = new RotateTransform(AngleTextName);
-            }*/
-            geometryGroup.Children.Add(new RectangleGeometry(new Rect(0,0,29,29)));
-            DrawingMouseOver.Geometry = geometryGroup;
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+            }
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0,0,30,30));
+            transform.Dispose();
         }
-        }
+    }
 }

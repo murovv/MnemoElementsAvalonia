@@ -58,9 +58,8 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<string> ImageFileNameProperty = AvaloniaProperty.Register<CHyperLink, string>(nameof(ImageFileName), "HyperLink.png");
-        private void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
+        private static void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
         {
-            
             if (obj.NewValue.Value.Length > 0)
             {
                 try
@@ -68,8 +67,7 @@ namespace AvAp2.Models
                     var assests = AvaloniaLocator.Current.GetService<IAssetLoader>();
                     var name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
                     var img = new Bitmap(assests.Open(new Uri($@"avares://{name}/Assets/{obj.NewValue.Value}")));
-                   
-                    ImageSource = img;
+                    (obj.Sender as CHyperLink).ImageSource = img;
                     return;
                 }
                 catch (Exception) { }// Если по какой-либо причине не удалось, установим по умолчанию
@@ -86,13 +84,17 @@ namespace AvAp2.Models
             set => SetValue(ImageSourceProperty, value);
         }
         public static StyledProperty<Bitmap> ImageSourceProperty = AvaloniaProperty.Register<CHyperLink, Bitmap>("ImageSource", new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri($@"avares://{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}/Assets/HyperLink.png"))));
+
+        static CHyperLink()
+        {
+            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
+        }
         public CHyperLink() : base()
         {
-            this.TextName = "Внешняя ссылка";
-            this.ControlISHitTestVisible = true;
+            TextName = "Внешняя ссылка";
+            ControlISHitTestVisible = true;
             TextNameWidth = 200;
             MarginTextName = new Thickness(0);
-            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
         }
 
         public override string ElementTypeFriendlyName
@@ -112,34 +114,20 @@ namespace AvAp2.Models
             rotate.Dispose();
         }
         
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            
-            if (DrawingVisualText.Bounds.Width > 0 && ControlISSelected)
+            if (ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
+                transform.Dispose();
             }
-            else
-            {
-                DrawingIsSelected.Geometry = new GeometryGroup();
-            }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle);
         }
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            if (DrawingVisualText.Bounds.Height > 0)
-            {
-                DrawingMouseOver.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
-            }
-
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+            transform.Dispose();
         }
     }
 }

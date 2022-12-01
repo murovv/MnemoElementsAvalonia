@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 
 namespace AvAp2.Models
 {
@@ -14,7 +15,6 @@ namespace AvAp2.Models
         {
             get => false;
         }
-
         public CText() : base()
         {
             this.MarginTextName = new Thickness(0);
@@ -30,36 +30,23 @@ namespace AvAp2.Models
         }
 
 
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            
             if (DrawingVisualText.Bounds.Width > 0 && ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
+                var transform = ctx.PushPostTransform(new RotateTransform(AngleTextName, DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
+                transform.Dispose();
             }
-            else
-            {
-                DrawingIsSelected.Geometry = new GeometryGroup();
-            }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(AngleTextName);
-            
         }
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            if (DrawingVisualText.Bounds.Height > 0)
+            if (DrawingVisualText.Bounds.Width > 0)
             {
-                DrawingMouseOver.Geometry = new RectangleGeometry(DrawingVisualText.Bounds);
-                // DrawingMouseOver.Geometry.Transform = new RotateTransform(AngleTextName);
+                var transform = ctx.PushPostTransform(new RotateTransform(AngleTextName, DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+                transform.Dispose();
             }
-
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(AngleTextName);
         }
 
         

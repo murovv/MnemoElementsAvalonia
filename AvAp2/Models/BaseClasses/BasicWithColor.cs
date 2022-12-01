@@ -26,7 +26,7 @@ namespace AvAp2.Models
 
         [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента"),
          DisplayName("Цвет содержимого"), Browsable(true)]
-        private void ContentColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void ContentColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             BasicWithColor sender = obj.Sender as BasicWithColor;
             sender.BrushContentColor = TestBrush1;
@@ -44,7 +44,7 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<Color> ContentColorAlternateProperty = AvaloniaProperty.Register<BasicWithColor,Color>(nameof(ContentColorAlternate));
-        private void ContentColorAlternateChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void ContentColorAlternateChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             BasicWithColor sender = obj.Sender as BasicWithColor;
             sender.BrushContentColorAlternate = TestBrush1;
@@ -55,17 +55,15 @@ namespace AvAp2.Models
         static BasicWithColor()
         {
             AffectsRender<BasicWithColor>(ContentColorProperty, ContentColorAlternateProperty);
+            ContentColorProperty.Changed.Subscribe(ContentColorChanged);
+            ContentColorAlternateProperty.Changed.Subscribe(ContentColorAlternateChanged);
         }
 
         
         public BasicWithColor() : base()
         {
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle);
             ContentColor = Colors.Green;
             ContentColorAlternate = Colors.Red;
-            ContentColorProperty.Changed.Subscribe(ContentColorChanged);
-            ContentColorAlternateProperty.Changed.Subscribe(ContentColorAlternateChanged);
             BrushContentColor = new SolidColorBrush(ContentColor);
             PenContentColor= new Pen(BrushContentColor, 3);
             if (this is IGeometry)

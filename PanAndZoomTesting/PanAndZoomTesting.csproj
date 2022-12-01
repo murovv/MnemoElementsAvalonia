@@ -31,13 +31,4 @@
     <ItemGroup>
       <ProjectReference Include="..\AvAp2\AvAp2.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <AdditionalFiles Include="Styles\BasicCommutationDeviceStyles.axaml" />
-      <AdditionalFiles Include="Styles\BasicMnemoElementStyles.axaml" />
-      <AdditionalFiles Include="Styles\BasicWithStateStyles.axaml" />
-      <AdditionalFiles Include="Styles\BasicWithTextNameStyles.axaml" />
-      <AdditionalFiles Include="Styles\CLineStyles.axaml" />
-      <AdditionalFiles Include="Styles\CRectangleStyles.axaml" />
-      <AdditionalFiles Include="Styles\IGeometryStyles.axaml" />
-    </ItemGroup>
 </Project>

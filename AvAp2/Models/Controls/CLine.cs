@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using Avalonia.Rendering;
 using AvAp2.Interfaces;
 
@@ -74,11 +75,11 @@ namespace AvAp2.Models
                 RiseMnemoNeedSave();
             }
         }
-        public static StyledProperty<double> LineThicknessProperty = AvaloniaProperty.Register<CLine, double>(nameof(LineThickness),3.0, notifying: OnLineThicknessChanged);
+        public static StyledProperty<double> LineThicknessProperty = AvaloniaProperty.Register<CLine, double>(nameof(LineThickness),3.0);
 
-        private static void OnLineThicknessChanged(IAvaloniaObject arg1, bool arg2)
+        private static void OnLineThicknessChanged(AvaloniaPropertyChangedEventArgs<double> obj)
         {
-            CLine? l = arg1 as CLine;
+            CLine? l = obj.Sender as CLine;
             l.PenContentColor = new Pen(l.BrushContentColor, l.LineThickness);
             if (l.IsDash)
             {
@@ -112,15 +113,15 @@ namespace AvAp2.Models
                 RiseMnemoNeedSave();
             }
         }
-        public static StyledProperty<bool> IsDashProperty = AvaloniaProperty.Register<CLine, bool>(nameof(IsDash), false, notifying:OnIsDashChanged);
+        public static StyledProperty<bool> IsDashProperty = AvaloniaProperty.Register<CLine, bool>(nameof(IsDash), false);
         
 
-        private static void OnIsDashChanged(IAvaloniaObject arg1, bool arg2)
+        private static void OnIsDashChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
             
-            CLine l = arg1 as CLine;
+            CLine l = obj.Sender as CLine;
             l.PenContentColor = new Pen(l.BrushContentColor, l.LineThickness);
-            if (arg2 && l.IsDash)
+            if (l.IsDash)
             {
                 l.PenContentColor.DashStyle = DashStyle.Dash;
                 l.PenContentColorAlternate.DashStyle = DashStyle.Dash;
@@ -159,6 +160,8 @@ namespace AvAp2.Models
         static CLine()
         {
             AffectsRender<CLine>(CoordinateX2Property, CoordinateY2Property, IsDashProperty, LineThicknessProperty);
+            LineThicknessProperty.Changed.Subscribe(OnLineThicknessChanged);
+            IsDashProperty.Changed.Subscribe(OnIsDashChanged);
         }
         public CLine() : base()
         {
@@ -203,38 +206,23 @@ namespace AvAp2.Models
             return ObjectCopier.Clone(this);
         }
         
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            DrawingIsSelected = new GeometryDrawing();
-            DrawingResizer = new GeometryDrawing();
             if (ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new LineGeometry(new Point(0, 0),new Point( CoordinateX2, CoordinateY2));
-                var ellipse = new EllipseGeometry();
-                
-                ellipse.Center = new Point(CoordinateX2, CoordinateY2);
-                ellipse.RadiusX = ellipse.RadiusY = 3;
-                DrawingResizer.Geometry = ellipse;
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                ctx.DrawLine(PenIsSelected, new Point(0, 0),new Point( CoordinateX2, CoordinateY2));
+                ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+                transform.Dispose();
             }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingResizer.Brush = Brushes.WhiteSmoke;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(new DrawingGroup
-                {
-                    Children = new DrawingCollection(new []{DrawingIsSelected, DrawingResizer})
-                }
-            );
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle, 15, 15);
         }
 
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            DrawingMouseOver.Geometry = new LineGeometry(new Point(0,0), new Point(CoordinateX2, CoordinateY2));
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            ctx.DrawLine(PenMouseOver, new Point(0, 0),new Point( CoordinateX2, CoordinateY2));
+            ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+            transform.Dispose();
         }
 
 
@@ -268,7 +256,7 @@ namespace AvAp2.Models
 
             var t = e.GetPosition(this);
             #warning в авалонии 11 хит тест начал работать по  другому, так что пока так
-            if (DrawingVisualText.Bounds.Contains(t))
+            if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;
@@ -312,6 +300,9 @@ namespace AvAp2.Models
 
                     #endregion перетаскивание
                 }
+                DrawingVisualText.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
 
         }

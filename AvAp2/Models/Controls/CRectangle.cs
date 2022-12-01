@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using Avalonia.Rendering;
 using AvAp2.Interfaces;
 
@@ -154,39 +155,23 @@ namespace AvAp2.Models
 
         
 
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            DrawingIsSelected = new GeometryDrawing();
-            DrawingResizer = new GeometryDrawing();
             if (ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(new Rect(0, 0, CoordinateX2, CoordinateY2));
-                var ellipse = new EllipseGeometry();
-                
-                ellipse.Center = new Point(CoordinateX2, CoordinateY2);
-                ellipse.RadiusX = ellipse.RadiusY = 3;
-                DrawingResizer.Geometry = ellipse;
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-1, -1, CoordinateX2 > 0 ? CoordinateX2+2 : 1, CoordinateY2 > 0 ? CoordinateY2+2 : 1));
+                ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+                transform.Dispose();
             }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingResizer.Brush = Brushes.WhiteSmoke;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(new DrawingGroup
-                {
-                    Children = new DrawingCollection(new []{DrawingIsSelected, DrawingResizer})
-                }
-            );
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle, 15, 15);
         }
 
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-
-            DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(0, 0, CoordinateX2, CoordinateY2)); 
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(-1, -1, CoordinateX2 > 0 ? CoordinateX2+2 : 1, CoordinateY2 > 0 ? CoordinateY2+2 : 1));
+            ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+            transform.Dispose();
         }
 
         /*internal protected override void DrawIsSelected()
@@ -260,6 +245,9 @@ namespace AvAp2.Models
                     }
                     #endregion перетаскивание
                 }
+                DrawingVisualText.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
         }
 
@@ -272,7 +260,7 @@ namespace AvAp2.Models
                 IsTextPressed = false;
                 e.Handled = true;
             }
-            if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
+            if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsResizerPressed = false;

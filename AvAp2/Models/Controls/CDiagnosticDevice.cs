@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Media.Immutable;
 using Avalonia.Platform;
 using AvAp2.Interfaces;
 
@@ -85,7 +86,7 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<string> ImageFileNameProperty = AvaloniaProperty.Register<CDiagnosticDevice, string>(nameof(ImageFileName), "HyperLink.png");
-        private void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
+        private static void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
         {
             var assests = AvaloniaLocator.Current.GetService<IAssetLoader>();
             var name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
@@ -93,7 +94,6 @@ namespace AvAp2.Models
             {
                 try
                 {
-                    
                     var img = new Bitmap(assests.Open(new Uri($@"avares://{name}/Assets/{obj.NewValue.Value}")));
                    
                     (obj.Sender as CDiagnosticDevice).ImageSource = img;
@@ -122,12 +122,11 @@ namespace AvAp2.Models
         static CDiagnosticDevice()
         {
             AffectsRender<CDiagnosticDevice>(IsConnectorExistLeftProperty, IsConnectorExistRightProperty, ImageSourceProperty);
+            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
         }
         public CDiagnosticDevice() : base()
         {
-            DrawingMouseOverWrapper.RenderTransform = new TranslateTransform(-1, -1);
-            DrawingIsSelectedWrapper.RenderTransform = new TranslateTransform(-1, -1);
-            ImageFileNameProperty.Changed.Subscribe(OnASUImageFileNamePropertyChanged);
+            
             this.CoordinateX2 = 90;
             this.CoordinateY2 = 30;
             this.ControlISHitTestVisible = true;
@@ -152,30 +151,23 @@ namespace AvAp2.Models
         
         
 
-        protected override void DrawQuality()
+        protected override void DrawQuality(DrawingContext ctx)
         {
             if (TagDataMainState != null)
             {
                 if (TagDataMainState.Quality == TagValueQuality.Handled)
                 {
-                    StreamGeometry geometry = HandGeometry();
-                    DrawingQuality.Geometry = geometry;
-                    DrawingQuality.Brush = BrushContentColor;
-                    DrawingQuality.Pen = PenHand;
+                    ctx.DrawGeometry(BrushContentColor, PenHand, HandGeometry());
                 }
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
+
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushContentColor);
-                    DrawingQuality.Geometry = ft.BuildGeometry(new Point(-10, -10));
-                    DrawingQuality.Brush = BrushContentColor;
+                    ctx.DrawText(ft, new Point(-10,-10));
                 }
             }
-            DrawingQualityWrapper.Source = new DrawingImage(DrawingQuality);
-            DrawingQualityWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value));
         }
 
         public override void Render(DrawingContext drawingContext)
@@ -213,74 +205,40 @@ namespace AvAp2.Models
             //drawingContext.DrawImage(ImageSource, new Rect(1, 1, CoordinateX2 > 30 ? CoordinateX2 : 30, CoordinateY2  > TextNameFontSize ? CoordinateY2 - TextNameFontSize : 30));
             rotate.Dispose();
         }
-
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
             if (ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(new Rect(-1, -1, CoordinateX2 > 0 ? CoordinateX2+2 : 1, CoordinateY2 > 0 ? CoordinateY2+2 : 1));
-                var ellipse = new EllipseGeometry();
-                
-                ellipse.Center = new Point(CoordinateX2, CoordinateY2);
-                ellipse.RadiusX = ellipse.RadiusY = 3;
-                DrawingResizer.Geometry = ellipse;
-
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-1, -1, CoordinateX2 > 0 ? CoordinateX2+2 : 1, CoordinateY2 > 0 ? CoordinateY2+2 : 1));
+                ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+                transform.Dispose();
             }
-            else
-            {
-                DrawingIsSelected.Geometry = new GeometryGroup();
-                DrawingResizer.Geometry = new GeometryGroup();
-            }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingResizer.Brush = Brushes.WhiteSmoke;
-            DrawingResizer.Pen = new Pen(Brushes.WhiteSmoke);
-            DrawingIsSelectedWrapper.Source = new DrawingImage(new DrawingGroup
-                {
-                    Children = new DrawingCollection(new []{DrawingIsSelected, DrawingResizer})
-                }
-            );
-            DrawingIsSelectedWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-1, -1)
-                        .Value));
         }
 
-        protected override void DrawMouseOver()
+        
+
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            DrawingMouseOver.Geometry = new RectangleGeometry(new Rect(-1, -1, CoordinateX2 > 0 ? CoordinateX2+2 : 1, CoordinateY2 > 0 ? CoordinateY2+2 : 1));
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-1, -1)
-                        .Value));
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(-1, -1, CoordinateX2 > 0 ? CoordinateX2+2 : 1, CoordinateY2 > 0 ? CoordinateY2+2 : 1));
+            ctx.DrawEllipse(Brushes.WhiteSmoke, new ImmutablePen(Brushes.WhiteSmoke),new Point(CoordinateX2, CoordinateY2), 3 ,3);
+            transform.Dispose();
         }
         
-        protected override void DrawText()
+        protected override void DrawText(DrawingContext ctx)
         {
-            if (TextNameISVisible)
+            if (TextNameISVisible && !String.IsNullOrEmpty(TextName))
             {
-                DrawingVisualText.Text = TextName;
-                DrawingVisualText.MaxWidth = TextNameWidth > 10 ? TextNameWidth : 10;
-                DrawingVisualText.TextWrapping = TextWrapping.Wrap;
-                DrawingVisualText.FontFamily = new FontFamily("Segoe UI");
-                DrawingVisualText.FontStyle = FontStyle.Normal;
-                DrawingVisualText.FontWeight = FontWeight.SemiBold;
-                DrawingVisualText.FontSize = 14;
-                DrawingVisualText.TextAlignment = TextAlignment.Center;
-                DrawingVisualText.RenderTransform = new TranslateTransform(MarginTextName.Left, MarginTextName.Top);
-                DrawingVisualText.Margin = MarginTextName;
-                /*drawingContext.
-                drawingContext.PushTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top));
-                drawingContext.PushTransform(new RotateTransform(AngleTextName));*/
-                DrawingVisualText.Opacity = 1;
-                DrawingVisualText.Padding = new Thickness(0, CoordinateY2 > TextNameFontSize*3 ? CoordinateY2 - TextNameFontSize*3 : 30);
+                FormattedText ft = new FormattedText(TextName, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
+                        TextNameFontSize, BrushTextNameColor);
+                ft.MaxTextWidth = CoordinateX2 > 10 ? CoordinateX2 : 10;
+                ft.TextAlignment = TextAlignment.Center;
+                ft.MaxLineCount = 2;
+                ft.Trimming = TextTrimming.None;
+                ctx.DrawText(ft, new Point(0, CoordinateY2 > TextNameFontSize*3 ? CoordinateY2 - TextNameFontSize*3 : 30));
             }
-            else
-                DrawingVisualText.Opacity = 0;
         }
 
         #region Изменение размеров
@@ -325,6 +283,9 @@ namespace AvAp2.Models
                     }
                     #endregion перетаскивание
                 }
+                DrawingVisualText.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
         }
         protected override void OnPointerPressed(PointerPressedEventArgs e)

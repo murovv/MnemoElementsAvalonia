@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using AvAp2.Interfaces;
+using AvAp2.Models.SubControls;
 
 namespace AvAp2.Models
 {
@@ -17,14 +18,13 @@ namespace AvAp2.Models
             AffectsRender<BasicWithState>(TagIDMainStateProperty);
         }
         public BasicWithState() : base()
-        { 
-            DrawingQuality = new GeometryDrawing();
-            DrawingQualityWrapper = new Image();
+        {
+            DrawingQuality = new RenderCaller(DrawQuality);
             if (Content is null)
             {
                 Content = new Canvas();
             }
-            (Content as Canvas).Children.Add(DrawingQualityWrapper);
+            (Content as Canvas).Children.Add(DrawingQuality);
             Loaded+= OnLoaded;
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
             
@@ -32,14 +32,14 @@ namespace AvAp2.Models
 
         private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
         {
-            DrawMouseOver();
-            DrawIsSelected();
+            DrawingMouseOver.InvalidateVisual();
+            DrawingIsSelected.InvalidateVisual();
         }
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
-            DrawText();
-            DrawQuality();
+            DrawingVisualText.InvalidateVisual();
+            DrawingQuality.InvalidateVisual();
         }
 
         public string TdiStateString
@@ -84,7 +84,7 @@ namespace AvAp2.Models
             {
                 if (e.PropertyName.Equals(nameof(TagDataItem.Quality)))
                 {
-                    DrawQuality();
+                    DrawingQuality.InvalidateVisual();
                 }else if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
                 {
                     InvalidateVisual();
@@ -92,20 +92,15 @@ namespace AvAp2.Models
             }
         }
         
-        public GeometryDrawing DrawingQuality { get; protected set; }
-
-        public Image DrawingQualityWrapper { get; set; }
-
-        protected virtual void DrawQuality()
+        public Control DrawingQuality { get; protected set; }
+        
+        protected virtual void DrawQuality(DrawingContext ctx)
         {
             if (TagDataMainState != null)
             {
                 if (TagDataMainState.Quality == TagValueQuality.Handled)
                 {
-                    StreamGeometry geometry = HandGeometry();
-                    DrawingQuality.Geometry = geometry;
-                    DrawingQuality.Brush = BrushContentColor;
-                    DrawingQuality.Pen = PenHand;
+                    ctx.DrawGeometry(BrushContentColor, PenHand, HandGeometry());
                 }
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
@@ -113,20 +108,9 @@ namespace AvAp2.Models
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushContentColor);
-
-                    DrawingQuality.Brush = BrushContentColor;
-                }
-                else
-                {
-                    DrawingQuality.Geometry = new StreamGeometry();
+                    ctx.DrawText(ft, new Point(0,0));
                 }
             }
-
-            DrawingQualityWrapper.Source = new DrawingImage(DrawingQuality);
-            DrawingQualityWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value));
         }
-        
     }
 }

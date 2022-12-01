@@ -30,35 +30,25 @@ namespace AvAp2.Models
         public static StyledProperty<string> TextUomProperty = AvaloniaProperty.Register<CCurrentDataAnalog,string>(nameof(TextUom), "");
 
        
-        protected override void DrawQuality()
+        protected override void DrawQuality(DrawingContext ctx)
         {
             if (TagDataMainState != null)
             {
                 if (TagDataMainState.Quality == TagValueQuality.Handled)
                 {
-                    StreamGeometry geometry = HandGeometry();
-                    geometry.Transform = new TranslateTransform(-15, 0);
-                    DrawingQuality.Geometry = geometry;
-                    DrawingQuality.Brush = BrushContentColor;
-                    DrawingQuality.Pen = PenHand;
+                    var translate = ctx.PushPostTransform(new TranslateTransform(-15, 0).Value);
+                    ctx.DrawGeometry(BrushContentColor, PenHand, HandGeometry());
+                    translate.Dispose();
                 }
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
+
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushContentColor);
-                    DrawingQuality.Geometry = ft.BuildGeometry(new Point(-5, 0));
-                    DrawingQuality.Brush = BrushContentColor;
-                }
-                else
-                {
-                    DrawingQuality.Geometry = new StreamGeometry();
+                    ctx.DrawText(ft, new Point(-5,0));
                 }
             }
-            DrawingQualityWrapper.Source = new DrawingImage(DrawingQuality);
-            DrawingQualityWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(-10, -10).Value));
         }
         
 
@@ -120,35 +110,29 @@ namespace AvAp2.Models
             }
             
         }
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            if (this.Bounds.Width > 0 && ControlISSelected)
+            if (Bounds.Width>0 && ControlISSelected)
             {
-                DrawingIsSelected.Geometry = new RectangleGeometry(this.Bounds);
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, Bounds);
+                transform.Dispose();
             }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform = new RotateTransform(Angle);
         }
         
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
             
-            if (this.Bounds.Width > 0)
+            if (Bounds.Width>0)
             {
-                DrawingMouseOver.Geometry = new RectangleGeometry(this.Bounds);
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, Bounds);
+                transform.Dispose();
             }
-
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform = new RotateTransform(Angle);
         }
-        protected override void DrawText()
+        protected override void DrawText(DrawingContext ctx)
         {
-            DrawingVisualText.Opacity = 0;
+            DrawingVisualText = new Control();
         }
     }
 }

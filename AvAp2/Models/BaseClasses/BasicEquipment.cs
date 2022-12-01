@@ -97,7 +97,7 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<VoltageClasses> VoltageEnumProperty = AvaloniaProperty.Register<BasicEquipment,VoltageClasses>(nameof(VoltageEnum),VoltageClasses.kV110);
-        private void OnVoltageChanged(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
+        private static void OnVoltageChanged(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
         {
             #region Смена цвета при изменении класса напряжения
             ((obj.Sender as BasicWithColor)!).ContentColor = VoltageEnumColors.VoltageColors[obj.NewValue.Value];
@@ -157,11 +157,10 @@ namespace AvAp2.Models
         static BasicEquipment()
         {
             AffectsRender<BasicEquipment>(VoltageEnumProperty);
+            VoltageEnumProperty.Changed.Subscribe(OnVoltageChanged);
         }
         public BasicEquipment() : base()
         {
-            VoltageEnumProperty.Changed.Subscribe(OnVoltageChanged);
-            
             ContentColor = VoltageEnumColors.VoltageColors[VoltageClasses.kV110];// Для состояния под напряжением
             ContentColorAlternate = VoltageEnumColors.VoltageColors[VoltageClasses.kVEmpty];// Для состояния без напряжения
         }

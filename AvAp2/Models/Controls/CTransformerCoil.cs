@@ -51,10 +51,10 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<bool> IsPowerProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(IsPower),false);
-        private void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
+        private static void OnIsPowerChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            DrawIsSelected();
-            DrawMouseOver();
+            (obj.Sender as CTransformerCoil).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as CTransformerCoil).DrawingMouseOver.InvalidateVisual();
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Соединение обмоток трансформатора"), PropertyGridFilterAttribute, DisplayName("Первая обмотка соединение"), Browsable(true)]
@@ -101,15 +101,13 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<Color> AutoVoltageColorProperty = AvaloniaProperty.Register<CTransformerCoil,Color>(nameof(AutoVoltageColor), Color.FromArgb(255, 0, 180, 200));
-        /*private static void OnAutoVoltageColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAutoVoltageColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            CTransformerCoil b = d as CTransformerCoil;
+            CTransformerCoil b = obj.Sender as CTransformerCoil;
             b.BrushContentColorAutoVoltage = new SolidColorBrush(b.AutoVoltageColor);
-            b.BrushContentColorAutoVoltage.Freeze();
             b.PenContentColorAutoVoltage = new Pen(b.BrushContentColorAutoVoltage, 3);
-            b.PenContentColorAutoVoltage.Freeze();
-            b.DrawBase();
-        }*/
+            b.InvalidateVisual();
+        }
 
         [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения автотрансформатора"), PropertyGridFilterAttribute, DisplayName("Автотрансформатор напряжение"), Browsable(true)]
         public VoltageClasses AutoVoltage
@@ -123,10 +121,10 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<VoltageClasses> AutoVoltageProperty = AvaloniaProperty.Register<CTransformerCoil,VoltageClasses>(nameof(AutoVoltage), VoltageClasses.kV110);
-        /*private static void OnAutoVoltagePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAutoVoltagePropertyChanged(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
         {
             #region класс напряжения автотрансформатора
-            CTransformerCoil cis = d as CTransformerCoil;
+            CTransformerCoil cis = obj.Sender as CTransformerCoil;
             cis.AutoVoltageColor = VoltageEnumColors.VoltageColors[cis.AutoVoltage];
             #region switch
             //switch (cis.AutoVoltage)
@@ -183,7 +181,7 @@ namespace AvAp2.Models
             //}
             #endregion switch
             #endregion класс напряжения автотрансформатора
-        }*/
+        }
 
         #endregion Auto
         //====================================================================================================================================
@@ -362,18 +360,20 @@ namespace AvAp2.Models
         static CTransformerCoil()
         {
             AffectsRender<CTransformerCoil>(IsRegulatorProperty, CoilsConnectionTypeProperty, AutoIsExistProperty, CoilLeftExitIsExistProperty, CoilRightExitIsExistProperty,CoilTopExitIsExistProperty, CoilBottomExitIsExistProperty, IsPowerProperty, AutoVoltageColorProperty, AutoVoltageProperty);
+            ControlISSelectedProperty.Changed.Subscribe(OnControlISSelectedPropertyChanged);
+            IsPowerProperty.Changed.Subscribe(OnIsPowerChanged);
+            AutoVoltageColorProperty.Changed.Subscribe(OnAutoVoltageColorChanged);
+            AutoVoltageProperty.Changed.Subscribe(OnAutoVoltagePropertyChanged);
         }
 
-        private void OnControlISSelectedPropertyChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
+        private static void OnControlISSelectedPropertyChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            DrawIsSelected();
+            (obj.Sender as CTransformerCoil).DrawingIsSelected.InvalidateVisual();
         }
         public CTransformerCoil() : base()
         {
             TranslationX = 0;
             TranslationY = 0;
-            ControlISSelectedProperty.Changed.Subscribe(OnControlISSelectedPropertyChanged);
-            IsPowerProperty.Changed.Subscribe(OnIsPowerChanged);
             ClipToBounds = false;
             DataContext = this;
             BrushContentColorAutoVoltage = new SolidColorBrush(AutoVoltageColor);
@@ -564,87 +564,64 @@ namespace AvAp2.Models
                 }
             }*/
         }
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
             if (ControlISSelected)
             {
-                GeometryGroup geometry = new GeometryGroup();
+                var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                DrawingContext.PushedState translate;
+                //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
+                    
                     TranslationX = -5;
                     TranslationY = -5;
-                    geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 40)));
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 40, 40));
                 }
                 else
                 {
-                    geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 30)));
+                    TranslationX = 0;
+                    TranslationY = 0;
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 30, 30));
                 }
-                //ControlIsSelected может быть изменен до того как будет создан VisualText
                 if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
-                    Rect selectedRect = DrawingVisualText.Bounds;
-                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
                 }
-
-                DrawingIsSelected.Geometry = geometry;
-                DrawingIsSelected.Brush = BrushIsSelected;
-                DrawingIsSelected.Pen = PenIsSelected;
+                translate.Dispose();
+                rotate.Dispose();
             }
-            else
-                DrawingIsSelected = new GeometryDrawing();
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
 
         }
 
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            GeometryGroup geometry = new GeometryGroup();
+            var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            DrawingContext.PushedState translate;
+            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
             {
+                    
                 TranslationX = -5;
                 TranslationY = -5;
-                geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 40, 40)));
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 40, 40));
             }
             else
             {
-                geometry.Children.Add(new RectangleGeometry(new Rect(0, 0, 30, 30)));
+                TranslationX = 0;
+                TranslationY = 0;
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 30, 30));
             }
-            if (DrawingVisualText.Bounds.Width > 0)
+            if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
             {
-                Rect selectedRect = DrawingVisualText.Bounds;
-                geometry.Children.Add(new RectangleGeometry(selectedRect));
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
             }
-            
-            DrawingMouseOver.Geometry = geometry;
-            DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
+            translate.Dispose();
+            rotate.Dispose();
         }
-        /*internal protected void DrawMouseOver()
-        {
-            using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())
-            {
-                if (IsPower)
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(-5, -5, 40, 40));
-                else
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 30, 30));
-
-                if (DrawingVisualText.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualText.ContentBounds;
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsMouseOver.Opacity = 0;
-        }*/
     }
 }

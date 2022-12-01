@@ -37,15 +37,15 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<Color> Voltage4ColorProperty = AvaloniaProperty.Register<CTransformer4Coils, Color>(nameof(Voltage4Color), Color.FromArgb(255, 0, 180, 200));
-        private void OnVoltage4ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void OnVoltage4ColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
-            
-            BrushContentColorVoltage4 = new SolidColorBrush(Voltage4Color);
-            BrushContentColorVoltage4.ToImmutable();
-            PenContentColorVoltage4 = new Pen(BrushContentColorVoltage4, 3);
-            PenContentColorVoltage4.ToImmutable();
-            PenContentColorVoltage4Thin = new Pen(BrushContentColorVoltage4, 1);
-            PenContentColorVoltage4Thin.ToImmutable();
+            var sender = obj.Sender as CTransformer4Coils;
+            sender.BrushContentColorVoltage4 = new SolidColorBrush(sender.Voltage4Color);
+            sender.BrushContentColorVoltage4.ToImmutable();
+            sender.PenContentColorVoltage4 = new Pen(sender.BrushContentColorVoltage4, 3);
+            sender.PenContentColorVoltage4.ToImmutable();
+            sender.PenContentColorVoltage4Thin = new Pen(sender.BrushContentColorVoltage4, 1);
+            sender.PenContentColorVoltage4Thin.ToImmutable();
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения четвёртой обмотки"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка напряжение"), Browsable(true)]
@@ -60,11 +60,11 @@ namespace AvAp2.Models
         }
         public static StyledProperty<VoltageClasses> Voltage4Property = AvaloniaProperty.Register<CTransformer4Coils, VoltageClasses>(nameof(Voltage4), VoltageClasses.kV110);
 
-        private void OnVoltage4Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
+        private static void OnVoltage4Changed(AvaloniaPropertyChangedEventArgs<VoltageClasses> obj)
         {
             #region класс напряжения 2 обмотки
             
-            Voltage4Color = VoltageEnumColors.VoltageColors[Voltage4];
+            (obj.Sender as CTransformer4Coils).Voltage4Color = VoltageEnumColors.VoltageColors[(obj.Sender as CTransformer4Coils).Voltage4];
 
             #endregion класс напряжения 2 обмотки
         }
@@ -122,6 +122,8 @@ namespace AvAp2.Models
         static CTransformer4Coils()
         {
             AffectsRender<CTransformer4Coils>(CoilBottomExitIsExist4Property, CoilsConnectionType4Property, CoilLeftExitIsExist4Property, CoilRightExitIsExist4Property, CoilTopExitIsExist4Property, Voltage4Property, Voltage4ColorProperty);
+            Voltage4ColorProperty.Changed.Subscribe(OnVoltage4ColorChanged);
+            Voltage4Property.Changed.Subscribe(OnVoltage4Changed);
         }
         
         public CTransformer4Coils() : base()
@@ -132,8 +134,7 @@ namespace AvAp2.Models
             PenContentColorVoltage4.ToImmutable();
             PenContentColorVoltage4Thin = new Pen(BrushContentColorVoltage4, 1);
             PenContentColorVoltage4Thin.ToImmutable();
-            Voltage4ColorProperty.Changed.Subscribe(OnVoltage4ColorChanged);
-            Voltage4Property.Changed.Subscribe(OnVoltage4Changed);
+            
         }
         public override string ElementTypeFriendlyName
         {
@@ -463,88 +464,63 @@ namespace AvAp2.Models
                 rotate.Dispose();
         }
 
-        protected override void DrawIsSelected()
+        protected override void DrawIsSelected(DrawingContext ctx)
         {
-            Geometry geometry1 = new RectangleGeometry();
-            var transform = new RotateTransform(Angle, 15, 15).Value;
-            DrawingIsSelected = new GeometryDrawing();
-            GeometryGroup geometry = new GeometryGroup();
             if (ControlISSelected)
             {
+                var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+                DrawingContext.PushedState translate;
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
-                    TranslationY = -7;
-                    TranslationX = -25;
-                    geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 100));
+                    
+                    TranslationX = -7;
+                    TranslationY = -25;
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 79, 100));
                 }
                 else
                 {
-                    TranslationY = 0;
-                    TranslationX = -12;
-                    geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 67));
+                    TranslationX = 0;
+                    TranslationY = -12;
+                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 54, 67));
                 }
-
-                geometry1.Transform = new MatrixTransform(transform);
-
-                geometry.Children.Add(geometry1);
-                if (DrawingVisualText.Bounds.Width > 0)
+                if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
-                    Rect selectedRect = DrawingVisualText.Bounds;
-                    geometry.Children.Add(new RectangleGeometry(selectedRect));
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
                 }
-
-                DrawingIsSelected.Geometry = geometry;
+                translate.Dispose();
+                rotate.Dispose();
             }
-
-            DrawingIsSelected.Brush = BrushIsSelected;
-            DrawingIsSelected.Pen = PenIsSelected;
-            DrawingIsSelectedWrapper.Source = new DrawingImage(DrawingIsSelected);
-            DrawingIsSelectedWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
         }
         
-        protected override void DrawMouseOver()
+        protected override void DrawMouseOver(DrawingContext ctx)
         {
-            Geometry geometry1 = new RectangleGeometry();
-            var transform = new RotateTransform(Angle, 15, 15).Value;
-            DrawingMouseOver = new GeometryDrawing();
-            GeometryGroup geometry = new GeometryGroup();
-            
-                //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-                if (IsPower)
-                {
-                    TranslationY = -7;
-                    TranslationX = -25;
-                    geometry1 = new RectangleGeometry(new Rect(0, 0, 79, 100));
-                }
-                else
-                {
-                    TranslationY = 0;
-                    TranslationX = -12;
-                    geometry1 = new RectangleGeometry(new Rect(0, 0, 54, 67));
-                }
-
-                geometry1.Transform = new MatrixTransform(transform);
-
-                geometry.Children.Add(geometry1);
-                if (DrawingVisualText.Bounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualText.Bounds;
-                    geometry.Children.Add(new RectangleGeometry(selectedRect));
-                }
-
-                DrawingMouseOver.Geometry = geometry;
-
-                DrawingMouseOver.Brush = BrushMouseOver;
-            DrawingMouseOver.Pen = PenMouseOver;
-            DrawingMouseOverWrapper.Source = new DrawingImage(DrawingMouseOver);
-            DrawingMouseOverWrapper.RenderTransform =
-                new MatrixTransform(
-                    new RotateTransform(Angle, 15, 15).Value.Prepend(new TranslateTransform(TranslationX, TranslationY)
-                        .Value));
+            var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
+            DrawingContext.PushedState translate;
+            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
+            if (IsPower)
+            {
+                    
+                TranslationX = -7;
+                TranslationY = -25;
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 79, 100));
+            }
+            else
+            {
+                TranslationX = 0;
+                TranslationY = -12;
+                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 54, 67));
+            }
+            if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
+            {
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+            }
+            translate.Dispose();
+            rotate.Dispose();
         }
     }
         

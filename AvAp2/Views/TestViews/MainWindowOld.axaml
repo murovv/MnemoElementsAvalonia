@@ -114,6 +114,8 @@
 			<Canvas>
 				<models:CText x:Name="TestText" Margin="30 30 30 30" TextName="какой то текст" ControlISSelected="True" Padding="30 30 30 30">
 				</models:CText>
+				<models:CText x:Name="TestText1" Margin="60 30 30 30" TextName="какой то текст" ControlISSelected="True" Padding="30 30 30 30">
+				</models:CText>
 				<Button x:Name="RotateText"></Button>
 			</Canvas>
 		</TabItem>

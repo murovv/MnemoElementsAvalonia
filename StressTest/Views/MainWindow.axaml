@@ -13,10 +13,12 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     <Canvas>
-        <ZoomBorder x:Name="ZoomBorder" PanButton="Left" ZoomSpeed="1.5">
+        <ZoomBorder Canvas.Top="30"  x:Name="ZoomBorder" PanButton="Left" ZoomSpeed="1.5">
             <StackPanel x:Name="Panel" Orientation="Horizontal"></StackPanel>
         </ZoomBorder>
         <Button x:Name="Button">Run</Button>
+        <Button Canvas.Left="30" x:Name="ButtonChange"></Button>
+        <TextBlock Canvas.Left="60" x:Name="TextBlock"></TextBlock>
     </Canvas>
     
     

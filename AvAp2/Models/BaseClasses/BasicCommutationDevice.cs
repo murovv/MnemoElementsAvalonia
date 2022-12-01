@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using AvAp2.Interfaces;
+using AvAp2.Models.SubControls;
 
 namespace AvAp2.Models
 {
@@ -113,7 +114,7 @@ namespace AvAp2.Models
             if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
-                DrawControlMode();
+                DrawingControlMode.InvalidateVisual();
             }
 
         }
@@ -182,11 +183,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginControlMode),
                 new Thickness(-20, 0, 0, -10));
 
-        private void OnControlModeChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnControlModeChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawControlMode();
-            DrawIsSelected();
-            DrawMouseOver();
+            (obj.Sender as BasicCommutationDevice).DrawingControlMode?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingIsSelected?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingMouseOver?.InvalidateVisual();
         }
 
         [Category("Свойства элемента мнемосхемы"),
@@ -208,12 +209,11 @@ namespace AvAp2.Models
                 Color.FromArgb(255, 255, 190, 0));
 
 
-        private void OnControlModeColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
+        private static void OnControlModeColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
 
-            BrushControlModeTextColor = new SolidColorBrush((Color)obj.NewValue.Value);
-            BrushControlModeTextColor.ToImmutable();
-            DrawControlMode();
+            (obj.Sender as BasicCommutationDevice).BrushControlModeTextColor = new SolidColorBrush((Color)obj.NewValue.Value);
+            (obj.Sender as BasicCommutationDevice).DrawingControlMode.InvalidateVisual();
         }
 
 
@@ -246,12 +246,9 @@ namespace AvAp2.Models
                 if (oldValue != value)
                 {
                     if (oldValue != null)
-                        oldValue.PropertyChanged -= TdiBlockState_PropertyChanged;
+                        oldValue.PropertyChanged -= OnTagDataBlockChanged;
                     if (value != null)
-                    {
-                        value.PropertyChanged += TdiBlockState_PropertyChanged;
-                    }
-
+                        value.PropertyChanged += OnTagDataBlockChanged;
                     SetValue(TagDataBlockProperty, value);
                 }
             }
@@ -260,13 +257,12 @@ namespace AvAp2.Models
         public static StyledProperty<TagDataItem> TagDataBlockProperty =
             AvaloniaProperty.Register<BasicCommutationDevice, TagDataItem>(nameof(TagDataBlock), null);
 
-        private void TdiBlockState_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTagDataBlockChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
-                DrawBlock();
-             
+                DrawingControlMode.InvalidateVisual();
             }
 
         }
@@ -289,12 +285,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginBlock),
                 new Thickness(-20, 0, 0, -10));
 
-        private void OnBlockChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnBlockChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawBlock();
-            DrawIsSelected();
-            DrawMouseOver();
-         
+            (obj.Sender as BasicCommutationDevice).DrawingBlock.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingMouseOver.InvalidateVisual();
         }
 
         [Category("Привязки данных"), Description("ID тега состояния реле готовности"), PropertyGridFilterAttribute,
@@ -364,7 +359,7 @@ namespace AvAp2.Models
             if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
-                DrawDeblock();
+                DrawingDeblock.InvalidateVisual();
              
             }
 
@@ -389,11 +384,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginDeblock),
                 new Thickness(-20, 0, 0, -10));
 
-        private void OnDeblockChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnDeblockChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawDeblock();
-            DrawIsSelected();
-            DrawMouseOver();
+            (obj.Sender as BasicCommutationDevice).DrawingDeblock.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice).DrawingMouseOver.InvalidateVisual();
          
         }
 
@@ -480,10 +475,9 @@ namespace AvAp2.Models
             if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)) ||
                 e.PropertyName.Equals(nameof(TagDataItem.Quality)))
             {
-                DrawBanners();
-                DrawIsSelected();
-                DrawMouseOver();
-             
+                DrawingBanners.InvalidateVisual();
+                DrawingIsSelected.InvalidateVisual();
+                DrawingMouseOver.InvalidateVisual();
             }
         }
 
@@ -510,11 +504,11 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, Thickness>(nameof(MarginBanner),
                 new Thickness(-30, 0, 0, -40));
 
-        private void OnBannersChanged(AvaloniaPropertyChangedEventArgs obj)
+        private static void OnBannersChanged(AvaloniaPropertyChangedEventArgs obj)
         {
-            DrawBanners();
-            DrawIsSelected();
-            DrawMouseOver();
+            (obj.Sender as BasicCommutationDevice)?.DrawingBanners?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice)?.DrawingIsSelected?.InvalidateVisual();
+            (obj.Sender as BasicCommutationDevice)?.DrawingMouseOver.InvalidateVisual();
          
         }
 
@@ -587,18 +581,11 @@ namespace AvAp2.Models
 
         #endregion Привязки команд
 
-        internal protected DrawingGroup DrawingBlock;
-        internal protected DrawingGroup DrawingDeblock;
-        internal protected DrawingGroup DrawingControlMode;
-        internal protected DrawingGroup DrawingBanners;
-
-        public Image DrawingBlockWrapper { get; set; }
-
-        public Image DrawingDeblockWrapper { get; set; }
-        public Image DrawingControlModeWrapper { get; set; }
-
-        public Image DrawingBannerWrapper { get; set; }
-
+        internal protected RenderCaller DrawingBlock;
+        internal protected RenderCaller DrawingDeblock;
+        internal protected RenderCaller DrawingControlMode;
+        internal protected RenderCaller DrawingBanners;
+        
         internal protected bool IsBlockPressed = false;
         internal protected bool IsDeblockPressed = false;
         internal protected bool IsBannersPressed = false;
@@ -622,11 +609,6 @@ namespace AvAp2.Models
             AffectsRender<BasicCommutationDevice>(IsConnectorExistRightProperty);
             AffectsRender<BasicCommutationDevice>(NormalStateProperty);
             AffectsRender<BasicCommutationDevice>(ShowNormalStateProperty);
-        }
-        public BasicCommutationDevice() : base()
-        {
-            
-
             #region subscriptions
 
             TagIDControlModeProperty.Changed.Subscribe(OnControlModeChanged);
@@ -653,6 +635,14 @@ namespace AvAp2.Models
             ContentColorAlternateProperty.Changed.Subscribe(OnBannersChanged);
 
             #endregion
+        }
+        public BasicCommutationDevice() : base()
+        {   
+            DrawingBlock = new RenderCaller(DrawBlock);
+            DrawingBanners = new RenderCaller(DrawBanners);
+            DrawingControlMode = new RenderCaller(DrawControlMode);
+            DrawingDeblock = new RenderCaller(DrawDeblock);
+            
 
             BrushControlModeTextColor = new SolidColorBrush(ControlModeTextColor);
             BrushControlModeTextColor.ToImmutable();
@@ -679,29 +669,22 @@ namespace AvAp2.Models
             PenDeblock.ToImmutable();
             PenNormalState = new Pen(Brushes.Yellow, 1);
             PenNormalState.ToImmutable();
-            DrawingBlock = new DrawingGroup();
-            DrawingBanners = new DrawingGroup();
-            DrawingControlMode = new DrawingGroup();
-            DrawingDeblock = new DrawingGroup();
-            DrawingBlockWrapper = new Image();
-            DrawingDeblockWrapper = new Image();
-            DrawingBannerWrapper = new Image();
-            DrawingControlModeWrapper = new Image();
+            
             if (this.Content is null)
             {
                 this.Content = new Canvas();
             }
-            (this.Content as Canvas).Children.AddRange(new[]
-                { DrawingBannerWrapper, DrawingBlockWrapper, DrawingDeblockWrapper, DrawingControlModeWrapper });
+            (this.Content as Canvas).Children.AddRange(new Control[]
+                { DrawingBanners, DrawingBlock, DrawingDeblock, DrawingControlMode});
             Loaded += OnLoaded;
         }
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
-            DrawBlock();
-            DrawDeblock();
-            DrawControlMode();
-            DrawBanners();
+            DrawingBlock.InvalidateVisual();
+            DrawingDeblock.InvalidateVisual();
+            DrawingControlMode.InvalidateVisual();
+            DrawingBanners.InvalidateVisual();
         }
 
         private static StreamGeometry LockGeometry()
@@ -738,262 +721,142 @@ namespace AvAp2.Models
             return geometry;
         }
 
-        protected virtual void DrawBlock()
+        protected virtual void DrawBlock(DrawingContext drawingContext)
         {
-            var transform = new TranslateTransform(MarginBlock.Left, MarginBlock.Top);
             if (string.IsNullOrEmpty(TagIDBlockState) == false && TagIDBlockState != "-1")
             {
                 bool isBlocked = true;
-                if (TagDataBlock?.TagValueString != null) // В работе если что-то привязано и там "1"
+                if (TagDataBlock?.TagValueString != null)// В работе если что-то привязано и там "1"
                 {
                     if (TagDataBlock.TagValueString.Equals("1") && (TagDataBlock.Quality == TagValueQuality.Good))
                         isBlocked = false;
                 }
-
-                
-
-                GeometryDrawing lockGeometryDrawing = new GeometryDrawing();
-                lockGeometryDrawing.Geometry = LockGeometry();
-                lockGeometryDrawing.Brush = Brushes.Transparent;
-                lockGeometryDrawing.Pen = PenBlockBody;
-                
+                var transform1 = drawingContext.PushPostTransform(Matrix.CreateTranslation(MarginBlock.Left, MarginBlock.Top));
+                DrawingContext.PushedState transform2 = default;
+                if(isBlocked == false)
+                    transform2 = drawingContext.PushPostTransform(Matrix.CreateTranslation(13, 0));
+                drawingContext.DrawGeometry(Brushes.Transparent, PenBlockBody, LockGeometry());
                 if (isBlocked == false)
-                {
-                    lockGeometryDrawing.Geometry.Transform = new TranslateTransform(13, 0);
-                }
+                    transform2.Dispose();
+                drawingContext.DrawRectangle(BrushBlockBody, PenBlockBody, new Rect(0,0, 20,16),3,3);
+                drawingContext.DrawEllipse(Brushes.Black, PenBlack, new Point(10, 8), 2,2);
+                drawingContext.DrawLine(PenBlack, new Point(10, 8), new Point(10, 14));
+                    
 
-                var rect = new GeometryDrawing
-                {
-                    Geometry = new RectangleGeometry(new Rect(0, 0, 20, 16)),
-                    Brush = BrushBlockBody,
-                    Pen = PenBlockBody
-                };
-
-                var ellipse = new GeometryDrawing
-                {
-                    Geometry = new EllipseGeometry
-                    {
-                        Center = new Point(10, 8),
-                        RadiusX = 2,
-                        RadiusY = 2
-                    },
-                    Brush = Brushes.Black,
-                    Pen = PenBlack
-                };
-                var line = new GeometryDrawing
-                {
-                    Geometry = new LineGeometry
-                    {
-                        StartPoint = new Point(10, 8),
-                        EndPoint = new Point(10, 14),
-                    },
-                    Pen = PenBlack
-                };
-                var quality = new GeometryDrawing();
                 // Качество
                 if (TagDataBlock?.Quality == TagValueQuality.Handled)
                 {
-                    quality = new GeometryDrawing
-                    {
-                        Geometry = HandGeometry(),
-                        Brush = BrushBlockBody,
-                        Pen = PenHand
-                    };
+                    StreamGeometry geometry = HandGeometry();
+                    geometry.Transform = new TranslateTransform(-15, -10);
+                    drawingContext.DrawGeometry(BrushBlockBody, PenHand, geometry);
                 }
                 else if (TagDataBlock?.Quality == TagValueQuality.Invalid)
                 {
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal,
-                            FontStretch.Normal),
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushBlockBody);
-                    quality = new GeometryDrawing
-                    {
-                        Geometry = ft.BuildGeometry(new Point(-8, -12)),
-                        Brush = BrushBlockBody
-                    };
+                    drawingContext.DrawText(ft, new Point(-8, -12));
                 }
-
-                DrawingBlock = new DrawingGroup
-                {
-                    Children = new DrawingCollection(new[] { rect, ellipse, line, quality })
-                };
-                DrawingBlock.Transform = transform;
+                transform1.Dispose();
             }
-
-            DrawingBlockWrapper.Source = new DrawingImage(DrawingBlock);
-            DrawingBlockWrapper.RenderTransform = transform;
         }
 
-        internal protected virtual void DrawDeblock()
-        {
-            var transform = new TranslateTransform(MarginDeblock.Left, MarginDeblock.Top);
-
+        internal protected virtual void DrawDeblock(DrawingContext drawingContext){
             if (string.IsNullOrEmpty(TagIDDeblock) == false && TagIDDeblock != "-1")
             {
                 bool isDeblocked = true;
-                if (TagDataDeblock?.TagValueString != null) // В работе если что-то привязано и там "1"
+                if (TagDataDeblock?.TagValueString != null)// В работе если что-то привязано и там "1"
                 {
                     if (TagDataDeblock.TagValueString.Equals("1") && (TagDataDeblock.Quality == TagValueQuality.Good))
                         isDeblocked = true;
                     else
                         isDeblocked = false;
                 }
-                var deblock = new GeometryDrawing();
-                deblock.Geometry = DeblockGeometry();
-                deblock.Pen = PenDeblock;
+                var translate = drawingContext.PushPostTransform(Matrix.CreateTranslation(MarginDeblock.Left, MarginDeblock.Top));
+                StreamGeometry deblockGeometry = DeblockGeometry();
                 if (isDeblocked)
-                    deblock.Brush = Brushes.Green;
+                    drawingContext.DrawGeometry(Brushes.Green, PenDeblock, deblockGeometry);
                 else
-                    deblock.Brush = Brushes.Transparent;
+                    drawingContext.DrawGeometry(Brushes.Transparent, PenDeblock, deblockGeometry);
                 // Качество
-                var quality = new GeometryDrawing
-                {
-                    Brush = Brushes.Green
-                };
                 if (TagDataDeblock?.Quality == TagValueQuality.Handled)
                 {
-                    quality.Geometry = HandGeometry();
-                    quality.Geometry.Transform = new TranslateTransform(-5, -10);
-                    quality.Pen = PenHand;
+                    StreamGeometry geometry = HandGeometry();
+                    geometry.Transform = new TranslateTransform(-5, -10);
+                    drawingContext.DrawGeometry(Brushes.Green, PenHand, geometry);
                 }
                 else if (TagDataDeblock?.Quality == TagValueQuality.Invalid)
                 {
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal,
-                            FontStretch.Normal),
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, Brushes.Green);
-                    quality.Geometry = ft.BuildGeometry(new Point(3, -10));
+                    drawingContext.DrawText(ft, new Point(3, -10));
                 }
-
-                var rect = new GeometryDrawing
-                {
-                    Geometry = new RectangleGeometry(new Rect(0,0,10,10)),
-                    Pen = new Pen(Brushes.Transparent),
-                    Brush = Brushes.Transparent
-                };
-
-                DrawingDeblock = new DrawingGroup
-                {
-                    Children = new DrawingCollection(new[] { quality, deblock,rect })
-                };
-                DrawingDeblock.Transform = transform;
+                translate.Dispose();
 
             }
-
-            DrawingDeblockWrapper.Source = new DrawingImage(DrawingDeblock);
-            DrawingDeblockWrapper.RenderTransform = transform;
-            
         }
 
-        protected virtual void DrawControlMode()
+        protected virtual void DrawControlMode(DrawingContext drawingContext)
         {
-            var transform = new TranslateTransform(MarginControlMode.Left, MarginControlMode.Top);
             if (string.IsNullOrEmpty(TagIDControlMode) == false && TagIDControlMode != "-1")
             {
                 bool isDistance = true;
-                if (TagDataControlMode?.TagValueString != null) // В работе если что-то привязано и там "1"
+                if (TagDataControlMode?.TagValueString != null)// В работе если что-то привязано и там "1"
                 {
-                    if (TagDataControlMode.TagValueString.Equals("1") &&
-                        (TagDataControlMode.Quality == TagValueQuality.Good))
+                    if (TagDataControlMode.TagValueString.Equals("1") && (TagDataControlMode.Quality == TagValueQuality.Good))
                         isDistance = true;
                     else
                         isDistance = false;
                 }
 
                 //drawingContext.PushTransform(new TranslateTransform(MarginBlock.Left, MarginBlock.Top));
-                FormattedText ft = new FormattedText(isDistance ? ControlModeTextDistance : ControlModeTextLocal,
-                    CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                FormattedText ft = new FormattedText(isDistance ? ControlModeTextDistance : ControlModeTextLocal, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                     new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black, FontStretch.Normal),
                     12, BrushControlModeTextColor);
                 ft.TextAlignment = TextAlignment.Center;
-
-                var text = new GeometryDrawing
-                {
-                    Geometry = ft.BuildGeometry(new Point(0, 0)),
-                    Brush = BrushControlModeTextColor
-                };
-                var quality = new GeometryDrawing();
+                var translation = drawingContext.PushPostTransform(Matrix.CreateTranslation(MarginControlMode.Left, MarginControlMode.Top));
+                drawingContext.DrawText(ft, new Point(0, 0));
                 // Качество
                 if (TagDataControlMode?.Quality == TagValueQuality.Handled)
                 {
-                    quality = new GeometryDrawing
-                    {
-                        Geometry = HandGeometry(),
-                        Brush = BrushControlModeTextColor,
-                        Pen = PenHand
-                    };
-                    quality.Geometry.Transform = new TranslateTransform(-20, -13);
+                    StreamGeometry geometry = HandGeometry();
+                    geometry.Transform = new TranslateTransform(-20, -13);
+                    drawingContext.DrawGeometry(BrushControlModeTextColor, PenHand, geometry);
+
                 }
                 else if (TagDataControlMode?.Quality == TagValueQuality.Invalid)
                 {
                     FormattedText ftQ = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal,
-                            FontStretch.Normal),
+                        new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushControlModeTextColor);
-                    quality = new GeometryDrawing
-                    {
-                        Geometry = ftQ.BuildGeometry(new Point(-15, -9)),
-                        Brush = BrushControlModeTextColor
-                    };
+                    drawingContext.DrawText(ftQ, new Point(-15, -9));
                 }
-
-                DrawingControlMode = new DrawingGroup
-                {
-                    Children = new DrawingCollection(new[] { quality, text }),
-                    Transform = transform
-                };
-                
+                translation.Dispose();
             }
-
-            DrawingControlModeWrapper.Source = new DrawingImage(DrawingControlMode);
-            DrawingControlModeWrapper.RenderTransform = transform;
         }
-
-        protected virtual void DrawBanners()
+        
+        protected virtual void DrawBanners(DrawingContext ctx)
         {
-            DrawingBanners = new DrawingGroup();
-            
-            var transform = new TranslateTransform(MarginBanner.Left, MarginBanner.Top);
-            
+            var transform = ctx.PushPostTransform(new TranslateTransform(MarginBanner.Left, MarginBanner.Top).Value);
             if (TagDataBanners == null) //На время настройки
             {
                 #region На время настройки
-
-                var geometry = new GeometryGroup
-                {
-                    Children = new GeometryCollection(new[]
-                    {
-                        new RectangleGeometry(new Rect(0, 0, 60, 30)),
-                        new RectangleGeometry(new Rect(2, 2, 60, 30)),
-                        new RectangleGeometry(new Rect(4, 4, 60, 30)),
-                        new RectangleGeometry(new Rect(6, 6, 60, 30)),
-                        new RectangleGeometry(new Rect(8, 8, 60, 30))
-                    })
-                };
-                var rects = new GeometryDrawing
-                {
-                    Geometry = geometry,
-                    Brush = BrushContentColorAlternate,
-                    Pen = PenContentColorThin
-                };
-                FormattedText ft = new FormattedText("Плакаты", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                FormattedText ft = new FormattedText("Плакаты", CultureInfo.CurrentCulture,
+                    FlowDirection.LeftToRight,
                     new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Black,
                         FontStretch.Normal),
                     12, BrushContentColor);
                 ft.TextAlignment = TextAlignment.Left;
-                var text = new GeometryDrawing
-                {
-                    Geometry = ft.BuildGeometry(new Point(12, 13)),
-                    Brush = BrushContentColor
-                };
-               
-                DrawingBanners = new DrawingGroup
-                {
-                    Children = new DrawingCollection(new[] { text, rects }),
-                    Transform = transform
-                };
-
+                ctx.DrawRectangle(BrushContentColorAlternate, PenContentColorThin, new Rect(0, 0, 60, 30));
+                ctx.DrawRectangle(BrushContentColorAlternate, PenContentColorThin, new Rect(2, 2, 60, 30));
+                ctx.DrawRectangle(BrushContentColorAlternate, PenContentColorThin, new Rect(0, 0, 60, 30));
+                ctx.DrawRectangle(BrushContentColorAlternate, PenContentColorThin, new Rect(4, 4, 60, 30));
+                ctx.DrawRectangle(BrushContentColorAlternate, PenContentColorThin, new Rect(6, 6, 60, 30));
+                ctx.DrawRectangle(BrushContentColorAlternate, PenContentColorThin, new Rect(8, 8, 60, 30));
+                ctx.DrawText(ft, new Point(12, 13));
                 #endregion На время настройки
+                
             }
             else
             {
@@ -1001,7 +864,7 @@ namespace AvAp2.Models
                 if (TagDataBanners?.TagValueString != null)
                 {
                     int bannersState = 0;
-                    
+
                     if (int.TryParse(TagDataBanners.TagValueString, out bannersState))
                     {
                         if (bannersState > 0)
@@ -1009,47 +872,23 @@ namespace AvAp2.Models
                             if (Convert.ToBoolean(bannersState & 1))
                             {
                                 #region 1. Заземлено
-                                var banner = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry(new Rect(0, 0, 60, 30)),
-                                    Brush = BrushBlue,
-                                    Pen = PenBlack
-                                };
-                                
+
                                 FormattedText ft = new FormattedText("Заземлено", CultureInfo.CurrentCulture,
                                     FlowDirection.LeftToRight,
                                     new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
                                         FontStretch.Normal),
                                     10, Brushes.WhiteSmoke);
-                                
+
                                 ft.MaxTextWidth = 60;
                                 ft.TextAlignment = TextAlignment.Left;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(4, 7)),
-                                    Brush = Brushes.WhiteSmoke
-                                };
-                               
-                                DrawingBanners.Children.Add(banner);
-                                DrawingBanners.Children.Add(text);
-
+                                ctx.DrawRectangle(BrushBlue, PenBlack, new Rect(0, 0, 60, 30));
+                                ctx.DrawText(ft, new Point(4, 7));
                                 #endregion 1. Заземлено
                             }
 
                             if (Convert.ToBoolean(bannersState & 2))
                             {
                                 #region 2. ИСПЫТАНИЕ
-
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(2, 2, 60, 30),
-                                        
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
 
                                 FormattedText ft = new FormattedText("ИСПЫТАНИЕ опасно для жизни",
                                     CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
@@ -1059,42 +898,18 @@ namespace AvAp2.Models
 
                                 ft.MaxTextWidth = 60;
                                 ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(2, 7)),
-                                    Brush = Brushes.WhiteSmoke
-                                };
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(text);
+                                ctx.DrawRectangle(Brushes.Red, PenBlack, new Rect(2, 2, 60, 30));
+                                ctx.DrawText(ft, new Point(2, 7));
+
                                 #endregion 2. ИСПЫТАНИЕ
                             }
 
                             if (Convert.ToBoolean(bannersState & 4))
                             {
                                 #region 3. Транзит разомкнут
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(4, 4, 60, 30),
-                                        
-                                    },
-                                    Brush = BrushBlue,
-                                    Pen = PenBlack
-                                };
-                                var rect1 = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(8, 8, 52, 22),
-                                        
-                                    },
-                                    Brush = Brushes.WhiteSmoke,
-                                    Pen = PenBlack
-                                };
-                                
 
-                                FormattedText ft = new FormattedText("Транзит разомкнут", CultureInfo.CurrentCulture,
+                                FormattedText ft = new FormattedText("Транзит разомкнут",
+                                    CultureInfo.CurrentCulture,
                                     FlowDirection.LeftToRight,
                                     new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
                                         FontStretch.Normal),
@@ -1102,14 +917,11 @@ namespace AvAp2.Models
 
                                 ft.MaxTextWidth = 50;
                                 ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(9, 8.5)),
-                                    Brush = Brushes.Black
-                                };
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(rect1);
-                                DrawingBanners.Children.Add(text);
+                                ctx.DrawRectangle(BrushBlue, PenBlack, new Rect(4, 4, 60, 30));
+                                ctx.DrawRectangle(Brushes.WhiteSmoke, PenBlack, new Rect(8, 8, 52, 22));
+                                ctx.DrawText(ft, new Point(9, 8.5));
+
+
                                 #endregion 3. Транзит разомкнут
                             }
 
@@ -1117,25 +929,8 @@ namespace AvAp2.Models
                             {
                                 #region 4. Работа под напряжением
 
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(6, 6, 60, 30),
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
-                                var rect1 = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(10, 10, 52, 22),
-                                    },
-                                    Brush = Brushes.WhiteSmoke,
-                                    Pen = PenBlack
-                                };
-                                FormattedText ft = new FormattedText("Работа под напряжением \nповторно не включать",
+                                FormattedText ft = new FormattedText(
+                                    "Работа под напряжением \nповторно не включать",
                                     CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                                     new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
                                         FontStretch.Normal),
@@ -1143,39 +938,16 @@ namespace AvAp2.Models
 
                                 ft.MaxTextWidth = 56;
                                 ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(10, 11)),
-                                    Brush = Brushes.Red
-                                };
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(rect1);
-                                DrawingBanners.Children.Add(text);
+                                ctx.DrawRectangle(Brushes.Red, PenBlack, new Rect(6, 6, 60, 30));
+                                ctx.DrawRectangle(Brushes.WhiteSmoke, PenBlack, new Rect(10, 10, 52, 22));
+                                ctx.DrawText(ft, new Point(10, 11));
+
                                 #endregion 4. Работа под напряжением
                             }
 
                             if (Convert.ToBoolean(bannersState & 16))
                             {
                                 #region 5. НЕ ВКЛЮЧАТЬ! Работают люди
-                                
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(8, 8, 60, 30),
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
-                                var rect1 = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(12, 12, 52, 22),
-                                    },
-                                    Brush = Brushes.WhiteSmoke,
-                                    Pen = PenBlack
-                                };
 
                                 FormattedText ft = new FormattedText("НЕ ВКЛЮЧАТЬ!\nРаботают люди",
                                     CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
@@ -1185,32 +957,17 @@ namespace AvAp2.Models
 
                                 ft.MaxTextWidth = 56;
                                 ft.TextAlignment = TextAlignment.Center;
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(12, 15)),
-                                    Brush = Brushes.Red
-                                };
+                                ctx.DrawRectangle(Brushes.Red, PenBlack, new Rect(8, 8, 60, 30));
+                                ctx.DrawRectangle(Brushes.WhiteSmoke, PenBlack, new Rect(12, 12, 52, 22));
+                                ctx.DrawText(ft, new Point(12, 15));
 
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(rect1);
-                                DrawingBanners.Children.Add(text);
                                 #endregion 5. НЕ ВКЛЮЧАТЬ! Работают люди
                             }
 
                             if (Convert.ToBoolean(bannersState & 32))
                             {
                                 #region 6. НЕ ВКЛЮЧАТЬ! Работа на линии
-                                
-                                var rect = new GeometryDrawing
-                                {
-                                    Geometry = new RectangleGeometry
-                                    {
-                                        Rect = new Rect(10, 10, 60, 30),
-                                    },
-                                    Brush = Brushes.Red,
-                                    Pen = PenBlack
-                                };
-                                
+
                                 FormattedText ft = new FormattedText("НЕ ВКЛЮЧАТЬ!\nРабота на линии",
                                     CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                                     new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Bold,
@@ -1220,54 +977,16 @@ namespace AvAp2.Models
                                 ft.MaxTextWidth = 56;
                                 ft.TextAlignment = TextAlignment.Center;
 
-                                var text = new GeometryDrawing
-                                {
-                                    Geometry = ft.BuildGeometry(new Point(12, 17)),
-                                    Brush = Brushes.WhiteSmoke
-                                };
-                                
-                                DrawingBanners.Children.Add(rect);
-                                DrawingBanners.Children.Add(text);
-                                DrawingBanners.Transform = transform;
-
+                                ctx.DrawRectangle(Brushes.Red, PenBlack, new Rect(10, 10, 60, 30));
+                                ctx.DrawText(ft, new Point(12, 17));
                                 #endregion 6. НЕ ВКЛЮЧАТЬ! Работа на линии
                             }
                         }
-                        /*
-
-                              
-
-                              <Border Grid.Row="2" Grid.Column="2" Width="85" Height="40" Visibility="{TemplateBinding ASUBanner2Visibility}" Margin="5"  BorderBrush="Black" BorderThickness="1" CornerRadius="1">
-                                  <Border BorderBrush="Red" BorderThickness="3" CornerRadius="1">
-                                      <Border BorderBrush="Black" BorderThickness="1" CornerRadius="1" Background="White">
-                                          <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                              <TextBlock FontSize="8" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Text="НЕ ВКЛЮЧАТЬ!" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                              <TextBlock FontSize="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Text="Работают люди" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                          </StackPanel>
-                                      </Border>
-                                  </Border>
-                              </Border>
-
-                              <Border Grid.Row="2" Grid.Column="2" Width="85" Height="40" Visibility="{TemplateBinding ASUBanner1Visibility}" Margin="5"  BorderBrush="Black" BorderThickness="1" CornerRadius="1">
-                                  <Border Background="Red" BorderBrush="Red" BorderThickness="1" CornerRadius="1">
-                                      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                          <TextBlock FontSize="8" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="НЕ ВКЛЮЧАТЬ!" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                          <TextBlock FontSize="7" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="Работа на линии" TextAlignment="Center" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                      </StackPanel>
-                                  </Border>
-                              </Border>
-                       
-                        
-                         */
                     }
                 }
-
                 #endregion В работе
             }
-
-            DrawingBanners.Transform = transform;
-            DrawingBannerWrapper.Source = new DrawingImage(DrawingBanners);
-            DrawingBannerWrapper.RenderTransform = transform;
+            transform.Dispose();
         }
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
@@ -1275,26 +994,26 @@ namespace AvAp2.Models
             e.Pointer.Capture(this);
             ModifyStartPoint = e.GetPosition(this);
             e.Handled = true;
-            if (DrawingVisualText.Bounds.Contains(ModifyStartPoint))
+            if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
                 IsBlockPressed = IsDeblockPressed = IsBannersPressed = IsControlModePressed = false;
             }
-            else if (DrawingBlock.GetBounds().Contains(ModifyStartPoint))
+            else if (DrawingBlock.IsPointerOver)
             {
                 IsBlockPressed = IsModifyPressed = true;
                 IsTextPressed = IsDeblockPressed = IsBannersPressed = IsControlModePressed = false;
             }
-            else if (DrawingDeblock.GetBounds().Contains(ModifyStartPoint))
+            else if (DrawingDeblock.IsPointerOver)
             {
                 IsDeblockPressed = IsModifyPressed = true;
                 IsTextPressed = IsBlockPressed = IsBannersPressed = IsControlModePressed = false;
             }
-            else if (DrawingControlMode.GetBounds().Contains(ModifyStartPoint))
+            else if (DrawingControlMode.IsPointerOver)
             {
                 IsControlModePressed = IsModifyPressed = true; 
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsBannersPressed = false;
-            }else if (DrawingBanners.GetBounds().Contains(ModifyStartPoint))
+            }else if (DrawingBanners.IsPointerOver)
             {
                 IsBannersPressed = IsModifyPressed = true;
                 IsTextPressed = IsBlockPressed = IsDeblockPressed = IsControlModePressed = false;

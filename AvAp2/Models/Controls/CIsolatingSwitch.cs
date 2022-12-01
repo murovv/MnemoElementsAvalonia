@@ -19,9 +19,6 @@ namespace AvAp2.Models
             }
         }
         public static StyledProperty<bool> ShortCircuitIsExistProperty = AvaloniaProperty.Register<CIsolatingSwitch,bool>(nameof(ShortCircuitIsExist), false);
-
-
-
         public CIsolatingSwitch() : base()
         {
             this.TextNameWidth = (double)60;
