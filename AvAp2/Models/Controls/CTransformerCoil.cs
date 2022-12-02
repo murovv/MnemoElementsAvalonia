@@ -360,7 +360,7 @@ namespace AvAp2.Models
         static CTransformerCoil()
         {
             AffectsRender<CTransformerCoil>(IsRegulatorProperty, CoilsConnectionTypeProperty, AutoIsExistProperty, CoilLeftExitIsExistProperty, CoilRightExitIsExistProperty,CoilTopExitIsExistProperty, CoilBottomExitIsExistProperty, IsPowerProperty, AutoVoltageColorProperty, AutoVoltageProperty);
-            ControlISSelectedProperty.Changed.Subscribe(OnControlISSelectedPropertyChanged);
+            CTransformerCoil.ControlISSelectedProperty.Changed.Subscribe(OnControlISSelectedPropertyChanged);
             IsPowerProperty.Changed.Subscribe(OnIsPowerChanged);
             AutoVoltageColorProperty.Changed.Subscribe(OnAutoVoltageColorChanged);
             AutoVoltageProperty.Changed.Subscribe(OnAutoVoltagePropertyChanged);
@@ -368,7 +368,7 @@ namespace AvAp2.Models
 
         private static void OnControlISSelectedPropertyChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            (obj.Sender as CTransformerCoil).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as CTransformerCoil)?.DrawingIsSelected.InvalidateVisual();
         }
         public CTransformerCoil() : base()
         {

@@ -8,15 +8,7 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="AvAp2"
 	xmlns:models="using:AvAp2.Models">
-	<Window.Styles>
-		<!--<StyleInclude Source="/Styles/BasicMnemoElementStyles.axaml"></StyleInclude>
-		<StyleInclude Source="/Styles/BasicWithTextNameStyles.axaml"></StyleInclude>
-		<StyleInclude Source="/Styles/BasicWithStateStyles.axaml"></StyleInclude>
-		<StyleInclude Source="/Styles/BasicCommutationDeviceStyles.axaml"></StyleInclude>
-		<StyleInclude Source="/Styles/CLineStyles.axaml" />
-		<StyleInclude Source="/Styles/IGeometryStyles.axaml"></StyleInclude>-->
-	</Window.Styles>
-    <Design.DataContext>
+	<Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 	<TabControl>
@@ -95,29 +87,27 @@
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Controls 3">
-			<UniformGrid Rows="2" Columns="6">
+			<UniformGrid Rows="2" Columns="5">
 				<models:CHyperLink x:Name="CHyperLink"></models:CHyperLink>
 				<models:CWebCamera x:Name="CWebCamera"></models:CWebCamera>
-				<models:CText x:Name="CText"></models:CText>
 				<models:CCurrentDataAnalog x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
 				<models:CCurrentDataDiscret x:Name="CCurrentDataDiscret"></models:CCurrentDataDiscret>
 				<models:CAlarmIndicator x:Name="CAlarmIndicator"></models:CAlarmIndicator>
 				<Button x:Name="CHyperLinkButton"></Button>
 				<Button x:Name="CWebCameraButton"></Button>
-				<Button x:Name="CTextButton"></Button>
 				<Button x:Name="CCurrentDataAnalogButton"></Button>
 				<Button x:Name="CCurrentDataDiscretButton"></Button>
 				<Button x:Name="CAlarmButton"></Button>
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Text text">
-			<Canvas>
+			<!--<Canvas>
 				<models:CText x:Name="TestText" Margin="30 30 30 30" TextName="какой то текст" ControlISSelected="True" Padding="30 30 30 30">
 				</models:CText>
 				<models:CText x:Name="TestText1" Margin="60 30 30 30" TextName="какой то текст" ControlISSelected="True" Padding="30 30 30 30">
 				</models:CText>
 				<Button x:Name="RotateText"></Button>
-			</Canvas>
+			</Canvas>-->
 		</TabItem>
 	</TabControl>
 	

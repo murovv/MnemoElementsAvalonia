@@ -9,8 +9,6 @@ namespace AvAp2.Models
 {
     public abstract class BasicWithColor:BasicWithTextName
     {
-        public static Pen TestPen1 = new Pen(Brushes.Blue);
-        public static ISolidColorBrush TestBrush1 = Brushes.Black;
         [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента"), DisplayName("Цвет содержимого"), Browsable(true)]
         public virtual Color ContentColor// У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
         {
@@ -29,10 +27,15 @@ namespace AvAp2.Models
         private static void ContentColorChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             BasicWithColor sender = obj.Sender as BasicWithColor;
-            sender.BrushContentColor = TestBrush1;
+            sender.BrushContentColor = new SolidColorBrush(obj.NewValue.Value);
+            sender.BrushContentColor.ToImmutable();
             
-            sender.PenContentColor = TestPen1;
-            sender.PenContentColorThin = TestPen1;
+            sender.PenContentColor = new Pen(sender.BrushContentColor, (sender as IGeometry)?.LineThickness ?? 3);
+            if (sender is IGeometry && ((IGeometry)sender).IsDash)
+                sender.PenContentColor.DashStyle = DashStyle.Dash;
+            sender.PenContentColor.ToImmutable();
+            sender.PenContentColorThin = new Pen(sender.BrushContentColor, 1);
+            sender.PenContentColorThin.ToImmutable();
         }
         public virtual Color ContentColorAlternate// У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
         {
@@ -47,9 +50,15 @@ namespace AvAp2.Models
         private static void ContentColorAlternateChanged(AvaloniaPropertyChangedEventArgs<Color> obj)
         {
             BasicWithColor sender = obj.Sender as BasicWithColor;
-            sender.BrushContentColorAlternate = TestBrush1;
-            sender.PenContentColorAlternate = TestPen1;
-            sender.PenContentColorThinAlternate = TestPen1;
+            sender.BrushContentColorAlternate = new SolidColorBrush(sender.ContentColorAlternate);
+            sender.BrushContentColorAlternate.ToImmutable();
+            
+            sender.PenContentColorAlternate = new Pen(sender.BrushContentColorAlternate, (sender as IGeometry)?.LineThickness ?? 3);
+            if (sender is IGeometry && ((IGeometry)sender).IsDash)
+                sender.PenContentColorAlternate.DashStyle = DashStyle.Dash;
+            sender.PenContentColorAlternate.ToImmutable();
+            sender.PenContentColorThinAlternate = new Pen(sender.BrushContentColorAlternate, 1);
+            sender.PenContentColorThinAlternate.ToImmutable();
         }
 
         static BasicWithColor()
