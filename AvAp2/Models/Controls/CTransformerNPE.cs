@@ -7,7 +7,7 @@ using AvAp2.Interfaces;
 namespace AvAp2.Models
 {
     [Description("Трансформатор заземления нейтрали")]
-    public class CTransformerNPE : CAbstractTransformer, IConnector
+    public class CTransformerNPE : BasicEquipment, IConnector
     {
         
         #region IConnector
@@ -110,13 +110,9 @@ namespace AvAp2.Models
                 var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
                 DrawingContext.PushedState translate;
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-                TranslationX = -0;
-                TranslationY = -0;
-                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
-                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 40, 40));
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-5, -5, 40, 40));
                 if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                     ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
-                translate.Dispose();
                 rotate.Dispose();
             }
 
@@ -126,14 +122,9 @@ namespace AvAp2.Models
         {
             var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
             DrawingContext.PushedState translate;
-            //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-            TranslationX = -0;
-            TranslationY = -0;
-            translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
-            ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 40, 40));
+            ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-5, -5, 40, 40));
             if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
-            translate.Dispose();
             rotate.Dispose();
         }
         }

@@ -469,28 +469,19 @@ namespace AvAp2.Models
             if (ControlISSelected)
             {
                 var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
-                DrawingContext.PushedState translate;
                 //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
                 if (IsPower)
                 {
-                    
-                    TranslationX = -7;
-                    TranslationY = -25;
-                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
-                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 79, 100));
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-27, -45, 79, 100));
                 }
                 else
-                {
-                    TranslationX = 0;
-                    TranslationY = -12;
-                    translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
-                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 54, 67));
+                { 
+                    ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(-10, -22, 54, 67));
                 }
                 if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
                 {
                     ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
                 }
-                translate.Dispose();
                 rotate.Dispose();
             }
         }
@@ -498,28 +489,20 @@ namespace AvAp2.Models
         protected override void DrawMouseOver(DrawingContext ctx)
         {
             var rotate = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
-            DrawingContext.PushedState translate;
             //Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
             if (IsPower)
             {
-                    
-                TranslationX = -7;
-                TranslationY = -25;
-                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
-                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 79, 100));
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(-25, -5, 79, 100));
             }
             else
             {
-                TranslationX = 0;
-                TranslationY = -12;
-                translate = ctx.PushPostTransform(new TranslateTransform(TranslationX,TranslationY).Value);
-                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 54, 67));
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(-12, 0, 54, 67));
             }
             if (DrawingVisualText != null && DrawingVisualText.Bounds.Width > 0)
             {
                 ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
             }
-            translate.Dispose();
+            
             rotate.Dispose();
         }
     }
