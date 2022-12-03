@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using AvAp2.Models;
 using StressTest.ViewModels;
 using StressTest.Views;
 
@@ -10,6 +11,7 @@ namespace StressTest
     {
         public override void Initialize()
         {
+            BlinkAnimationController.GetInstance();
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -17,7 +19,7 @@ namespace StressTest
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
+                desktop.MainWindow = new MainWindow()
                 {
                     DataContext = new MainWindowViewModel(),
                 };
