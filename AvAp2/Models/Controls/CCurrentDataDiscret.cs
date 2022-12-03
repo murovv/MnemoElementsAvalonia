@@ -97,7 +97,7 @@ namespace AvAp2.Models
 
         protected override void DrawText(DrawingContext ctx)
         {
-            DrawingVisualText = new Control();
+            
         }
 
         protected override void DrawQuality(DrawingContext ctx)

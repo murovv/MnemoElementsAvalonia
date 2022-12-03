@@ -136,44 +136,5 @@ namespace AvAp2.Models
             ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(60, 0, 29, 29));
             transform.Dispose();
         }
-        
-        //TODO
-        /*internal protected override void DrawIsSelected()
-        {
-            using (var drawingContext = DrawingVisualIsSelected.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));//Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-                drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0, 0, 29, 29));
-                drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(60, 0, 29, 29));
-
-                drawingContext.Pop();
-                if (DrawingVisualText.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualText.ContentBounds;
-                    drawingContext.DrawRectangle(BrushIsSelected, PenIsSelected, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsSelected.Opacity = ControlISSelected ? .3 : 0;
-        }
-
-        internal protected override void DrawMouseOver()
-        {
-            using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));//Вращение не вокруг центра, а вокруг верхнего вывода: 15, -15
-                drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0, 0, 29, 29));
-                drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(60, 0, 29, 29));
-
-                drawingContext.Pop();
-                if (DrawingVisualText.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualText.ContentBounds;
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsMouseOver.Opacity = 0;
-        }*/
     }
 }

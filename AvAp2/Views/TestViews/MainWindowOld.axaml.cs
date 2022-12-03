@@ -41,7 +41,7 @@ namespace AvAp2.Views
             CHyperLinkButton.Click+= CHyperLinkButtonOnClick;
             CCurrentDataDiscretButton.Click+= CCurrentDataDiscretButtonOnClick;
             CDiagnosticDeviceButton.Click+= CDiagnosticDeviceButtonOnClick;
-            /*RotateText.Click+= RotateTextOnClick;*/
+            RotateText.Click+= RotateTextOnClick;
             #endregion
             #region TagData init
             
@@ -123,10 +123,11 @@ namespace AvAp2.Views
             #endregion
         }
 
-        /*private void RotateTextOnClick(object? sender, RoutedEventArgs e)
+        private void RotateTextOnClick(object? sender, RoutedEventArgs e)
         {
             TestText.AngleTextName += 5;
-        }*/
+            TestText.TextName = "asfseeinbiwenerbuinosnb";
+        }
 
         private void CDiagnosticDeviceButtonOnClick(object? sender, RoutedEventArgs e)
         {

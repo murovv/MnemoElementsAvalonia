@@ -1,13 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Threading;
 using AvAp2.Interfaces;
 using AvAp2.Models.SubControls;
+using ReactiveUI;
 
 namespace AvAp2.Models
 {
@@ -75,12 +78,14 @@ namespace AvAp2.Models
         {
             (obj.Sender as BasicWithTextName).BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
             (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).SetTextBounds();
             
         }
 
         public static void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
         {
             (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).SetTextBounds();
             (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
             (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
             
@@ -133,9 +138,18 @@ namespace AvAp2.Models
                 RiseMnemoNeedSave();
             }
         }
+
+        
         public static StyledProperty<double> AngleTextNameProperty = AvaloniaProperty.Register<BasicWithTextName, double>(nameof(AngleTextName),0.0);
 
-        //BUG нормально MouseOver отрисовывается только после второго наведения
+        public static StyledProperty<Rect> TextBoundsProperty =
+            AvaloniaProperty.Register<BasicWithTextName, Rect>(nameof(TextBounds), new Rect(0,0,0,0));
+        public Rect TextBounds
+        {
+            get => GetValue(TextBoundsProperty);
+            set=>SetValue(TextBoundsProperty, value);
+            
+        }
         static BasicWithTextName()
         {
             AffectsRender<BasicWithTextName>(MarginTextNameProperty);
@@ -149,17 +163,19 @@ namespace AvAp2.Models
             MarginTextNameProperty.Changed.Subscribe(OnTextChanged);
             AngleTextNameProperty.Changed.Subscribe(OnTextChanged);
         }
+        
+        
+
         public BasicWithTextName() : base()
         {
             BrushTextNameColor = new SolidColorBrush(TextNameColor);
-            DrawingVisualText = new RenderCaller(DrawText);
+            DrawingVisualText = new RenderCaller(DrawText)
+            {
+                Width = 0,
+                Height = 0,
+                ClipToBounds = false
+            };
             ClipToBounds = false;
-            #region subscribtions
-            
-            #endregion
-            //this.Content = DrawingVisualText;
-            /*TextNameColorProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnColorChanged);
-            MarginTextNameProperty.Changed.AddClassHandler<BasicWithTextName>(x => x.OnTextChanged);*/
             PenBlack = new Pen(Brushes.Black, .5);
             PenBlack.ToImmutable(); 
             PenBlack1 = new Pen(Brushes.Black, 1);
@@ -171,8 +187,35 @@ namespace AvAp2.Models
                 Content = new Canvas();
             }
             (this.Content as Canvas).Children.Add(DrawingVisualText);
+            DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
+        }
+
+        private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
+        {
+            DrawingVisualText.InvalidateVisual();
+            SetTextBounds();
+            DrawingMouseOver.InvalidateVisual();
+            DrawingIsSelected.InvalidateVisual();
+        }
+
+        protected void SetTextBounds()
+        {
+            var drawingText = this.DrawingVisualText;
+            var control = this;
+            if(Math.Abs(drawingText.Width - control.TextBounds.Width) > 10e-6)
+                drawingText.Width = control.TextBounds.Width;
+            if(Math.Abs(drawingText.Height - control.TextBounds.Height) > 10e-6)
+                drawingText.Height = control.TextBounds.Height;
+            if (Math.Abs(drawingText.Bounds.X - control.MarginTextName.Left) > 10e-6 ||
+                Math.Abs(drawingText.Bounds.Y - control.MarginTextName.Top) > 10e-6)
+            {
+                drawingText.Margin = new Thickness(control.MarginTextName.Left, control.MarginTextName.Top);
+            }
+                
         }
         
+        
+
 
         internal protected Brush BrushTextNameColor;
 
@@ -191,11 +234,15 @@ namespace AvAp2.Models
                 ft.MaxTextWidth = TextNameWidth > 10 ? TextNameWidth: 10;
                 ft.TextAlignment = TextAlignment.Center;
                 ft.Trimming = TextTrimming.None;
-                var translate = ctx.PushPostTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value);
-                var rotate = ctx.PushPostTransform(new RotateTransform(AngleTextName).Value);
+                //var translate = ctx.PushPostTransform(new TranslateTransform(MarginTextName.Left, MarginTextName.Top).Value);
+                var rotate = ctx.PushPostTransform(new RotateTransform(AngleTextName, ft.Width/2, ft.Height/2).Value);
                 ctx.DrawText(ft, new Point(0, 0));
                 rotate.Dispose();
-                translate.Dispose();
+                //translate.Dispose();
+                if (Math.Abs(TextBounds.Width - ft.Width) > 10e-6 || Math.Abs(TextBounds.Height - ft.Height) > 10e-6)
+                {
+                    TextBounds = new Rect(MarginTextName.Left, MarginTextName.Top, ft.Width, ft.Height);
+                }
             }
         }
         
@@ -242,8 +289,10 @@ namespace AvAp2.Models
                     RiseMnemoMarginChanged(nameof(MarginTextName));
                 }
                 DrawingVisualText.InvalidateVisual();
+                SetTextBounds();
                 DrawingIsSelected.InvalidateVisual();
                 DrawingMouseOver.InvalidateVisual();
+                
             }
         }
         

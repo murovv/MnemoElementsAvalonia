@@ -25,7 +25,6 @@ namespace AvAp2.Models
                 Content = new Canvas();
             }
             (Content as Canvas).Children.Add(DrawingQuality);
-            Loaded+= OnLoaded;
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
             
         }
@@ -39,6 +38,7 @@ namespace AvAp2.Models
         private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawingVisualText.InvalidateVisual();
+            
             DrawingQuality.InvalidateVisual();
         }
 

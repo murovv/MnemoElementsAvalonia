@@ -87,7 +87,7 @@
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Controls 3">
-			<UniformGrid Rows="2" Columns="5">
+			<UniformGrid Rows="2" Columns="6">
 				<models:CHyperLink x:Name="CHyperLink"></models:CHyperLink>
 				<models:CWebCamera x:Name="CWebCamera"></models:CWebCamera>
 				<models:CCurrentDataAnalog x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
@@ -101,13 +101,13 @@
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Text text">
-			<!--<Canvas>
-				<models:CText x:Name="TestText" Margin="30 30 30 30" TextName="какой то текст" ControlISSelected="True" Padding="30 30 30 30">
+			<Canvas>
+				<models:CText x:Name="TestText" Margin="30 30 30 30" TextName="какой то текст" ControlISSelected="True" >
 				</models:CText>
-				<models:CText x:Name="TestText1" Margin="60 30 30 30" TextName="какой то текст" ControlISSelected="True" Padding="30 30 30 30">
+				<models:CText x:Name="TestText1" Margin="60 30 30 30" TextName="какой то текст" ControlISSelected="True">
 				</models:CText>
 				<Button x:Name="RotateText"></Button>
-			</Canvas>-->
+			</Canvas>
 		</TabItem>
 	</TabControl>
 	
