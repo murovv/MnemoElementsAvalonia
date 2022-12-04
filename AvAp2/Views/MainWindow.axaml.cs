@@ -19,6 +19,7 @@ namespace AvAp2.Views.TestViews
             EventGroupId.Click+= EventGroupIdOnClick;
             CArrowIsActive.Click+= CArrowIsActiveOnClick;
             CArrowAngle.Click+= CArrowAngleOnClick;
+            CArrowIsSelected.Click+= CArrowIsSelectedOnClick;
             CArrowReserveAngle.Click+= CArrowReserveAngleOnClick;
             CArrowReserveIsActive.Click+= CArrowReserveIsActiveOnClick;
             
@@ -49,6 +50,11 @@ namespace AvAp2.Views.TestViews
             CDiagnosticDeviceIsSelected.Click+= CDiagnosticDeviceIsSelectedOnClick;
             CDiagnosticDevice1.TextName = "картинка";
             BasicWithTextNameChangeName.Click+= BasicWithTextNameChangeNameOnClick;
+        }
+
+        private void CArrowIsSelectedOnClick(object? sender, RoutedEventArgs e)
+        {
+            CArrow1.ControlISSelected = !CArrow1.ControlISSelected;
         }
 
         private void BasicWithTextNameChangeNameOnClick(object? sender, RoutedEventArgs e)

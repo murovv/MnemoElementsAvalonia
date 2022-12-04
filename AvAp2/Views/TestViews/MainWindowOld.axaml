@@ -54,7 +54,6 @@
 				<models:CReactor x:Name="CReactor"></models:CReactor>
 				<models:CResistor x:Name="CResistor"></models:CResistor>
 				<models:CSurgeSuppressor x:Name="CSurgeSuppressor"></models:CSurgeSuppressor>
-				
 				<models:CLineCross x:Name="CLineCross"></models:CLineCross>
 				<models:CCurrentTransformer x:Name="CCurrentTransformer"></models:CCurrentTransformer>
 				<Button x:Name="CArrowButton"></Button>
@@ -87,10 +86,10 @@
 			</UniformGrid>
 		</TabItem>
 		<TabItem Header="Controls 3">
-			<UniformGrid Rows="2" Columns="6">
+			<UniformGrid Rows="2" Columns="5">
 				<models:CHyperLink x:Name="CHyperLink"></models:CHyperLink>
 				<models:CWebCamera x:Name="CWebCamera"></models:CWebCamera>
-				<models:CCurrentDataAnalog x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
+				<models:CCurrentDataAnalog ControlISSelected="True" x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
 				<models:CCurrentDataDiscret x:Name="CCurrentDataDiscret"></models:CCurrentDataDiscret>
 				<models:CAlarmIndicator x:Name="CAlarmIndicator"></models:CAlarmIndicator>
 				<Button x:Name="CHyperLinkButton"></Button>

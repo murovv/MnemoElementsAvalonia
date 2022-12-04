@@ -22,37 +22,6 @@ namespace AvAp2.Models
             return ObjectCopier.Clone(this);
         }
 
-        //private static PathGeometry StickGeometry()
-        //{
-        //    PathGeometry pathGeometry = new PathGeometry();
-        //    pathGeometry.FillRule = FillRule.Nonzero;
-
-        //    PathFigure pathFigure = new PathFigure();
-        //    pathFigure.StartPoint = new Point(15, 45);
-        //    pathFigure.IsClosed = false;
-        //    pathGeometry.Figures.Add(pathFigure);
-
-        //    LineSegment lineSegment1 = new LineSegment();
-        //    lineSegment1.Point = new Point(15, 15);
-        //    pathFigure.Segments.Add(lineSegment1);
-
-        //    ArcSegment arcSegment = new ArcSegment();
-        //    arcSegment.Point = new Point(30, 15);
-        //    arcSegment.Size = new Size(10, 10);
-        //    arcSegment.IsLargeArc = false;
-        //    arcSegment.IsStroked = true;
-
-        //    pathFigure.Segments.Add(arcSegment);
-
-        //    //BezierSegment bezierSegment2 = new BezierSegment();
-        //    //bezierSegment2.Point1 = new Point(6, 15);
-        //    //bezierSegment2.Point2 = new Point(6, 13);
-        //    //bezierSegment2.Point3 = new Point(5, 12);
-        //    //pathFigure.Segments.Add(bezierSegment2);
-
-        //    return pathGeometry;
-        //}
-
         private static StreamGeometry StickGeometry()
         {
             StreamGeometry geometry = new StreamGeometry();
@@ -79,8 +48,8 @@ namespace AvAp2.Models
             }
             var geometry = StickGeometry();
             // drawingContext.PushTransform(new RotateTransform(Angle));//Если нужно трансформировать только часть элементов Push-Pop
-                geometry.Transform = new RotateTransform(Angle, 15, 15);
-                drawingContext.DrawGeometry(Brushes.Transparent, isActiveState ? PenContentColor : PenContentColorAlternate, geometry);
+            geometry.Transform = new RotateTransform(Angle, 15, 15);
+            drawingContext.DrawGeometry(Brushes.Transparent, isActiveState ? PenContentColor : PenContentColorAlternate, geometry);
         }
 
     }

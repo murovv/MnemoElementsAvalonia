@@ -85,7 +85,8 @@ namespace AvAp2.Models
                 if (e.PropertyName.Equals(nameof(TagDataItem.Quality)))
                 {
                     DrawingQuality.InvalidateVisual();
-                }else if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
+                }
+                else if (e.PropertyName.Equals(nameof(TagDataItem.TagValueString)))
                 {
                     InvalidateVisual();
                 }
@@ -100,7 +101,9 @@ namespace AvAp2.Models
             {
                 if (TagDataMainState.Quality == TagValueQuality.Handled)
                 {
-                    ctx.DrawGeometry(BrushContentColor, PenHand, HandGeometry());
+                    StreamGeometry geometry = HandGeometry();
+                    geometry.Transform = new TranslateTransform(-10, -10);
+                    ctx.DrawGeometry(BrushContentColor, PenHand, geometry);
                 }
                 else if (TagDataMainState.Quality == TagValueQuality.Invalid)
                 {
@@ -108,7 +111,7 @@ namespace AvAp2.Models
                     FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyle.Normal, FontWeight.Normal, FontStretch.Normal),
                         12, BrushContentColor);
-                    ctx.DrawText(ft, new Point(0,0));
+                    ctx.DrawText(ft, new Point(-10,-10));
                 }
             }
         }

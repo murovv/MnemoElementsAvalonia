@@ -77,20 +77,20 @@ namespace AvAp2.Models
 
         protected override void DrawIsSelected(DrawingContext ctx)
         {
-            if (Bounds.Width>0 && ControlISSelected)
+            if ((this.Content as Canvas).Bounds.Width>0 && ControlISSelected)
             {
                 var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
-                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, Bounds);
+                ctx.DrawRectangle(BrushIsSelected, PenIsSelected, (this.Content as Canvas).Bounds);
                 transform.Dispose();
             }
         }
         
         protected override void DrawMouseOver(DrawingContext ctx)
         {
-            if (Bounds.Width > 0)
+            if ((this.Content as Canvas).Bounds.Width > 0)
             {
                 var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
-                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, Bounds);
+                ctx.DrawRectangle(BrushMouseOver, PenMouseOver, (this.Content as Canvas).Bounds);
                 transform.Dispose();
             }
         }

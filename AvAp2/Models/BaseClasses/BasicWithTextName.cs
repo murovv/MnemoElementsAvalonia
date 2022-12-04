@@ -87,7 +87,7 @@ namespace AvAp2.Models
             (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
             (obj.Sender as BasicWithTextName).SetTextBounds();
             (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
-            (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingMouseOver.InvalidateVisual();
             
         }
         [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
@@ -256,7 +256,6 @@ namespace AvAp2.Models
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
             ModifyStartPoint = e.GetPosition(this);
-#warning в авалонии 11 хит тест начал работать по  другому, так что пока так
             if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
@@ -300,11 +299,14 @@ namespace AvAp2.Models
         {
             if (ControlISSelected)
             {
-                var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
                 if (DrawingVisualText.Bounds.Width > 0)
                 {
+                    var transform1 = ctx.PushPostTransform(new RotateTransform(AngleTextName,
+                        DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value);
                     ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
+                    transform1.Dispose();
                 }
+                var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
                 ctx.DrawRectangle(BrushIsSelected, PenIsSelected, new Rect(0,0,30,30));
                 transform.Dispose();
             }
@@ -312,11 +314,14 @@ namespace AvAp2.Models
         
         protected override void DrawMouseOver(DrawingContext ctx)
         {
-            var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
             if (DrawingVisualText.Bounds.Width > 0)
             {
+                var transform1 = ctx.PushPostTransform(new RotateTransform(AngleTextName,
+                    DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value);
                 ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
+                transform1.Dispose();
             }
+            var transform = ctx.PushPostTransform(new RotateTransform(Angle, 15, 15).Value);
             ctx.DrawRectangle(BrushMouseOver, PenMouseOver, new Rect(0,0,30,30));
             transform.Dispose();
         }

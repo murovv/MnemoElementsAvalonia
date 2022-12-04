@@ -30,15 +30,6 @@ namespace AvAp2.Models
 
         public IDisposable Binding { get; set; }
 
-        public static void OnOpacityChanged(AvaloniaPropertyChangedEventArgs<double> obj)
-        {
-            var sender = obj.Sender as BasicAlarmIndicator;
-            if (sender.IsReceipt.HasValue && sender.IsReceipt.Value)
-            {
-                sender.Opacity = obj.NewValue.Value;
-            }
-        }
-
         private static void OnReceiptChanged(AvaloniaPropertyChangedEventArgs<bool?> e)
         {
             #region Мигание индикатора
@@ -53,8 +44,7 @@ namespace AvAp2.Models
                         (e.Sender as BasicAlarmIndicator).Binding.Dispose();
                     else
                     {
-                        (e.Sender as BasicAlarmIndicator).Binding =
-                            BlinkAnimationController.BlinkOpacityProperty.Changed.Subscribe(OnOpacityChanged);
+                        (e.Sender as BasicAlarmIndicator).Binding = (e.Sender as BasicAlarmIndicator).Bind(OpacityProperty, BlinkAnimationController.GetInstance().GetObservable(BlinkAnimationController.BlinkOpacityProperty));
                     }
                 }
                 else
@@ -111,6 +101,7 @@ namespace AvAp2.Models
         internal protected Bitmap ImageSourceDisabled;
 
 
+
         internal protected void RiseStateChangedEvent()
         {
             StateChangedEvent?.Invoke(this, new EventArgs());
@@ -119,14 +110,13 @@ namespace AvAp2.Models
         static BasicAlarmIndicator()
         {
             AffectsRender<BasicAlarmIndicator>(IsActiveProperty, EventGroupIDProperty);
-            IsReceiptProperty.Changed.Subscribe(OnReceiptChanged);
             IsActiveProperty.Changed.Subscribe(OnAlarmChanged);
             EventGroupIDProperty.Changed.Subscribe(OnAlarmChanged);
+            IsReceiptProperty.Changed.Subscribe(OnReceiptChanged);
         }
 
         public BasicAlarmIndicator() : base()
         {
-            
             var assests = AvaloniaLocator.Current.GetService<IAssetLoader>();
             var name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             ImageSourceTransparent =
@@ -188,7 +178,6 @@ namespace AvAp2.Models
         {
             DrawingVisualText = new Control();
         }
-
         protected override void DrawIsSelected(DrawingContext ctx)
         {
             if (ControlISSelected)
@@ -203,3 +192,63 @@ namespace AvAp2.Models
         }
     }
 }
+
+ 
+/*
+
+        internal protected override void DrawMouseOver()
+        {
+            using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())
+            {
+                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));
+
+                if (DrawingVisualBase.ContentBounds.Width > 0)
+                {
+                    Rect selectedRect = DrawingVisualBase.ContentBounds;
+                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, selectedRect);
+                }
+                drawingContext.Close();
+            }
+            DrawingVisualIsMouseOver.Opacity = 0;
+        }
+
+
+#warning Качество придётся выносить как и значение из вложенных
+        //internal protected override void DrawBaseQuality()
+        //{
+        //    if (TagDataMainState != null)
+        //    {
+        //        if (TagDataMainState.Quality == IProjectModel.TagValueQuality.Handled)
+        //        {
+        //            StreamGeometry geometry = HandGeometry();
+        //            geometry.Transform = new TranslateTransform(-15, 0);
+        //            geometry.Freeze();
+        //            using (var drawingContext = DrawingVisualQuality.RenderOpen())
+        //            {
+        //                drawingContext.DrawGeometry(BrushHand, PenHand, geometry);
+        //                drawingContext.Close();
+        //            }
+        //        }
+        //        else if (TagDataMainState.Quality == IProjectModel.TagValueQuality.Invalid)
+        //        {
+        //            using (var drawingContext = DrawingVisualQuality.RenderOpen())
+        //            {
+        //                FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+        //                    new Typeface(new FontFamily("Segoe UI"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal),
+        //                    12, Brushes.Yellow, null, TextFormattingMode.Ideal);
+
+        //                drawingContext.DrawText(ft, new Point(-5, 0));
+        //                drawingContext.Close();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            using (var drawingContext = DrawingVisualQuality.RenderOpen())
+        //            {
+        //                drawingContext.Close();
+        //            }
+        //        }
+        //    }
+        //}
+    }
+}*/

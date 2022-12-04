@@ -118,14 +118,14 @@ namespace AvAp2.Models
         {
             if (ControlISSelected)
             {
-                var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+                var transform = ctx.PushPostTransform(new RotateTransform(AngleTextName, DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value);
                 ctx.DrawRectangle(BrushIsSelected, PenIsSelected, DrawingVisualText.Bounds);
                 transform.Dispose();
             }
         }
         protected override void DrawMouseOver(DrawingContext ctx)
         {
-            var transform = ctx.PushPostTransform(new RotateTransform(Angle).Value);
+            var transform = ctx.PushPostTransform(new RotateTransform(AngleTextName, DrawingVisualText.Bounds.Center.X, DrawingVisualText.Bounds.Center.Y).Value);
             ctx.DrawRectangle(BrushMouseOver, PenMouseOver, DrawingVisualText.Bounds);
             transform.Dispose();
         }

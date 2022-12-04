@@ -18,6 +18,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="CArrowIsActive">IsActive</Button>
                     <Button x:Name="CArrowAngle">Angle</Button>
+                    <Button x:Name="CArrowIsSelected"></Button>
                 </StackPanel>
             </StackPanel>
         </TabItem>
