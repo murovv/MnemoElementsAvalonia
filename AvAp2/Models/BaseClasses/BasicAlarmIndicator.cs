@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -37,20 +38,29 @@ namespace AvAp2.Models
             //BasicAlarmIndicator ai = e.Sender as CAlarmIndicator;
             if (e.OldValue.Value != e.NewValue.Value)
             {
-                if (e.NewValue.HasValue)
+                if (e.NewValue.Value != null) 
                 {
                     if (e.OldValue.Value == true)
-
-                        (e.Sender as BasicAlarmIndicator).Binding.Dispose();
+                    {
+                        (e.Sender as CAlarmIndicator).Binding.Dispose();
+                    }
                     else
                     {
-                        (e.Sender as BasicAlarmIndicator).Binding = (e.Sender as BasicAlarmIndicator).Bind(OpacityProperty, BlinkAnimationController.GetInstance().GetObservable(BlinkAnimationController.BlinkOpacityProperty));
+                        (e.Sender as CAlarmIndicator).Binding = (e.Sender as CAlarmIndicator).Bind(OpacityProperty, new Binding
+                        {
+                            Source = BlinkAnimationController.GetInstance(),
+                            Path = "BlinkOpacity",
+                            Mode = BindingMode.OneWay
+                        });
                     }
                 }
                 else
-                    (e.Sender as BasicAlarmIndicator).Bind(OpacityProperty, null!);
+                {
+                    (e.Sender as CAlarmIndicator).Binding.Dispose();
+                }
+                    
 
-                (e.Sender as BasicAlarmIndicator).RiseStateChangedEvent();
+                (e.Sender as CAlarmIndicator).RiseStateChangedEvent();
             }
 
             #endregion Мигание индикатора
@@ -192,63 +202,3 @@ namespace AvAp2.Models
         }
     }
 }
-
- 
-/*
-
-        internal protected override void DrawMouseOver()
-        {
-            using (var drawingContext = DrawingVisualIsMouseOver.RenderOpen())
-            {
-                drawingContext.PushTransform(new RotateTransform(Angle, 15, 15));
-
-                if (DrawingVisualBase.ContentBounds.Width > 0)
-                {
-                    Rect selectedRect = DrawingVisualBase.ContentBounds;
-                    drawingContext.DrawRectangle(BrushMouseOver, PenMouseOver, selectedRect);
-                }
-                drawingContext.Close();
-            }
-            DrawingVisualIsMouseOver.Opacity = 0;
-        }
-
-
-#warning Качество придётся выносить как и значение из вложенных
-        //internal protected override void DrawBaseQuality()
-        //{
-        //    if (TagDataMainState != null)
-        //    {
-        //        if (TagDataMainState.Quality == IProjectModel.TagValueQuality.Handled)
-        //        {
-        //            StreamGeometry geometry = HandGeometry();
-        //            geometry.Transform = new TranslateTransform(-15, 0);
-        //            geometry.Freeze();
-        //            using (var drawingContext = DrawingVisualQuality.RenderOpen())
-        //            {
-        //                drawingContext.DrawGeometry(BrushHand, PenHand, geometry);
-        //                drawingContext.Close();
-        //            }
-        //        }
-        //        else if (TagDataMainState.Quality == IProjectModel.TagValueQuality.Invalid)
-        //        {
-        //            using (var drawingContext = DrawingVisualQuality.RenderOpen())
-        //            {
-        //                FormattedText ft = new FormattedText("?", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-        //                    new Typeface(new FontFamily("Segoe UI"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal),
-        //                    12, Brushes.Yellow, null, TextFormattingMode.Ideal);
-
-        //                drawingContext.DrawText(ft, new Point(-5, 0));
-        //                drawingContext.Close();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            using (var drawingContext = DrawingVisualQuality.RenderOpen())
-        //            {
-        //                drawingContext.Close();
-        //            }
-        //        }
-        //    }
-        //}
-    }
-}*/
