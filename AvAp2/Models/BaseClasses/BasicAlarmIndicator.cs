@@ -58,8 +58,6 @@ namespace AvAp2.Models
                 {
                     (e.Sender as CAlarmIndicator).Binding.Dispose();
                 }
-                    
-
                 (e.Sender as CAlarmIndicator).RiseStateChangedEvent();
             }
 

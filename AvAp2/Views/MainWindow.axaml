@@ -52,6 +52,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="CAutomaticSwitchState">State</Button>
                     <Button x:Name="CAutomaticSwitchShowNormal">NormalState</Button>
+                    <Button x:Name="CAutomaticSwitchIsSelected">Select</Button>
                 </StackPanel>
             </StackPanel>
         </TabItem>

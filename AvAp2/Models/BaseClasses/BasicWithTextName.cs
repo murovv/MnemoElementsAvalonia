@@ -7,7 +7,10 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Rendering;
+using Avalonia.Rendering.Composition;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using AvAp2.Interfaces;
 using AvAp2.Models.SubControls;
 using ReactiveUI;
@@ -78,18 +81,30 @@ namespace AvAp2.Models
         {
             (obj.Sender as BasicWithTextName).BrushTextNameColor = new SolidColorBrush(obj.NewValue.Value);
             (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
-            (obj.Sender as BasicWithTextName).SetTextBounds();
+            (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as BasicWithTextName).DrawingMouseOver.InvalidateVisual();
             
         }
 
-        public static void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
+        public static async void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
         {
             (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
+            var renderer = (obj.Sender as BasicWithTextName).DrawingVisualText.GetVisualRoot()?.Renderer;
+            if (renderer != null)
+            {
+                await (renderer as CompositingRenderer).Compositor.RequestCommitAsync();
+            }
             (obj.Sender as BasicWithTextName).SetTextBounds();
             (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
             (obj.Sender as BasicWithTextName).DrawingMouseOver.InvalidateVisual();
             
         }
+
+        private static void OnSceneInvalidated(object? sender, SceneInvalidatedEventArgs e)
+        {
+            
+        }
+
         [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
         public virtual double TextNameWidth
         {
@@ -190,10 +205,16 @@ namespace AvAp2.Models
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
         }
 
-        private void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
+        private async void DrawingVisualTextOnLoaded(object? sender, RoutedEventArgs e)
         {
             DrawingVisualText.InvalidateVisual();
             SetTextBounds();
+            //TODO нужно проверить на другой платформе
+            var renderer = DrawingVisualText.GetVisualRoot()?.Renderer;
+            if (renderer != null)
+            {
+                await (renderer as CompositingRenderer).Compositor.RequestCommitAsync();
+            }
             DrawingMouseOver.InvalidateVisual();
             DrawingIsSelected.InvalidateVisual();
         }

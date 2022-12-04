@@ -19,7 +19,7 @@ namespace StressTest
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new AlarmWindow()
+                desktop.MainWindow = new MainWindow()
                 {
                     DataContext = new MainWindowViewModel(),
                 };

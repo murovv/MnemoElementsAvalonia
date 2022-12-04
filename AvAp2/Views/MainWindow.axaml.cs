@@ -24,8 +24,13 @@ namespace AvAp2.Views.TestViews
             CArrowReserveIsActive.Click+= CArrowReserveIsActiveOnClick;
             
             CAutomaticSwitch1.ControlISSelected = true;
+            CAutomaticSwitch1.TagDataMainState = new TagDataItem(null)
+            {
+                TagValueString = "1"
+            };
             CAutomaticSwitchState.Click+= CAutomaticSwitchStateOnClick;
             CAutomaticSwitchShowNormal.Click+= CAutomaticSwitchShowNormalOnClick;
+            CAutomaticSwitchIsSelected.Click+= CAutomaticSwitchIsSelectedOnClick;
             CCellCart21.ControlISSelected = true;
             CCellCart2State.Click+= CCellCart2StateOnClick;
  
@@ -50,6 +55,11 @@ namespace AvAp2.Views.TestViews
             CDiagnosticDeviceIsSelected.Click+= CDiagnosticDeviceIsSelectedOnClick;
             CDiagnosticDevice1.TextName = "картинка";
             BasicWithTextNameChangeName.Click+= BasicWithTextNameChangeNameOnClick;
+        }
+
+        private void CAutomaticSwitchIsSelectedOnClick(object? sender, RoutedEventArgs e)
+        {
+            CAutomaticSwitch1.ControlISSelected = !CAutomaticSwitch1.ControlISSelected;
         }
 
         private void CArrowIsSelectedOnClick(object? sender, RoutedEventArgs e)

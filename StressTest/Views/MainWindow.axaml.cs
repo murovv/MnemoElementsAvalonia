@@ -95,6 +95,7 @@ namespace StressTest.Views
                 control.IsConnectorExistLeft = !control.IsConnectorExistLeft;
                 control.IsConnectorExistRight = !control.IsConnectorExistRight;*/
                 control.TagDataBanners.TagValueString = "1";
+                control.TextName = "Другое имя";
             }
             TextBlock.Text = "Изменили за " + sw.ElapsedMilliseconds + " мс";
         }
