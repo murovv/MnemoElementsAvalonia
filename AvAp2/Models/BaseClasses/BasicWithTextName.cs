@@ -62,9 +62,7 @@ namespace AvAp2.Models
 
         public static StyledProperty<bool> TextNameISVisibleProperty =
             AvaloniaProperty.Register<BasicWithTextName, bool>(nameof(TextNameISVisible), defaultValue: true);
-
-
-
+        
         [Category("Свойства элемента мнемосхемы"), Description("Цвет текста диспетчерского наименования в 16-ричном представлении 0x FF(прозрачность) FF(красный) FF(зелёный) FF(синий)"), PropertyGridFilterAttribute, DisplayName("Текст цвет (hex)"), Browsable(true)]
         public Color TextNameColor
         {
@@ -83,7 +81,6 @@ namespace AvAp2.Models
             (obj.Sender as BasicWithTextName).DrawingVisualText.InvalidateVisual();
             (obj.Sender as BasicWithTextName).DrawingIsSelected.InvalidateVisual();
             (obj.Sender as BasicWithTextName).DrawingMouseOver.InvalidateVisual();
-            
         }
 
         public static async void OnTextChanged(AvaloniaPropertyChangedEventArgs obj)
@@ -218,7 +215,8 @@ namespace AvAp2.Models
             DrawingMouseOver.InvalidateVisual();
             DrawingIsSelected.InvalidateVisual();
         }
-
+        
+        
         protected void SetTextBounds()
         {
             var drawingText = this.DrawingVisualText;

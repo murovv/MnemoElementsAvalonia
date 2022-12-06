@@ -107,6 +107,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="BasicWithTextNameInputName"></TextBox>
                     <Button x:Name="BasicWithTextNameChangeName">Change Name</Button>
+                    <TextBlock x:Name="Layout"></TextBlock>
                 </StackPanel>
             </StackPanel>
         </TabItem>
