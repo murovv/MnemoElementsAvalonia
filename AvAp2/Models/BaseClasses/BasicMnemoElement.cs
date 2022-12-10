@@ -8,7 +8,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using AvAp2.Models.SubControls;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.BaseClasses
 {
     public abstract class BasicMnemoElement:UserControl,ICloneable
     {
@@ -21,7 +21,7 @@ namespace AvAp2.Models
         /// Человеческое название мнемоэлемента для подсказок
         /// </summary>
         public abstract string ElementTypeFriendlyName { get; }
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public virtual bool ControlIs30Step
         {
             get => true;
@@ -51,7 +51,7 @@ namespace AvAp2.Models
         public static StyledProperty<bool> ControlISHitTestVisibleProperty =
             AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISHitTestVisible));
          #region Привязки
-        [Category("Привязки данных"), Description("ID привязанных устройств. Для привязки достаточно перетащить устройство на элемент из дерева проекта слева"), PropertyGridFilterAttribute, DisplayName("ID привязанных устройств"), Browsable(true)]
+        [Category("Привязки данных"), Description("ID привязанных устройств. Для привязки достаточно перетащить устройство на элемент из дерева проекта слева"), PropertyGridFilter, DisplayName("ID привязанных устройств"), Browsable(true)]
         public List<string> DeviceIDs
         {
             get => (List<string>)GetValue(DeviceIDsProperty);
@@ -63,7 +63,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<List<string>> DeviceIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(DeviceIDs),  new List<string>());
 
-        [Category("Привязки данных"), Description("ID привязанных тегов для всплывающих подсказок. Например, токи фаз. Для привязки достаточно перетащить тег на элемент из дерева проекта слева"), PropertyGridFilterAttribute, DisplayName("ID тегов подсказок"), Browsable(true)]
+        [Category("Привязки данных"), Description("ID привязанных тегов для всплывающих подсказок. Например, токи фаз. Для привязки достаточно перетащить тег на элемент из дерева проекта слева"), PropertyGridFilter, DisplayName("ID тегов подсказок"), Browsable(true)]
         public List<string> ToolTipsTagIDs
         {
             get => (List<string>)GetValue(ToolTipsTagIDsProperty);
@@ -75,7 +75,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<List<string>> ToolTipsTagIDsProperty = AvaloniaProperty.Register<BasicMnemoElement, List<string>>(nameof(ToolTipsTagIDs), new List<string>());
 
-        [Category("Привязки данных"), Description("ID привязанных произвольных команд. Например, 'пуск осциллографа' для терминала РЗА или 'РПН больше' для трансформатора. Для привязки достаточно перетащить команду на элемент из дерева проекта слева"), PropertyGridFilterAttribute, DisplayName("ID команд"), Browsable(true)]
+        [Category("Привязки данных"), Description("ID привязанных произвольных команд. Например, 'пуск осциллографа' для терминала РЗА или 'РПН больше' для трансформатора. Для привязки достаточно перетащить команду на элемент из дерева проекта слева"), PropertyGridFilter, DisplayName("ID команд"), Browsable(true)]
         public List<string> CommandIDs
         {
             get => (List<string>)GetValue(CommandIDsProperty);

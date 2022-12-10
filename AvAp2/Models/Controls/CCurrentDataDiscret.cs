@@ -3,13 +3,14 @@ using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Элемент отображения дискретных данных")]
     public class CCurrentDataDiscret : BasicWithState
     {
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;

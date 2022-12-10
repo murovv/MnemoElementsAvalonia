@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     public class CPEConnector : BasicEquipment
     {
@@ -14,7 +15,7 @@ namespace AvAp2.Models
         {
             get => false;
         }
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент нарисован тонкой линией"), PropertyGridFilterAttribute, DisplayName("Тонкая линия"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент нарисован тонкой линией"), PropertyGridFilter, DisplayName("Тонкая линия"), Browsable(true)]
         public bool IsLineThin
         {
             get => (bool)GetValue(IsLineThinProperty);

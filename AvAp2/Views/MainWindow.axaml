@@ -4,8 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:AvAp2.Models"
         xmlns:viewModels="clr-namespace:AvAp2.ViewModels"
+        xmlns:controls="clr-namespace:AvAp2.Models.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="AvAp2.Views.TestViews.MainWindow"
+        x:Class="AvAp2.Views.MainWindow"
         Title="MainWindow">
     <Design.DataContext>
         <viewModels:MainWindowViewModel/>
@@ -13,8 +14,8 @@
     <TabControl>
         <TabItem Header="CArrow">
             <StackPanel>
-                <models:CArrow x:Name="CArrow" Height="50"></models:CArrow>
-                <models:CArrow x:Name="CArrow1" Height="50"></models:CArrow>
+                <controls:CArrow x:Name="CArrow" Height="50"></controls:CArrow>
+                <controls:CArrow x:Name="CArrow1" Height="50"></controls:CArrow>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="CArrowIsActive">IsActive</Button>
                     <Button x:Name="CArrowAngle">Angle</Button>
@@ -24,8 +25,8 @@
         </TabItem>
         <TabItem Header="CAlarmIndicator">
             <StackPanel>
-                <models:CAlarmIndicator x:Name="CAlarmIndicator" Height="30"></models:CAlarmIndicator>
-                <models:CAlarmIndicator x:Name="CAlarmIndicator1" Height="30"></models:CAlarmIndicator>
+                <controls:CAlarmIndicator x:Name="CAlarmIndicator" Height="30"></controls:CAlarmIndicator>
+                <controls:CAlarmIndicator x:Name="CAlarmIndicator1" Height="30"></controls:CAlarmIndicator>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="ChangeIsReceipt">IsReceipt</Button> 
                     <Button x:Name="IsActive">IsActive</Button>
@@ -37,8 +38,8 @@
         
         <TabItem Header="CArrowReserve">
             <StackPanel>
-                <models:CArrowReserve x:Name="CArrowReserve" Height="50"></models:CArrowReserve>
-                <models:CArrowReserve x:Name="CArrowReserve1" Height="50"></models:CArrowReserve>
+                <controls:CArrowReserve x:Name="CArrowReserve" Height="50"></controls:CArrowReserve>
+                <controls:CArrowReserve x:Name="CArrowReserve1" Height="50"></controls:CArrowReserve>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="CArrowReserveIsActive">IsActive</Button>
                     <Button x:Name="CArrowReserveAngle">Angle</Button>
@@ -47,8 +48,8 @@
         </TabItem>
         <TabItem Header="CAutomaticSwitch">
             <StackPanel>
-                <models:CAutomaticSwitch x:Name="CAutomaticSwitch" Height="50"></models:CAutomaticSwitch>
-                <models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Height="50"></models:CAutomaticSwitch>
+                <controls:CAutomaticSwitch x:Name="CAutomaticSwitch" Height="50"></controls:CAutomaticSwitch>
+                <controls:CAutomaticSwitch x:Name="CAutomaticSwitch1" Height="50"></controls:CAutomaticSwitch>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="CAutomaticSwitchState">State</Button>
                     <Button x:Name="CAutomaticSwitchShowNormal">NormalState</Button>
@@ -58,8 +59,8 @@
         </TabItem>
         <TabItem Header = "CCellCart">
             <StackPanel>
-                <models:CCellCart2 x:Name="CCellCart2" Height="50"></models:CCellCart2>
-                <models:CCellCart2 x:Name="CCellCart21" Height="50"></models:CCellCart2>
+                <controls:CCellCart2 x:Name="CCellCart2" Height="50"></controls:CCellCart2>
+                <controls:CCellCart2 x:Name="CCellCart21" Height="50"></controls:CCellCart2>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="CCellCart2LeftConnector">Left connector</Button>
                     <Button x:Name="CCellCart2RightConnector">Right connector</Button>
@@ -70,8 +71,8 @@
         </TabItem>
         <TabItem Header = "CCurrentDataAnalog">
             <StackPanel>
-                <models:CCurrentDataAnalog x:Name="CCurrentDataAnalog" Height="50"></models:CCurrentDataAnalog>
-                <models:CCurrentDataAnalog x:Name="CCurrentDataAnalog1" Height="50"></models:CCurrentDataAnalog>
+                <controls:CCurrentDataAnalog x:Name="CCurrentDataAnalog" Height="50"></controls:CCurrentDataAnalog>
+                <controls:CCurrentDataAnalog x:Name="CCurrentDataAnalog1" Height="50"></controls:CCurrentDataAnalog>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="CCurrentDataAnalogChangeName"></Button>
                     <Button x:Name="CCurrentDataAnalogChangeVoltage">+U</Button>
@@ -82,8 +83,8 @@
         </TabItem>
         <TabItem Header = "CDiagnosticDevice">
             <StackPanel>
-                <models:CDiagnosticDevice x:Name="CDiagnosticDevice" Height="50"></models:CDiagnosticDevice>
-                <models:CDiagnosticDevice x:Name="CDiagnosticDevice1" Height="50"></models:CDiagnosticDevice>
+                <controls:CDiagnosticDevice x:Name="CDiagnosticDevice" Height="50"></controls:CDiagnosticDevice>
+                <controls:CDiagnosticDevice x:Name="CDiagnosticDevice1" Height="50"></controls:CDiagnosticDevice>
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="CDiagnosticDeviceImageSource"></TextBox>
                     <Button x:Name="CDiagnosticDeviceSetImageSource">Set image source</Button>
@@ -93,8 +94,8 @@
         </TabItem>
         <TabItem Header = "CFilterOfConnection">
             <StackPanel>
-                <models:CFilterOfConnection Margin="40" x:Name="CFilterOfConnection" Height="50"></models:CFilterOfConnection>
-                <models:CFilterOfConnection Margin="40" x:Name="CFilterOfConnection1" Height="50"></models:CFilterOfConnection>
+                <controls:CFilterOfConnection Margin="40" x:Name="CFilterOfConnection" Height="50"></controls:CFilterOfConnection>
+                <controls:CFilterOfConnection Margin="40" x:Name="CFilterOfConnection1" Height="50"></controls:CFilterOfConnection>
                 <StackPanel Orientation="Horizontal">
                     
                 </StackPanel>
@@ -102,8 +103,8 @@
         </TabItem>
         <TabItem Header = "BasicWithTextName">
             <StackPanel>
-                <models:CPointOnLine Margin="40" x:Name="CPointOnLine" Height="50"></models:CPointOnLine>
-                <models:CPointOnLine Margin="40" x:Name="CPointOnLine1" Height="50"></models:CPointOnLine>
+                <controls:CPointOnLine Margin="40" x:Name="CPointOnLine" Height="50"></controls:CPointOnLine>
+                <controls:CPointOnLine Margin="40" x:Name="CPointOnLine1" Height="50"></controls:CPointOnLine>
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="BasicWithTextNameInputName"></TextBox>
                     <Button x:Name="BasicWithTextNameChangeName">Change Name</Button>
@@ -113,7 +114,7 @@
         </TabItem>
         <TabItem Header = "CRectangle">
             <StackPanel>
-                <models:CRectangle x:Name="CRectangle" ControlISSelected="True"></models:CRectangle>
+                <controls:CRectangle x:Name="CRectangle" ControlISSelected="True"></controls:CRectangle>
             </StackPanel>
         </TabItem>
     </TabControl>

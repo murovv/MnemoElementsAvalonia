@@ -9,7 +9,7 @@ using Avalonia.Media;
 using AvAp2.Interfaces;
 using AvAp2.Models.SubControls;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.BaseClasses
 {
     public abstract class BasicCommutationDevice : BasicEquipment, IConnector
     {
@@ -71,7 +71,7 @@ namespace AvAp2.Models
 
         [Category("Привязки данных"),
          Description("ID тега режима управления элемента. Тег расчётный, строится как цепочка блокировки"),
-         PropertyGridFilterAttribute, DisplayName("ID тега режима"), Browsable(true)]
+         PropertyGridFilter, DisplayName("ID тега режима"), Browsable(true)]
         public string TagIDControlMode
         {
             get => (string)GetValue(TagIDControlModeProperty);
@@ -119,7 +119,7 @@ namespace AvAp2.Models
 
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Подсказка ключа режима"), PropertyGridFilterAttribute,
+        [Category("Свойства элемента мнемосхемы"), Description("Подсказка ключа режима"), PropertyGridFilter,
          DisplayName("Режим управления подсказка "), Browsable(true)]
         public string ControlModeToolTip
         {
@@ -135,7 +135,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, string>(nameof(ControlModeToolTip), "ДУ в ячейке");
 
         [Category("Свойства элемента мнемосхемы"),
-         Description("Текст режима дистанция, например 'ДУ', 'ТУ', 'телеуправление'"), PropertyGridFilterAttribute,
+         Description("Текст режима дистанция, например 'ДУ', 'ТУ', 'телеуправление'"), PropertyGridFilter,
          DisplayName("Режим управления дистанция"), Browsable(false)]
         public string ControlModeTextDistance
         {
@@ -151,7 +151,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, string>(nameof(ControlModeTextDistance), "ДУ");
 
         [Category("Свойства элемента мнемосхемы"), Description("Текст режима местное, например 'МУ', 'местн.'"),
-         PropertyGridFilterAttribute, DisplayName("Режим управления местное"), Browsable(false)]
+         PropertyGridFilter, DisplayName("Режим управления местное"), Browsable(false)]
         public string ControlModeTextLocal
         {
             get => (string)GetValue(ControlModeTextLocalProperty);
@@ -168,7 +168,7 @@ namespace AvAp2.Models
         [Category("Свойства элемента мнемосхемы"),
          Description(
              "Отступ режима управления в формате (0,0,0,0). Через запятую отступ слева, сверху, справа, снизу. Отступ может быть отрицательным (-10). Имеет значение только отступ слева и сверху."),
-         PropertyGridFilterAttribute, DisplayName("Режим управления отступ"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Режим управления отступ"), Browsable(true)]
         public Thickness MarginControlMode
         {
             get => (Thickness)GetValue(MarginControlModeProperty);
@@ -193,7 +193,7 @@ namespace AvAp2.Models
         [Category("Свойства элемента мнемосхемы"),
          Description(
              "Цвет текста режима управления в 16-ричном представлении 0x FF(прозрачность) FF(красный) FF(зелёный) FF(синий)"),
-         PropertyGridFilterAttribute, DisplayName("Режим управления цвет (hex)"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Режим управления цвет (hex)"), Browsable(true)]
         public Color ControlModeTextColor
         {
             get => (Color)GetValue(ControlModeTextColorProperty);
@@ -221,7 +221,7 @@ namespace AvAp2.Models
 
         #region ОБ
 
-        [Category("Привязки данных"), Description("ID тега готовности"), PropertyGridFilterAttribute,
+        [Category("Привязки данных"), Description("ID тега готовности"), PropertyGridFilter,
          DisplayName("ID тега готовности"), Browsable(true)]
         public string TagIDBlockState
         {
@@ -270,7 +270,7 @@ namespace AvAp2.Models
         [Category("Свойства элемента мнемосхемы"),
          Description(
              "Отступ блокировки (замочка) в формате (0,0,0,0). Через запятую отступ слева, сверху, справа, снизу. Отступ может быть отрицательным (-10). Имеет значение только отступ слева и сверху."),
-         PropertyGridFilterAttribute, DisplayName("Блокировка отступ"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Блокировка отступ"), Browsable(true)]
         public Thickness MarginBlock
         {
             get => (Thickness)GetValue(MarginBlockProperty);
@@ -292,7 +292,7 @@ namespace AvAp2.Models
             (obj.Sender as BasicCommutationDevice).DrawingMouseOver.InvalidateVisual();
         }
 
-        [Category("Привязки данных"), Description("ID тега состояния реле готовности"), PropertyGridFilterAttribute,
+        [Category("Привязки данных"), Description("ID тега состояния реле готовности"), PropertyGridFilter,
          DisplayName("ID тега состояния готовности"), Browsable(true)]
         public string TagIDRealBlockState
         {
@@ -318,7 +318,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, TagDataItem>(nameof(TagDataRealBlock));
 
 
-        [Category("Привязки данных"), Description("ID тега деблокирования"), PropertyGridFilterAttribute,
+        [Category("Привязки данных"), Description("ID тега деблокирования"), PropertyGridFilter,
          DisplayName("ID тега деблокирования"), Browsable(true)]
         public string TagIDDeblock
         {
@@ -369,7 +369,7 @@ namespace AvAp2.Models
         [Category("Свойства элемента мнемосхемы"),
          Description(
              "Отступ деблокировки (ключика) в формате (0,0,0,0). Через запятую отступ слева, сверху, справа, снизу. Отступ может быть отрицательным (-10). Имеет значение только отступ слева и сверху."),
-         PropertyGridFilterAttribute, DisplayName("Деблокировка отступ"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Деблокировка отступ"), Browsable(true)]
         public Thickness MarginDeblock
         {
             get => (Thickness)GetValue(MarginDeblockProperty);
@@ -398,7 +398,7 @@ namespace AvAp2.Models
         #region разное
 
         [Category("Свойства элемента мнемосхемы"), Description("Уникальный идентификатор КА в системе."),
-         PropertyGridFilterAttribute, DisplayName("Идентификатор КА"), Browsable(false)]
+         PropertyGridFilter, DisplayName("Идентификатор КА"), Browsable(false)]
         public int CommonKAID
         {
             get => (int)GetValue(CommonKAIDProperty);
@@ -413,7 +413,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, int>(nameof(CommonKAID), -1);
 
         [Category("Свойства элемента мнемосхемы"), Description("Ручной ввод данных состояния элемента разрешен"),
-         PropertyGridFilterAttribute, DisplayName("Ручной ввод"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Ручной ввод"), Browsable(true)]
         public bool CommutationDeviceStateManualSetEnabled
         {
             get => (bool)GetValue(CommutationDeviceStateManualSetEnabledProperty);
@@ -437,7 +437,7 @@ namespace AvAp2.Models
         [Category("Привязки данных"),
          Description(
              "ID тега видимости плакатов. Тег в виртуальном устройстве, значение задается только вручную с мнемосхемы. Видимость всех 5 плакатов. Задается числом до 31, где степени двойки - видимость отдельных плакатов"),
-         PropertyGridFilterAttribute, DisplayName("ID тега видимости плакатов"), Browsable(true)]
+         PropertyGridFilter, DisplayName("ID тега видимости плакатов"), Browsable(true)]
         public string TagIDBanners
         {
             get => (string)GetValue(TagIDBannersProperty);
@@ -489,7 +489,7 @@ namespace AvAp2.Models
         [Category("Свойства элемента мнемосхемы"),
          Description(
              "Отступ плакатов в формате (0,0,0,0). Через запятую отступ слева, сверху, справа, снизу. Отступ может быть отрицательным (-10). Имеет значение только отступ слева и сверху."),
-         PropertyGridFilterAttribute, DisplayName("Плакаты отступ"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Плакаты отступ"), Browsable(true)]
         public Thickness MarginBanner
         {
             get => (Thickness)GetValue(MarginBannerProperty);
@@ -518,7 +518,7 @@ namespace AvAp2.Models
         #region Привязки команд
 
 
-        [Category("Привязки команд"), Description("ID тега команды включения"), PropertyGridFilterAttribute,
+        [Category("Привязки команд"), Description("ID тега команды включения"), PropertyGridFilter,
          DisplayName("ID включения"), Browsable(true)]
         public string TagIDCommandOn
         {
@@ -533,7 +533,7 @@ namespace AvAp2.Models
         public static StyledProperty<string> TagIDCommandOnProperty =
             AvaloniaProperty.Register<BasicCommutationDevice, string>(nameof(TagIDCommandOn), "-1");
 
-        [Category("Привязки команд"), Description("ID тега команды отключения"), PropertyGridFilterAttribute,
+        [Category("Привязки команд"), Description("ID тега команды отключения"), PropertyGridFilter,
          DisplayName("ID отключения"), Browsable(true)]
         public string TagIDCommandOff
         {
@@ -549,7 +549,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, string>(nameof(TagIDCommandOff), "-1");
 
         [Category("Привязки команд"), Description("ID тега команды сброса готовности управления КА"),
-         PropertyGridFilterAttribute, DisplayName("ID сброса готовности"), Browsable(true)]
+         PropertyGridFilter, DisplayName("ID сброса готовности"), Browsable(true)]
         public string TagIDCommandClearReady
         {
             get => (string)GetValue(TagIDCommandClearReadyProperty);
@@ -564,7 +564,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<BasicCommutationDevice, string>(nameof(TagIDCommandClearReady), "-1");
 
         [Category("Привязки команд"), Description("ID тега команды выдачи готовности управления КА"),
-         PropertyGridFilterAttribute, DisplayName("ID готовности"), Browsable(true)]
+         PropertyGridFilter, DisplayName("ID готовности"), Browsable(true)]
         public string TagIDCommandReady
         {
             get => (string)GetValue(TagIDCommandReadyProperty);

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Выкатной элемент ячейки 1")]
     public class CCellCart : BasicCommutationDevice

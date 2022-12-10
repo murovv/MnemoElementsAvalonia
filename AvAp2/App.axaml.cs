@@ -5,6 +5,7 @@ using AvAp2.Models;
 using AvAp2.ViewModels;
 using AvAp2.Views;
 using AvAp2.Views.TestViews;
+using MainWindow = AvAp2.Views.MainWindow;
 
 namespace AvAp2
 {

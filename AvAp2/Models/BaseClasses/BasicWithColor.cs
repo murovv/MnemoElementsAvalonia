@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Media;
 using AvAp2.Interfaces;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.BaseClasses
 {
     public abstract class BasicWithColor:BasicWithTextName
     {

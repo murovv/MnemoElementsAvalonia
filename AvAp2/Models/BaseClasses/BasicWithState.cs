@@ -7,7 +7,7 @@ using Avalonia.Media;
 using AvAp2.Interfaces;
 using AvAp2.Models.SubControls;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.BaseClasses
 {
     public abstract class BasicWithState:BasicWithColor, IBasicWithState
     {

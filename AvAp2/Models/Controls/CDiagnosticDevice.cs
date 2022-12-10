@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Globalization;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -10,7 +9,7 @@ using Avalonia.Media.Immutable;
 using Avalonia.Platform;
 using AvAp2.Interfaces;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     /// <summary>
     /// Базовый класс всех контролов схемы диагностики.
@@ -34,7 +33,7 @@ namespace AvAp2.Models
 
 
         #region IConnector
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя левого "), PropertyGridFilterAttribute, DisplayName("Видимость соединителя левого "), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя левого "), PropertyGridFilter, DisplayName("Видимость соединителя левого "), Browsable(false)]
         public bool IsConnectorExistLeft
         {
             get => (bool)GetValue(IsConnectorExistLeftProperty);
@@ -46,7 +45,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<CDiagnosticDevice, bool>(nameof(IsConnectorExistLeft), false);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя правого "), PropertyGridFilterAttribute, DisplayName("Видимость соединителя правого "), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя правого "), PropertyGridFilter, DisplayName("Видимость соединителя правого "), Browsable(true)]
         public bool IsConnectorExistRight
         {
             get => (bool)GetValue(IsConnectorExistRightProperty);
@@ -61,13 +60,13 @@ namespace AvAp2.Models
         #endregion IConnector
 
 
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Цвет элемента в 16-ричном представлении 0x FF(прозрачность) FF(красный) FF(зелёный) FF(синий)"), PropertyGridFilterAttribute, DisplayName("Цвет заливки"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Цвет элемента в 16-ричном представлении 0x FF(прозрачность) FF(красный) FF(зелёный) FF(синий)"), PropertyGridFilter, DisplayName("Цвет заливки"), Browsable(true)]
         public Color BackColor
         {
             get => (Color)GetValue(BackColorProperty);
@@ -75,7 +74,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<Color> BackColorProperty = AvaloniaProperty.Register<CDiagnosticDevice, Color>(nameof(BackColor), Color.FromArgb(255, 11, 100, 141));
 
-        [Category("Свойства элемента мнемосхемы"), Description("Имя файла изображения, файл должен лежать в папке Assets"), PropertyGridFilterAttribute, DisplayName("Изображение"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Имя файла изображения, файл должен лежать в папке Assets"), PropertyGridFilter, DisplayName("Изображение"), Browsable(true)]
         public string ImageFileName
         {
             get => (string)GetValue(ImageFileNameProperty);
@@ -111,7 +110,7 @@ namespace AvAp2.Models
             (obj.Sender as CDiagnosticDevice).ImageSource = null;
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Источник изображения"), PropertyGridFilterAttribute, DisplayName("Изображение"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Источник изображения"), PropertyGridFilter, DisplayName("Изображение"), Browsable(false)]
         private Bitmap ImageSource
         {
             get => (Bitmap)GetValue(ImageSourceProperty);

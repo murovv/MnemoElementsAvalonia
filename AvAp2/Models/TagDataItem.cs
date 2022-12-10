@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Avalonia;
-using AvAp2.Models;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2
+namespace AvAp2.Models
 {
     /// <summary>
     /// Класс для отображения текущих данных 

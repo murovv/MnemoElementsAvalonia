@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
 using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Точка соединения")]
     public class CPointOnLine : BasicWithTextName
     {
-        [Category("Свойства элемента мнемосхемы"), Description("Диаметр точки"), PropertyGridFilterAttribute, DisplayName("Диаметр точки"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Диаметр точки"), PropertyGridFilter, DisplayName("Диаметр точки"), Browsable(true)]
         public double PointDiameter
         {
             get => (double)GetValue(PointDiameterProperty);

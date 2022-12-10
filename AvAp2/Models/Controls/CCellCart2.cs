@@ -1,13 +1,9 @@
-﻿
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Avalonia;
-using Avalonia.Animation;
-using Avalonia.Collections;
 using Avalonia.Media;
-using Avalonia.Styling;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Выкатной элемент ячейки 2")]
     public class CCellCart2 : BasicCommutationDevice 

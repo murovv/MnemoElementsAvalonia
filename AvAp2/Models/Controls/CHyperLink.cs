@@ -1,21 +1,21 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 using IProjectModel;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Гиперссылка")]
     public class CHyperLink : BasicWithTextName, IUserRights
     {
         #region IUserRights
 
-        [Category("Навигация"), Description("Необходимый уровень доступа для перехода или запуска"), PropertyGridFilterAttribute, DisplayName("Права"), Browsable(true)]
+        [Category("Навигация"), Description("Необходимый уровень доступа для перехода или запуска"), PropertyGridFilter, DisplayName("Права"), Browsable(true)]
         public UserInterfaceRights LinkRights
         {
             get => (UserInterfaceRights)GetValue(LinkRightsProperty);
@@ -29,13 +29,13 @@ namespace AvAp2.Models
 
         #endregion IUserRights
 
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Адрес удалённого WEB-узла или путь на диске к файлу. Путь м.б. как абсолютным (C:\\FolderName\\FileName.pdf), так и относительным, где ..\\ - один шаг вверх от АРМ.exe (например: ..\\..\\FolderName\\FileName.pdf)"), PropertyGridFilterAttribute, DisplayName("Ссылка, документ или файл."), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Адрес удалённого WEB-узла или путь на диске к файлу. Путь м.б. как абсолютным (C:\\FolderName\\FileName.pdf), так и относительным, где ..\\ - один шаг вверх от АРМ.exe (например: ..\\..\\FolderName\\FileName.pdf)"), PropertyGridFilter, DisplayName("Ссылка, документ или файл."), Browsable(true)]
         public string HyperLinkURL
         {
             get => (string)GetValue(HyperLinkURLProperty);
@@ -47,7 +47,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> HyperLinkURLProperty = AvaloniaProperty.Register<CHyperLink, string>(nameof(HyperLinkURL), "http://address.com");
 
-        [Category("Свойства элемента мнемосхемы"), Description("Имя файла изображения, файл должен лежать в папке Assets"), PropertyGridFilterAttribute, DisplayName("Изображение"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Имя файла изображения, файл должен лежать в папке Assets"), PropertyGridFilter, DisplayName("Изображение"), Browsable(true)]
         public string ImageFileName
         {
             get => (string)GetValue(ImageFileNameProperty);
@@ -77,7 +77,7 @@ namespace AvAp2.Models
             //isw.ImageSource = imgDef;
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Источник изображения"), PropertyGridFilterAttribute, DisplayName("Изображение"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Источник изображения"), PropertyGridFilter, DisplayName("Изображение"), Browsable(false)]
         private Bitmap ImageSource
         {
             get => GetValue(ImageSourceProperty);

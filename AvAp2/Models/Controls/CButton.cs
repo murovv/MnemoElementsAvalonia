@@ -1,19 +1,20 @@
 ﻿using System.ComponentModel;
 using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Кнопка выполнения команды")]
     public class CButton : BasicWithColor
     {
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Идентификатор команды"), PropertyGridFilterAttribute, DisplayName("Команда"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Идентификатор команды"), PropertyGridFilter, DisplayName("Команда"), Browsable(true)]
         public string CommandID
         {
             get => (string)GetValue(CommandIDProperty);
@@ -25,7 +26,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> CommandIDProperty = AvaloniaProperty.Register<CButton, string>(nameof(CommandID), "-1");
 
-        [Category("Свойства элемента мнемосхемы"), Description("Параметр команды (двухпозиционой)"), PropertyGridFilterAttribute, DisplayName("Команда параметр"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Параметр команды (двухпозиционой)"), PropertyGridFilter, DisplayName("Команда параметр"), Browsable(true)]
         public byte CommandParameter
         {
             get => (byte)GetValue(CommandParameterProperty);

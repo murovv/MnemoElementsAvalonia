@@ -2,14 +2,15 @@
 using Avalonia;
 using Avalonia.Media;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Реактор")]
     public class CReactor : BasicEquipment, IRegulator
     {
         #region IRegulator
-        [Category("Свойства элемента мнемосхемы"), Description("Наличие регулировки"), PropertyGridFilterAttribute, DisplayName("Наличие регулировки"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Наличие регулировки"), PropertyGridFilter, DisplayName("Наличие регулировки"), Browsable(true)]
         public bool IsRegulator
         {
             get => (bool)GetValue(IsRegulatorProperty);

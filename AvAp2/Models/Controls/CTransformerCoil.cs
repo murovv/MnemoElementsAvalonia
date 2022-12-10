@@ -1,16 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Media;
-using Avalonia.Rendering.SceneGraph;
-using Avalonia.Skia.Helpers;
 using AvAp2.Converters;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 using IProjectModel;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Обмотка трансформатора")]
     public class CTransformerCoil : BasicEquipment, IRegulator
@@ -21,7 +18,7 @@ namespace AvAp2.Models
         }
 
         #region IRegulator
-        [Category("Свойства элемента мнемосхемы"), Description("Наличие регулировки"), PropertyGridFilterAttribute, DisplayName("Наличие регулировки"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Наличие регулировки"), PropertyGridFilter, DisplayName("Наличие регулировки"), Browsable(true)]
         public bool IsRegulator
         {
             get => (bool)GetValue(IsRegulatorProperty);
@@ -40,7 +37,7 @@ namespace AvAp2.Models
         }*/
         #endregion IRegulator
 
-        [Category("Свойства элемента мнемосхемы"), Description("Силовой трансформатор"), PropertyGridFilterAttribute, DisplayName("Силовой трансформатор"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Силовой трансформатор"), PropertyGridFilter, DisplayName("Силовой трансформатор"), Browsable(true)]
         public bool IsPower
         {
             get => (bool)GetValue(IsPowerProperty);
@@ -57,7 +54,7 @@ namespace AvAp2.Models
             (obj.Sender as CTransformerCoil).DrawingMouseOver.InvalidateVisual();
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Соединение обмоток трансформатора"), PropertyGridFilterAttribute, DisplayName("Первая обмотка соединение"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Соединение обмоток трансформатора"), PropertyGridFilter, DisplayName("Первая обмотка соединение"), Browsable(true)]
         public CoilsConnectionTypes CoilsConnectionType
         {
             get => (CoilsConnectionTypes)GetValue(CoilsConnectionTypeProperty);
@@ -71,7 +68,7 @@ namespace AvAp2.Models
 
         //====================================================================================================================================
         #region Auto
-        [Category("Свойства элемента мнемосхемы"), Description("Автотрансформатор"), PropertyGridFilterAttribute, DisplayName("Автотрансформатор"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Автотрансформатор"), PropertyGridFilter, DisplayName("Автотрансформатор"), Browsable(true)]
         public bool AutoIsExist
         {
             get => (bool)GetValue(AutoIsExistProperty);
@@ -86,7 +83,7 @@ namespace AvAp2.Models
         internal protected Brush BrushContentColorAutoVoltage;
         internal protected Pen PenContentColorAutoVoltage;
 
-        [Category("Свойства элемента мнемосхемы"), Description("Цвет автотрансформатора в соответствии с классом напряжения"), PropertyGridFilterAttribute, DisplayName("Автотрансформатор цвет"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Цвет автотрансформатора в соответствии с классом напряжения"), PropertyGridFilter, DisplayName("Автотрансформатор цвет"), Browsable(false)]
         private Color AutoVoltageColor
         {
             get => (Color)GetValue(AutoVoltageColorProperty);
@@ -109,7 +106,7 @@ namespace AvAp2.Models
             b.InvalidateVisual();
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения автотрансформатора"), PropertyGridFilterAttribute, DisplayName("Автотрансформатор напряжение"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения автотрансформатора"), PropertyGridFilter, DisplayName("Автотрансформатор напряжение"), Browsable(true)]
         public VoltageClasses AutoVoltage
         {
             get => (VoltageClasses)GetValue(AutoVoltageProperty);
@@ -187,7 +184,7 @@ namespace AvAp2.Models
         //====================================================================================================================================
         #region выводы обмотки
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость левого вывода обмотки"), PropertyGridFilterAttribute, DisplayName("Первая обмотка левый"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость левого вывода обмотки"), PropertyGridFilter, DisplayName("Первая обмотка левый"), Browsable(true)]
         public bool CoilLeftExitIsExist
         {
             get => (bool)GetValue(CoilLeftExitIsExistProperty);
@@ -199,7 +196,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> CoilLeftExitIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(CoilLeftExitIsExist), false);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость верхнего вывода обмотки"), PropertyGridFilterAttribute, DisplayName("Первая обмотка верхний "), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость верхнего вывода обмотки"), PropertyGridFilter, DisplayName("Первая обмотка верхний "), Browsable(true)]
         public bool CoilTopExitIsExist
         {
             get => (bool)GetValue(CoilTopExitIsExistProperty);
@@ -211,7 +208,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> CoilTopExitIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(CoilTopExitIsExist),false);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость правого вывода обмотки"), PropertyGridFilterAttribute, DisplayName("Первая обмотка правый"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость правого вывода обмотки"), PropertyGridFilter, DisplayName("Первая обмотка правый"), Browsable(true)]
         public bool CoilRightExitIsExist
         {
             get => (bool)GetValue(CoilRightExitIsExistProperty);
@@ -223,7 +220,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> CoilRightExitIsExistProperty = AvaloniaProperty.Register<CTransformerCoil,bool>(nameof(CoilRightExitIsExist), false);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость нижнего вывода обмотки"), PropertyGridFilterAttribute, DisplayName("Первая обмотка нижний"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость нижнего вывода обмотки"), PropertyGridFilter, DisplayName("Первая обмотка нижний"), Browsable(true)]
         public bool CoilBottomExitIsExist
         {
             get => (bool)GetValue(CoilBottomExitIsExistProperty);
@@ -238,7 +235,7 @@ namespace AvAp2.Models
         #endregion выводы обмотки
         //====================================================================================================================================
         #region RPN
-        [Category("Привязки команд"), Description("ID тега команды РПН прибавить"), PropertyGridFilterAttribute, DisplayName("Команда РПН прибавить"), Browsable(true)]
+        [Category("Привязки команд"), Description("ID тега команды РПН прибавить"), PropertyGridFilter, DisplayName("Команда РПН прибавить"), Browsable(true)]
         public string TagIDCommandRPNMore
         {
             get => (string)GetValue(TagIDCommandRPNMoreProperty);
@@ -250,7 +247,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> TagIDCommandRPNMoreProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNMore), "-1");
 
-        [Category("Привязки команд"), Description("Параметр команды РПН прибавить (Для двухпозиционных команд обычно 1, для однопозиционных всегда 1)"), PropertyGridFilterAttribute, DisplayName("Команда РПН прибавить - параметр"), Browsable(true)]
+        [Category("Привязки команд"), Description("Параметр команды РПН прибавить (Для двухпозиционных команд обычно 1, для однопозиционных всегда 1)"), PropertyGridFilter, DisplayName("Команда РПН прибавить - параметр"), Browsable(true)]
         public byte CommandParameterRPNMore
         {
             get => (byte)GetValue(CommandParameterRPNMoreProperty);
@@ -262,7 +259,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<byte> CommandParameterRPNMoreProperty = AvaloniaProperty.Register<CTransformerCoil,byte>(nameof(CommandParameterRPNMore), (byte)1);
 
-        [Category("Привязки команд"), Description("ID тега команды РПН убавить"), PropertyGridFilterAttribute, DisplayName("Команда РПН убавить"), Browsable(true)]
+        [Category("Привязки команд"), Description("ID тега команды РПН убавить"), PropertyGridFilter, DisplayName("Команда РПН убавить"), Browsable(true)]
         public string TagIDCommandRPNLess
         {
             get => (string)GetValue(TagIDCommandRPNLessProperty);
@@ -274,7 +271,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> TagIDCommandRPNLessProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNLess),"-1");
 
-        [Category("Привязки команд"), Description("Параметр команды РПН убавить (Для двухпозиционных команд обычно 0, для однопозиционных всегда 1)"), PropertyGridFilterAttribute, DisplayName("Команда РПН убавить - параметр"), Browsable(true)]
+        [Category("Привязки команд"), Description("Параметр команды РПН убавить (Для двухпозиционных команд обычно 0, для однопозиционных всегда 1)"), PropertyGridFilter, DisplayName("Команда РПН убавить - параметр"), Browsable(true)]
         public byte CommandParameterRPNLess
         {
             get => (byte)GetValue(CommandParameterRPNLessProperty);
@@ -288,7 +285,7 @@ namespace AvAp2.Models
 
 
         //=======================================================================
-        [Category("Привязки команд"), Description("ID тега команды РПН режим автоматический"), PropertyGridFilterAttribute, DisplayName("Команда РПН режим автоматический"), Browsable(true)]
+        [Category("Привязки команд"), Description("ID тега команды РПН режим автоматический"), PropertyGridFilter, DisplayName("Команда РПН режим автоматический"), Browsable(true)]
         public string TagIDCommandRPNAuto
         {
             get => (string)GetValue(TagIDCommandRPNAutoProperty);
@@ -300,7 +297,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> TagIDCommandRPNAutoProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNAuto), "-1");
 
-        [Category("Привязки команд"), Description("Параметр команды РПН режим автоматический  (Для двухпозиционных команд обычно 0, для однопозиционных всегда 1)"), PropertyGridFilterAttribute, DisplayName("Команда РПН режим автоматический - параметр"), Browsable(true)]
+        [Category("Привязки команд"), Description("Параметр команды РПН режим автоматический  (Для двухпозиционных команд обычно 0, для однопозиционных всегда 1)"), PropertyGridFilter, DisplayName("Команда РПН режим автоматический - параметр"), Browsable(true)]
         public byte CommandParameterRPNAuto
         {
             get => (byte)GetValue(CommandParameterRPNAutoProperty);
@@ -308,7 +305,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<byte> CommandParameterRPNAutoProperty = AvaloniaProperty.Register<CTransformerCoil,byte>(nameof(CommandParameterRPNAuto), (byte)1);
 
-        [Category("Привязки команд"), Description("ID тега команды РПН режим ручной"), PropertyGridFilterAttribute, DisplayName("Команда РПН режим ручной"), Browsable(true)]
+        [Category("Привязки команд"), Description("ID тега команды РПН режим ручной"), PropertyGridFilter, DisplayName("Команда РПН режим ручной"), Browsable(true)]
         public string TagIDCommandRPNManual
         {
             get => (string)GetValue(TagIDCommandRPNManualProperty);
@@ -320,7 +317,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> TagIDCommandRPNManualProperty = AvaloniaProperty.Register<CTransformerCoil,string>(nameof(TagIDCommandRPNManual), "-1");
 
-        [Category("Привязки команд"), Description("Параметр команды РПН режим ручной (Для двухпозиционных команд обычно 1, для однопозиционных всегда 1)"), PropertyGridFilterAttribute, DisplayName("Команда РПН режим ручной - параметр"), Browsable(true)]
+        [Category("Привязки команд"), Description("Параметр команды РПН режим ручной (Для двухпозиционных команд обычно 1, для однопозиционных всегда 1)"), PropertyGridFilter, DisplayName("Команда РПН режим ручной - параметр"), Browsable(true)]
         public byte CommandParameterRPNManual
         {
             get => (byte)GetValue(CommandParameterRPNManualProperty);
@@ -331,7 +328,7 @@ namespace AvAp2.Models
         #endregion RPN
         //====================================================================================================================================
         #region ControlMode
-        [Category("Привязки данных"), Description("ID дискретного тега режима дистанционного управления РПН. Например, положение 'Телеуправление' ключа режима работы"), PropertyGridFilterAttribute, DisplayName("ID тега 'Телеуправление'"), Browsable(true)]
+        [Category("Привязки данных"), Description("ID дискретного тега режима дистанционного управления РПН. Например, положение 'Телеуправление' ключа режима работы"), PropertyGridFilter, DisplayName("ID тега 'Телеуправление'"), Browsable(true)]
         public string TagIDControlMode
         {
             get => (string)GetValue(TagIDControlModeProperty);
@@ -343,7 +340,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> TagIDControlModeProperty = AvaloniaProperty.Register<CTransformerCoil,string>("TagIDControlMode","-1");
 
-        [Category("Привязки данных"), Description("ID дискретного тега ручного управления РПН. Обычно дискретный сигнал терминала, разрешающий 'прибавить/убавить' ступень РПН командами АСУ"), PropertyGridFilterAttribute, DisplayName("ID тега 'Разрешение ручного управления'"), Browsable(true)]
+        [Category("Привязки данных"), Description("ID дискретного тега ручного управления РПН. Обычно дискретный сигнал терминала, разрешающий 'прибавить/убавить' ступень РПН командами АСУ"), PropertyGridFilter, DisplayName("ID тега 'Разрешение ручного управления'"), Browsable(true)]
         public string TagIDControlModeManual
         {
             get => (string)GetValue(TagIDControlModeManualProperty);

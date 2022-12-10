@@ -3,8 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using AvAp2.Models;
 using IProjectModel;
+using TagValueQuality = AvAp2.Models.TagValueQuality;
 
-namespace AvAp2.Views
+namespace AvAp2.Views.TestViews
 {
     public partial class MainWindowOld : Window
     {
@@ -221,7 +222,7 @@ namespace AvAp2.Views
         private void CIsolatingSwitchButtonOnClick(object? sender, RoutedEventArgs e)
         {
             int tag;
-            if (int.TryParse(CIsolatingSwitch.TagDataMainState.TagValueString, out tag))
+            if (int.TryParse((string?)CIsolatingSwitch.TagDataMainState.TagValueString, out tag))
             {
                 CIsolatingSwitch.TagDataMainState.TagValueString = ((tag+1)%4).ToString();
             }
@@ -296,7 +297,7 @@ namespace AvAp2.Views
         private void CellCart2Button_Click(object? sender, RoutedEventArgs e)
         {
             int tag;
-            if (int.TryParse(CCellCart2.TagDataMainState.TagValueString, out tag))
+            if (int.TryParse((string?)CCellCart2.TagDataMainState.TagValueString, out tag))
             {
                 CCellCart2.TagDataMainState.TagValueString = ((tag+1)%4).ToString();
             }
@@ -311,7 +312,7 @@ namespace AvAp2.Views
         {
             CCellCart1.IsConnectorExistLeft = !CCellCart1.IsConnectorExistLeft;
             int tag;
-            if (int.TryParse(CCellCart1.TagDataMainState.TagValueString, out tag))
+            if (int.TryParse((string?)CCellCart1.TagDataMainState.TagValueString, out tag))
             {
                 CCellCart1.TagDataMainState.TagValueString = ((tag+1)%4).ToString();
             }
@@ -329,7 +330,7 @@ namespace AvAp2.Views
             CAutomaticSwitch1.IsConnectorExistRight= !CAutomaticSwitch1.IsConnectorExistRight;
             CAutomaticSwitch1.TagDataMainState.TagValueString = "1";
             int tag;
-            if (int.TryParse(CAutomaticSwitch1.TagDataMainState.TagValueString, out tag))
+            if (int.TryParse((string?)CAutomaticSwitch1.TagDataMainState.TagValueString, out tag))
             {
                 CAutomaticSwitch1.TagDataMainState.TagValueString = ((tag+1)%4).ToString();
             }

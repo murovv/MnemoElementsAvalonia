@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -9,20 +8,18 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
-using Avalonia.Threading;
 using Avalonia.VisualTree;
 using AvAp2.Interfaces;
 using AvAp2.Models.SubControls;
-using ReactiveUI;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.BaseClasses
 {
     public abstract class BasicWithTextName:BasicMnemoElement, IBasicWithTextName
     {
         internal protected Pen PenBlack;
         internal protected Pen PenBlack1;
         internal protected Pen PenWhite1;
-        [Category("Свойства элемента мнемосхемы"), Description("Диспетчерское наименование элемента"), PropertyGridFilterAttribute, DisplayName("Диспетчерское наименование"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Диспетчерское наименование элемента"), PropertyGridFilter, DisplayName("Диспетчерское наименование"), Browsable(true)]
         public string TextName
         {
             get => (string)GetValue(TextNameProperty);
@@ -49,7 +46,7 @@ namespace AvAp2.Models
         //}
         //public static  DependencyProperty TextNameToolTipProperty = DependencyProperty.Register("TextNameToolTip", typeof(string), typeof(BasicWithTextName), new PropertyMetadata(""));
 
-        [Category("Свойства элемента мнемосхемы"), Description("Отображать на схеме диспетчерское наименование"), PropertyGridFilterAttribute, DisplayName("Диспетчерское наименование видимость"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Отображать на схеме диспетчерское наименование"), PropertyGridFilter, DisplayName("Диспетчерское наименование видимость"), Browsable(true)]
         public bool TextNameISVisible
         {
             get => (bool)GetValue(TextNameISVisibleProperty);
@@ -63,7 +60,7 @@ namespace AvAp2.Models
         public static StyledProperty<bool> TextNameISVisibleProperty =
             AvaloniaProperty.Register<BasicWithTextName, bool>(nameof(TextNameISVisible), defaultValue: true);
         
-        [Category("Свойства элемента мнемосхемы"), Description("Цвет текста диспетчерского наименования в 16-ричном представлении 0x FF(прозрачность) FF(красный) FF(зелёный) FF(синий)"), PropertyGridFilterAttribute, DisplayName("Текст цвет (hex)"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Цвет текста диспетчерского наименования в 16-ричном представлении 0x FF(прозрачность) FF(красный) FF(зелёный) FF(синий)"), PropertyGridFilter, DisplayName("Текст цвет (hex)"), Browsable(true)]
         public Color TextNameColor
         {
             get => GetValue(TextNameColorProperty);
@@ -102,7 +99,7 @@ namespace AvAp2.Models
             
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilterAttribute, DisplayName("Текст ширина "), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Ширина текстового поля диспетчерского наименования. По ширине будет происходить перенос по словам. Если не влезет слово - оно будет обрезано."), PropertyGridFilter, DisplayName("Текст ширина "), Browsable(true)]
         public virtual double TextNameWidth
         {
             get => (double)GetValue(TextNameWidthProperty);
@@ -129,7 +126,7 @@ namespace AvAp2.Models
 
         public static StyledProperty<double> TextNameWidthProperty =
             AvaloniaProperty.Register<BasicWithTextName, double>(nameof(TextNameWidth),defaultValue:90);
-        [Category("Свойства элемента мнемосхемы"), Description("Отступ диспетчерского наименования в формате (0,0,0,0). Через запятую отступ слева, сверху, справа, снизу. Отступ может быть отрицательным (-10). Имеет значение только отступ слева и сверху"), PropertyGridFilterAttribute, DisplayName("Текст отступ (дисп. наименование)"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Отступ диспетчерского наименования в формате (0,0,0,0). Через запятую отступ слева, сверху, справа, снизу. Отступ может быть отрицательным (-10). Имеет значение только отступ слева и сверху"), PropertyGridFilter, DisplayName("Текст отступ (дисп. наименование)"), Browsable(true)]
         public virtual Thickness MarginTextName
         {
             get => (Thickness)GetValue(MarginTextNameProperty);

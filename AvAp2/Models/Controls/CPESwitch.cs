@@ -2,14 +2,15 @@
 using System.Globalization;
 using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Заземляющий нож")]
     public class CPESwitch : BasicCommutationDevice
     {
         //=======================================================================
-        [Category("Свойства элемента мнемосхемы"), Description("Номер переносного заземления"), PropertyGridFilterAttribute, DisplayName("Номер заземления"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Номер переносного заземления"), PropertyGridFilter, DisplayName("Номер заземления"), Browsable(true)]
         public string ManualPENumber
         {
             get => (string)GetValue(ManualPENumberProperty);
@@ -22,7 +23,7 @@ namespace AvAp2.Models
         public static StyledProperty<string> ManualPENumberProperty = AvaloniaProperty.Register<CPESwitch,string>(nameof(ManualPENumber),"");
 
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость признака короткозамыкателя"), PropertyGridFilterAttribute, DisplayName("Короткозамыкатель"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость признака короткозамыкателя"), PropertyGridFilter, DisplayName("Короткозамыкатель"), Browsable(true)]
         public bool ShortCircuitIsExist
         {
             get => (bool)GetValue(ShortCircuitIsExistProperty);

@@ -4,16 +4,16 @@ using Avalonia;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
-using Avalonia.Rendering;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Линия")]
     public class CLine : BasicEquipment, IGeometry
     {
         #region  У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
-        [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента"), PropertyGridFilterAttribute, DisplayName("Цвет содержимого"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента"), PropertyGridFilter, DisplayName("Цвет содержимого"), Browsable(true)]
         public override Color ContentColor// У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
         {
             get => (Color)GetValue(ContentColorProperty);
@@ -23,7 +23,7 @@ namespace AvAp2.Models
                 RiseMnemoNeedSave();
             }
         }
-        [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента альтернативный"), PropertyGridFilterAttribute, DisplayName("Цвет содержимого альтернативный"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Цвет содержимого элемента альтернативный"), PropertyGridFilter, DisplayName("Цвет содержимого альтернативный"), Browsable(true)]
         public override Color ContentColorAlternate
         {
             get => (Color)GetValue(ContentColorAlternateProperty);
@@ -36,7 +36,7 @@ namespace AvAp2.Models
         #endregion  У прямоугольника можно просто поменять цвет, а у линии только через класс напряжения, просто цвет спрятан
 
         #region IGeometry
-        [Category("Свойства элемента мнемосхемы"), Description("X-координата дальнего конца линии"), PropertyGridFilterAttribute, DisplayName("Координата-X конца"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("X-координата дальнего конца линии"), PropertyGridFilter, DisplayName("Координата-X конца"), Browsable(true)]
         public double CoordinateX2
         {
             get => (double)GetValue(CoordinateX2Property);
@@ -48,7 +48,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<double> CoordinateX2Property = AvaloniaProperty.Register<CLine, double>(nameof(CoordinateX2), 0.0);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Y-координата дальнего конца линии"), PropertyGridFilterAttribute, DisplayName("Координата-Y конца"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Y-координата дальнего конца линии"), PropertyGridFilter, DisplayName("Координата-Y конца"), Browsable(true)]
         public double CoordinateY2
         {
             get => (double)GetValue(CoordinateY2Property);
@@ -65,7 +65,7 @@ namespace AvAp2.Models
             get => new Point(CoordinateX2, CoordinateY2);
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Толщина линии"), PropertyGridFilterAttribute, DisplayName("Толщина"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Толщина линии"), PropertyGridFilter, DisplayName("Толщина"), Browsable(true)]
         public double LineThickness
         {
             get => (double)GetValue(LineThicknessProperty);
@@ -103,7 +103,7 @@ namespace AvAp2.Models
         }
         
 
-        [Category("Свойства элемента мнемосхемы"), Description("Пунктирная линия"), PropertyGridFilterAttribute, DisplayName("Пунктирная линия"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Пунктирная линия"), PropertyGridFilter, DisplayName("Пунктирная линия"), Browsable(true)]
         public bool IsDash
         {
             get => (bool)GetValue(IsDashProperty);
@@ -137,7 +137,7 @@ namespace AvAp2.Models
          #endregion IGeometry
 
         #region IConnection
-        [Category("Свойства элемента мнемосхемы"), Description("Значение привязанного тега состояния связи (м.б. 0-нет, 1-есть, 2-ошибка; м.б. 1-Down, 2-Up, 3-Test)"), PropertyGridFilterAttribute, DisplayName("Значение состояние - на связи"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Значение привязанного тега состояния связи (м.б. 0-нет, 1-есть, 2-ошибка; м.б. 1-Down, 2-Up, 3-Test)"), PropertyGridFilter, DisplayName("Значение состояние - на связи"), Browsable(true)]
         public string StringStateIsConnected
         {
             get => (string)GetValue(StringStateIsConnectedProperty);
@@ -151,7 +151,7 @@ namespace AvAp2.Models
 
         #endregion IConnection
 
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.Reactive.PlatformServices;
-using System.Reactive.Subjects;
-using System.Threading;
 using Avalonia;
-using Avalonia.Animation;
-using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Styling;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     /// <summary>
     /// Базовый класс всех контролов схемы диагностики.
@@ -20,7 +15,7 @@ namespace AvAp2.Models
     public class CAlarmIndicator : BasicAlarmIndicator, IBasicWithState
     {
         #region IBasicWithState
-        [Category("Привязки данных"), Description("Идентификатор тега состояния элемента. Для текущих данных - ток или дискрет, для оборудования - наличие напряжения для цвета"), PropertyGridFilterAttribute, DisplayName("ID тега состояния"), Browsable(true)]
+        [Category("Привязки данных"), Description("Идентификатор тега состояния элемента. Для текущих данных - ток или дискрет, для оборудования - наличие напряжения для цвета"), PropertyGridFilter, DisplayName("ID тега состояния"), Browsable(true)]
         public string TagIDMainState
         {
             get => (string)GetValue(TagIDMainStateProperty);
@@ -67,7 +62,7 @@ namespace AvAp2.Models
         #endregion IBasicWithState
 
       
-        [Category("Свойства элемента мнемосхемы"), Description("Значение тега для активной тревоги."), PropertyGridFilterAttribute, DisplayName("Значение тега"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Значение тега для активной тревоги."), PropertyGridFilter, DisplayName("Значение тега"), Browsable(true)]
         public decimal EventTagValueActive
         {
             get => (decimal)GetValue(EventTagValueActiveProperty);

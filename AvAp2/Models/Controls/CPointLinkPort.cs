@@ -2,12 +2,12 @@
 using Avalonia;
 using Avalonia.Media;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Индикатор порта Ethernet")]
     public class CPointLinkPort : CPointLink
     {
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => true;

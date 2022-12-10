@@ -6,6 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using AvAp2;
 using AvAp2.Models;
+using AvAp2.Models.Controls;
 
 namespace StressTest.Views;
 

@@ -11,7 +11,8 @@ using Avalonia.Rendering;
 using Avalonia.VisualTree;
 using AvAp2;
 using AvAp2.Models;
-using TagValueQuality = AvAp2.TagValueQuality;
+using AvAp2.Models.Controls;
+using TagValueQuality = AvAp2.Models.TagValueQuality;
 
 namespace StressTest.Views
 { 

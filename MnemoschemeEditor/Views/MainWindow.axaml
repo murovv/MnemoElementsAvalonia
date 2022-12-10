@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MnemoschemeEditor.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+        xmlns:tests="clr-namespace:MnemoschemeEditor.Tests"
+        xmlns:propertyGrid1="clr-namespace:MnemoschemeEditor._PropertyGrid"
+        xmlns:controls="clr-namespace:AvAp2.Models.Controls;assembly=AvAp2"
+
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MnemoschemeEditor.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="MnemoschemeEditor">
+    <Window.Resources>
+        <tests:TestControl Name="asdasd" x:Key="BusinessObject"/>
+    </Window.Resources>
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <StackPanel>
+        <controls:CAutomaticSwitch></controls:CAutomaticSwitch>
+        <propertyGrid1:PropertyGrid x:Name="PropertyGrid"></propertyGrid1:PropertyGrid>
+    </StackPanel>
+    
+
+</Window>

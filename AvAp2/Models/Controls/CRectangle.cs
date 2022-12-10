@@ -1,20 +1,19 @@
 ﻿using System;
 using System.ComponentModel;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
-using Avalonia.Rendering;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
      [Description("Прямоугольник")]
     public class CRectangle : BasicWithState, IGeometry
     {        
         #region IGeometry
-        [Category("Свойства элемента мнемосхемы"), Description("X-координата дальнего конца линии"), PropertyGridFilterAttribute, DisplayName("Координата-X конца"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("X-координата дальнего конца линии"), PropertyGridFilter, DisplayName("Координата-X конца"), Browsable(true)]
         public double CoordinateX2
         {
             get => (double)GetValue(CoordinateX2Property);
@@ -26,7 +25,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<double> CoordinateX2Property = AvaloniaProperty.Register<CRectangle,double>(nameof(CoordinateX2), 0.0);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Y-координата дальнего конца линии"), PropertyGridFilterAttribute, DisplayName("Координата-Y конца"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Y-координата дальнего конца линии"), PropertyGridFilter, DisplayName("Координата-Y конца"), Browsable(true)]
         public double CoordinateY2
         {
             get => (double)GetValue(CoordinateY2Property);
@@ -49,7 +48,7 @@ namespace AvAp2.Models
         {
             get => new Rect(0, 0, CoordinateX2 > 0 ? CoordinateX2 : 1, CoordinateY2 > 0 ? CoordinateY2 : 1);
         }
-        [Category("Свойства элемента мнемосхемы"), Description("Толщина линии"), PropertyGridFilterAttribute, DisplayName("Толщина"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Толщина линии"), PropertyGridFilter, DisplayName("Толщина"), Browsable(true)]
         public double LineThickness
         {
             get => (double)GetValue(LineThicknessProperty);
@@ -85,7 +84,7 @@ namespace AvAp2.Models
             }
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Пунктирная линия"), PropertyGridFilterAttribute, DisplayName("Пунктирная линия"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Пунктирная линия"), PropertyGridFilter, DisplayName("Пунктирная линия"), Browsable(true)]
         public bool IsDash
         {
             get => (bool)GetValue(IsDashProperty);
@@ -102,7 +101,7 @@ namespace AvAp2.Models
         #endregion IGeometry
 
        
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;

@@ -1,7 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     public class CDischarger : BasicEquipment
     {

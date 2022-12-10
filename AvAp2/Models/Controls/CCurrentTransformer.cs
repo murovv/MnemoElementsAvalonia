@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Трансформатор тока")]
     public class CCurrentTransformer : BasicEquipment

@@ -5,14 +5,15 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Камера видеонаблюдения")]
     public class CWebCamera : BasicWithTextName, IVideo
     {
         #region IVideo
-        [Category("Свойства элемента мнемосхемы"), Description("Логин видеонаблюдения"), PropertyGridFilterAttribute, DisplayName("Видеонаблюдение логин"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Логин видеонаблюдения"), PropertyGridFilter, DisplayName("Видеонаблюдение логин"), Browsable(true)]
         public string VideoLogin
         {
             get => (string)GetValue(VideoLoginProperty);
@@ -24,7 +25,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> VideoLoginProperty = AvaloniaProperty.Register<CWebCamera, string>(nameof(VideoLogin), "admin");
 
-        [Category("Свойства элемента мнемосхемы"), Description("Пароль видеонаблюдения"), PropertyGridFilterAttribute, DisplayName("Видеонаблюдение пароль"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Пароль видеонаблюдения"), PropertyGridFilter, DisplayName("Видеонаблюдение пароль"), Browsable(true)]
         public string VideoPassword
         {
             get => (string)GetValue(VideoPasswordProperty);
@@ -36,7 +37,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> VideoPasswordProperty = AvaloniaProperty.Register<CWebCamera, string>(nameof(VideoPassword), "");
 
-        [Category("Свойства элемента мнемосхемы"), Description("Канал видеонаблюдения"), PropertyGridFilterAttribute, DisplayName("Видеонаблюдение канал"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Канал видеонаблюдения"), PropertyGridFilter, DisplayName("Видеонаблюдение канал"), Browsable(true)]
         public string VideoChannelID
         {
             get => (string)GetValue(VideoChannelIDProperty);
@@ -48,7 +49,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<string> VideoChannelIDProperty = AvaloniaProperty.Register<CWebCamera, string>(nameof(VideoChannelID), "");
 
-        [Category("Свойства элемента мнемосхемы"), Description("Положение камеры видеонаблюдения"), PropertyGridFilterAttribute, DisplayName("Видеонаблюдение положение"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Положение камеры видеонаблюдения"), PropertyGridFilter, DisplayName("Видеонаблюдение положение"), Browsable(true)]
         public string VideoChannelPTZ
         {
             get => (string)GetValue(VideoChannelPTZProperty);

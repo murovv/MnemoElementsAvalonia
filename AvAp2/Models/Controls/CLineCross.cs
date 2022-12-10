@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
 using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Пересечение линий")]
     public class CLineCross : BasicEquipment
     {
-        [Category("Свойства элемента мнемосхемы"), Description("Толщина линии"), PropertyGridFilterAttribute, DisplayName("Толщина"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Толщина линии"), PropertyGridFilter, DisplayName("Толщина"), Browsable(true)]
         public double LineThickness
         {
             get => (double)GetValue(LineThicknessProperty);

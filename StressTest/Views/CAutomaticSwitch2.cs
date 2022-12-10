@@ -11,9 +11,10 @@ using Avalonia.OpenGL;
 using AvAp2;
 using AvAp2.Converters;
 using AvAp2.Interfaces;
+using AvAp2.Models;
 using IProjectModel;
-using CommutationDeviceStates = AvAp2.CommutationDeviceStates;
-using TagValueQuality = AvAp2.TagValueQuality;
+using CommutationDeviceStates = AvAp2.Models.CommutationDeviceStates;
+using TagValueQuality = AvAp2.Models.TagValueQuality;
 
 namespace StressTest.Views;
 

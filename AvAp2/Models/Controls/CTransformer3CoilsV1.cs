@@ -1,19 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reflection;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Media;
 using AvAp2.Converters;
 using IProjectModel;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Трехобмоточный трансформатор Версия 1 - Правый")]
     public class CTransformer3CoilsV1 : CTransformer2Coils
     {
         [Category("Свойства элемента мнемосхемы"), Description("Соединение третьих обмоток трансформатора"),
-         PropertyGridFilterAttribute, DisplayName("Третья обмотка соединение"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Третья обмотка соединение"), Browsable(true)]
         public CoilsConnectionTypes CoilsConnectionType3
         {
             get => (CoilsConnectionTypes)GetValue(CoilsConnectionType3Property);
@@ -34,7 +32,7 @@ namespace AvAp2.Models
 
 
         [Category("Свойства элемента мнемосхемы"),
-         Description("Цвет третьей обмотки в соответствии с классом напряжения"), PropertyGridFilterAttribute,
+         Description("Цвет третьей обмотки в соответствии с классом напряжения"), PropertyGridFilter,
          DisplayName("Третья обмотка цвет"), Browsable(false)]
         private Color Voltage3Color
         {
@@ -62,7 +60,7 @@ namespace AvAp2.Models
         }
 
         [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения третьей обмотки"),
-         PropertyGridFilterAttribute, DisplayName("Третья обмотка напряжение"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Третья обмотка напряжение"), Browsable(true)]
         public VoltageClasses Voltage3
         {
             get => (VoltageClasses)GetValue(Voltage3Property);
@@ -88,7 +86,7 @@ namespace AvAp2.Models
         #region выводы обмотки
 
         [Category("Свойства элемента мнемосхемы"), Description("Видимость левого вывода третьей обмотки"),
-         PropertyGridFilterAttribute, DisplayName("Третья обмотка левый"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Третья обмотка левый"), Browsable(true)]
         public bool CoilLeftExitIsExist3
         {
             get => (bool)GetValue(CoilLeftExitIsExist3Property);
@@ -103,7 +101,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilLeftExitIsExist3), false);
 
         [Category("Свойства элемента мнемосхемы"), Description("Видимость верхнего вывода третьей обмотки"),
-         PropertyGridFilterAttribute, DisplayName("Третья обмотка верхний"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Третья обмотка верхний"), Browsable(true)]
         public bool CoilTopExitIsExist3
         {
             get => (bool)GetValue(CoilTopExitIsExist3Property);
@@ -118,7 +116,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilTopExitIsExist3), false);
 
         [Category("Свойства элемента мнемосхемы"), Description("Видимость правого вывода третьей обмотки"),
-         PropertyGridFilterAttribute, DisplayName("Третья обмотка правый"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Третья обмотка правый"), Browsable(true)]
         public bool CoilRightExitIsExist3
         {
             get => (bool)GetValue(CoilRightExitIsExist3Property);
@@ -133,7 +131,7 @@ namespace AvAp2.Models
             AvaloniaProperty.Register<CTransformer2Coils, bool>(nameof(CoilRightExitIsExist3), false);
 
         [Category("Свойства элемента мнемосхемы"), Description("Видимость нижнего вывода третьей обмотки"),
-         PropertyGridFilterAttribute, DisplayName("Третья обмотка нижний"), Browsable(true)]
+         PropertyGridFilter, DisplayName("Третья обмотка нижний"), Browsable(true)]
         public bool CoilBottomExitIsExist3
         {
             get => (bool)GetValue(CoilBottomExitIsExist3Property);

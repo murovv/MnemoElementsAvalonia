@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
+using AvAp2.Models;
 
-namespace AvAp2.Views.TestViews
+namespace AvAp2.Views
 {
     public partial class MainWindow : Window
     {
@@ -129,12 +128,12 @@ namespace AvAp2.Views.TestViews
 
         private void CCurrentDataAnalogChangeTagValueStringOnClick(object? sender, RoutedEventArgs e)
         {
-            CCurrentDataAnalog1.TagDataMainState.TagValueString = (int.Parse(CCurrentDataAnalog1.TagDataMainState.TagValueString) + 1).ToString();
+            CCurrentDataAnalog1.TagDataMainState.TagValueString = (int.Parse((string)CCurrentDataAnalog1.TagDataMainState.TagValueString) + 1).ToString();
         }
 
         private void CCurrentDataAnalogChangeVoltageOnClick(object? sender, RoutedEventArgs e)
         {
-            CCurrentDataAnalog1.TextUom = (int.Parse(CCurrentDataAnalog1.TextUom) + 1).ToString();
+            CCurrentDataAnalog1.TextUom = (int.Parse((string)CCurrentDataAnalog1.TextUom) + 1).ToString();
         }
 
         private void CCurrentDataAnalogChangeNameOnClick(object? sender, RoutedEventArgs e)

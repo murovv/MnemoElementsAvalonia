@@ -5,12 +5,12 @@ using Avalonia.Media;
 using AvAp2.Converters;
 using IProjectModel;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Четырехобмоточный трансформатор")]
     public class CTransformer4Coils : CTransformer3CoilsV2
     {
-        [Category("Свойства элемента мнемосхемы"), Description("Соединение четвёртых обмоток трансформатора"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка соединение"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Соединение четвёртых обмоток трансформатора"), PropertyGridFilter, DisplayName("Четвертая обмотка соединение"), Browsable(true)]
         public CoilsConnectionTypes CoilsConnectionType4
         {
             get => (CoilsConnectionTypes)GetValue(CoilsConnectionType4Property);
@@ -26,7 +26,7 @@ namespace AvAp2.Models
         internal protected Pen PenContentColorVoltage4;
         internal protected Pen PenContentColorVoltage4Thin;
 
-        [Category("Свойства элемента мнемосхемы"), Description("Цвет четвёртой обмотки в соответствии с классом напряжения"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка цвет"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Цвет четвёртой обмотки в соответствии с классом напряжения"), PropertyGridFilter, DisplayName("Четвертая обмотка цвет"), Browsable(false)]
         private Color Voltage4Color
         {
             get => (Color)GetValue(Voltage4ColorProperty);
@@ -48,7 +48,7 @@ namespace AvAp2.Models
             sender.PenContentColorVoltage4Thin.ToImmutable();
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения четвёртой обмотки"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка напряжение"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Класс напряжения четвёртой обмотки"), PropertyGridFilter, DisplayName("Четвертая обмотка напряжение"), Browsable(true)]
         public VoltageClasses Voltage4
         {
             get => (VoltageClasses)GetValue(Voltage4Property);
@@ -70,7 +70,7 @@ namespace AvAp2.Models
         }
 
         #region выводы обмотки
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость левого вывода четвёртой обмотки"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка левый"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость левого вывода четвёртой обмотки"), PropertyGridFilter, DisplayName("Четвертая обмотка левый"), Browsable(true)]
         public bool CoilLeftExitIsExist4
         {
             get => (bool)GetValue(CoilLeftExitIsExist4Property);
@@ -82,7 +82,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> CoilLeftExitIsExist4Property = AvaloniaProperty.Register<CTransformer4Coils,bool >(nameof(CoilLeftExitIsExist4), false);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость верхнего вывода четвёртой обмотки"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка верхний"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость верхнего вывода четвёртой обмотки"), PropertyGridFilter, DisplayName("Четвертая обмотка верхний"), Browsable(true)]
         public bool CoilTopExitIsExist4
         {
             get => (bool)GetValue(CoilTopExitIsExist4Property);
@@ -94,7 +94,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> CoilTopExitIsExist4Property = AvaloniaProperty.Register<CTransformer4Coils, bool>(nameof(CoilTopExitIsExist4), false);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость правого вывода четвёртой обмотки"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка правый"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость правого вывода четвёртой обмотки"), PropertyGridFilter, DisplayName("Четвертая обмотка правый"), Browsable(true)]
         public bool CoilRightExitIsExist4
         {
             get => (bool)GetValue(CoilRightExitIsExist4Property);
@@ -106,7 +106,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> CoilRightExitIsExist4Property = AvaloniaProperty.Register<CTransformer4Coils, bool>(nameof(CoilRightExitIsExist4), false);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость нижнего вывода четвёртой обмотки"), PropertyGridFilterAttribute, DisplayName("Четвертая обмотка нижний"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость нижнего вывода четвёртой обмотки"), PropertyGridFilter, DisplayName("Четвертая обмотка нижний"), Browsable(true)]
         public bool CoilBottomExitIsExist4
         {
             get => (bool)GetValue(CoilBottomExitIsExist4Property);

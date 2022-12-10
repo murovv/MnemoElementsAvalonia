@@ -1,11 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Media;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using Avalonia;
+using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Автоматический выключатель")]
     public class CAutomaticSwitch :  BasicCommutationDevice

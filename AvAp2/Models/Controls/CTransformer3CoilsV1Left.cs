@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Media;
 using IProjectModel;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Трехобмоточный трансформатор Версия 1 - Левый")]
     public class CTransformer3CoilsV1Left : CTransformer3CoilsV1

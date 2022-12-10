@@ -4,19 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="AvAp2.Views.MainWindowOld"
+        x:Class="AvAp2.Views.TestViews.MainWindowOld"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvAp2"
-	xmlns:models="using:AvAp2.Models">
+	xmlns:models="using:AvAp2.Models"
+	xmlns:controls="clr-namespace:AvAp2.Models.Controls">
 	<Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 	<TabControl>
 		<TabItem Header="CLine'n'CRectangle">
 			<UniformGrid Columns="2" Rows="3">
-				<models:CLine x:Name="CLine"></models:CLine>
-				<models:CRectangle x:Name="CRectangle"></models:CRectangle>
-				<models:CDiagnosticDevice x:Name="CDiagnosticDevice"></models:CDiagnosticDevice>
+				<controls:CLine x:Name="CLine"></controls:CLine>
+				<controls:CRectangle x:Name="CRectangle"></controls:CRectangle>
+				<controls:CDiagnosticDevice x:Name="CDiagnosticDevice"></controls:CDiagnosticDevice>
 				<Button x:Name="CLineButton">select/unselect</Button>
 				<Button x:Name="CRectangleButton"></Button>
 				<Button x:Name="CDiagnosticDeviceButton"></Button>
@@ -25,15 +26,15 @@
 		<TabItem Header="Controls 1">
 			<Grid>
 				<UniformGrid Rows="2" Columns="9">
-					<models:CAutomaticSwitch x:Name="CAutomaticSwitch1" Margin="30"></models:CAutomaticSwitch>
-				    <models:CCellCart x:Name="CCellCart1" ></models:CCellCart>
-				    <models:CCellCart2 x:Name="CCellCart2"></models:CCellCart2>
-				    <models:CDischarger x:Name="CDischarger"></models:CDischarger>
-				    <models:CFuse x:Name="CFuse"></models:CFuse>
-				    <models:CPEConnector x:Name="CPEConnector"></models:CPEConnector>
-				    <models:CFilterOfConnection x:Name="CFilterOfConnection"></models:CFilterOfConnection>
-				    <models:CHighFrequencyLineTrap x:Name="CHighFrequencyLineTrap"></models:CHighFrequencyLineTrap>
-				    <models:CPESwitch x:Name="CpeSwitch"></models:CPESwitch>
+					<controls:CAutomaticSwitch x:Name="CAutomaticSwitch1" Margin="30"></controls:CAutomaticSwitch>
+				    <controls:CCellCart x:Name="CCellCart1" ></controls:CCellCart>
+				    <controls:CCellCart2 x:Name="CCellCart2"></controls:CCellCart2>
+				    <controls:CDischarger x:Name="CDischarger"></controls:CDischarger>
+				    <controls:CFuse x:Name="CFuse"></controls:CFuse>
+				    <controls:CPEConnector x:Name="CPEConnector"></controls:CPEConnector>
+				    <controls:CFilterOfConnection x:Name="CFilterOfConnection"></controls:CFilterOfConnection>
+				    <controls:CHighFrequencyLineTrap x:Name="CHighFrequencyLineTrap"></controls:CHighFrequencyLineTrap>
+				    <controls:CPESwitch x:Name="CpeSwitch"></controls:CPESwitch>
 					<Button x:Name="AutomaticSwitchButton" Margin="30" Height="30"> Изменить выключатель</Button>
 					<Button x:Name="CellCartButton"  Height="30"> Изменить выкатной элемент</Button>
 					<Button x:Name="CellCart2Button"  Height="30"> Изменить выкатной элемент 2</Button>
@@ -48,14 +49,14 @@
 		</TabItem>
 		<TabItem Header="Controls 2">
 			<UniformGrid Rows="2" Columns="8">
-				<models:CArrow x:Name="CArrow"></models:CArrow>
-				<models:CArrowReserve x:Name="CArrowReserve"></models:CArrowReserve>
-				<models:CIsolatingSwitch x:Name="CIsolatingSwitch"></models:CIsolatingSwitch>
-				<models:CReactor x:Name="CReactor"></models:CReactor>
-				<models:CResistor x:Name="CResistor"></models:CResistor>
-				<models:CSurgeSuppressor x:Name="CSurgeSuppressor"></models:CSurgeSuppressor>
-				<models:CLineCross x:Name="CLineCross"></models:CLineCross>
-				<models:CCurrentTransformer x:Name="CCurrentTransformer"></models:CCurrentTransformer>
+				<controls:CArrow x:Name="CArrow"></controls:CArrow>
+				<controls:CArrowReserve x:Name="CArrowReserve"></controls:CArrowReserve>
+				<controls:CIsolatingSwitch x:Name="CIsolatingSwitch"></controls:CIsolatingSwitch>
+				<controls:CReactor x:Name="CReactor"></controls:CReactor>
+				<controls:CResistor x:Name="CResistor"></controls:CResistor>
+				<controls:CSurgeSuppressor x:Name="CSurgeSuppressor"></controls:CSurgeSuppressor>
+				<controls:CLineCross x:Name="CLineCross"></controls:CLineCross>
+				<controls:CCurrentTransformer x:Name="CCurrentTransformer"></controls:CCurrentTransformer>
 				<Button x:Name="CArrowButton"></Button>
 				<Button x:Name="CArrowReserveButton"></Button>
 				<Button x:Name="CIsolatingSwitchButton"></Button>
@@ -69,13 +70,13 @@
 		</TabItem>
 		<TabItem Header="Transformers">
 			<UniformGrid Rows="2" Columns="7">
-				<models:CTransformerCoil x:Name="CTransformerCoil"></models:CTransformerCoil>
-				<models:CTransformer2Coils x:Name="CTransformer2Coils"></models:CTransformer2Coils>
-				<models:CTransformer3CoilsV1 x:Name="CTransformer3CoilsV1"></models:CTransformer3CoilsV1>
-				<models:CTransformer3CoilsV1Left x:Name="CTransformer3CoilsV1Left"></models:CTransformer3CoilsV1Left>
-				<models:CTransformer3CoilsV2 x:Name="CTransformer3CoilsV2"></models:CTransformer3CoilsV2>
-				<models:CTransformer4Coils x:Name="CTransformer4Coils"></models:CTransformer4Coils>
-				<models:CTransformerNPE x:Name="CTransformerNpe"></models:CTransformerNPE>
+				<controls:CTransformerCoil x:Name="CTransformerCoil"></controls:CTransformerCoil>
+				<controls:CTransformer2Coils x:Name="CTransformer2Coils"></controls:CTransformer2Coils>
+				<controls:CTransformer3CoilsV1 x:Name="CTransformer3CoilsV1"></controls:CTransformer3CoilsV1>
+				<controls:CTransformer3CoilsV1Left x:Name="CTransformer3CoilsV1Left"></controls:CTransformer3CoilsV1Left>
+				<controls:CTransformer3CoilsV2 x:Name="CTransformer3CoilsV2"></controls:CTransformer3CoilsV2>
+				<controls:CTransformer4Coils x:Name="CTransformer4Coils"></controls:CTransformer4Coils>
+				<controls:CTransformerNPE x:Name="CTransformerNpe"></controls:CTransformerNPE>
 				<Button x:Name="CTransformerCoilButton"></Button>
 				<Button x:Name="CTransformerCoil2Button"></Button>
 				<Button x:Name="CTransformer3CoilsV1Button"></Button>
@@ -87,11 +88,11 @@
 		</TabItem>
 		<TabItem Header="Controls 3">
 			<UniformGrid Rows="2" Columns="5">
-				<models:CHyperLink x:Name="CHyperLink"></models:CHyperLink>
-				<models:CWebCamera x:Name="CWebCamera"></models:CWebCamera>
-				<models:CCurrentDataAnalog ControlISSelected="True" x:Name="CCurrentDataAnalog"></models:CCurrentDataAnalog>
-				<models:CCurrentDataDiscret x:Name="CCurrentDataDiscret"></models:CCurrentDataDiscret>
-				<models:CAlarmIndicator x:Name="CAlarmIndicator"></models:CAlarmIndicator>
+				<controls:CHyperLink x:Name="CHyperLink"></controls:CHyperLink>
+				<controls:CWebCamera x:Name="CWebCamera"></controls:CWebCamera>
+				<controls:CCurrentDataAnalog ControlISSelected="True" x:Name="CCurrentDataAnalog"></controls:CCurrentDataAnalog>
+				<controls:CCurrentDataDiscret x:Name="CCurrentDataDiscret"></controls:CCurrentDataDiscret>
+				<controls:CAlarmIndicator x:Name="CAlarmIndicator"></controls:CAlarmIndicator>
 				<Button x:Name="CHyperLinkButton"></Button>
 				<Button x:Name="CWebCameraButton"></Button>
 				<Button x:Name="CCurrentDataAnalogButton"></Button>
@@ -101,10 +102,10 @@
 		</TabItem>
 		<TabItem Header="Text text">
 			<Canvas>
-				<models:CText x:Name="TestText" Margin="30 30 30 30" TextName="какой то текст" ControlISSelected="True" >
-				</models:CText>
-				<models:CText x:Name="TestText1" Margin="60 30 30 30" TextName="какой то текст" ControlISSelected="True">
-				</models:CText>
+				<controls:CText x:Name="TestText" Margin="30 30 30 30" TextName="какой то текст" ControlISSelected="True" >
+				</controls:CText>
+				<controls:CText x:Name="TestText1" Margin="60 30 30 30" TextName="какой то текст" ControlISSelected="True">
+				</controls:CText>
 				<Button x:Name="RotateText"></Button>
 			</Canvas>
 		</TabItem>

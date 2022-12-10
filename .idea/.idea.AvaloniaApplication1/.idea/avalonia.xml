@@ -23,6 +23,15 @@
         <entry key="AvAp2/Views/TestViews/MainWindow.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/TestViews/MainWindowOld.axaml" value="AvAp2/AvAp2.csproj" />
         <entry key="AvAp2/Views/l.axaml" value="AvAp2/AvAp2.csproj" />
+        <entry key="MnemoschemeEditor/App.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/ObjectEditor/DefaultEditors/EnumEditor.xaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Styles/PropertyGrid/Controls/EnumDropdown.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Styles/PropertyGrid/Controls/SearchTextBox.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Styles/PropertyGrid/Editor/EditorResources.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/MainView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/MainWindow.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/PropertyGrid.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/_PropertyGrid/PropertyGrid.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="PanAndZoomTesting/App.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />
         <entry key="PanAndZoomTesting/Styles/BasicCommutationDeviceStyles.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />
         <entry key="PanAndZoomTesting/Styles/BasicMnemoElementStyles.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />

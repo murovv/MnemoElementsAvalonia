@@ -2,25 +2,21 @@
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Avalonia.Metadata;
-using Avalonia.Styling;
+using AvAp2.Models.BaseClasses;
 
-
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Элемент отображения аналоговых данных")]
     public class CCurrentDataAnalog : BasicWithState
     {
         
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;
         }
-        [Category("Свойства элемента мнемосхемы"), Description("Диспетчерское наименование элемента"), PropertyGridFilterAttribute, DisplayName("Диспетчерское наименование"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Диспетчерское наименование элемента"), PropertyGridFilter, DisplayName("Диспетчерское наименование"), Browsable(true)]
         public string TextUom
         {
             get => (string)GetValue(TextUomProperty);

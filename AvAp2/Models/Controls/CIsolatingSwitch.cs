@@ -2,13 +2,14 @@
 using System.Globalization;
 using Avalonia;
 using Avalonia.Media;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Разъединитель")]
     public class CIsolatingSwitch : BasicCommutationDevice
     {
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость признака отделителя"), PropertyGridFilterAttribute, DisplayName("Отделитель"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость признака отделителя"), PropertyGridFilter, DisplayName("Отделитель"), Browsable(true)]
         public bool ShortCircuitIsExist
         {
             get => (bool)GetValue(ShortCircuitIsExistProperty);

@@ -6,19 +6,20 @@ using Avalonia.Data;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using AvAp2.Models.Controls;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.BaseClasses
 {
     public abstract class BasicAlarmIndicator : BasicWithTextName
     {
         [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке."),
-         PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+         PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Квитирование тревоги."), PropertyGridFilterAttribute,
+        [Category("Свойства элемента мнемосхемы"), Description("Квитирование тревоги."), PropertyGridFilter,
          DisplayName("Квитирование тревоги"), Browsable(false)]
         public bool? IsReceipt
         {
@@ -64,7 +65,7 @@ namespace AvAp2.Models
             #endregion Мигание индикатора
         }
 
-        [Category("Свойства элемента мнемосхемы"), Description("Группа тревоги."), PropertyGridFilterAttribute,
+        [Category("Свойства элемента мнемосхемы"), Description("Группа тревоги."), PropertyGridFilter,
          DisplayName("Группа"), Browsable(false)]
         public int EventGroupID
         {
@@ -86,7 +87,7 @@ namespace AvAp2.Models
 
 
         [Category("Свойства элемента мнемосхемы"), Description("Состояние тревоги активная-пролетевшая"),
-         PropertyGridFilterAttribute, DisplayName("Состояние тревоги"), Browsable(false)]
+         PropertyGridFilter, DisplayName("Состояние тревоги"), Browsable(false)]
         public bool? IsActive
         {
             get => (bool?)GetValue(IsActiveProperty);

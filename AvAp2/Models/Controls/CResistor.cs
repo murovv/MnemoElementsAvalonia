@@ -2,14 +2,15 @@
 using Avalonia;
 using Avalonia.Media;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Предохранитель")]
     public class CResistor : BasicEquipment, IConnector
     {
         #region IConnector
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя левого "), PropertyGridFilterAttribute, DisplayName("Видимость соединителя левого "), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя левого "), PropertyGridFilter, DisplayName("Видимость соединителя левого "), Browsable(true)]
         public bool IsConnectorExistLeft
         {
             get => (bool)GetValue(IsConnectorExistLeftProperty);
@@ -21,7 +22,7 @@ namespace AvAp2.Models
         }
         public static StyledProperty<bool> IsConnectorExistLeftProperty = AvaloniaProperty.Register<CResistor,bool>(nameof(IsConnectorExistLeft), true);
 
-        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя правого "), PropertyGridFilterAttribute, DisplayName("Видимость соединителя правого "), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Видимость соединителя правого "), PropertyGridFilter, DisplayName("Видимость соединителя правого "), Browsable(true)]
         public bool IsConnectorExistRight
         {
             get => (bool)GetValue(IsConnectorExistRightProperty);

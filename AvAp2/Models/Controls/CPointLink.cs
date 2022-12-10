@@ -2,15 +2,15 @@
 using Avalonia;
 using Avalonia.Media;
 using AvAp2.Interfaces;
+using AvAp2.Models.BaseClasses;
 
-
-namespace AvAp2.Models
+namespace AvAp2.Models.Controls
 {
     [Description("Индикатор связи")]
     public class CPointLink : BasicWithState, IConnection
     {
         #region IConnection
-        [Category("Свойства элемента мнемосхемы"), Description("Значение привязанного тега состояния связи (м.б. 0-нет, 1-есть, 2-ошибка; м.б. 1-Down, 2-Up, 3-Test)"), PropertyGridFilterAttribute, DisplayName("Значение состояние - на связи"), Browsable(true)]
+        [Category("Свойства элемента мнемосхемы"), Description("Значение привязанного тега состояния связи (м.б. 0-нет, 1-есть, 2-ошибка; м.б. 1-Down, 2-Up, 3-Test)"), PropertyGridFilter, DisplayName("Значение состояние - на связи"), Browsable(true)]
         public string StringStateIsConnected
         {
             get => (string)GetValue(StringStateIsConnectedProperty);
@@ -24,7 +24,7 @@ namespace AvAp2.Models
 
         #endregion IConnection
 
-        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilterAttribute, DisplayName("Сетка"), Browsable(false)]
+        [Category("Свойства элемента мнемосхемы"), Description("Элемент перемещается по 30-сетке"), PropertyGridFilter, DisplayName("Сетка"), Browsable(false)]
         public override bool ControlIs30Step
         {
             get => false;

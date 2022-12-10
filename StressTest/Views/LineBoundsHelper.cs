@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.Media;
 
-namespace AvAp2
+namespace StressTest.Views
 {
     internal static class LineBoundsHelper
     {
