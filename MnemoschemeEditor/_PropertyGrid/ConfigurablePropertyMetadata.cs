@@ -4,15 +4,17 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Avalonia;
+using Avalonia.Controls;
 using FirLib.Core.Patterns.Mvvm;
 
 namespace MnemoschemeEditor._PropertyGrid
 {
     public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
-        private IEnumerable<object> _hostObject;
+        public IEnumerable<Control> _hostObject;
         private IPropertyContractResolver? _propertyContractResolver;
-        private PropertyDescriptor _descriptor;
+        public PropertyDescriptor _descriptor;
 
         public ObservableCollection<object?> ValueAccessor
         {
@@ -58,7 +60,7 @@ namespace MnemoschemeEditor._PropertyGrid
 
         public Type HostObjectType => _hostObject.GetType();
         
-        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, List<object> hostObject, IPropertyContractResolver? propertyContractResolver)
+        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, List<Control> hostObject, IPropertyContractResolver? propertyContractResolver)
         {
             _descriptor = propertyInfo;
             _hostObject = hostObject;
@@ -127,13 +129,17 @@ namespace MnemoschemeEditor._PropertyGrid
             return Enum.GetValues(_descriptor.PropertyType);
         }
 
-        public IEnumerable<object?> GetValue()
+        public IEnumerable<AvaloniaProperty> GetValue()
         {
             foreach (var hostObject in _hostObject)
             {
-                yield return _descriptor.GetValue(hostObject);
+                while (!hostObject.IsInitialized)
+                {
+                    
+                }
+                yield return AvaloniaPropertyRegistry.Instance.FindRegistered(hostObject, _descriptor.Name);
             }
-            
+            yield break;
         }
 
         public T? GetCustomAttribute<T>()

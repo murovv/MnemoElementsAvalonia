@@ -84,7 +84,6 @@ namespace AvAp2.Models.Controls
             this.TextName = "Индикатор тревоги";
             this.ControlISHitTestVisible = true;
         }
-
         public override string ElementTypeFriendlyName
         {
             get => "Индикатор тревоги";

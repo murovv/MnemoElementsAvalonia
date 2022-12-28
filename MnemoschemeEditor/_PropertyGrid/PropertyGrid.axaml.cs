@@ -12,9 +12,9 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public partial class PropertyGrid : UserControl
     {
-        public static readonly StyledProperty<List<object?>> SelectedObjectsProperty =
-        AvaloniaProperty.Register<PropertyGrid, List<object?>>(
-        nameof(SelectedObjects), new List<object?>(), 
+        public static readonly StyledProperty<List<Control>> SelectedObjectsProperty =
+        AvaloniaProperty.Register<PropertyGrid, List<Control>>(
+        nameof(SelectedObjects), new List<Control>(), 
         notifying: OnSelectedObjectChanged);
 
         public static readonly StyledProperty<PropertyGridEditControlFactory?> EditControlFactoryProperty =
@@ -30,7 +30,7 @@ namespace MnemoschemeEditor._PropertyGrid
         private Grid _gridMain;
         private Control? _firstValueRowEditor;
 
-        public List<object?> SelectedObjects
+        public List<Control> SelectedObjects
         {
             get => this.GetValue(SelectedObjectsProperty); 
             set => this.SetValue(SelectedObjectsProperty, value);
@@ -92,8 +92,7 @@ namespace MnemoschemeEditor._PropertyGrid
 
             foreach (var actProperty in _propertyGridVM.PropertyMetadata)
             {
-                try
-                {
+
                     // Create category rows
                     if (actProperty.CategoryName != actCategory)
                     {
@@ -164,11 +163,7 @@ namespace MnemoschemeEditor._PropertyGrid
                     }
 
                     actRowIndex++;
-                }
-                catch (Exception e)
-                {
-                    break;
-                }
+                
             }
         }
 
