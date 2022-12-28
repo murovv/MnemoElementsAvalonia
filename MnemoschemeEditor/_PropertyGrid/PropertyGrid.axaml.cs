@@ -12,10 +12,10 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public partial class PropertyGrid : UserControl
     {
-        public static readonly StyledProperty<object?> SelectedObjectProperty =
-            AvaloniaProperty.Register<PropertyGrid, object?>(
-                nameof(SelectedObject), typeof(object), 
-                notifying: OnSelectedObjectChanged);
+        public static readonly StyledProperty<List<object?>> SelectedObjectsProperty =
+        AvaloniaProperty.Register<PropertyGrid, List<object?>>(
+        nameof(SelectedObjects), new List<object?>(), 
+        notifying: OnSelectedObjectChanged);
 
         public static readonly StyledProperty<PropertyGridEditControlFactory?> EditControlFactoryProperty =
             AvaloniaProperty.Register<PropertyGrid, PropertyGridEditControlFactory?>(
@@ -30,10 +30,10 @@ namespace MnemoschemeEditor._PropertyGrid
         private Grid _gridMain;
         private Control? _firstValueRowEditor;
 
-        public object? SelectedObject
+        public List<object?> SelectedObjects
         {
-            get => this.GetValue(SelectedObjectProperty); 
-            set => this.SetValue(SelectedObjectProperty, value);
+            get => this.GetValue(SelectedObjectsProperty); 
+            set => this.SetValue(SelectedObjectsProperty, value);
         }
 
         public PropertyGridEditControlFactory? EditControlFactory
@@ -72,7 +72,7 @@ namespace MnemoschemeEditor._PropertyGrid
             if (beforeChanging) { return; }
             if (!(sender is PropertyGrid propGrid)) { return; }
 
-            propGrid._propertyGridVM.SelectedObject = propGrid.SelectedObject;
+            propGrid._propertyGridVM.SelectedObjects = propGrid.SelectedObjects;
             propGrid.UpdatePropertiesView();
         }
         

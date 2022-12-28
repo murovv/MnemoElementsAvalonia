@@ -12,7 +12,7 @@ namespace MnemoschemeEditor.Views
         public MainWindow()
         {
             InitializeComponent();
-            PropertyGrid.SelectedObject = new CAutomaticSwitch();
+            PropertyGrid.SelectedObjects = new List<object> { CAlarmIndicator1, CAlarmIndicator2 };
         }
     }
 }

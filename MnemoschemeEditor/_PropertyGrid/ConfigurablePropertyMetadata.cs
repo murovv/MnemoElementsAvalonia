@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using FirLib.Core.Patterns.Mvvm;
@@ -7,34 +10,14 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
-        private object _hostObject;
+        private IEnumerable<object> _hostObject;
         private IPropertyContractResolver? _propertyContractResolver;
         private PropertyDescriptor _descriptor;
 
-        public object? ValueAccessor
+        public ObservableCollection<object?> ValueAccessor
         {
-            get => this.GetValue();
-            set
-            {
-                if (value != this.GetValue())
-                {
-                    try
-                    {
-                        this.SetValue(value);
-
-                        this.RaisePropertyChanged(nameof(this.ValueAccessor));
-                        this.RaisePropertyChanged(nameof(this.ValueAccessor)); // <-- Call this twice because otherwise 'TextAndHexadecimal" edit control works not correctly
-                    }
-                    catch (Exception e)
-                    {
-                        this.SetError(nameof(this.ValueAccessor), e.Message);
-                        this.RaisePropertyChanged(nameof(this.ValueAccessor));
-                        return;
-                    }
-
-                    this.ValidateCurrentValue();
-                }
-            }
+            get => new() { this.GetValue() };
+            
         }
 
         public string CategoryName
@@ -75,12 +58,12 @@ namespace MnemoschemeEditor._PropertyGrid
 
         public Type HostObjectType => _hostObject.GetType();
         
-        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, object hostObject, IPropertyContractResolver? propertyContractResolver)
+        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, List<object> hostObject, IPropertyContractResolver? propertyContractResolver)
         {
             _descriptor = propertyInfo;
             _hostObject = hostObject;
             _propertyContractResolver = propertyContractResolver;
-
+            ValueAccessor.CollectionChanged+= ValueAccessorOnCollectionChanged;
             var categoryAttrib = this.GetCustomAttribute<CategoryAttribute>();
             this.CategoryName = categoryAttrib?.Category ?? string.Empty;
 
@@ -128,6 +111,11 @@ namespace MnemoschemeEditor._PropertyGrid
             this.ValidateCurrentValue();
         }
 
+        private void ValueAccessorOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+           
+        }
+
         public override string ToString()
         {
             return $"{this.CategoryName} - {this.PropertyDisplayName} (type {this.ValueType})";
@@ -139,32 +127,13 @@ namespace MnemoschemeEditor._PropertyGrid
             return Enum.GetValues(_descriptor.PropertyType);
         }
 
-        public object? GetValue()
+        public IEnumerable<object?> GetValue()
         {
-            return _descriptor.GetValue(_hostObject);
-        }
-
-        public void SetValue(object? value)
-        {
-            if (value == null)
+            foreach (var hostObject in _hostObject)
             {
-                var targetType = _descriptor.PropertyType;
-                if(targetType.IsValueType){ _descriptor.SetValue(_hostObject, Activator.CreateInstance(targetType)); }
-                else{ _descriptor.SetValue(_hostObject, null); }
+                yield return _descriptor.GetValue(hostObject);
             }
-            else
-            {
-                var givenType = value.GetType();
-                var targetType = _descriptor.PropertyType;
-                if (givenType == targetType)
-                {
-                    _descriptor.SetValue(_hostObject, value);
-                }
-                else
-                {
-                    _descriptor.SetValue(_hostObject, Convert.ChangeType(value, targetType));
-                }
-            }
+            
         }
 
         public T? GetCustomAttribute<T>()

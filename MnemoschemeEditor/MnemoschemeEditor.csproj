@@ -28,6 +28,8 @@
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview4" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview4" />
+        <PackageReference Include="Dock.Avalonia" Version="11.0.0-preview4" />
+        <PackageReference Include="Dock.Model.Mvvm" Version="11.0.0-preview4" />
         <PackageReference Include="FirLib.Core.Avalonia" Version="0.1.0" />
         <PackageReference Include="ReactiveHistory" Version="0.10.7" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
@@ -58,6 +60,9 @@
       <UpToDateCheckInput Remove="_Util\_View\_PropertyGrid\PropertyGrid.axaml" />
     </ItemGroup>
     <ItemGroup>
+      <Reference Include="Avalonia.Controls.PanAndZoom">
+        <HintPath>..\..\..\.nuget\packages\avalonia.controls.panandzoom\11.0.0-preview4\lib\net6.0\Avalonia.Controls.PanAndZoom.dll</HintPath>
+      </Reference>
       <Reference Include="Avalonia.ExtendedToolkit">
         <HintPath>..\..\..\.nuget\packages\mameolan.avalonia.extendedtoolkit\1.0.0-ci-20220410-063959\lib\netcoreapp3.1\Avalonia.ExtendedToolkit.dll</HintPath>
       </Reference>

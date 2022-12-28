@@ -48,9 +48,12 @@ namespace MnemoschemeEditor._PropertyGrid
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
         {
             var ctrlCheckBox = new CheckBox();
-            ctrlCheckBox[!ToggleButton.IsCheckedProperty] = new Binding(
-                nameof(property.ValueAccessor),
-                BindingMode.TwoWay);
+            foreach (var prop in property.ValueAccessor)
+            {
+                ctrlCheckBox[!ToggleButton.IsCheckedProperty] = new Binding(
+                    nameof(prop),
+                    BindingMode.TwoWay);
+            }
             ctrlCheckBox.HorizontalAlignment = HorizontalAlignment.Left;
             ctrlCheckBox.IsEnabled = !property.IsReadOnly;
             return ctrlCheckBox;
@@ -61,9 +64,13 @@ namespace MnemoschemeEditor._PropertyGrid
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
         {
             var ctrlTextBox = new TextBox();
-            ctrlTextBox[!TextBox.TextProperty] = new Binding(
-                nameof(property.ValueAccessor),
-                BindingMode.TwoWay);
+            foreach (var prop in property.ValueAccessor)
+            {
+                ctrlTextBox[!TextBox.TextProperty] = new Binding(
+                    nameof(prop),
+                    BindingMode.TwoWay);
+            }
+
             ctrlTextBox.Width = double.NaN;
             ctrlTextBox.IsReadOnly = property.IsReadOnly;
 
@@ -87,9 +94,13 @@ namespace MnemoschemeEditor._PropertyGrid
         {
             var ctrlComboBox = new ComboBox();
             ctrlComboBox.Items = property.GetEnumMembers();
-            ctrlComboBox[!SelectingItemsControl.SelectedItemProperty] = new Binding(
-                nameof(property.ValueAccessor),
-                BindingMode.TwoWay);
+            foreach (var prop in property.ValueAccessor)
+            {
+                ctrlComboBox[!SelectingItemsControl.SelectedItemProperty] = new Binding(
+                    nameof(prop),
+                    BindingMode.TwoWay);
+            }
+
             ctrlComboBox.Width = double.NaN;
             ctrlComboBox.IsEnabled = !property.IsReadOnly;
             return ctrlComboBox;

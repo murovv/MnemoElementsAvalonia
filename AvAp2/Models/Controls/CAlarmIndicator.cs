@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Media;
 using AvAp2.Interfaces;
 using AvAp2.Models.BaseClasses;
+using IProjectModel;
 
 namespace AvAp2.Models.Controls
 {
@@ -25,6 +26,7 @@ namespace AvAp2.Models.Controls
                 RiseMnemoNeedSave();
             }
         }
+
         public static StyledProperty<string> TagIDMainStateProperty = AvaloniaProperty.Register<CAlarmIndicator, string>(nameof(TagIDMainState), "-1");
 
         [Browsable(false)]

@@ -7,6 +7,7 @@
         xmlns:tests="clr-namespace:MnemoschemeEditor.Tests"
         xmlns:propertyGrid1="clr-namespace:MnemoschemeEditor._PropertyGrid"
         xmlns:controls="clr-namespace:AvAp2.Models.Controls;assembly=AvAp2"
+        xmlns:views="clr-namespace:MnemoschemeEditor.Views"
 
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MnemoschemeEditor.Views.MainWindow"
@@ -19,8 +20,10 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     <StackPanel>
-        <controls:CAutomaticSwitch></controls:CAutomaticSwitch>
-        <propertyGrid1:PropertyGrid x:Name="PropertyGrid"></propertyGrid1:PropertyGrid>
+        <controls:CAlarmIndicator Height="50" x:Name="CAlarmIndicator1"></controls:CAlarmIndicator>
+        <controls:CAlarmIndicator Height="50" x:Name="CAlarmIndicator2"></controls:CAlarmIndicator>
+        <ScrollViewer><propertyGrid1:PropertyGrid x:Name="PropertyGrid"></propertyGrid1:PropertyGrid></ScrollViewer>
+        
     </StackPanel>
     
 
