@@ -3,28 +3,36 @@
         xmlns:vm="using:MnemoschemeEditor.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
-        xmlns:tests="clr-namespace:MnemoschemeEditor.Tests"
-        xmlns:propertyGrid1="clr-namespace:MnemoschemeEditor._PropertyGrid"
-        xmlns:controls="clr-namespace:AvAp2.Models.Controls;assembly=AvAp2"
-        xmlns:views="clr-namespace:MnemoschemeEditor.Views"
-
+        xmlns:converters="clr-namespace:AvAp2.Converters;assembly=AvAp2"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MnemoschemeEditor.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="MnemoschemeEditor">
     <Window.Resources>
-        <tests:TestControl Name="asdasd" x:Key="BusinessObject"/>
+        <converters:ConverterVoltageEnumToBrush x:Key="VoltageEnumToBrush"></converters:ConverterVoltageEnumToBrush>
     </Window.Resources>
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    <StackPanel>
-        <controls:CAlarmIndicator Height="50" x:Name="CAlarmIndicator1"></controls:CAlarmIndicator>
-        <controls:CAlarmIndicator Height="50" x:Name="CAlarmIndicator2"></controls:CAlarmIndicator>
-        <ScrollViewer><propertyGrid1:PropertyGrid x:Name="PropertyGrid"></propertyGrid1:PropertyGrid></ScrollViewer>
-        
-    </StackPanel>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <ComboBox Name="MnemoElementSelector" SelectedItem="{Binding SelectedMnemoElement }">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox Name="VoltageSelector" SelectedItem="{Binding SelectedVoltage}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }" Background="{Binding . , Converter={StaticResource VoltageEnumToBrush}}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Menu>
+        <DockControl Name="DockControl" DockPanel.Dock="Bottom" Layout="{Binding Layout}"/>
+    </DockPanel>
     
 
 </Window>

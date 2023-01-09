@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Dock.Model.Core;
+using MnemoschemeEditor.Models;
 using MnemoschemeEditor.ViewModels;
 using MnemoschemeEditor.Views;
 
@@ -15,14 +17,48 @@ namespace MnemoschemeEditor
 
         public override void OnFrameworkInitializationCompleted()
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            var factory = new MainDocFactory(null);
+            var layout = factory.CreateLayout();
+            factory.InitLayout(layout);
+
+            var mainWindowViewModel = new MainWindowViewModel()
             {
-                desktop.MainWindow = new MainWindow
+                Factory = factory,
+                Layout = layout
+            };
+
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+            {
+                
+                var mainWindow = new MainWindow()
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = mainWindowViewModel
+                };
+
+                mainWindow.Closing += (_, _) =>
+                {
+                    if (layout is IDock dock)
+                    {
+                        if (dock.Close.CanExecute(null))
+                        {
+                            dock.Close.Execute(null);
+                        }
+                    }
+                };
+
+                desktopLifetime.MainWindow = mainWindow;
+
+                desktopLifetime.Exit += (_, _) =>
+                {
+                    if (layout is IDock dock)
+                    {
+                        if (dock.Close.CanExecute(null))
+                        {
+                            dock.Close.Execute(null);
+                        }
+                    }
                 };
             }
-
             base.OnFrameworkInitializationCompleted();
         }
     }

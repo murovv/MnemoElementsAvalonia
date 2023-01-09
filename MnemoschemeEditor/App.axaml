@@ -8,5 +8,6 @@
 
     <Application.Styles>
         <SimpleTheme></SimpleTheme>
+        <StyleInclude Source="avares://Dock.Avalonia/Themes/DockFluentTheme.axaml"/>
     </Application.Styles>
 </Application>

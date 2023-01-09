@@ -1,0 +1,20 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MnemoschemeEditor.Views.DockableZoomBorderView">
+    <Panel>
+        <ScrollViewer
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+        <ZoomBorder Name="ZoomBorder" Stretch="None">
+            <Canvas Name="Canvas1" Width="5000" Height="5000" Background="Gray">
+                
+            </Canvas>
+        </ZoomBorder>
+            </ScrollViewer>
+        <TextBlock Text="{Binding #ZoomBorder.ZoomX}" Height="50"></TextBlock>
+        <TextBlock Text="{Binding #ZoomBorder.ZoomY}"></TextBlock>
+    </Panel>
+</UserControl>

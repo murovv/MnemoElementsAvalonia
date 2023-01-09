@@ -28,6 +28,13 @@
         <entry key="MnemoschemeEditor/Styles/PropertyGrid/Controls/EnumDropdown.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Styles/PropertyGrid/Controls/SearchTextBox.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Styles/PropertyGrid/Editor/EditorResources.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/DockablePropertyGrid.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/DockablePropertyGridView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/DockableZoomBorder.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/DockableZoomBorderView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/Docs/DockablePropertyGridView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/Docs/DockableZoomBorder.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/Docs/DockableZoomBorderView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/MainView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/MainWindow.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/MnemoscemePanel.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />

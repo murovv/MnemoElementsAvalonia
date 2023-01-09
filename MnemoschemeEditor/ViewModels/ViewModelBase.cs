@@ -3,7 +3,7 @@ using ReactiveUI;
 
 namespace MnemoschemeEditor.ViewModels
 {
-    public class ViewModelBase : Document
+    public class ViewModelBase : ReactiveObject
     {
     }
 }

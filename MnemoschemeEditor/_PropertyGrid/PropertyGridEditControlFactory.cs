@@ -11,12 +11,14 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Layout;
+using DynamicData;
 using ReactiveUI;
 
 namespace MnemoschemeEditor._PropertyGrid
 {
     public class PropertyGridEditControlFactory
     {
+        private List<IDisposable> bindings = new List<IDisposable>();
         public virtual Control? CreateControl(
             ConfigurablePropertyMetadata property, 
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
@@ -51,9 +53,10 @@ namespace MnemoschemeEditor._PropertyGrid
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
         {
             var ctrlCheckBox = new CheckBox();
-            foreach (var prop in property._hostObject)
+            foreach (var prop in property.HostObject)
             {
-                ctrlCheckBox[!ToggleButton.IsCheckedProperty] = new Binding(property._descriptor.Name, BindingMode.TwoWay){Source = prop};
+                var bind = ctrlCheckBox.Bind(ToggleButton.IsCheckedProperty, new Binding(property.Descriptor.Name, BindingMode.TwoWay){Source = prop});
+                bindings.Add(bind);
             }
             
             ctrlCheckBox.HorizontalAlignment = HorizontalAlignment.Left;
@@ -67,9 +70,10 @@ namespace MnemoschemeEditor._PropertyGrid
         {
             var ctrlTextBox = new TextBox();
             var t = property.GetValue();
-            foreach (var prop in property._hostObject)
+            foreach (var prop in property.HostObject)
             {
-                ctrlTextBox[!TextBox.TextProperty] = new Binding(property._descriptor.Name, BindingMode.TwoWay) { Source = prop };
+                var bind = ctrlTextBox.Bind(TextBox.TextProperty, new Binding(property.Descriptor.Name, BindingMode.TwoWay) { Source = prop });
+                bindings.Add(bind);
             }
 
             ctrlTextBox.Width = double.NaN;
@@ -97,12 +101,21 @@ namespace MnemoschemeEditor._PropertyGrid
             ctrlComboBox.Items = property.GetEnumMembers();
             foreach (var prop in property.GetValue())
             {
-                ctrlComboBox.Bind(SelectingItemsControl.SelectedItemProperty, prop.Bind());
+                var bind = ctrlComboBox.Bind(SelectingItemsControl.SelectedItemProperty, new Binding(property.Descriptor.Name, BindingMode.TwoWay) { Source = prop });
+                bindings.Add(bind);
             }
 
             ctrlComboBox.Width = double.NaN;
             ctrlComboBox.IsEnabled = !property.IsReadOnly;
             return ctrlComboBox;
+        }
+
+        public void Reset()
+        {
+            foreach (var binding in bindings)
+            {
+                binding.Dispose();
+            }
         }
     }
 }

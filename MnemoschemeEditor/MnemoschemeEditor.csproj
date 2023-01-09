@@ -10,6 +10,7 @@
     <ItemGroup>
         <Folder Include="Models\" />
         <AvaloniaResource Include="Assets\**" />
+        <Folder Include="Views\Docs" />
         <None Remove=".gitignore" />
         <None Remove="ObjectEditor\**" />
         <None Remove="Styles\**" />
@@ -30,6 +31,7 @@
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview4" />
         <PackageReference Include="Dock.Avalonia" Version="11.0.0-preview4" />
         <PackageReference Include="Dock.Model.Mvvm" Version="11.0.0-preview4" />
+        <PackageReference Include="Dock.Model.ReactiveUI" Version="11.0.0-preview4" />
         <PackageReference Include="FirLib.Core.Avalonia" Version="0.1.0" />
         <PackageReference Include="ReactiveHistory" Version="0.10.7" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
@@ -46,6 +48,18 @@
       <Compile Remove="ObjectEditor\**" />
       <Compile Remove="Styles\**" />
       <Compile Remove="PropertyGrid\**" />
+      <Compile Update="Views\DockablePropertyGridView.axaml.cs">
+        <DependentUpon>DockablePropertyGridView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\DockableZoomBorderView.axaml.cs">
+        <DependentUpon>DockableZoomBorderView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\DockableZoomBorderView.axaml.cs">
+        <DependentUpon>DockableZoomBorderView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Remove="ObjectEditor\**" />
@@ -66,5 +80,11 @@
       <Reference Include="Avalonia.ExtendedToolkit">
         <HintPath>..\..\..\.nuget\packages\mameolan.avalonia.extendedtoolkit\1.0.0-ci-20220410-063959\lib\netcoreapp3.1\Avalonia.ExtendedToolkit.dll</HintPath>
       </Reference>
+      <Reference Include="IProjectModel">
+        <HintPath>..\..\IProjectModel\bin\Debug\netstandard2.0\IProjectModel.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="Views\DockableZoomBorderView.axaml" />
     </ItemGroup>
 </Project>

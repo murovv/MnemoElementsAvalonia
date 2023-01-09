@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -7,15 +9,16 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using DynamicData.Binding;
+using ReactiveUI;
 
 namespace MnemoschemeEditor._PropertyGrid
 {
     public partial class PropertyGrid : UserControl
     {
-        public static readonly StyledProperty<List<Control>> SelectedObjectsProperty =
-        AvaloniaProperty.Register<PropertyGrid, List<Control>>(
-        nameof(SelectedObjects), new List<Control>(), 
-        notifying: OnSelectedObjectChanged);
+        public static readonly DirectProperty<PropertyGrid, ObservableCollection<Control>> SelectedObjectsProperty =
+        AvaloniaProperty.RegisterDirect<PropertyGrid, ObservableCollection<Control>>(
+        nameof(SelectedObjects), o=>o.SelectedObjects);
 
         public static readonly StyledProperty<PropertyGridEditControlFactory?> EditControlFactoryProperty =
             AvaloniaProperty.Register<PropertyGrid, PropertyGridEditControlFactory?>(
@@ -30,10 +33,12 @@ namespace MnemoschemeEditor._PropertyGrid
         private Grid _gridMain;
         private Control? _firstValueRowEditor;
 
-        public List<Control> SelectedObjects
+        private ObservableCollection<Control> _selectedObjects = new();
+
+        public ObservableCollection<Control> SelectedObjects
         {
-            get => this.GetValue(SelectedObjectsProperty); 
-            set => this.SetValue(SelectedObjectsProperty, value);
+            get { return _selectedObjects;}
+            private set => SetAndRaise(SelectedObjectsProperty, ref _selectedObjects, value);
         }
 
         public PropertyGridEditControlFactory? EditControlFactory
@@ -51,7 +56,7 @@ namespace MnemoschemeEditor._PropertyGrid
                 _propertyGridVM.SetPropertyContractResolver(value);
             }
         }
-
+        
         public PropertyGrid()
         {
             AvaloniaXamlLoader.Load(this);
@@ -60,6 +65,13 @@ namespace MnemoschemeEditor._PropertyGrid
 
             _propertyGridVM = new PropertyGridViewModel();
             _gridMain.DataContext = _propertyGridVM;
+            SelectedObjects.WhenAnyValue(x => x.Count).Subscribe(OnNext);
+        }
+
+        private void OnNext(int obj)
+        {
+            _propertyGridVM.SelectedObjects = new List<Control>(SelectedObjects);
+            UpdatePropertiesView();
         }
 
         public void FocusFirstValueRowEditor()
@@ -72,7 +84,7 @@ namespace MnemoschemeEditor._PropertyGrid
             if (beforeChanging) { return; }
             if (!(sender is PropertyGrid propGrid)) { return; }
 
-            propGrid._propertyGridVM.SelectedObjects = propGrid.SelectedObjects;
+            propGrid._propertyGridVM.SelectedObjects = new List<Control>(propGrid.SelectedObjects);
             propGrid.UpdatePropertiesView();
         }
         
@@ -89,6 +101,10 @@ namespace MnemoschemeEditor._PropertyGrid
             var actCategory = string.Empty;
             var editControlFactory = this.EditControlFactory;
             if (editControlFactory == null){ editControlFactory = new PropertyGridEditControlFactory(); }
+            else
+            {
+                editControlFactory.Reset();
+            }
 
             foreach (var actProperty in _propertyGridVM.PropertyMetadata)
             {

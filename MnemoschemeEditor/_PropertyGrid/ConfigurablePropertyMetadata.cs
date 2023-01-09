@@ -12,9 +12,9 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
-        public IEnumerable<Control> _hostObject;
+        public IEnumerable<Control> HostObject;
         private IPropertyContractResolver? _propertyContractResolver;
-        public PropertyDescriptor _descriptor;
+        public PropertyDescriptor Descriptor;
 
         public ObservableCollection<object?> ValueAccessor
         {
@@ -58,12 +58,12 @@ namespace MnemoschemeEditor._PropertyGrid
             set;
         }
 
-        public Type HostObjectType => _hostObject.GetType();
+        public Type HostObjectType => HostObject.GetType();
         
         internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, List<Control> hostObject, IPropertyContractResolver? propertyContractResolver)
         {
-            _descriptor = propertyInfo;
-            _hostObject = hostObject;
+            Descriptor = propertyInfo;
+            HostObject = hostObject;
             _propertyContractResolver = propertyContractResolver;
             ValueAccessor.CollectionChanged+= ValueAccessorOnCollectionChanged;
             var categoryAttrib = this.GetCustomAttribute<CategoryAttribute>();
@@ -82,7 +82,7 @@ namespace MnemoschemeEditor._PropertyGrid
 
             this.Description = propertyInfo.Description ?? string.Empty;
 
-            var propertyType = _descriptor.PropertyType;
+            var propertyType = Descriptor.PropertyType;
 
             if (propertyType == typeof(bool))
             {
@@ -126,18 +126,18 @@ namespace MnemoschemeEditor._PropertyGrid
         public Array GetEnumMembers()
         {
             if (this.ValueType != PropertyValueType.Enum) { throw new InvalidOperationException($"Method {nameof(this.GetEnumMembers)} not supported on value type {this.ValueType}!"); }
-            return Enum.GetValues(_descriptor.PropertyType);
+            return Enum.GetValues(Descriptor.PropertyType);
         }
 
         public IEnumerable<AvaloniaProperty> GetValue()
         {
-            foreach (var hostObject in _hostObject)
+            foreach (var hostObject in HostObject)
             {
                 while (!hostObject.IsInitialized)
                 {
                     
                 }
-                yield return AvaloniaPropertyRegistry.Instance.FindRegistered(hostObject, _descriptor.Name);
+                yield return AvaloniaPropertyRegistry.Instance.FindRegistered(hostObject, Descriptor.Name);
             }
             yield break;
         }
@@ -145,13 +145,13 @@ namespace MnemoschemeEditor._PropertyGrid
         public T? GetCustomAttribute<T>()
             where T : Attribute
         {
-            var resultFromDataAnnotator = _propertyContractResolver?.GetDataAnnotation<T>(_descriptor.ComponentType, _descriptor.Name);
+            var resultFromDataAnnotator = _propertyContractResolver?.GetDataAnnotation<T>(Descriptor.ComponentType, Descriptor.Name);
             if (resultFromDataAnnotator != null)
             {
                 return resultFromDataAnnotator;
             }
 
-            foreach (var actAttribute in _descriptor.Attributes)
+            foreach (var actAttribute in Descriptor.Attributes)
             {
                 if (actAttribute is T foundAttribute)
                 {
@@ -165,10 +165,10 @@ namespace MnemoschemeEditor._PropertyGrid
         private void ValidateCurrentValue()
         {
             var errorsFound = false;
-            var ctx = new ValidationContext(_hostObject);
+            var ctx = new ValidationContext(HostObject);
             ctx.DisplayName = this.PropertyDisplayName;
             ctx.MemberName = this.PropertyName;
-            foreach (var actAttrib in _descriptor.Attributes)
+            foreach (var actAttrib in Descriptor.Attributes)
             {
                 if(!(actAttrib is ValidationAttribute actValidAttrib)){ continue; }
 

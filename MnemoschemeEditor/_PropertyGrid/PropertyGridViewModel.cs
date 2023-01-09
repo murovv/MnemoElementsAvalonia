@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace MnemoschemeEditor._PropertyGrid
                 }
             }
         }
+        
 
         public List<ConfigurablePropertyMetadata> PropertyMetadata
         {
@@ -53,6 +55,27 @@ namespace MnemoschemeEditor._PropertyGrid
         {
             _propertyContractResolver = dataAnnotator;
         }
+        public static Type GetCommonBaseClass (List<Type> types)
+        {
+            if (types.Count == 0)
+                return typeof(object);
+
+            Type ret = types[0];
+
+            for (int i = 1; i < types.Count; ++i)
+            {
+                if (types[i].IsAssignableFrom(ret))
+                    ret = types[i];
+                else
+                {
+                    // This will always terminate when ret == typeof(object)
+                    while (!ret.IsAssignableFrom(types[i]))
+                        ret = ret.BaseType;
+                }
+            }
+
+            return ret;
+        }
 
         private void UpdatePropertyCollection()
         {
@@ -66,9 +89,9 @@ namespace MnemoschemeEditor._PropertyGrid
             }
 
             // Get properties for PropertyGrid
-            PropertyDescriptorCollection properties;
-            properties = TypeDescriptor.GetProperties(selectedObjects[0]);
-            var avaloniaProperties = AvaloniaPropertyRegistry.Instance.GetRegistered(selectedObjects[0]).Where(x=>!x.IsAttached && !x.IsDirect);
+            var closestCommonType = GetCommonBaseClass(selectedObjects.Select(x=>x.GetType()).ToList());
+            var properties = TypeDescriptor.GetProperties(closestCommonType);
+            var avaloniaProperties = AvaloniaPropertyRegistry.Instance.GetRegistered(closestCommonType).Where(x=>!x.IsAttached && !x.IsDirect);
 
             // Create a viewmodel for each property
             foreach (var actProperty in avaloniaProperties)
