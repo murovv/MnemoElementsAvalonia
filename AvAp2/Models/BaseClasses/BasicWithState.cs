@@ -19,10 +19,16 @@ namespace AvAp2.Models.BaseClasses
         }
         public BasicWithState() : base()
         {
-            DrawingQuality = new RenderCaller(DrawQuality);
+            DrawingQuality = new RenderCaller(DrawQuality)
+            {
+                ClipToBounds = false
+            };
             if (Content is null)
             {
-                Content = new Canvas();
+                Content = new Canvas()
+                {
+                    ClipToBounds = false
+                };
             }
             (Content as Canvas).Children.Add(DrawingQuality);
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;

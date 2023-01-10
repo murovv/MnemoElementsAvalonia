@@ -156,7 +156,7 @@ namespace AvAp2.Models.BaseClasses
         public Rect TextBounds
         {
             get => GetValue(TextBoundsProperty);
-            set=>SetValue(TextBoundsProperty, value);
+            set => SetValue(TextBoundsProperty, value);
             
         }
         static BasicWithTextName()
@@ -193,7 +193,10 @@ namespace AvAp2.Models.BaseClasses
             PenWhite1.ToImmutable();
             if (this.Content is null)
             {
-                Content = new Canvas();
+                Content = new Canvas()
+                {
+                    ClipToBounds = false
+                };
             }
             (this.Content as Canvas).Children.Add(DrawingVisualText);
             DrawingVisualText.Loaded+= DrawingVisualTextOnLoaded;
@@ -225,7 +228,11 @@ namespace AvAp2.Models.BaseClasses
             if (Math.Abs(drawingText.Bounds.X - control.MarginTextName.Left) > 10e-6 ||
                 Math.Abs(drawingText.Bounds.Y - control.MarginTextName.Top) > 10e-6)
             {
+                Canvas.SetTop(drawingText,control.MarginTextName.Top);
+                Canvas.SetLeft(drawingText, control.MarginTextName.Left);
+                /*
                 drawingText.Margin = new Thickness(control.MarginTextName.Left, control.MarginTextName.Top);
+            */
             }
                 
         }

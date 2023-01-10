@@ -638,10 +638,19 @@ namespace AvAp2.Models.BaseClasses
         }
         public BasicCommutationDevice() : base()
         {   
-            DrawingBlock = new RenderCaller(DrawBlock);
-            DrawingBanners = new RenderCaller(DrawBanners);
-            DrawingControlMode = new RenderCaller(DrawControlMode);
-            DrawingDeblock = new RenderCaller(DrawDeblock);
+            DrawingBlock = new RenderCaller(DrawBlock)
+            {
+                ClipToBounds = false
+            };
+            DrawingBanners = new RenderCaller(DrawBanners){
+                ClipToBounds = false
+            };
+            DrawingControlMode = new RenderCaller(DrawControlMode){
+                ClipToBounds = false
+            };
+            DrawingDeblock = new RenderCaller(DrawDeblock){
+                ClipToBounds = false
+            };
             
 
             BrushControlModeTextColor = new SolidColorBrush(ControlModeTextColor);
@@ -669,10 +678,12 @@ namespace AvAp2.Models.BaseClasses
             PenDeblock.ToImmutable();
             PenNormalState = new Pen(Brushes.Yellow, 1);
             PenNormalState.ToImmutable();
-            
+            ClipToBounds = false;
             if (this.Content is null)
             {
-                this.Content = new Canvas();
+                this.Content = new Canvas(){
+                    ClipToBounds = false
+                };
             }
             (this.Content as Canvas).Children.AddRange(new Control[]
                 { DrawingBanners, DrawingBlock, DrawingDeblock, DrawingControlMode});

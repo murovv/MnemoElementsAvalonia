@@ -1,5 +1,6 @@
 ﻿   using System;
-using Avalonia.Controls;
+   using System.Collections.Generic;
+   using Avalonia.Controls;
 using AvAp2.Converters;
 using AvAp2.Models.BaseClasses;
 using Dock.Model.Core;
@@ -42,6 +43,8 @@ namespace MnemoschemeEditor.ViewModels
             get=>selectedVoltage;
             set=> this.RaiseAndSetIfChanged(ref selectedVoltage, value);
         }
-        
+
+        public List<BasicMnemoElement> SelectedMnemoElements { get; set; } = new List<BasicMnemoElement>();
+
     }
 }

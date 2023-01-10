@@ -118,9 +118,12 @@ namespace AvAp2.Models.BaseClasses
             //BrushHand.Freeze();
             PenHand = new Pen(Brushes.DarkGreen, 1);
             PenHand.ToImmutable();
+            ClipToBounds = false;
             if (this.Content is null)
             {
-                this.Content = new Canvas();
+                this.Content = new Canvas(){
+                    ClipToBounds = false
+                };
             }
             (this.Content as Canvas).Children.AddRange(new Control[]{DrawingMouseOver, DrawingIsSelected});
             this.Loaded+= OnLoaded;
@@ -146,7 +149,7 @@ namespace AvAp2.Models.BaseClasses
 
         private static void OnControlIsSelectedChanged(AvaloniaPropertyChangedEventArgs<bool> obj)
         {
-            (obj.Sender as BasicMnemoElement).ControlISSelected = obj.NewValue.Value;
+            //(obj.Sender as BasicMnemoElement).ControlISSelected = obj.NewValue.Value;
             (obj.Sender as BasicMnemoElement).DrawingIsSelected.InvalidateVisual();
         }
 
