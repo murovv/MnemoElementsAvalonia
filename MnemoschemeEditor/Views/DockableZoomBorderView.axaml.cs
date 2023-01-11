@@ -1,11 +1,13 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Shapes;
 using Avalonia.ExtendedToolkit.Extensions;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using AvAp2.Models.BaseClasses;
 using DynamicData;
@@ -22,19 +24,6 @@ public partial class DockableZoomBorderView : UserControl
     {
         InitializeComponent();
         var canvas = this.Find<Canvas>("Canvas1");
-        for (int i = 0; i < canvas.Width; i+=30)
-        {
-            for (int j = 0; j < canvas.Height; j+=30)
-            {
-                Ellipse ellipse = new Ellipse();
-                ellipse.Height = 3;
-                ellipse.Width = 3;
-                ellipse.Fill = Brushes.White;
-                canvas.Children.Add(ellipse);
-                Canvas.SetLeft(ellipse, j);
-                Canvas.SetTop(ellipse, i);
-            }
-        }
         canvas.PointerPressed+= CanvasOnPointerPressed;
     }
 
@@ -46,6 +35,7 @@ public partial class DockableZoomBorderView : UserControl
 
     protected override void OnPointerMoved(PointerEventArgs e)
     {
+        bool changed = false;
         Canvas canvas = null;
         if (ModifyPressed)
         {
@@ -57,12 +47,18 @@ public partial class DockableZoomBorderView : UserControl
                 var dy = e.GetPosition(mnemoElement.FindAncestorOfType<Canvas>()).Y - ModifyStartPoint.Y;
                 var x = Canvas.GetLeft(mnemoElement.Parent as AvaloniaObject) + dx;
                 var y = Canvas.GetTop(mnemoElement.Parent as AvaloniaObject) + dy;
-                Canvas.SetTop(mnemoElement.Parent as AvaloniaObject, y);
-                Canvas.SetLeft(mnemoElement.Parent as AvaloniaObject, x);
+                if (x - x % 30 != Canvas.GetLeft(mnemoElement.Parent as AvaloniaObject) ||
+                    y - y % 30 != Canvas.GetTop(mnemoElement.Parent as AvaloniaObject))
+                {
+                    Canvas.SetLeft(mnemoElement.Parent as AvaloniaObject, x-x%30);
+                    Canvas.SetTop(mnemoElement.Parent as AvaloniaObject, y-y%30);
+                    changed = true;
+                }
             }
+            
         }
-
-        ModifyStartPoint = e.GetPosition(canvas);
+        if (changed)
+            ModifyStartPoint = e.GetPosition(canvas);
         base.OnPointerMoved( e);
     }
 
@@ -83,10 +79,17 @@ public partial class DockableZoomBorderView : UserControl
             Height = 30,
         };
         panel.PointerPressed+= PanelOnPointerPressed;
-        BasicEquipment control = Activator.CreateInstance(selectedItem) as BasicEquipment;
-        panel.Children.Add(control);
-        control.VoltageEnum = voltage;
-        canvas.Children.Add(panel);
+        if (Activator.CreateInstance(selectedItem) is BasicEquipment equipment)
+        {
+            panel.Children.Add(equipment);
+            equipment.VoltageEnum = voltage;
+            canvas.Children.Add(panel);
+        }else if (Activator.CreateInstance(selectedItem) is BasicMnemoElement control)
+        {
+            panel.Children.Add(control);
+            canvas.Children.Add(panel);
+        }
+
         Canvas.SetTop(panel, e.GetPosition(canvas).Y - e.GetPosition(canvas).Y%30);
         Canvas.SetLeft(panel, e.GetPosition(canvas).X - e.GetPosition(canvas).X%30);
     }
@@ -103,8 +106,8 @@ public partial class DockableZoomBorderView : UserControl
             ((MainWindowViewModel)window.DataContext).SelectedMnemoElements.Add(mnemoElement);
         }else if (mnemoElement.ControlISSelected && e.KeyModifiers == KeyModifiers.Control)
         {
-            mnemoElement.ControlISSelected = false;
             ((MainWindowViewModel)window.DataContext).SelectedMnemoElements.Remove(mnemoElement);
+            mnemoElement.ControlISSelected = false;
         }
         e.Handled = true;
     }

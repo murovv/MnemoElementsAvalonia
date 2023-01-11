@@ -16,9 +16,9 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public partial class PropertyGrid : UserControl
     {
-        public static readonly DirectProperty<PropertyGrid, ObservableCollection<Control>> SelectedObjectsProperty =
-        AvaloniaProperty.RegisterDirect<PropertyGrid, ObservableCollection<Control>>(
-        nameof(SelectedObjects), o=>o.SelectedObjects);
+        public static StyledProperty<ObservableCollection<Control>> SelectedObjectsProperty =
+        AvaloniaProperty.Register<PropertyGrid, ObservableCollection<Control>>(
+        nameof(SelectedObjects), new ObservableCollection<Control>());
 
         public static readonly StyledProperty<PropertyGridEditControlFactory?> EditControlFactoryProperty =
             AvaloniaProperty.Register<PropertyGrid, PropertyGridEditControlFactory?>(
@@ -32,13 +32,16 @@ namespace MnemoschemeEditor._PropertyGrid
         private PropertyGridViewModel _propertyGridVM;
         private Grid _gridMain;
         private Control? _firstValueRowEditor;
-
-        private ObservableCollection<Control> _selectedObjects = new();
+        
 
         public ObservableCollection<Control> SelectedObjects
         {
-            get { return _selectedObjects;}
-            private set => SetAndRaise(SelectedObjectsProperty, ref _selectedObjects, value);
+            get=>GetValue(SelectedObjectsProperty);
+            set
+            {
+                value.WhenAnyValue(x => x.Count).Subscribe(OnNext);
+                SetValue(SelectedObjectsProperty, value);
+            }
         }
 
         public PropertyGridEditControlFactory? EditControlFactory

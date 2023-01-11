@@ -1,5 +1,6 @@
 ﻿   using System;
    using System.Collections.Generic;
+   using System.Collections.ObjectModel;
    using Avalonia.Controls;
 using AvAp2.Converters;
 using AvAp2.Models.BaseClasses;
@@ -34,7 +35,9 @@ namespace MnemoschemeEditor.ViewModels
         }
 
         private Type selectedItem;
-        public Type SelectedMnemoElement { get=>selectedItem; set=> this.RaiseAndSetIfChanged(ref selectedItem, value); }
+        public Type SelectedMnemoElement { get=>selectedItem;
+            set => selectedItem = value;
+        }
 
         private VoltageClasses selectedVoltage;
 
@@ -44,7 +47,7 @@ namespace MnemoschemeEditor.ViewModels
             set=> this.RaiseAndSetIfChanged(ref selectedVoltage, value);
         }
 
-        public List<BasicMnemoElement> SelectedMnemoElements { get; set; } = new List<BasicMnemoElement>();
+        public ObservableCollection<Control> SelectedMnemoElements { get; set; } = new ObservableCollection<Control>();
 
     }
 }

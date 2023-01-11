@@ -5,5 +5,5 @@
              xmlns:propertyGrid="clr-namespace:MnemoschemeEditor._PropertyGrid"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MnemoschemeEditor.Views.DockablePropertyGridView">
-    <propertyGrid:PropertyGrid></propertyGrid:PropertyGrid>
+    <propertyGrid:PropertyGrid Name="propertyGrid"></propertyGrid:PropertyGrid>
 </UserControl>

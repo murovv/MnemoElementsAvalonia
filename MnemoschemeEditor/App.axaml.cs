@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Dock.Model.Core;
@@ -10,6 +11,7 @@ namespace MnemoschemeEditor
 {
     public partial class App : Application
     {
+        public Window MainWindow { get; set; }
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);

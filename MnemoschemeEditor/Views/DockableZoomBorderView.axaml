@@ -4,12 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MnemoschemeEditor.Views.DockableZoomBorderView">
+    <UserControl.Resources>
+        <ImageBrush x:Key="Dotted" DestinationRect="0 0 29 29" TileMode="Tile">
+            <ImageBrush.Source>/Assets/plate.png</ImageBrush.Source>
+            
+        </ImageBrush>
+    </UserControl.Resources>
+    
     <Panel>
         <ScrollViewer
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
         <ZoomBorder Name="ZoomBorder" Stretch="None">
-            <Canvas Name="Canvas1" Width="5000" Height="5000" Background="Gray">
+            <Canvas Name="Canvas1" Width="5000" Height="5000" Background="{DynamicResource Dotted}">
                 
             </Canvas>
         </ZoomBorder>
