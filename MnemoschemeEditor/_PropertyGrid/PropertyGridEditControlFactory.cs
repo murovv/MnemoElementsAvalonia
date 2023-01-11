@@ -10,6 +10,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Layout;
 using DynamicData;
 using ReactiveUI;
@@ -53,12 +54,35 @@ namespace MnemoschemeEditor._PropertyGrid
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
         {
             var ctrlCheckBox = new CheckBox();
-            foreach (var prop in property.HostObject)
+            var vals = property.HostObject.Select(x => (bool)property.Descriptor.GetValue(x)).ToList();
+            bool allEqual = vals.All(x=>x.Equals(vals[0]));
+            if (allEqual)
             {
-                var bind = ctrlCheckBox.Bind(ToggleButton.IsCheckedProperty, new Binding(property.Descriptor.Name, BindingMode.TwoWay){Source = prop});
-                bindings.Add(bind);
+                ctrlCheckBox.IsChecked = vals[0];
+                foreach (var prop in property.HostObject)
+                {
+                    var bind = ctrlCheckBox.Bind(ToggleButton.IsCheckedProperty,
+                        new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                    bindings.Add(bind);
+                }
             }
-            
+            else
+            {
+                ctrlCheckBox.IsChecked = null;
+                EventHandler<RoutedEventArgs> handler = null;
+                handler = (sender, args) =>
+                {
+                    foreach (var prop in property.HostObject)
+                    {
+                        var bind = ctrlCheckBox.Bind(CheckBox.IsCheckedProperty,
+                            new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                        bindings.Add(bind);
+                    }
+                    ctrlCheckBox.Checked -= handler;
+                };
+                ctrlCheckBox.Checked += handler; 
+            }
+
             ctrlCheckBox.HorizontalAlignment = HorizontalAlignment.Left;
             ctrlCheckBox.IsEnabled = !property.IsReadOnly;
             return ctrlCheckBox;
@@ -69,27 +93,36 @@ namespace MnemoschemeEditor._PropertyGrid
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
         {
             var ctrlTextBox = new TextBox();
-            var t = property.GetValue();
-            foreach (var prop in property.HostObject)
+            var vals = property.HostObject.Select(x => property.Descriptor.GetValue(x)).ToList();
+            bool allEqual = vals.All(x=>x==vals[0]);
+            if (allEqual)
             {
-                var bind = ctrlTextBox.Bind(TextBox.TextProperty, new Binding(property.Descriptor.Name, BindingMode.TwoWay) { Source = prop });
-                bindings.Add(bind);
+                ctrlTextBox.Text = vals[0]?.ToString() ?? "";
+                foreach (var prop in property.HostObject)
+                {
+                    var bind = ctrlTextBox.Bind(TextBox.TextProperty,
+                        new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                    bindings.Add(bind);
+                }
+            }
+            else
+            {
+                EventHandler<TextChangedEventArgs> handler = null;
+                handler = (sender, args) =>
+                {
+                    foreach (var prop in property.HostObject)
+                    {
+                        var bind = ctrlTextBox.Bind(TextBox.TextProperty,
+                            new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                        bindings.Add(bind);
+                    }
+                    ctrlTextBox.TextChanged -= handler;
+                };
+                ctrlTextBox.TextChanged += handler;
             }
 
             ctrlTextBox.Width = double.NaN;
             ctrlTextBox.IsReadOnly = property.IsReadOnly;
-
-            /*if (null != property.GetCustomAttribute<LinkAttribute>())
-            {
-                ctrlTextBox.Classes.Add("Link");
-                ctrlTextBox.IsReadOnly = true;
-                ctrlTextBox.Cursor = new Cursor(StandardCursorType.Hand);
-                ctrlTextBox.PointerReleased += (sender, args) =>
-                {
-                    CommonUtil.OpenUrlInBrowser(ctrlTextBox.Text);
-                };
-            }*/
-
             return ctrlTextBox;
         }
 
@@ -99,10 +132,34 @@ namespace MnemoschemeEditor._PropertyGrid
         {
             var ctrlComboBox = new ComboBox();
             ctrlComboBox.Items = property.GetEnumMembers();
-            foreach (var prop in property.GetValue())
+            var vals = property.HostObject.Select(x => (Enum)property.Descriptor.GetValue(x)).ToList();
+            bool allEqual = vals.All(x=>x.Equals(vals[0]));
+            if (allEqual)
             {
-                var bind = ctrlComboBox.Bind(SelectingItemsControl.SelectedItemProperty, new Binding(property.Descriptor.Name, BindingMode.TwoWay) { Source = prop });
-                bindings.Add(bind);
+                ctrlComboBox.SelectedItem = vals[0];
+                foreach (var prop in property.HostObject)
+                {
+                    var bind = ctrlComboBox.Bind(ComboBox.SelectedItemProperty,
+                        new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+
+                    bindings.Add(bind);
+                }
+            }
+            else
+            {
+                
+                EventHandler<SelectionChangedEventArgs> handler = null;
+                handler = (sender, args) =>
+                {
+                    foreach (var prop in property.HostObject)
+                    {
+                        var bind = ctrlComboBox.Bind(ComboBox.SelectedItemProperty,
+                            new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                        bindings.Add(bind);
+                    }
+                    ctrlComboBox.SelectionChanged -= handler;
+                };
+                ctrlComboBox.SelectionChanged += handler;
             }
 
             ctrlComboBox.Width = double.NaN;

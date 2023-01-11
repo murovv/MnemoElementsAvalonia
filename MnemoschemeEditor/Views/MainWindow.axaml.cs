@@ -111,5 +111,12 @@ namespace MnemoschemeEditor.Views
             this.Find<ComboBox>("TransformerSelector").SelectedItem = null;
             (DataContext as MainWindowViewModel).SelectedMnemoElement = typeof(CText);
         }
+
+        private void CLineButton_OnClick(object? sender, RoutedEventArgs e)
+        {
+            this.Find<ComboBox>("MnemoElementSelector").SelectedItem = null;
+            this.Find<ComboBox>("TransformerSelector").SelectedItem = null;
+            (DataContext as MainWindowViewModel).SelectedMnemoElement = typeof(CLine);
+        }
     }
 }

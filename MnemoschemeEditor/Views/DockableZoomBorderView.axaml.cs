@@ -10,6 +10,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using AvAp2.Models.BaseClasses;
+using AvAp2.Models.Controls;
 using DynamicData;
 using MnemoschemeEditor.ViewModels;
 
@@ -81,14 +82,20 @@ public partial class DockableZoomBorderView : UserControl
         panel.PointerPressed+= PanelOnPointerPressed;
         if (Activator.CreateInstance(selectedItem) is BasicEquipment equipment)
         {
+            if (equipment is CLine cLine)
+            {
+                cLine.ControlISSelected = true;
+            }
             panel.Children.Add(equipment);
             equipment.VoltageEnum = voltage;
             canvas.Children.Add(panel);
         }else if (Activator.CreateInstance(selectedItem) is BasicMnemoElement control)
         {
+            
             panel.Children.Add(control);
             canvas.Children.Add(panel);
         }
+        
 
         Canvas.SetTop(panel, e.GetPosition(canvas).Y - e.GetPosition(canvas).Y%30);
         Canvas.SetLeft(panel, e.GetPosition(canvas).X - e.GetPosition(canvas).X%30);

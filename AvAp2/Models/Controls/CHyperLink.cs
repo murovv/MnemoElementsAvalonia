@@ -83,7 +83,7 @@ namespace AvAp2.Models.Controls
             get => GetValue(ImageSourceProperty);
             set => SetValue(ImageSourceProperty, value);
         }
-        public static StyledProperty<Bitmap> ImageSourceProperty = AvaloniaProperty.Register<CHyperLink, Bitmap>("ImageSource", new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri($@"avares://{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}/Assets/HyperLink.png"))));
+        public static StyledProperty<Bitmap> ImageSourceProperty = AvaloniaProperty.Register<CHyperLink, Bitmap>(nameof(ImageSource), new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri($@"avares://{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}/Assets/HyperLink.png"))));
 
         static CHyperLink()
         {

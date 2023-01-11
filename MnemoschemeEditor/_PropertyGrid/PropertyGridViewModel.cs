@@ -97,7 +97,7 @@ namespace MnemoschemeEditor._PropertyGrid
             foreach (var actProperty in avaloniaProperties)
             {
                 if (actProperty == null){ continue; }
-                if (!properties.Find(actProperty.Name, true).IsBrowsable){ continue; }
+                if (properties.Find(actProperty.Name, true)==null || !properties.Find(actProperty.Name, true).IsBrowsable){ continue; }
 
                 var propMetadata = new ConfigurablePropertyMetadata(properties.Find(actProperty.Name, true), selectedObjects, _propertyContractResolver);
                 if(propMetadata.ValueType == PropertyValueType.Unsupported){ continue; }

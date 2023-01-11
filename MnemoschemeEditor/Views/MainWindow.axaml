@@ -38,6 +38,9 @@
             <Button Name="CTextButton" Click="CTextButton_OnClick">
                 <TextBlock Background="Aqua">Текст</TextBlock>
             </Button>
+            <Button Width="30" Height="30" Name="CLineButton" Click="CLineButton_OnClick">
+                <Line Stroke="Blue" StartPoint="0 15" EndPoint="30 15"></Line>
+            </Button>
             <ComboBox Name="MnemoElementSelector" SelectedItem="{Binding SelectedMnemoElement, Mode=OneWayToSource }">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
