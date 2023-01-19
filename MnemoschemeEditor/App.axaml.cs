@@ -31,7 +31,6 @@ namespace MnemoschemeEditor
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             {
-                
                 var mainWindow = new MainWindow()
                 {
                     DataContext = mainWindowViewModel

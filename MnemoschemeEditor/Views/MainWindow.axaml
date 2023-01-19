@@ -17,6 +17,7 @@
     </Design.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
+            <Button Click="Button_OnClick">Save state</Button>
             <Button Name="PointerButton" Click="PointerButton_OnClick">
                 <TextBlock>Курсор</TextBlock>
             </Button>

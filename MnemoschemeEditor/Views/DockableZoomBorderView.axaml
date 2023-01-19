@@ -2,10 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:MnemoschemeEditor.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MnemoschemeEditor.Views.DockableZoomBorderView">
     <UserControl.Resources>
-        <ImageBrush x:Key="Dotted" DestinationRect="0 0 29 29" TileMode="Tile">
+        <ImageBrush Stretch="Fill" x:Key="Dotted" DestinationRect="0 0 15 15" TileMode="FlipXY">
             <ImageBrush.Source>/Assets/plate.png</ImageBrush.Source>
             
         </ImageBrush>
@@ -16,12 +17,10 @@
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
         <ZoomBorder Name="ZoomBorder" Stretch="None">
-            <Canvas Name="Canvas1" Width="5000" Height="5000" Background="{DynamicResource Dotted}">
+            <Canvas Name="Canvas1" Width="3000" Height="3000" Background="{DynamicResource Dotted}">
                 
             </Canvas>
         </ZoomBorder>
-            </ScrollViewer>
-        <TextBlock Text="{Binding #ZoomBorder.ZoomX}" Height="50"></TextBlock>
-        <TextBlock Text="{Binding #ZoomBorder.ZoomY}"></TextBlock>
+        </ScrollViewer>
     </Panel>
 </UserControl>

@@ -19,7 +19,6 @@ namespace MnemoschemeEditor
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
-                .UseReactiveUI()
-                .UseAvaloniaExtended();
+                .UseReactiveUI();
     }
 }

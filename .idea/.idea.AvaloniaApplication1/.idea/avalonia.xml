@@ -39,6 +39,7 @@
         <entry key="MnemoschemeEditor/Views/MainWindow.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/MnemoscemePanel.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/PropertyGrid.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/VideoSettingsWindow.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/_PropertyGrid/PropertyGrid.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="PanAndZoomTesting/App.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />
         <entry key="PanAndZoomTesting/Styles/BasicCommutationDeviceStyles.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />

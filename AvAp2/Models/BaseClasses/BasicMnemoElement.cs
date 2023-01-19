@@ -26,6 +26,8 @@ namespace AvAp2.Models.BaseClasses
         {
             get => true;
         }
+        
+        
         public bool ControlISSelected
         {
             get => (bool)GetValue(ControlISSelectedProperty);
@@ -33,6 +35,7 @@ namespace AvAp2.Models.BaseClasses
         }
         public static StyledProperty<bool> ControlISSelectedProperty = AvaloniaProperty.Register<BasicMnemoElement,bool>(nameof(ControlISSelected), false);
         
+        [Category("Свойства элемента мнемосхемы"), Description("Реагировать на действия мыши"), PropertyGridFilterAttribute, DisplayName("Активность"), Browsable(true)]
         public bool ControlISHitTestVisible
         {
             get => (bool)GetValue(ControlISHitTestVisibleProperty);
