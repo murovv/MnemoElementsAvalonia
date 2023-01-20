@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text.Json;
 using Avalonia.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -28,14 +26,10 @@ public class IgnorePropertiesResolver : DefaultContractResolver
         {
             property.ShouldSerialize = _ => false;
         }
-
-        /*if (property.PropertyType.GetInterface(nameof(IEnumerable)) != null)
-        {
-            property.ShouldSerialize = _ => false;
-        }*/
         if (property.PropertyName == "Children")
         {
             property.Writable = true;
+            property.ValueProvider = new CollectionProvider(member as PropertyInfo);
         }
         if (!property.Writable)
         {
@@ -45,45 +39,27 @@ public class IgnorePropertiesResolver : DefaultContractResolver
     }
 }
 
-public class DoubleConverter : JsonConverter<double>
+public class CollectionProvider:IValueProvider
 {
-    public override void WriteJson(JsonWriter writer, double value, JsonSerializer serializer)
+    
+    private PropertyInfo _targetProperty;
+    public CollectionProvider(PropertyInfo targetProperty)
     {
-        if (double.IsNaN(value))
+        _targetProperty = targetProperty;
+    }
+    public void SetValue(object target, object? value)
+    {
+        var targetProp = _targetProperty.GetValue(target);
+        if (targetProp is Controls listTarget && value is Controls listValue)
         {
-            writer.WriteValue("NaN");
-        }
-        else if (double.IsNegativeInfinity(value))
-        {
-            writer.WriteValue("NInf");
-        }
-        else if (double.IsPositiveInfinity(value))
-        {
-            writer.WriteValue("PInf");
-        }
-        else
-        {
-            writer.WriteValue(value);
+            listTarget.Clear();
+            listTarget.AddRange(listValue);
         }
     }
-
-    public override double ReadJson(JsonReader reader, Type objectType, double existingValue, bool hasExistingValue,
-        JsonSerializer serializer)
+    public object? GetValue(object target)
     {
-        if (reader.TokenType == JsonToken.String && (string)reader.Value == "NaN")
-        {
-            return double.NaN;
-        }
-        else if (reader.TokenType == JsonToken.String && (string)reader.Value == "NInf")
-        {
-            return double.NegativeInfinity;
-        }
-        else if (reader.TokenType == JsonToken.String && (string)reader.Value == "PInf")
-        {
-            return double.PositiveInfinity;
-        }
-
-        return (double)reader.Value;
+        object value = _targetProperty.GetValue(target);
+        return value;
     }
 }
 
@@ -92,25 +68,21 @@ public class ControlsConverter : JsonConverter<Controls>{
     {
         writer.WriteValue(value);
     }
-
+    
     public override Controls? ReadJson(JsonReader reader, Type objectType, Controls? existingValue, bool hasExistingValue,
         JsonSerializer serializer)
     {
-        
-            
-            JObject obj = JObject.Load(reader);
-            JArray arr = JArray.Parse(obj["$values"].ToString());
-            Controls controls = new Controls();
-            foreach (var jToken in arr)
+        JObject obj = JObject.Load(reader);
+        JArray arr = JArray.Parse(obj["$values"].ToString());
+        Controls controls = new Controls();
+        foreach (var jToken in arr)
+        {
+            using (JsonTextReader textReader = new JsonTextReader(new StringReader(jToken.ToString())))
             {
-                using (JsonTextReader textReader = new JsonTextReader(new StringReader(jToken.ToString())))
-                {
-                    var control = serializer.Deserialize(textReader, Type.GetType(jToken["$type"].ToString()));
-                    controls.Add((IControl)control);
-                }
-
+                var control = serializer.Deserialize(textReader, Type.GetType(jToken["$type"].ToString()));
+                controls.Add((IControl)control);
             }
-
-            return controls;
+        }
+        return controls;
     }
-} 
+}

@@ -183,6 +183,7 @@ public partial class DockableZoomBorderView : UserControl
         {
             var output = new Newtonsoft.Json.JsonSerializer();
             output.Converters.Add(new ControlsConverter());
+            /*output.Converters.Add(new PanelConverter());*/
             output.ContractResolver = new IgnorePropertiesResolver(new[] { "Parent", "Owner", "FocusAdorner", "DataContext", "Classes"});
             output.TypeNameHandling = TypeNameHandling.All;
             var canvas = output.Deserialize<Canvas>(tr);
