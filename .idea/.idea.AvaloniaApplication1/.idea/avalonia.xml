@@ -28,6 +28,8 @@
         <entry key="MnemoschemeEditor/Styles/PropertyGrid/Controls/EnumDropdown.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Styles/PropertyGrid/Controls/SearchTextBox.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Styles/PropertyGrid/Editor/EditorResources.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/DockableMnemoSchemeSelectorView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
+        <entry key="MnemoschemeEditor/Views/DockableMnemoschemeSelector.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/DockablePropertyGrid.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/DockablePropertyGridView.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />
         <entry key="MnemoschemeEditor/Views/DockableZoomBorder.axaml" value="MnemoschemeEditor/MnemoschemeEditor.csproj" />

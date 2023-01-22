@@ -1,8 +1,12 @@
 ﻿   using System;
    using System.Collections.Generic;
    using System.Collections.ObjectModel;
+   using System.Reactive.Linq;
+   using Avalonia;
    using Avalonia.Controls;
-using AvAp2.Converters;
+   using Avalonia.Media;
+   using Avalonia.Media.Imaging;
+   using AvAp2.Converters;
 using AvAp2.Models.BaseClasses;
 using Dock.Model.Core;
 using IProjectModel;
@@ -47,7 +51,23 @@ namespace MnemoschemeEditor.ViewModels
             set=> this.RaiseAndSetIfChanged(ref selectedVoltage, value);
         }
 
+        private Canvas _currentMnemo = new Canvas()
+        {
+            Width = 3000,
+            Height = 3000,
+            Background = new ImageBrush(new Bitmap(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\Assets\plate.png"))
+            {
+                Stretch = Stretch.Fill,
+                DestinationRect = new RelativeRect(0,0,15,15, RelativeUnit.Absolute),
+                TileMode = TileMode.FlipXY
+            }
+        };
         public ObservableCollection<Control> SelectedMnemoElements { get; set; } = new ObservableCollection<Control>();
 
+        public Canvas CurrentMnemo
+        {
+            get => _currentMnemo;
+            set => this.RaiseAndSetIfChanged(ref _currentMnemo, value);
+        }
     }
 }

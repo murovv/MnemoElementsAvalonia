@@ -11,10 +11,10 @@ using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace MnemoschemeEditor.jsons;
 
-public class IgnorePropertiesResolver : DefaultContractResolver
+public class PanelPropertiesResolver : DefaultContractResolver
 {
     private readonly HashSet<string> ignoreProps;
-    public IgnorePropertiesResolver(IEnumerable<string> propNamesToIgnore)
+    public PanelPropertiesResolver(IEnumerable<string> propNamesToIgnore)
     {
         this.ignoreProps = new HashSet<string>(propNamesToIgnore);
     }
@@ -31,6 +31,7 @@ public class IgnorePropertiesResolver : DefaultContractResolver
             property.Writable = true;
             property.ValueProvider = new CollectionProvider(member as PropertyInfo);
         }
+        
         if (!property.Writable)
         {
             property.ShouldSerialize = _ => false;

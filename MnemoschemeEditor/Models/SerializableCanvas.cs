@@ -1,9 +1,19 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Metadata;
+using Newtonsoft.Json;
 
 namespace MnemoschemeEditor.Models;
 
-public class SerializableCanvas:Canvas
+public class SerializableCanvas : Canvas
 {
-    public Controls Children { get; private set; } =  new Controls();
+    [JsonProperty]
+    public Controls SerializeChildren
+    {
+        get => Children;
+        private set
+        {
+            Children.Clear();
+            Children.AddRange(value);
+        }
+    }
 }

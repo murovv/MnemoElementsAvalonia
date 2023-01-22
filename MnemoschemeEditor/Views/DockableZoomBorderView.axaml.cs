@@ -1,52 +1,74 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Text.Json.Serialization;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Platform;
-using Avalonia.Controls.Shapes;
+using Avalonia.Controls.PanAndZoom;
 using Avalonia.ExtendedToolkit.Extensions;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.XamlIl.Runtime;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Remote.Protocol.Designer;
-using Avalonia.Threading;
-using Avalonia.Utilities;
+using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
 using AvAp2.Interfaces;
 using AvAp2.Models.BaseClasses;
 using AvAp2.Models.Controls;
-using DynamicData;
-using FirLib.Core.Patterns;
-using MnemoschemeEditor.jsons;
-using MnemoschemeEditor.Models;
 using MnemoschemeEditor.ViewModels;
-using Newtonsoft.Json;
-using JsonConverter = Newtonsoft.Json.JsonConverter;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using ReactiveUI;
 
 namespace MnemoschemeEditor.Views;
 
-public partial class DockableZoomBorderView : UserControl
+public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBorderViewModel>
 {
     private Point ModifyStartPoint { get; set; }
     private bool ModifyPressed { get; set; }
     
-    public ICommand OpenVideoSettingsWindow { get; }
-    
+    public Interaction<VideoSettingsViewModel, DockableZoomBorderViewModel> ShowVideoSettings { get; }
+    public ICommand ShowVideoSettingsCommand { get; }
     public DockableZoomBorderView()
     {
         InitializeComponent();
-        var canvas = this.Find<Canvas>("Canvas1");
-        canvas.PointerPressed+= CanvasOnPointerPressed;
+        ShowVideoSettings = new Interaction<VideoSettingsViewModel, DockableZoomBorderViewModel>();
+        ShowVideoSettingsCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            var settings = new VideoSettingsViewModel();
+            var result = await ShowVideoSettings.Handle(settings);
+        });
+        this.WhenActivated(d => d(ShowVideoSettings.RegisterHandler((DoShowVideoSettingsAsync))));
+        var mainWindow =
+            (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
+                .MainWindow.DataContext as MainWindowViewModel);
+        var zoomBorder = this.Find<ZoomBorder>("ZoomBorder");
+        zoomBorder.Bind(ZoomBorder.ChildProperty, mainWindow.WhenAnyValue(x => x.CurrentMnemo));
+        mainWindow.WhenAnyValue(x => x.CurrentMnemo).Subscribe(OnNext);
+    }
+
+    private async Task DoShowVideoSettingsAsync(
+        InteractionContext<VideoSettingsViewModel, DockableZoomBorderViewModel> interaction)
+    {
+        var settings = new VideoSettingsWindow();
+        settings.DataContext = interaction.Input;
         
+        var mainWindow =
+            (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
+                .MainWindow as MainWindow);
+        var result = await settings.ShowDialog<DockableZoomBorderViewModel>(mainWindow);
+        interaction.SetOutput(result);
+    }
+
+    private void OnNext(Canvas obj)
+    {
+        var window = (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
+            .MainWindow.DataContext as MainWindowViewModel);
+        if (window!=null) 
+            window.SelectedMnemoElements.Clear();
+        obj.PointerPressed += CanvasOnPointerPressed;
+        obj.Children.ForEach(x =>
+        {
+            ((Panel)x).PointerPressed += PanelOnPointerPressed;
+            ((Panel)x).PointerMoved += PanelOnPointerMoved;
+        });
     }
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
@@ -96,19 +118,15 @@ public partial class DockableZoomBorderView : UserControl
                         Items = new []{new MenuItem()
                         {
                             Header = "Настройки видеонаблюдения",
+                            Command = ShowVideoSettingsCommand,
+
                         }},
-                        
                     };
-                    
-                    
                 }
                 panel.Children.Add(control);
                 canvas.Children.Add(panel);
                 
             }
-
-
-
             Canvas.SetTop(panel, e.GetPosition(canvas).Y - e.GetPosition(canvas).Y % 30);
             Canvas.SetLeft(panel, e.GetPosition(canvas).X - e.GetPosition(canvas).X % 30);
         }
@@ -148,56 +166,24 @@ public partial class DockableZoomBorderView : UserControl
         var window = this.FindAncestorOfType<Window>();
         ModifyStartPoint = e.GetPosition(mnemoElement.FindAncestorOfType<Canvas>());
         ModifyPressed = true;
-        if (!mnemoElement.ControlISSelected && e.KeyModifiers == KeyModifiers.None)
+        if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.LeftButtonPressed)
         {
-            mnemoElement.ControlISSelected = true;
-            ((MainWindowViewModel)window.DataContext).SelectedMnemoElements.Add(mnemoElement);
-        }else if (mnemoElement.ControlISSelected && e.KeyModifiers == KeyModifiers.Control)
+            if (!mnemoElement.ControlISSelected && e.KeyModifiers == KeyModifiers.None)
+            {
+                mnemoElement.ControlISSelected = true;
+                ((MainWindowViewModel)window.DataContext).SelectedMnemoElements.Add(mnemoElement);
+            }
+            else if (mnemoElement.ControlISSelected && e.KeyModifiers == KeyModifiers.Control)
+            {
+                ((MainWindowViewModel)window.DataContext).SelectedMnemoElements.Remove(mnemoElement);
+                mnemoElement.ControlISSelected = false;
+            }
+        }else if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.RightButtonPressed)
         {
-            ((MainWindowViewModel)window.DataContext).SelectedMnemoElements.Remove(mnemoElement);
-            mnemoElement.ControlISSelected = false;
+            (sender as Panel).ContextMenu?.Open();
         }
+
         e.Handled = true;
-        SaveState();
-    }
-
-    public async void SaveState()
-    {
-        var canvas = this.Find<Canvas>("Canvas1"); 
-        ToJSON(canvas);
-    }
-    
-
-    public void ToJSON(object obj)
-    {
-        using (StreamWriter fs = new StreamWriter(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\jsons\canvas.json"))
-        using (JsonTextWriter tr = new JsonTextWriter(fs))
-        {
-            var output = new Newtonsoft.Json.JsonSerializer();
-            output.ContractResolver = new IgnorePropertiesResolver(new[] { "Parent", "Owner", "FocusAdorner", "DataContext", "Classes", "Background", "Resources", "Template"});
-            output.TypeNameHandling = TypeNameHandling.All;
-            output.Serialize(tr, obj);
-        }
-        using (StreamReader fs = new StreamReader(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\jsons\canvas.json"))
-        using (JsonTextReader tr = new JsonTextReader(fs))
-        {
-            var output = new Newtonsoft.Json.JsonSerializer();
-            output.Converters.Add(new ControlsConverter());
-            /*output.Converters.Add(new PanelConverter());*/
-            output.ContractResolver = new IgnorePropertiesResolver(new[] { "Parent", "Owner", "FocusAdorner", "DataContext", "Classes"});
-            output.TypeNameHandling = TypeNameHandling.All;
-            var canvas = output.Deserialize<Canvas>(tr);
-        }
-    }
-
-   
-
-    public async Task LoadState()
-    {
-        using (FileStream fs = new FileStream("canvas.json", FileMode.OpenOrCreate))
-        {
-            Canvas? person = await JsonSerializer.DeserializeAsync<Canvas>(fs);
-        }
     }
 
     private void InitializeComponent()

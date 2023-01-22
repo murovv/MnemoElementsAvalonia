@@ -11,6 +11,7 @@ using Dock.Model.Core;
 using Dock.Model.Mvvm.Controls;
 using Dock.Model.ReactiveUI;
 using MnemoschemeEditor.ViewModels;
+using MnemoschemeEditor.Views;
 using ReactiveUI;
 using Document = Dock.Model.ReactiveUI.Controls.Document;
 using DocumentDock = Dock.Model.ReactiveUI.Controls.DocumentDock;
@@ -23,7 +24,9 @@ public class MainDocFactory : Factory
 {
     private ProportionalDock _documentDock;
     private readonly object _context;
-
+    private ToolDock _mnemoSelector;
+    private ToolDock _canvas;
+    private ToolDock _propertyGrid;
     public MainDocFactory(object context)
     {
         _context = context;
@@ -34,14 +37,37 @@ public class MainDocFactory : Factory
         var document1 = new DockableZoomBorderViewModel()
         {
             Id = "Document1",
-            Title = "Document1"
+            Title = "Document1",
+            CanClose = false,
+            CanFloat = false
         };
         var document2 = new DockablePropertyGridViewModel()
         {
             Id = "Document2",
             Title = "Document2"
         };
+        var document3 = new DockableMnemoSchemeSelectorViewModel()
+        {
+            Id = "Document3",
+            Title = "Document3"
+        };
+        Tool tool = new Tool();
         
+        _mnemoSelector = new ToolDock
+        {
+            ActiveDockable = document3,
+            VisibleDockables = CreateList<IDockable>(document3),
+        };
+        _canvas = new ToolDock
+        {
+            ActiveDockable = document1,
+            VisibleDockables = CreateList<IDockable>(document1)
+        };
+        _propertyGrid = new ToolDock
+        {
+            ActiveDockable = document2,
+            VisibleDockables = CreateList<IDockable>(document2)
+        };
         var mainDock = new ProportionalDock()
         {
             Id = "DocumentsPane",
@@ -49,19 +75,12 @@ public class MainDocFactory : Factory
             Proportion = double.NaN,
             ActiveDockable = null,
             VisibleDockables = CreateList<IDockable>
-            (
-                new ToolDock
-                {
-                    ActiveDockable = document1,
-                    VisibleDockables = CreateList<IDockable>(document1)
-                },
+            (_mnemoSelector,
                 new ProportionalDockSplitter(),
-                new ToolDock
-                {
-                    ActiveDockable = document2,
-                    VisibleDockables = CreateList<IDockable>(document2)
-                }
-            )
+                _canvas,
+                new ProportionalDockSplitter(),
+                _propertyGrid
+                )
         };
         
         
@@ -134,7 +153,12 @@ public class MainDocFactory : Factory
             }
         };
 
-        DockableLocator = new Dictionary<string, Func<IDockable>>();
+        DockableLocator = new Dictionary<string, Func<IDockable>>()
+        {
+            ["Canvas"] = () => _canvas,
+            ["PropertyGrid"] = () => _propertyGrid,
+            ["MnemoSelector"] = () => _mnemoSelector
+        };
 
         base.InitLayout(layout);
 
