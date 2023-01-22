@@ -2,8 +2,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:MnemoschemeEditor.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MnemoschemeEditor.Views.VideoSettingsWindow"
         Title="VideoSettingsWindow">
-    Welcome to Avalonia!
-</Window>
+    <Design.DataContext>
+        <viewModels:VideoSettingsViewModel></viewModels:VideoSettingsViewModel>
+    </Design.DataContext>
+    <StackPanel>
+        <TextBlock>Логин</TextBlock>
+        <TextBox Text="{Binding VideoLogin}"></TextBox>
+        <TextBlock>Пароль</TextBlock>
+        <TextBox Text="{Binding VideoPassword}"></TextBox>
+        <TextBlock>Положение</TextBlock>
+        <TextBox Text="{Binding VideoChannelPTZ}"></TextBox>
+        <Button Command="{Binding SubmitSettingsCommand}">Ок</Button>
+    </StackPanel>
+    </Window>

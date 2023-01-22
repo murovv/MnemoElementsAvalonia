@@ -12,7 +12,10 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
+using Avalonia.Xaml.Interactions.Core;
+using Avalonia.Xaml.Interactivity;
 using DynamicData;
+using MnemoschemeEditor.Models;
 using ReactiveUI;
 
 namespace MnemoschemeEditor._PropertyGrid
@@ -98,12 +101,27 @@ namespace MnemoschemeEditor._PropertyGrid
             if (allEqual)
             {
                 ctrlTextBox.Text = vals[0]?.ToString() ?? "";
+                var behaviour = new LostFocusUpdateBindingBehavior();
+                behaviour.Attach(ctrlTextBox);
+                //TODO
+                ctrlTextBox.KeyDown += (sender, args) =>
+                {
+                    if (args.Key == Key.Enter)
+                    {
+                        FocusManager.Instance?.Focus(null);
+                    } 
+                };
                 foreach (var prop in property.HostObject)
                 {
                     var bind = ctrlTextBox.Bind(TextBox.TextProperty,
-                        new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                        new Binding(property.Descriptor.Name, BindingMode.OneWayToSource)
+                        {
+                            Source = prop,
+                            
+                        });
                     bindings.Add(bind);
                 }
+
             }
             else
             {

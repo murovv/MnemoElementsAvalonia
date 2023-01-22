@@ -24,17 +24,13 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     private Point ModifyStartPoint { get; set; }
     private bool ModifyPressed { get; set; }
     
-    public Interaction<VideoSettingsViewModel, DockableZoomBorderViewModel> ShowVideoSettings { get; }
-    public ICommand ShowVideoSettingsCommand { get; }
+    public Interaction<VideoSettingsViewModel, VideoSettingsViewModel> ShowVideoSettings { get; }
+   
     public DockableZoomBorderView()
     {
         InitializeComponent();
-        ShowVideoSettings = new Interaction<VideoSettingsViewModel, DockableZoomBorderViewModel>();
-        ShowVideoSettingsCommand = ReactiveCommand.CreateFromTask(async () =>
-        {
-            var settings = new VideoSettingsViewModel();
-            var result = await ShowVideoSettings.Handle(settings);
-        });
+        ShowVideoSettings = new Interaction<VideoSettingsViewModel, VideoSettingsViewModel>();
+        
         this.WhenActivated(d => d(ShowVideoSettings.RegisterHandler((DoShowVideoSettingsAsync))));
         var mainWindow =
             (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
@@ -44,8 +40,25 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         mainWindow.WhenAnyValue(x => x.CurrentMnemo).Subscribe(OnNext);
     }
 
+    private ICommand InitShowVideoSettingsCommand(BasicEquipment control)
+    {
+        return ReactiveCommand.CreateFromTask(async () =>
+        {
+            var settings = new VideoSettingsViewModel()
+            {
+                VideoLogin = control.VideoLogin,
+                VideoPassword = control.VideoPassword,
+                VideoChannelPTZ = control.VideoChannelPTZ
+            };
+            var result = await ShowVideoSettings.Handle(settings);
+            control.VideoLogin = result.VideoLogin;
+            control.VideoPassword = result.VideoPassword;
+            control.VideoChannelPTZ = result.VideoChannelPTZ;
+        });
+    }
+
     private async Task DoShowVideoSettingsAsync(
-        InteractionContext<VideoSettingsViewModel, DockableZoomBorderViewModel> interaction)
+        InteractionContext<VideoSettingsViewModel, VideoSettingsViewModel> interaction)
     {
         var settings = new VideoSettingsWindow();
         settings.DataContext = interaction.Input;
@@ -53,7 +66,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         var mainWindow =
             (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
                 .MainWindow as MainWindow);
-        var result = await settings.ShowDialog<DockableZoomBorderViewModel>(mainWindow);
+        var result = await settings.ShowDialog<VideoSettingsViewModel>(mainWindow);
         interaction.SetOutput(result);
     }
 
@@ -108,21 +121,22 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                     {
                         cLine.ControlISSelected = true;
                     }
-                    equipment.VoltageEnum = voltage;
-                }
 
-                if (control is IVideo video)
-                {
+                    equipment.VoltageEnum = voltage;
                     panel.ContextMenu = new ContextMenu()
                     {
-                        Items = new []{new MenuItem()
+                        Items = new[]
                         {
-                            Header = "Настройки видеонаблюдения",
-                            Command = ShowVideoSettingsCommand,
+                            new MenuItem()
+                            {
+                                Header = "Настройки видеонаблюдения",
+                                Command = InitShowVideoSettingsCommand(equipment),
 
-                        }},
+                            },
+                        }
                     };
                 }
+
                 panel.Children.Add(control);
                 canvas.Children.Add(panel);
                 
