@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -6,14 +7,17 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.PanAndZoom;
+using Avalonia.Controls.Shapes;
 using Avalonia.ExtendedToolkit.Extensions;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
 using AvAp2.Interfaces;
 using AvAp2.Models.BaseClasses;
 using AvAp2.Models.Controls;
+using DynamicData;
 using MnemoschemeEditor.ViewModels;
 using ReactiveUI;
 
@@ -23,6 +27,9 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
 {
     private Point ModifyStartPoint { get; set; }
     private bool ModifyPressed { get; set; }
+    private Rectangle SelectionRect { get; set; }
+    private bool SelectionPressed { get; set; }
+    
     
     public Interaction<VideoSettingsViewModel, VideoSettingsViewModel> ShowVideoSettings { get; }
    
@@ -30,7 +37,6 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     {
         InitializeComponent();
         ShowVideoSettings = new Interaction<VideoSettingsViewModel, VideoSettingsViewModel>();
-        
         this.WhenActivated(d => d(ShowVideoSettings.RegisterHandler((DoShowVideoSettingsAsync))));
         var mainWindow =
             (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
@@ -77,12 +83,56 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         if (window!=null) 
             window.SelectedMnemoElements.Clear();
         obj.PointerPressed += CanvasOnPointerPressed;
+        obj.PointerMoved += CanvasOnPointerMoved;
+        obj.PointerReleased += CanvasOnPointerReleased;
         obj.Children.ForEach(x =>
         {
             ((Panel)x).PointerPressed += PanelOnPointerPressed;
             ((Panel)x).PointerMoved += PanelOnPointerMoved;
         });
     }
+
+    private void CanvasOnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        if (SelectionPressed)
+        {
+            SelectionPressed = false;
+            var canvas = sender as Canvas;
+            canvas.Children.Remove(SelectionRect);
+            canvas.Children
+                .Where(x => SelectionRect.Bounds
+                    .Contains(new Point(Canvas.GetLeft((AvaloniaObject)x), Canvas.GetTop((AvaloniaObject)x))))
+                .Select(x => (x as Panel).Children[0] as BasicMnemoElement)
+                .ForEach(
+                    element =>
+                    {
+                        if (!element.ControlISSelected)
+                        {
+                            var window = this.FindAncestorOfType<Window>();
+                            element.ControlISSelected = true;
+                            (window.DataContext as MainWindowViewModel).SelectedMnemoElements.Add(element);
+                        }
+                    });
+        }
+    }
+
+    private void CanvasOnPointerMoved(object? sender, PointerEventArgs e)
+    {
+        if (SelectionPressed)
+        {
+            SelectionRect.Stroke = Brushes.Red;
+            SelectionRect.StrokeDashOffset = 1;
+            SelectionRect.StrokeThickness = 1;
+            var newHeight= e.GetPosition(sender as Canvas).Y-Canvas.GetTop(SelectionRect);
+            SelectionRect.Height = (newHeight > 0 ? newHeight : 0);
+            var newWidth= e.GetPosition(sender as Canvas).X-Canvas.GetLeft(SelectionRect);
+            SelectionRect.Width = (newWidth > 0 ? newWidth : 0);
+        }
+
+        e.Handled = true;
+    }
+    
+    
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
@@ -99,12 +149,24 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         {
             var window = this.FindAncestorOfType<Window>();
             var selectedItem = ((MainWindowViewModel)window.DataContext).SelectedMnemoElement;
-            if (sender is not Canvas || selectedItem == null)
+            if (sender is not Canvas)
             {
                 return;
             }
-
             var canvas = sender as Canvas;
+            if (selectedItem == null)
+            {
+                SelectionPressed = true;
+                SelectionRect = new Rectangle()
+                {
+                    Width = 0,
+                    Height = 0,
+                };
+                canvas.Children.Add(SelectionRect);
+                Canvas.SetTop(SelectionRect, e.GetPosition(canvas).Y);
+                Canvas.SetLeft(SelectionRect, e.GetPosition(canvas).X);
+                return;
+            }
             var voltage = ((MainWindowViewModel)window.DataContext).SelectedVoltage;
             Panel panel = new Panel()
             {
