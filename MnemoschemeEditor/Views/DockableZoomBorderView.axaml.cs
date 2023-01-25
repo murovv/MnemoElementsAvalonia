@@ -27,12 +27,14 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
 {
     private Point ModifyStartPoint { get; set; }
     private bool ModifyPressed { get; set; }
-    private Rectangle SelectionRect { get; set; }
     private bool SelectionPressed { get; set; }
+    private Rectangle SelectionRect { get; set; }
+    private bool IsCLineDrawing { get; set; }
+    private CLine CurrentLine { get; set; }
     
-    
+    private Point ModifyCLineStartPoint { get; set; }
     public Interaction<VideoSettingsViewModel, VideoSettingsViewModel> ShowVideoSettings { get; }
-   
+
     public DockableZoomBorderView()
     {
         InitializeComponent();
@@ -68,7 +70,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     {
         var settings = new VideoSettingsWindow();
         settings.DataContext = interaction.Input;
-        
+
         var mainWindow =
             (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
                 .MainWindow as MainWindow);
@@ -80,7 +82,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     {
         var window = (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
             .MainWindow.DataContext as MainWindowViewModel);
-        if (window!=null) 
+        if (window != null)
             window.SelectedMnemoElements.Clear();
         obj.PointerPressed += CanvasOnPointerPressed;
         obj.PointerMoved += CanvasOnPointerMoved;
@@ -113,6 +115,20 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                             (window.DataContext as MainWindowViewModel).SelectedMnemoElements.Add(element);
                         }
                     });
+        }else if (IsCLineDrawing)
+        {
+            if (CurrentLine.CoordinateX2 == 0 && CurrentLine.CoordinateY2 == 0)
+            {
+                (sender as Canvas).Children.Remove(CurrentLine.Parent);
+            }
+            else
+            {
+                var window = this.FindAncestorOfType<Window>();
+                (window.DataContext as MainWindowViewModel).SelectedMnemoElements.Add(CurrentLine);
+                ModifyCLineStartPoint = new Point(0, 0);
+            }
+
+            IsCLineDrawing = false;
         }
     }
 
@@ -123,23 +139,36 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             SelectionRect.Stroke = Brushes.Red;
             SelectionRect.StrokeDashOffset = 1;
             SelectionRect.StrokeThickness = 1;
-            var newHeight= e.GetPosition(sender as Canvas).Y-Canvas.GetTop(SelectionRect);
+            var newHeight = e.GetPosition(sender as Canvas).Y - Canvas.GetTop(SelectionRect);
             SelectionRect.Height = (newHeight > 0 ? newHeight : 0);
-            var newWidth= e.GetPosition(sender as Canvas).X-Canvas.GetLeft(SelectionRect);
+            var newWidth = e.GetPosition(sender as Canvas).X - Canvas.GetLeft(SelectionRect);
             SelectionRect.Width = (newWidth > 0 ? newWidth : 0);
+        }else if (IsCLineDrawing)
+        {
+            var currentPoint = e.GetPosition(CurrentLine);
+            int deltaStep = 30;
+
+            int deltaX = (int)(currentPoint.X - ModifyCLineStartPoint.X) / deltaStep;
+            int deltaY = (int)(currentPoint.Y - ModifyCLineStartPoint.Y) / deltaStep;
+
+            if ((Math.Abs(deltaX) > 0) || ((Math.Abs(deltaY) > 0)))
+            {
+                CurrentLine.CoordinateX2 += (deltaX * deltaStep);
+                CurrentLine.CoordinateY2 += (deltaY * deltaStep);
+                ModifyCLineStartPoint = new Point(ModifyCLineStartPoint.X + (deltaX * deltaStep), 
+                    ModifyCLineStartPoint.Y + (deltaY * deltaStep));
+                            
+            }
         }
 
         e.Handled = true;
     }
     
-    
-
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
         ModifyPressed = false;
         base.OnPointerReleased(e);
     }
-
 
 
     private void CanvasOnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -153,6 +182,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             {
                 return;
             }
+
             var canvas = sender as Canvas;
             if (selectedItem == null)
             {
@@ -167,6 +197,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                 Canvas.SetLeft(SelectionRect, e.GetPosition(canvas).X);
                 return;
             }
+
             var voltage = ((MainWindowViewModel)window.DataContext).SelectedVoltage;
             Panel panel = new Panel()
             {
@@ -179,9 +210,11 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             {
                 if (control is BasicEquipment equipment)
                 {
-                    if (equipment is CLine cLine)
+                    if (equipment is CLine)
                     {
-                        cLine.ControlISSelected = true;
+                        control.ControlISSelected = true;
+                        IsCLineDrawing = true;
+                        CurrentLine = control as CLine;
                     }
 
                     equipment.VoltageEnum = voltage;
@@ -193,7 +226,6 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                             {
                                 Header = "Настройки видеонаблюдения",
                                 Command = InitShowVideoSettingsCommand(equipment),
-
                             },
                         }
                     };
@@ -201,8 +233,8 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
 
                 panel.Children.Add(control);
                 canvas.Children.Add(panel);
-                
             }
+
             Canvas.SetTop(panel, e.GetPosition(canvas).Y - e.GetPosition(canvas).Y % 30);
             Canvas.SetLeft(panel, e.GetPosition(canvas).X - e.GetPosition(canvas).X % 30);
         }
@@ -234,6 +266,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
 
         if (changed)
             ModifyStartPoint = new Point(Canvas.GetLeft(sender as Panel), Canvas.GetTop(sender as Panel));
+        e.Handled = true;
     }
 
     private void PanelOnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -254,12 +287,16 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                 ((MainWindowViewModel)window.DataContext).SelectedMnemoElements.Remove(mnemoElement);
                 mnemoElement.ControlISSelected = false;
             }
-        }else if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.RightButtonPressed)
+
+            e.Handled = true;
+        }
+        else if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.RightButtonPressed)
         {
             (sender as Panel).ContextMenu?.Open();
+            e.Handled = true;
         }
 
-        e.Handled = true;
+        
     }
 
     private void InitializeComponent()

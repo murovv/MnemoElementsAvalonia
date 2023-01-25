@@ -162,7 +162,16 @@ namespace AvAp2.Models.Controls
             AffectsRender<CLine>(CoordinateX2Property, CoordinateY2Property, IsDashProperty, LineThicknessProperty);
             LineThicknessProperty.Changed.Subscribe(OnLineThicknessChanged);
             IsDashProperty.Changed.Subscribe(OnIsDashChanged);
+            CoordinateX2Property.Changed.Subscribe(Coordinate2Changed);
+            CoordinateY2Property.Changed.Subscribe(Coordinate2Changed);
         }
+
+        private static void Coordinate2Changed(AvaloniaPropertyChangedEventArgs<double> obj)
+        {
+            (obj.Sender as CLine).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as CLine).DrawingMouseOver.InvalidateVisual();
+        }
+
         public CLine() : base()
         {
             DataContext = this;
@@ -253,9 +262,6 @@ namespace AvAp2.Models.Controls
                 IsTextPressed = false;
                 e.Handled = true;
             }
-
-            var t = e.GetPosition(this);
-            #warning в авалонии 11 хит тест начал работать по  другому, так что пока так
             if (DrawingVisualText.IsPointerOver)
             {
                 IsTextPressed = IsModifyPressed = true;
@@ -288,16 +294,12 @@ namespace AvAp2.Models.Controls
 
                     if ((Math.Abs(deltaX) > 0) || ((Math.Abs(deltaY) > 0)))
                     {
-                        
                         SetValue(CoordinateX2Property, CoordinateX2 + (deltaX * deltaStep));
-                            SetValue(CoordinateY2Property, CoordinateY2 + (deltaY * deltaStep));
-
-                            ModifyStartPoint = new Point(ModifyStartPoint.X + (deltaX * deltaStep),
-                                ModifyStartPoint.Y + (deltaY * deltaStep));
+                        SetValue(CoordinateY2Property, CoordinateY2 + (deltaY * deltaStep));
+                        ModifyStartPoint = new Point(ModifyStartPoint.X + (deltaX * deltaStep), 
+                                                     ModifyStartPoint.Y + (deltaY * deltaStep));
                             
                     }
-                    
-
                     #endregion перетаскивание
                 }
                 DrawingVisualText.InvalidateVisual();
@@ -306,10 +308,6 @@ namespace AvAp2.Models.Controls
             }
 
         }
-
         #endregion
-
-        
-       
     }
 }
