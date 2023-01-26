@@ -107,9 +107,21 @@ namespace AvAp2.Models.Controls
             get => false;
         }
 
-        public CRectangle() : base()
+        static CRectangle()
         {
             AffectsRender<CRectangle>(IsDashProperty, CoordinateX2Property,CoordinateY2Property, LineThicknessProperty);
+            CoordinateX2Property.Changed.Subscribe(Coordinate2Changed);
+            CoordinateY2Property.Changed.Subscribe(Coordinate2Changed);
+        }
+
+        private static void Coordinate2Changed(AvaloniaPropertyChangedEventArgs<double> obj)
+        {
+            (obj.Sender as CRectangle).DrawingIsSelected.InvalidateVisual();
+            (obj.Sender as CRectangle).DrawingMouseOver.InvalidateVisual();
+        }
+
+        public CRectangle() : base()
+        {
             ReturnContentPenToDefault();
             DataContext = this;
             PenIsSelected = new Pen(Brushes.Red, LineThickness);

@@ -33,6 +33,13 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     private CLine CurrentLine { get; set; }
     
     private Point ModifyCLineStartPoint { get; set; }
+    
+    private bool IsCRectangleDrawing { get; set; }
+    
+    private CRectangle CurrentRectangle { get; set; }
+    
+    private Point ModifyCRectangleStartPoint { get; set; }
+    
     public Interaction<VideoSettingsViewModel, VideoSettingsViewModel> ShowVideoSettings { get; }
 
     public DockableZoomBorderView()
@@ -129,6 +136,20 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             }
 
             IsCLineDrawing = false;
+        }else if (IsCRectangleDrawing)
+        {
+            if (CurrentRectangle.CoordinateX2 == 0 && CurrentRectangle.CoordinateY2 == 0)
+            {
+                (sender as Canvas).Children.Remove(CurrentRectangle.Parent);
+            }
+            else
+            {
+                var window = this.FindAncestorOfType<Window>();
+                (window.DataContext as MainWindowViewModel).SelectedMnemoElements.Add(CurrentRectangle);
+                ModifyCRectangleStartPoint = new Point(0, 0);
+            }
+
+            IsCRectangleDrawing = false;
         }
     }
 
@@ -157,6 +178,22 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                 CurrentLine.CoordinateY2 += (deltaY * deltaStep);
                 ModifyCLineStartPoint = new Point(ModifyCLineStartPoint.X + (deltaX * deltaStep), 
                     ModifyCLineStartPoint.Y + (deltaY * deltaStep));
+                            
+            }
+        }else if (IsCRectangleDrawing)
+        {
+            var currentPoint = e.GetPosition(CurrentRectangle);
+            int deltaStep = 30;
+
+            int deltaX = (int)(currentPoint.X - ModifyCRectangleStartPoint.X) / deltaStep;
+            int deltaY = (int)(currentPoint.Y - ModifyCRectangleStartPoint.Y) / deltaStep;
+
+            if ((Math.Abs(deltaX) > 0) || ((Math.Abs(deltaY) > 0)))
+            {
+                CurrentRectangle.CoordinateX2 += (deltaX * deltaStep);
+                CurrentRectangle.CoordinateY2 += (deltaY * deltaStep);
+                ModifyCRectangleStartPoint = new Point(ModifyCRectangleStartPoint.X + (deltaX * deltaStep), 
+                    ModifyCRectangleStartPoint.Y + (deltaY * deltaStep));
                             
             }
         }
@@ -208,6 +245,12 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             panel.PointerMoved += PanelOnPointerMoved;
             if (Activator.CreateInstance(selectedItem) is BasicMnemoElement control)
             {
+                if (control is CRectangle)
+                {
+                    control.ControlISSelected = true;
+                    IsCRectangleDrawing = true;
+                    CurrentRectangle = control as CRectangle;
+                }
                 if (control is BasicEquipment equipment)
                 {
                     if (equipment is CLine)
@@ -216,7 +259,6 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                         IsCLineDrawing = true;
                         CurrentLine = control as CLine;
                     }
-
                     equipment.VoltageEnum = voltage;
                     panel.ContextMenu = new ContextMenu()
                     {

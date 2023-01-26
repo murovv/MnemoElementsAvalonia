@@ -42,6 +42,9 @@
             <Button Width="30" Height="30" Name="CLineButton" Click="CLineButton_OnClick">
                 <Line Stroke="Blue" StartPoint="0 15" EndPoint="30 15"></Line>
             </Button>
+            <Button Width="30" Height="30" Name="CRectangleButton" Click="CRectangleButton_OnClick">
+                <Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Blue"></Rectangle>
+            </Button>
             <ComboBox Name="MnemoElementSelector" SelectedItem="{Binding SelectedMnemoElement, Mode=OneWayToSource }">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

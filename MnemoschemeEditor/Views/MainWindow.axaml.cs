@@ -145,5 +145,12 @@ namespace MnemoschemeEditor.Views
                 control.Parent.ZIndex = zIndex ;
             } );
         }
+
+        private void CRectangleButton_OnClick(object? sender, RoutedEventArgs e)
+        {
+            this.Find<ComboBox>("MnemoElementSelector").SelectedItem = null;
+            this.Find<ComboBox>("TransformerSelector").SelectedItem = null;
+            (DataContext as MainWindowViewModel).SelectedMnemoElement = typeof(CRectangle);
+        }
     }
 }
