@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
+using AvAp2;
 using AvAp2.ViewModels;
 using ReactiveUI;
 
@@ -98,7 +99,10 @@ namespace MnemoschemeEditor._PropertyGrid
             {
                 if (actProperty == null){ continue; }
                 if (properties.Find(actProperty.Name, true)==null || !properties.Find(actProperty.Name, true).IsBrowsable){ continue; }
-
+                if (!properties.Find(actProperty.Name, true).Attributes.OfType<PropertyGridFilterAttribute>().Any())
+                {
+                    continue;   
+                }
                 var propMetadata = new ConfigurablePropertyMetadata(properties.Find(actProperty.Name, true), selectedObjects, _propertyContractResolver);
                 if(propMetadata.ValueType == PropertyValueType.Unsupported){ continue; }
 

@@ -12,8 +12,13 @@ namespace MnemoschemeEditor._PropertyGrid
         String,
 
         Enum,
+        
+        Integer,
+        Float,
 
         DetailSettings,
+        
+        
     }
 
     public interface IPropertyContractResolver

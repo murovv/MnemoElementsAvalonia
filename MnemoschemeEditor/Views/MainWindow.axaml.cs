@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
+using Avalonia.ExtendedToolkit.Extensions;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using AvAp2.Models.BaseClasses;
@@ -121,6 +122,28 @@ namespace MnemoschemeEditor.Views
 
         private void Button_OnClick(object? sender, RoutedEventArgs e)
         {
+        }
+
+        private void ToFront_OnClick(object? sender, RoutedEventArgs e)
+        {
+            var zIndex =
+                (DataContext as MainWindowViewModel).CurrentMnemo.Children.Max(x =>
+                    ((x as Panel).Children[0] as BasicMnemoElement).ZIndex) + 1;
+            (DataContext as MainWindowViewModel).SelectedMnemoElements.ForEach(control =>
+            {
+                control.Parent.ZIndex = zIndex ;
+            } );
+        }
+
+        private void ToBack_OnClick(object? sender, RoutedEventArgs e)
+        {
+            var zIndex =
+                (DataContext as MainWindowViewModel).CurrentMnemo.Children.Min(x =>
+                    ((x as Panel).Children[0] as BasicMnemoElement).ZIndex) - 1;
+            (DataContext as MainWindowViewModel).SelectedMnemoElements.ForEach(control =>
+            {
+                control.Parent.ZIndex = zIndex ;
+            } );
         }
     }
 }

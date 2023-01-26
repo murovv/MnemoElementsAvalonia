@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Text;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Converters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
+using Avalonia.Data.Converters;
+using Avalonia.ExtendedToolkit.Converters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactivity;
 using DynamicData;
+using MnemoschemeEditor.Converters;
 using MnemoschemeEditor.Models;
 using ReactiveUI;
+using Color = Avalonia.Media.Color;
 
 namespace MnemoschemeEditor._PropertyGrid
 {
@@ -37,7 +44,10 @@ namespace MnemoschemeEditor._PropertyGrid
                 case PropertyValueType.String:
                     ctrlValueEdit = this.CreateTextBoxControl(property, allProperties);
                     break;
-
+                case PropertyValueType.Float:
+                case PropertyValueType.Integer:
+                    ctrlValueEdit = this.CreateNumericUpDownControl(property, allProperties);
+                    break;
                 case PropertyValueType.Enum:
                     ctrlValueEdit = this.CreateEnumControl(property, allProperties);
                     break;
@@ -50,6 +60,44 @@ namespace MnemoschemeEditor._PropertyGrid
             }
 
             return ctrlValueEdit;
+        }
+
+        private Control CreateNumericUpDownControl(
+            ConfigurablePropertyMetadata property, 
+            IEnumerable<ConfigurablePropertyMetadata> allProperties)
+        {
+            var ctrlNumeric = new NumericUpDown();
+            var vals = property.HostObject.Select(x => property.Descriptor.GetValue(x).ToString()).ToList();
+            bool allEqual = vals.All(x=>x.Equals(vals[0]));
+            if (allEqual)
+            {
+                ctrlNumeric.Value = Decimal.Parse(vals[0]);
+                foreach (var prop in property.HostObject)
+                {
+                    var bind = ctrlNumeric.Bind(NumericUpDown.ValueProperty,
+                        new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                    bindings.Add(bind);
+                }
+            }
+            else
+            {
+                EventHandler<NumericUpDownValueChangedEventArgs> handler = null;
+                handler = (sender, args) =>
+                {
+                    foreach (var prop in property.HostObject)
+                    {
+                        var bind = ctrlNumeric.Bind(NumericUpDown.ValueProperty,
+                            new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                        bindings.Add(bind);
+                    }
+                    ctrlNumeric.ValueChanged -= handler;
+                };
+                ctrlNumeric.ValueChanged += handler;
+            }
+
+            ctrlNumeric.HorizontalAlignment = HorizontalAlignment.Left;
+            ctrlNumeric.IsEnabled = !property.IsReadOnly;
+            return ctrlNumeric;
         }
 
         protected virtual Control CreateCheckBoxControl(
@@ -98,10 +146,27 @@ namespace MnemoschemeEditor._PropertyGrid
             var ctrlTextBox = new TextBox();
             var vals = property.HostObject.Select(x => property.Descriptor.GetValue(x)).ToList();
             bool allEqual = vals.All(x=>x==vals[0]);
+            IValueConverter converter = null;
+            BindingMode bindingMode = BindingMode.OneWayToSource;
+            if (property.Descriptor.PropertyType == typeof(Color))
+            {
+                converter = new ColorToHexConverter();
+            }
+            else if (property.Descriptor.PropertyType == typeof(Thickness))
+            {
+                converter = new ConverterThickness();
+            }
             if (allEqual)
             {
-                ctrlTextBox.Text = vals[0]?.ToString() ?? "";
-                var behaviour = new LostFocusUpdateBindingBehavior();
+                if (converter != null)
+                {
+                    ctrlTextBox.Text = converter.Convert(vals[0], typeof(string),null,null).ToString();
+                }
+                else
+                {
+                    ctrlTextBox.Text = vals[0].ToString();
+                }
+                /*var behaviour = new LostFocusUpdateBindingBehavior();
                 behaviour.Attach(ctrlTextBox);
                 //TODO
                 ctrlTextBox.KeyDown += (sender, args) =>
@@ -110,14 +175,15 @@ namespace MnemoschemeEditor._PropertyGrid
                     {
                         FocusManager.Instance?.Focus(null);
                     } 
-                };
+                };*/
                 foreach (var prop in property.HostObject)
                 {
+                    
                     var bind = ctrlTextBox.Bind(TextBox.TextProperty,
-                        new Binding(property.Descriptor.Name, BindingMode.OneWayToSource)
+                        new Binding(property.Descriptor.Name, bindingMode)
                         {
                             Source = prop,
-                            
+                            Converter = converter,
                         });
                     bindings.Add(bind);
                 }
@@ -131,8 +197,13 @@ namespace MnemoschemeEditor._PropertyGrid
                     foreach (var prop in property.HostObject)
                     {
                         var bind = ctrlTextBox.Bind(TextBox.TextProperty,
-                            new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
+                            new Binding(property.Descriptor.Name, bindingMode)
+                            {
+                                Source = prop,
+                                Converter = converter,
+                            });
                         bindings.Add(bind);
+                        
                     }
                     ctrlTextBox.TextChanged -= handler;
                 };

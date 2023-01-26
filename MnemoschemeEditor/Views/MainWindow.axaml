@@ -63,6 +63,12 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button Width="30" Height="30" Name="ToFront" Click="ToFront_OnClick">
+                <Image Source="avares://MnemoschemeEditor/Assets/ToFront.png"></Image>
+            </Button>
+            <Button Width="30" Height="30" Name="ToBack" Click="ToBack_OnClick">
+                <Image Source="avares://MnemoschemeEditor/Assets/ToBack.png"></Image>
+            </Button>
         </Menu>
         <DockControl Name="DockControl" DockPanel.Dock="Bottom" Layout="{Binding Layout}"/>
     </DockPanel>

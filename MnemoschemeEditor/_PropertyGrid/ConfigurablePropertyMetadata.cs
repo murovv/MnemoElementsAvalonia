@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
 using FirLib.Core.Patterns.Mvvm;
 
 namespace MnemoschemeEditor._PropertyGrid
@@ -88,14 +89,21 @@ namespace MnemoschemeEditor._PropertyGrid
             {
                 this.ValueType = PropertyValueType.Bool;
             }
-            else if (propertyType == typeof(string) || propertyType == typeof(char) ||
-                     propertyType == typeof(double) || propertyType == typeof(float) || propertyType == typeof(decimal) ||
-                     propertyType == typeof(int) || propertyType == typeof(uint) ||
-                     propertyType == typeof(byte) ||
-                     propertyType == typeof(short) || propertyType == typeof(ushort) ||
-                     propertyType == typeof(long) || propertyType == typeof(ulong))
+            //TODO подержка редактирования Margin
+            else if (propertyType == typeof(string) || propertyType == typeof(char) || propertyType == typeof(Color) /*|| propertyType == typeof(Thickness)*/)
             {
                 this.ValueType = PropertyValueType.String;
+            }
+            else if (propertyType == typeof(double) || propertyType == typeof(float))
+            {
+                this.ValueType = PropertyValueType.Float;
+            }else if (propertyType == typeof(decimal) ||
+                      propertyType == typeof(int) || propertyType == typeof(uint) ||
+                      propertyType == typeof(byte) ||
+                      propertyType == typeof(short) || propertyType == typeof(ushort) ||
+                      propertyType == typeof(long) || propertyType == typeof(ulong))
+            {
+                this.ValueType = PropertyValueType.Integer;
             }
             else if (propertyType.IsSubclassOf(typeof(Enum)))
             {

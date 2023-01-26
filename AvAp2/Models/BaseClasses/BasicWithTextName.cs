@@ -112,6 +112,8 @@ namespace AvAp2.Models.BaseClasses
                 }
             }
         }
+        
+        [Category("Свойства элемента мнемосхемы"), Description("Размер шрифта"), PropertyGridFilterAttribute, DisplayName("Текст размер шрифта"), Browsable(true)]
         public double TextNameFontSize
         {
             get => (double)GetValue(TextNameFontSizeProperty);
@@ -138,6 +140,7 @@ namespace AvAp2.Models.BaseClasses
         }
         public static StyledProperty<Thickness> MarginTextNameProperty =
             AvaloniaProperty.Register<BasicWithTextName, Thickness>(nameof(MarginTextName), new Thickness(0, 0, 0, 0));
+        [Category("Свойства элемента мнемосхемы"), Description("Угол поворота диспетчерского наименования"), PropertyGridFilterAttribute, DisplayName("Текст угол"), Browsable(true)]
         public double AngleTextName
         {
             get => (double)GetValue(AngleTextNameProperty);

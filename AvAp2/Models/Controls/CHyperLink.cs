@@ -60,7 +60,7 @@ namespace AvAp2.Models.Controls
         public static StyledProperty<string> ImageFileNameProperty = AvaloniaProperty.Register<CHyperLink, string>(nameof(ImageFileName), "HyperLink.png");
         private static void OnASUImageFileNamePropertyChanged(AvaloniaPropertyChangedEventArgs<string> obj)
         {
-            if (obj.NewValue.Value.Length > 0)
+            if (obj.NewValue.Value != null && obj.NewValue.Value.Length > 0)
             {
                 try
                 {
