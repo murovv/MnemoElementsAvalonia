@@ -75,6 +75,4 @@
         </Menu>
         <DockControl Name="DockControl" DockPanel.Dock="Bottom" Layout="{Binding Layout}"/>
     </DockPanel>
-    
-
 </Window>

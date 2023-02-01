@@ -30,6 +30,7 @@ public partial class DockableMnemoSchemeSelectorView : UserControl
             var mainWindow =
                 (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
                     .MainWindow.DataContext as MainWindowViewModel);
+            mnemoscheme.SaveMnemoscheme(mainWindow.CurrentMnemo);
             mainWindow.CurrentMnemo = mnemoscheme.GetMnemoscheme();
             mainWindow.CurrentMnemo.Background = new ImageBrush(
                 new Bitmap(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\Assets\plate.png"))

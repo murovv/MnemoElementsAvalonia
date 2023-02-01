@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reactive.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using AvAp2.Models.SubControls;
+using Newtonsoft.Json;
 
 namespace AvAp2.Models.BaseClasses
 {
@@ -100,8 +102,10 @@ namespace AvAp2.Models.BaseClasses
             AngleProperty.Changed.Subscribe(OnAngleChanged);
             AffectsRender<BasicMnemoElement>(AngleProperty,ControlISSelectedProperty);
         }
+
         public BasicMnemoElement()
         {
+            
             DrawingIsSelected = new RenderCaller(DrawIsSelected);
             DrawingMouseOver = new RenderCaller(DrawMouseOver);
             DrawingMouseOver.Opacity = 0;
