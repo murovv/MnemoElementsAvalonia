@@ -6,6 +6,7 @@
    using Avalonia.Controls;
    using Avalonia.Media;
    using Avalonia.Media.Imaging;
+   using Avalonia.Platform;
    using AvAp2.Converters;
 using AvAp2.Models.BaseClasses;
 using Dock.Model.Core;
@@ -55,7 +56,7 @@ namespace MnemoschemeEditor.ViewModels
         {
             Width = 3000,
             Height = 3000,
-            Background = new ImageBrush(new Bitmap(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\Assets\plate.png"))
+            Background = new ImageBrush(new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>().Open(new Uri("avares://MnemoschemeEditor/Assets/plate.png"))))
             {
                 Stretch = Stretch.Fill,
                 DestinationRect = new RelativeRect(0,0,15,15, RelativeUnit.Absolute),

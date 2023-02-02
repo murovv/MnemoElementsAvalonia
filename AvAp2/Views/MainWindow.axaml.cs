@@ -58,7 +58,6 @@ namespace AvAp2.Views
             CDiagnosticDeviceSetImageSource.Click+= CDiagnosticDeviceSetImageSourceOnClick;
             CDiagnosticDeviceIsSelected.Click+= CDiagnosticDeviceIsSelectedOnClick;
             CDiagnosticDevice1.TextName = "картинка";
-            BasicWithTextNameChangeName.Click+= BasicWithTextNameChangeNameOnClick;
         }
 
         private void CAutomaticSwitchIsSelectedOnClick(object? sender, RoutedEventArgs e)
@@ -70,44 +69,7 @@ namespace AvAp2.Views
         {
             CArrow1.ControlISSelected = !CArrow1.ControlISSelected;
         }
-
-        private void BasicWithTextNameChangeNameOnClick(object? sender, RoutedEventArgs e)
-        {
-            CPointOnLine1.TextName = BasicWithTextNameInputName.Text;
-            if (AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem ==
-                OperatingSystemType.Linux)
-            {
-                ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.FileName = "/bin/bash";
-                startInfo.Arguments = "-c \" " + "xkblayout-state print %s" + " \"";
-                startInfo.UseShellExecute = false; 
-                startInfo.RedirectStandardOutput = true;
-                Process proc = new Process()
-                {
-                    StartInfo = startInfo
-                };
-                proc.Start ();
-                while (!proc.StandardOutput.EndOfStream) {
-                    Layout.Text = proc.StandardOutput.ReadLine();
-                }
-            }else if (AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem ==
-                      OperatingSystemType.WinNT)
-            {
-                
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = @"powershell.exe";
-                var path = "C:\\Users\\murov\\RiderProjects\\AvaloniaApplication1\\AvAp2\\bin\\Debug\\net5.0\\win-get-lang.ps1";
-                startInfo.Arguments = $@"& 'C:\Users\murov\RiderProjects\AvaloniaApplication1\AvAp2\bin\Debug\net5.0\win-get-lang.ps1'";
-                startInfo.RedirectStandardOutput = true;
-                startInfo.RedirectStandardError = true;
-                startInfo.UseShellExecute = false;
-                startInfo.CreateNoWindow = true;
-                Process proc = new Process();
-                proc.StartInfo = startInfo;
-                proc.Start();
-                Layout.Text = proc.StandardOutput.ReadToEnd();
-            }
-        }
+        
 
         private void CDiagnosticDeviceIsSelectedOnClick(object? sender, RoutedEventArgs e)
         {

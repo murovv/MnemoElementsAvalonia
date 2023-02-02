@@ -16,7 +16,6 @@ public class MnemoschemeFile:IMnemoscheme
     public MnemoschemeFile(string path)
     {
         _path = path;
-        var assests = AvaloniaLocator.Current.GetService<IAssetLoader>() as AssetLoader;
         _resolver = new PanelPropertiesResolver(new[]
         {
             "Parent", "Owner", "FocusAdorner", "DataContext", "Classes", "Background", "Resources", "Template",
@@ -44,7 +43,7 @@ public class MnemoschemeFile:IMnemoscheme
         var output = new Newtonsoft.Json.JsonSerializer();
         output.ContractResolver = _resolver;
         output.TypeNameHandling = TypeNameHandling.All;
-        using (StreamWriter sw = new StreamWriter(_path))
+        using (StreamWriter sw = File.CreateText(_path))
         using (JsonTextWriter jw = new JsonTextWriter(sw))
         {
             output.Serialize(jw, canvas);

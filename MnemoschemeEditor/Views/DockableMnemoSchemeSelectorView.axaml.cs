@@ -1,9 +1,11 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Dock.Avalonia.Controls;
 using Dock.Model.Mvvm.Controls;
 using MnemoschemeEditor.Models;
@@ -32,8 +34,9 @@ public partial class DockableMnemoSchemeSelectorView : UserControl
                     .MainWindow.DataContext as MainWindowViewModel);
             mnemoscheme.SaveMnemoscheme(mainWindow.CurrentMnemo);
             mainWindow.CurrentMnemo = mnemoscheme.GetMnemoscheme();
+            var assests = AvaloniaLocator.Current.GetService<IAssetLoader>();
             mainWindow.CurrentMnemo.Background = new ImageBrush(
-                new Bitmap(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\Assets\plate.png"))
+                new Bitmap(assests.Open(new Uri("avares://MnemoschemeEditor/Assets/plate.png"))))
             {
                 Stretch = Stretch.Fill,
                 DestinationRect = new RelativeRect(0, 0, 15, 15, RelativeUnit.Absolute),

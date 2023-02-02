@@ -15,6 +15,7 @@
         <None Remove="ObjectEditor\**" />
         <None Remove="Styles\**" />
         <None Remove="PropertyGrid\**" />
+        <None Include="bin\Debug\net6.0\jsons\canvas.json" />
         <None Include="bin\Debug\net6.0\points\canvas_points.json" />
     </ItemGroup>
     <ItemGroup>

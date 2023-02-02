@@ -12,7 +12,7 @@ public class DockableMnemoSchemeSelectorViewModel:Tool
 
     public DockableMnemoSchemeSelectorViewModel()
     {
-        Files = new List<IMnemoscheme>(Directory.GetFiles(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\jsons")
+        Files = new List<IMnemoscheme>(Directory.GetFiles(@$"{Directory.GetCurrentDirectory()}/jsons")
             .Select(x => new MnemoschemeFile(x)).ToList());
     }
 }
