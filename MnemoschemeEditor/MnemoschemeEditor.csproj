@@ -8,13 +8,14 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     </PropertyGroup>
     <ItemGroup>
+        <Folder Include="bin\Debug\net6.0" />
         <Folder Include="Models\" />
         <AvaloniaResource Include="Assets\**" />
         <Folder Include="Views\Docs" />
-        <None Remove=".gitignore" />
         <None Remove="ObjectEditor\**" />
         <None Remove="Styles\**" />
         <None Remove="PropertyGrid\**" />
+        <None Include="bin\Debug\net6.0\points\canvas_points.json" />
     </ItemGroup>
     <ItemGroup>
         <!--This helps with theme dll-s trimming.

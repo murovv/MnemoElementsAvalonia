@@ -94,7 +94,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         obj.PointerPressed += CanvasOnPointerPressed;
         obj.PointerMoved += CanvasOnPointerMoved;
         obj.PointerReleased += CanvasOnPointerReleased;
-        obj.Children.ForEach(x =>
+        obj.Children.ToList().ForEach(x =>
         {
             ((Panel)x).PointerPressed += PanelOnPointerPressed;
             ((Panel)x).PointerMoved += PanelOnPointerMoved;

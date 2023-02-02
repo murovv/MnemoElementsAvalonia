@@ -16,17 +16,11 @@ public class PointsFile:IPointsAccessor
     public List<Point> GetPoints()
     {
         using (StreamReader sr = new StreamReader(_path))
-        {
-            var list =  JsonConvert.DeserializeObject<List<Point>>(sr.ReadToEnd());
-            return list ?? new List<Point>();
-        }
-        
-        
+            return JsonConvert.DeserializeObject<List<Point>>(sr.ReadToEnd()) ?? new List<Point>();
     }
-
     public void SavePoints(List<Point> points)
     {
-        using (StreamWriter sw = new StreamWriter(_path)) 
+        using (StreamWriter sw = File.CreateText(_path)) 
             sw.Write(JsonConvert.SerializeObject(points, typeof(List<Point>), Formatting.Indented, null));
 
     }

@@ -30,7 +30,7 @@ public class PanelPropertiesResolver : DefaultContractResolver
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {
         JsonProperty property = base.CreateProperty(member, memberSerialization);
-        if (this.ignoreProps.Contains(property.PropertyName))
+        if (this.ignoreProps.Contains(property.PropertyName) || ignoreProps.Any(x=>property.PropertyName.Contains(x)))
         {
             property.ShouldSerialize = _ => false;
         }

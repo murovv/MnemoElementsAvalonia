@@ -1,7 +1,7 @@
 ﻿using System.IO;
+using Avalonia;
 using Avalonia.Controls;
-using DynamicData;
-using MnemoschemeEditor._PropertyGrid;
+using Avalonia.Platform;
 using MnemoschemeEditor.jsons;
 using Newtonsoft.Json;
 
@@ -16,11 +16,12 @@ public class MnemoschemeFile:IMnemoscheme
     public MnemoschemeFile(string path)
     {
         _path = path;
+        var assests = AvaloniaLocator.Current.GetService<IAssetLoader>() as AssetLoader;
         _resolver = new PanelPropertiesResolver(new[]
         {
             "Parent", "Owner", "FocusAdorner", "DataContext", "Classes", "Background", "Resources", "Template",
-            "RenderTransform", "ManifestModule"
-        }, new PointsFile(@"C:\Users\murov\RiderProjects\AvaloniaApplication1\MnemoschemeEditor\points\canvas_points.json"));
+            "RenderTransform", "ManifestModule", "ContextMenu", "Drawing", "Color", "TabIndex", "Margin", "Bounds", "Content", "Clock", "Transitions", "Theme", "Alignment", "UseLayoutRouting", "IsEnabled"
+        }, new PointsFile(@$"{Directory.GetCurrentDirectory()}/points/canvas_points.json"));
         Name = Path.GetFileNameWithoutExtension(path);
     }
 
@@ -36,7 +37,6 @@ public class MnemoschemeFile:IMnemoscheme
         {
             return output.Deserialize<Canvas>(jr);
         }
-        
     }
 
     public void SaveMnemoscheme(Canvas canvas)
