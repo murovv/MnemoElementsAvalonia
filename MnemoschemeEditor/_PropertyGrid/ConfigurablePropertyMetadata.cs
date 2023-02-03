@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -13,14 +14,13 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public class ConfigurablePropertyMetadata : ValidatableViewModelBase
     {
-        public IEnumerable<Control> HostObject;
+        public IEnumerable<object> HostObject;
         private IPropertyContractResolver? _propertyContractResolver;
         public PropertyDescriptor Descriptor;
 
         public ObservableCollection<object?> ValueAccessor
         {
             get => new() { this.GetValue() };
-            
         }
 
         public string CategoryName
@@ -61,12 +61,11 @@ namespace MnemoschemeEditor._PropertyGrid
 
         public Type HostObjectType => HostObject.GetType();
         
-        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, List<Control> hostObject, IPropertyContractResolver? propertyContractResolver)
+        internal ConfigurablePropertyMetadata(PropertyDescriptor propertyInfo, List<object> hostObject, IPropertyContractResolver? propertyContractResolver)
         {
             Descriptor = propertyInfo;
             HostObject = hostObject;
             _propertyContractResolver = propertyContractResolver;
-            ValueAccessor.CollectionChanged+= ValueAccessorOnCollectionChanged;
             var categoryAttrib = this.GetCustomAttribute<CategoryAttribute>();
             this.CategoryName = categoryAttrib?.Category ?? string.Empty;
 
@@ -121,11 +120,6 @@ namespace MnemoschemeEditor._PropertyGrid
             this.ValidateCurrentValue();
         }
 
-        private void ValueAccessorOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-           
-        }
-
         public override string ToString()
         {
             return $"{this.CategoryName} - {this.PropertyDisplayName} (type {this.ValueType})";
@@ -137,15 +131,11 @@ namespace MnemoschemeEditor._PropertyGrid
             return Enum.GetValues(Descriptor.PropertyType);
         }
 
-        public IEnumerable<AvaloniaProperty> GetValue()
+        public IEnumerable<object?> GetValue()
         {
             foreach (var hostObject in HostObject)
             {
-                while (!hostObject.IsInitialized)
-                {
-                    
-                }
-                yield return AvaloniaPropertyRegistry.Instance.FindRegistered(hostObject, Descriptor.Name);
+                yield return Descriptor.GetValue(hostObject);
             }
             yield break;
         }
@@ -173,7 +163,7 @@ namespace MnemoschemeEditor._PropertyGrid
         private void ValidateCurrentValue()
         {
             var errorsFound = false;
-            var ctx = new ValidationContext(HostObject);
+            var ctx = new ValidationContext(HostObject.Count() != 0 ? HostObject.First() : null);
             ctx.DisplayName = this.PropertyDisplayName;
             ctx.MemberName = this.PropertyName;
             foreach (var actAttrib in Descriptor.Attributes)

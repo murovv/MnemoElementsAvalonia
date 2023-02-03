@@ -15,10 +15,10 @@ namespace MnemoschemeEditor._PropertyGrid
     public class PropertyGridViewModel : ViewModelBase
     {
         private List<ConfigurablePropertyMetadata> _propertyMetadata;
-        private List<Control> _selectedObjects;
+        private List<object> _selectedObjects;
         private IPropertyContractResolver? _propertyContractResolver;
 
-        public List<Control> SelectedObjects
+        public List<object> SelectedObjects
         {
             get => _selectedObjects;
             set
@@ -27,7 +27,6 @@ namespace MnemoschemeEditor._PropertyGrid
                 {
                     _selectedObjects = value;
                     this.RaisePropertyChanged(nameof(this.SelectedObjects));
-
                     this.UpdatePropertyCollection();
                 }
             }
@@ -92,10 +91,9 @@ namespace MnemoschemeEditor._PropertyGrid
             // Get properties for PropertyGrid
             var closestCommonType = GetCommonBaseClass(selectedObjects.Select(x=>x.GetType()).ToList());
             var properties = TypeDescriptor.GetProperties(closestCommonType);
-            var avaloniaProperties = AvaloniaPropertyRegistry.Instance.GetRegistered(closestCommonType).Where(x=>!x.IsAttached && !x.IsDirect);
 
             // Create a viewmodel for each property
-            foreach (var actProperty in avaloniaProperties)
+            foreach (PropertyDescriptor actProperty in properties)
             {
                 if (actProperty == null){ continue; }
                 if (properties.Find(actProperty.Name, true)==null || !properties.Find(actProperty.Name, true).IsBrowsable){ continue; }

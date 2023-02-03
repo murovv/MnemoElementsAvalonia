@@ -63,7 +63,7 @@ namespace MnemoschemeEditor.ViewModels
                 TileMode = TileMode.FlipXY
             }
         };
-        public ObservableCollection<Control> SelectedMnemoElements { get; set; } = new ObservableCollection<Control>();
+        public ObservableCollection<object> SelectedMnemoElements { get; set; } = new ObservableCollection<object>();
 
         public Canvas CurrentMnemo
         {

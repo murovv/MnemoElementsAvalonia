@@ -54,6 +54,8 @@
         <entry key="PanAndZoomTesting/Styles/IGeometryStyles.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />
         <entry key="PanAndZoomTesting/Views/MainWindow.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />
         <entry key="PanAndZoomTesting/Views/ZoomPanel.axaml" value="PanAndZoomTesting/PanAndZoomTesting.csproj" />
+        <entry key="PropertyGridTest/App.axaml" value="PropertyGridTest/PropertyGridTest.csproj" />
+        <entry key="PropertyGridTest/Views/MainWindow.axaml" value="PropertyGridTest/PropertyGridTest.csproj" />
         <entry key="StressTest/App.axaml" value="StressTest/StressTest.csproj" />
         <entry key="StressTest/Views/AlarmWindow.axaml" value="StressTest/StressTest.csproj" />
         <entry key="StressTest/Views/MainWindow.axaml" value="StressTest/StressTest.csproj" />

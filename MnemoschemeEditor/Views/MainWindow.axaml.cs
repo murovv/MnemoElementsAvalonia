@@ -131,7 +131,7 @@ namespace MnemoschemeEditor.Views
                     ((x as Panel).Children[0] as BasicMnemoElement).ZIndex) + 1;
             (DataContext as MainWindowViewModel).SelectedMnemoElements.ForEach(control =>
             {
-                control.Parent.ZIndex = zIndex ;
+                ((BasicMnemoElement)control).Parent.ZIndex = zIndex ;
             } );
         }
 
@@ -142,7 +142,7 @@ namespace MnemoschemeEditor.Views
                     ((x as Panel).Children[0] as BasicMnemoElement).ZIndex) - 1;
             (DataContext as MainWindowViewModel).SelectedMnemoElements.ForEach(control =>
             {
-                control.Parent.ZIndex = zIndex ;
+                ((BasicMnemoElement)control).Parent.ZIndex = zIndex ;
             } );
         }
 

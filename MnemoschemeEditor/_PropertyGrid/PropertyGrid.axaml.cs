@@ -16,9 +16,9 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public partial class PropertyGrid : UserControl
     {
-        public static StyledProperty<ObservableCollection<Control>> SelectedObjectsProperty =
-        AvaloniaProperty.Register<PropertyGrid, ObservableCollection<Control>>(
-        nameof(SelectedObjects), new ObservableCollection<Control>());
+        public static StyledProperty<ObservableCollection<object>> SelectedObjectsProperty =
+        AvaloniaProperty.Register<PropertyGrid, ObservableCollection<object>>(
+        nameof(SelectedObjects), new ObservableCollection<object>());
 
         public static readonly StyledProperty<PropertyGridEditControlFactory?> EditControlFactoryProperty =
             AvaloniaProperty.Register<PropertyGrid, PropertyGridEditControlFactory?>(
@@ -34,7 +34,7 @@ namespace MnemoschemeEditor._PropertyGrid
         private Control? _firstValueRowEditor;
         
 
-        public ObservableCollection<Control> SelectedObjects
+        public ObservableCollection<object> SelectedObjects
         {
             get=>GetValue(SelectedObjectsProperty);
             set
@@ -73,7 +73,7 @@ namespace MnemoschemeEditor._PropertyGrid
 
         private void OnNext(int obj)
         {
-            _propertyGridVM.SelectedObjects = new List<Control>(SelectedObjects);
+            _propertyGridVM.SelectedObjects = new List<object>(SelectedObjects);
             UpdatePropertiesView();
         }
 
@@ -87,7 +87,7 @@ namespace MnemoschemeEditor._PropertyGrid
             if (beforeChanging) { return; }
             if (!(sender is PropertyGrid propGrid)) { return; }
 
-            propGrid._propertyGridVM.SelectedObjects = new List<Control>(propGrid.SelectedObjects);
+            propGrid._propertyGridVM.SelectedObjects = new List<object>(propGrid.SelectedObjects);
             propGrid.UpdatePropertiesView();
         }
         
@@ -123,7 +123,6 @@ namespace MnemoschemeEditor._PropertyGrid
                         {
                             Text = actCategory
                         };
-
                         txtHeader.SetValue(Grid.RowProperty, actRowIndex);
                         txtHeader.SetValue(Grid.ColumnSpanProperty, 2);
                         txtHeader.SetValue(Grid.ColumnProperty, 0);

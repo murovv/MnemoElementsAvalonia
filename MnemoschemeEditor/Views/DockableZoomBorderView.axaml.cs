@@ -289,18 +289,19 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         if (ModifyPressed)
         {
             var window = this.FindAncestorOfType<Window>();
+            canvas = ((MainWindowViewModel)window.DataContext).CurrentMnemo;
             foreach (var mnemoElement in ((MainWindowViewModel)window.DataContext).SelectedMnemoElements)
             {
-                canvas = mnemoElement.FindAncestorOfType<Canvas>();
-                var dx = e.GetPosition(mnemoElement.FindAncestorOfType<Canvas>()).X - ModifyStartPoint.X;
-                var dy = e.GetPosition(mnemoElement.FindAncestorOfType<Canvas>()).Y - ModifyStartPoint.Y;
-                var x = Canvas.GetLeft(mnemoElement.Parent as AvaloniaObject);
-                var y = Canvas.GetTop(mnemoElement.Parent as AvaloniaObject);
+                var panel = canvas.Children.First(x => ((Panel)x).Children[0] == mnemoElement);
+                var dx = e.GetPosition(canvas).X - ModifyStartPoint.X;
+                var dy = e.GetPosition(canvas).Y - ModifyStartPoint.Y;
+                var x = Canvas.GetLeft((AvaloniaObject)panel);
+                var y = Canvas.GetTop((AvaloniaObject)panel);
                 if (Math.Floor(x / 30) != Math.Floor((x + dx) / 30) ||
                     Math.Floor(y / 30) != Math.Floor((y + dy) / 30))
                 {
-                    Canvas.SetLeft(mnemoElement.Parent as AvaloniaObject, Math.Floor((x + dx) / 30) * 30);
-                    Canvas.SetTop(mnemoElement.Parent as AvaloniaObject, Math.Floor((y + dy) / 30) * 30);
+                    Canvas.SetLeft((AvaloniaObject)panel, Math.Floor((x + dx) / 30) * 30);
+                    Canvas.SetTop((AvaloniaObject)panel, Math.Floor((y + dy) / 30) * 30);
                     changed = true;
                 }
             }
