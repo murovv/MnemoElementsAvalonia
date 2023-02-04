@@ -152,5 +152,30 @@ namespace MnemoschemeEditor.Views
             this.Find<ComboBox>("TransformerSelector").SelectedItem = null;
             (DataContext as MainWindowViewModel).SelectedMnemoElement = typeof(CRectangle);
         }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                SubmitDelete.Open();
+                EventHandler<RoutedEventArgs> okHandler = null;
+                okHandler = (sender, args) =>
+                {
+                    (this.DataContext as MainWindowViewModel).DeleteSelected();
+                    SubmitDelete.Close();
+                    OkDelete.Click -= okHandler;
+                };
+                OkDelete.Click += okHandler;
+
+                EventHandler<RoutedEventArgs> cancelHandler = null;
+                cancelHandler = (sender, args) =>
+                {
+                    SubmitDelete.Close();
+                    CancelDelete.Click -= cancelHandler;
+                };
+                CancelDelete.Click += cancelHandler;
+            }
+            base.OnKeyDown(e);
+        }
     }
 }

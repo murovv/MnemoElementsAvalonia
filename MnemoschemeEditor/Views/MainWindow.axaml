@@ -13,66 +13,92 @@
         <converters:ConverterMnemoTypeToIcon x:Key="MnemoTypeToIcon"></converters:ConverterMnemoTypeToIcon>
     </Window.Resources>
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <Button Click="Button_OnClick">Save state</Button>
-            <Button Name="PointerButton" Click="PointerButton_OnClick">
-                <TextBlock>Курсор</TextBlock>
-            </Button>
-            <Button Name="CPointLinkButton" Click="CPointLinkButton_OnClick">
-                <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CPointLink.png"></Image>
-            </Button>
-            <Button Name="CPointLinkPortButton" Click="CPointLinkPortButton_OnClick">
-                <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CPointLinkPort.png"></Image>
-            </Button>
-            <Button Name="CPointOnLineButton" Click="CPointOnLineButton_OnClick">
-                <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CPointOnLine.png"></Image>
-            </Button>
-            <Button Name="CHyperLinkButton" Click="CHyperLinkButton_OnClick">
-                <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CHyperLink.png"></Image>
-            </Button>
-            <Button Name="CWebCameraButton" Click="CWebCameraButton_OnClick">
-                <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/video.png"></Image>
-            </Button>
-            <Button Name="CTextButton" Click="CTextButton_OnClick">
-                <TextBlock Background="Aqua">Текст</TextBlock>
-            </Button>
-            <Button Width="30" Height="30" Name="CLineButton" Click="CLineButton_OnClick">
-                <Line Stroke="Blue" StartPoint="0 15" EndPoint="30 15"></Line>
-            </Button>
-            <Button Width="30" Height="30" Name="CRectangleButton" Click="CRectangleButton_OnClick">
-                <Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Blue"></Rectangle>
-            </Button>
-            <ComboBox Name="MnemoElementSelector" SelectedItem="{Binding SelectedMnemoElement, Mode=OneWayToSource }">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Image Width="50" Height="50" Source="{Binding . , Converter= {StaticResource MnemoTypeToIcon}}"></Image>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <ComboBox Name="TransformerSelector" SelectedItem="{Binding SelectedMnemoElement, Mode=OneWayToSource}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Image Width="50" Height="50" Source="{Binding . , Converter= {StaticResource MnemoTypeToIcon}}"></Image>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <ComboBox Width="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Name="VoltageSelector" SelectedItem="{Binding SelectedVoltage}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock TextAlignment="Center" Width="100" Height="20"  Text="{Binding }" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding . , Converter={StaticResource VoltageEnumToBrush}}" ></TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Button Width="30" Height="30" Name="ToFront" Click="ToFront_OnClick">
-                <Image Source="avares://MnemoschemeEditor/Assets/ToFront.png"></Image>
-            </Button>
-            <Button Width="30" Height="30" Name="ToBack" Click="ToBack_OnClick">
-                <Image Source="avares://MnemoschemeEditor/Assets/ToBack.png"></Image>
-            </Button>
-        </Menu>
-        <DockControl Name="DockControl" DockPanel.Dock="Bottom" Layout="{Binding Layout}"/>
-    </DockPanel>
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <Button Click="Button_OnClick">Save state</Button>
+                <Button Name="PointerButton" Click="PointerButton_OnClick">
+                    <TextBlock>Курсор</TextBlock>
+                </Button>
+                <Button Name="CPointLinkButton" Click="CPointLinkButton_OnClick">
+                    <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CPointLink.png"></Image>
+                </Button>
+                <Button Name="CPointLinkPortButton" Click="CPointLinkPortButton_OnClick">
+                    <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CPointLinkPort.png"></Image>
+                </Button>
+                <Button Name="CPointOnLineButton" Click="CPointOnLineButton_OnClick">
+                    <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CPointOnLine.png"></Image>
+                </Button>
+                <Button Name="CHyperLinkButton" Click="CHyperLinkButton_OnClick">
+                    <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/CHyperLink.png"></Image>
+                </Button>
+                <Button Name="CWebCameraButton" Click="CWebCameraButton_OnClick">
+                    <Image Width="30" Height="30" Source="avares://MnemoschemeEditor/Assets/video.png"></Image>
+                </Button>
+                <Button Name="CTextButton" Click="CTextButton_OnClick">
+                    <TextBlock Background="Aqua">Текст</TextBlock>
+                </Button>
+                <Button Width="30" Height="30" Name="CLineButton" Click="CLineButton_OnClick">
+                    <Line Stroke="Blue" StartPoint="0 15" EndPoint="30 15"></Line>
+                </Button>
+                <Button Width="30" Height="30" Name="CRectangleButton" Click="CRectangleButton_OnClick">
+                    <Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Stroke="Blue">
+                    </Rectangle>
+                </Button>
+                <ComboBox Name="MnemoElementSelector"
+                          SelectedItem="{Binding SelectedMnemoElement, Mode=OneWayToSource }">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image Width="50" Height="50"
+                                   Source="{Binding . , Converter= {StaticResource MnemoTypeToIcon}}">
+                            </Image>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox Name="TransformerSelector" SelectedItem="{Binding SelectedMnemoElement, Mode=OneWayToSource}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image Width="50" Height="50"
+                                   Source="{Binding . , Converter= {StaticResource MnemoTypeToIcon}}">
+                            </Image>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox Width="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                          Name="VoltageSelector" SelectedItem="{Binding SelectedVoltage}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock TextAlignment="Center" Width="100" Height="20" Text="{Binding }"
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       Background="{Binding . , Converter={StaticResource VoltageEnumToBrush}}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Width="30" Height="30" Name="ToFront" Click="ToFront_OnClick">
+                    <Image Source="avares://MnemoschemeEditor/Assets/ToFront.png"></Image>
+                </Button>
+                <Button Width="30" Height="30" Name="ToBack" Click="ToBack_OnClick">
+                    <Image Source="avares://MnemoschemeEditor/Assets/ToBack.png"></Image>
+                </Button>
+            </Menu>
+            <DockControl Name="DockControl" DockPanel.Dock="Bottom" Layout="{Binding Layout}" />
+        </DockPanel>
+        <Border Background="#40000000" IsVisible="{Binding #SubmitDelete.IsOpen }">
+            <Popup x:Name="SubmitDelete" Name="SubmitDelete" IsVisible="False" IsOpen="False" PlacementMode="AnchorAndGravity" PlacementAnchor="Top" PlacementGravity="Bottom">
+                <StackPanel Background="White">
+                    <TextBlock Margin="20" HorizontalAlignment="Center"
+                               Text="{Binding SelectedMnemoElements.Count, StringFormat='Удалить элементы({0} шт.)?'}">
+                    </TextBlock>
+                    <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <Button  Name="OkDelete">Ok</Button>
+                        <Button Name="CancelDelete">Cancel</Button>
+                    </StackPanel>
+                </StackPanel>
+            </Popup>
+        </Border>
+    </Grid>
 </Window>

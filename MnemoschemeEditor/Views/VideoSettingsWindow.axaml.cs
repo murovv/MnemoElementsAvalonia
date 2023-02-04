@@ -13,10 +13,9 @@ public partial class VideoSettingsWindow : ReactiveWindow<VideoSettingsViewModel
     public VideoSettingsWindow()
     {
         InitializeComponent();
-        this.WhenActivated(d => d(ViewModel!.SubmitSettingsCommand.Subscribe(this.Close)));
+        this.WhenActivated(d => d(ViewModel!.SubmitSettingsCommand.Subscribe(Close)));
     }
     
-
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);

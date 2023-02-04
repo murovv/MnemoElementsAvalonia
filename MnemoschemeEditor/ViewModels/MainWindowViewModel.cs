@@ -1,6 +1,7 @@
 ﻿   using System;
    using System.Collections.Generic;
    using System.Collections.ObjectModel;
+   using System.Linq;
    using System.Reactive.Linq;
    using Avalonia;
    using Avalonia.Controls;
@@ -69,6 +70,16 @@ namespace MnemoschemeEditor.ViewModels
         {
             get => _currentMnemo;
             set => this.RaiseAndSetIfChanged(ref _currentMnemo, value);
+        }
+
+        public void DeleteSelected()
+        {
+            //TODO возможно слишком медленно будет работать, нужен стресс тест
+            var newChildren = CurrentMnemo.Children;
+            newChildren = new Controls(newChildren.Where((x) => !SelectedMnemoElements.Contains(((Panel)x).Children[0])));
+            CurrentMnemo.Children.Clear();
+            CurrentMnemo.Children.AddRange(newChildren);
+            SelectedMnemoElements.Clear();
         }
     }
 }
