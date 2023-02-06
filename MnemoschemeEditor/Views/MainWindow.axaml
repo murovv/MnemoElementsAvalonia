@@ -9,8 +9,8 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="MnemoschemeEditor">
     <Window.Resources>
-        <converters:ConverterVoltageEnumToBrush x:Key="VoltageEnumToBrush"></converters:ConverterVoltageEnumToBrush>
-        <converters:ConverterMnemoTypeToIcon x:Key="MnemoTypeToIcon"></converters:ConverterMnemoTypeToIcon>
+        <converters:ConverterVoltageEnumToBrush x:Key="VoltageEnumToBrush"/>
+        <converters:ConverterMnemoTypeToIcon x:Key="MnemoTypeToIcon"/>
     </Window.Resources>
     <Design.DataContext>
         <vm:MainWindowViewModel />
@@ -88,14 +88,18 @@
             <DockControl Name="DockControl" DockPanel.Dock="Bottom" Layout="{Binding Layout}" />
         </DockPanel>
         <Border Background="#40000000" IsVisible="{Binding #SubmitDelete.IsOpen }">
-            <Popup x:Name="SubmitDelete" Name="SubmitDelete" IsVisible="False" IsOpen="False" PlacementMode="AnchorAndGravity" PlacementAnchor="Top" PlacementGravity="Bottom">
+            <Popup x:Name="SubmitDelete" Name="SubmitDelete" IsVisible="False" IsOpen="False"
+                   PlacementMode="AnchorAndGravity" PlacementAnchor="Top" PlacementGravity="Bottom">
                 <StackPanel Background="White">
                     <TextBlock Margin="20" HorizontalAlignment="Center"
                                Text="{Binding SelectedMnemoElements.Count, StringFormat='Удалить элементы({0} шт.)?'}">
                     </TextBlock>
-                    <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
-                        <Button  Name="OkDelete">Ok</Button>
-                        <Button Name="CancelDelete">Cancel</Button>
+                    <StackPanel Margin="20"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Orientation="Horizontal">
+                        <Button Margin="10" Name="OkDelete" HotKey="Enter">Ok</Button>
+                        <Button Margin="10" Name="CancelDelete" HotKey="Escape">Cancel</Button>
                     </StackPanel>
                 </StackPanel>
             </Popup>

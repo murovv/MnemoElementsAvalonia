@@ -155,7 +155,8 @@ namespace MnemoschemeEditor.Views
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (e.Key == Key.Delete)
+            //Удалить выбранные
+            if (e.Key == Key.Delete && (this.DataContext as MainWindowViewModel).SelectedMnemoElements.Count != 0)
             {
                 SubmitDelete.Open();
                 EventHandler<RoutedEventArgs> okHandler = null;
@@ -166,7 +167,7 @@ namespace MnemoschemeEditor.Views
                     OkDelete.Click -= okHandler;
                 };
                 OkDelete.Click += okHandler;
-
+                
                 EventHandler<RoutedEventArgs> cancelHandler = null;
                 cancelHandler = (sender, args) =>
                 {
@@ -175,6 +176,12 @@ namespace MnemoschemeEditor.Views
                 };
                 CancelDelete.Click += cancelHandler;
             }
+            //Выделить все
+            else if (e.Key == Key.A && e.KeyModifiers == KeyModifiers.Control)
+            {
+                (this.DataContext as MainWindowViewModel).SelectAllElements();
+            }
+            
             base.OnKeyDown(e);
         }
     }

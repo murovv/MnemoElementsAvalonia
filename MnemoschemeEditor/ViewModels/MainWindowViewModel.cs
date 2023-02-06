@@ -81,5 +81,18 @@ namespace MnemoschemeEditor.ViewModels
             CurrentMnemo.Children.AddRange(newChildren);
             SelectedMnemoElements.Clear();
         }
+
+        public void SelectAllElements()
+        {
+            foreach (var child in CurrentMnemo.Children)
+            {
+                var element = (BasicMnemoElement)((Panel)child).Children[0];
+                if (!element.ControlISSelected)
+                {
+                    element.ControlISSelected = true;
+                    SelectedMnemoElements.Add(element);
+                }
+            }
+        }
     }
 }
