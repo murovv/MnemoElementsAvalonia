@@ -20,6 +20,7 @@ public class PanelPropertiesResolver : DefaultContractResolver
 {
 
     private IPointsAccessor _points;
+    private List<Point> _list = new List<Point>();
     private readonly HashSet<string> ignoreProps;
     public PanelPropertiesResolver(IEnumerable<string> propNamesToIgnore, IPointsAccessor pointsAccessor)
     {
@@ -55,18 +56,27 @@ public class PanelPropertiesResolver : DefaultContractResolver
         {
             contract.OnSerializedCallbacks.Add((o, context) =>
             {
-                var newPoints = _points.GetPoints();
-                newPoints.Add(new Point(Canvas.GetLeft((Panel)o), Canvas.GetTop((Panel)o)));
-                _points.SavePoints(newPoints);
+                _list.Add(new Point(Canvas.GetLeft((Panel)o), Canvas.GetTop((Panel)o)));
             });
             contract.OnDeserializedCallbacks.Add((o, context) =>
             {
-                var newPoints = _points.GetPoints();
-                var first = newPoints.First();
+                var first = _points.GetPoint();
                 Canvas.SetTop((AvaloniaObject)o, first.Y);
                 Canvas.SetLeft((AvaloniaObject)o, first.X);
-                newPoints.Remove(first);
-                _points.SavePoints(newPoints);
+            });
+        }
+
+        if (objectType == typeof(Canvas))
+        {
+            contract.OnSerializedCallbacks.Add((o, context) =>
+            {
+                ((StreamWriter)context.Context).Dispose();
+                _points.SavePoints(_list);
+                _list = new List<Point>();
+            });
+            contract.OnDeserializedCallbacks.Add((o, context) =>
+            {
+                var t = 0;
             });
         }
 
@@ -122,27 +132,3 @@ public class ControlsConverter : JsonConverter<Controls>{
     }
 }
 
-public class PanelsConverter : JsonConverter<Panel>
-{
-    public override void WriteJson(JsonWriter writer, Panel? value, JsonSerializer serializer)
-    {
-        JObject obj = JObject.FromObject(value);
-        obj.Add("Top", Canvas.GetTop(value));
-        obj.Add("Left", Canvas.GetLeft(value));
-        foreach (var props in obj)
-        {
-            serializer.Serialize(writer, props.Value, typeof(Panel));
-        }
-    }
-
-    public override Panel? ReadJson(JsonReader reader, Type objectType, Panel? existingValue, bool hasExistingValue,
-        JsonSerializer serializer)
-    {
-        JObject obj = JObject.Load(reader);
-        double top = Convert.ToDouble(obj["Top"].ToString());
-        double left = Convert.ToDouble(obj["Left"].ToString());
-        obj.Remove("Top");
-        obj.Remove("Left");
-        return serializer.Deserialize<Panel>(new JsonTextReader(new StringReader(obj.ToString())));
-    }
-}

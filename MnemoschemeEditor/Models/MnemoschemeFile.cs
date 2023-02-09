@@ -1,9 +1,11 @@
 ﻿using System.IO;
+using System.Runtime.Serialization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
 using MnemoschemeEditor.jsons;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MnemoschemeEditor.Models;
 
@@ -20,7 +22,7 @@ public class MnemoschemeFile:IMnemoscheme
         {
             "Parent", "Owner", "FocusAdorner", "DataContext", "Classes", "Background", "Resources", "Template",
             "RenderTransform", "ManifestModule", "ContextMenu", "Drawing", "Color", "TabIndex", "Margin", "Bounds", "Content", "Clock", "Transitions", "Theme", "Alignment", "UseLayoutRouting", "IsEnabled"
-        }, new PointsFile(@$"{Directory.GetCurrentDirectory()}/points/canvas_points.json"));
+        }, new PointsFile(_path));
         Name = Path.GetFileNameWithoutExtension(path);
     }
 
@@ -31,21 +33,24 @@ public class MnemoschemeFile:IMnemoscheme
         output.Converters.Add(new ControlsConverter());
         output.ContractResolver = _resolver;
         output.TypeNameHandling = TypeNameHandling.All;
-        using (StreamReader sr = new StreamReader(_path))
-        using (JsonTextReader jr = new JsonTextReader(sr))
+        JToken canvas;
+        using (var sr = new StreamReader(_path))
         {
-            return output.Deserialize<Canvas>(jr);
+            JArray array = JArray.Parse(sr.ReadToEnd());
+            canvas = array[0];
         }
+        return canvas.ToObject<Canvas>(output);
     }
 
     public void SaveMnemoscheme(Canvas canvas)
     {
-        var output = new Newtonsoft.Json.JsonSerializer();
+        var output = new JsonSerializer();
         output.ContractResolver = _resolver;
         output.TypeNameHandling = TypeNameHandling.All;
-        using (StreamWriter sw = File.CreateText(_path))
+        StreamWriter sw = File.CreateText(_path);
         using (JsonTextWriter jw = new JsonTextWriter(sw))
         {
+            output.Context = new StreamingContext(StreamingContextStates.Other, sw);
             output.Serialize(jw, canvas);
         }
     }
