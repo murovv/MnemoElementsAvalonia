@@ -3,16 +3,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:MnemoschemeEditor.ViewModels"
+             xmlns:structure="clr-namespace:IProjectModel.Structure;assembly=IProjectModel"
+             xmlns:eventBinder="clr-namespace:EventBinder;assembly=EventBinder.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MnemoschemeEditor.Views.DockableMnemoSchemeSelectorView">
     <Design.DataContext>
         <viewModels:DockableMnemoSchemeSelectorViewModel/>
     </Design.DataContext>
-    <ListBox Items="{Binding Files}" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+    <StackPanel>
+        <Menu>
+            <Button Command="{Binding AddMnemo }"></Button>
+        </Menu>
+        <TreeView Name="TreeView" SelectedItem="{Binding SelectedNode}" Items="{Binding Nodes}" SelectionMode="Single" >
+            <TreeView.DataTemplates>
+                <TreeDataTemplate DataType="structure:IStructureSubstationNode" ItemsSource="{Binding Items}">
+                    <StackPanel Height="30" Orientation="Horizontal">
+                        <Image Source="avares://MnemoschemeEditor/Assets/Structure.png"></Image>
+                        <TextBlock Text="{Binding SubstationNodeName }"></TextBlock>
+                    </StackPanel>
+                </TreeDataTemplate>
+                <DataTemplate DataType="structure:IStructureMnemoScheme">
+                    <StackPanel Background="Transparent" Height="30" Orientation="Horizontal" DoubleTapped="OnStructureMnemoSchemeDoubleClicked">
+                        <Image Source="avares://MnemoschemeEditor/Assets/Mnemo.png"></Image>
+                        <TextBlock Text="{Binding MnemoSсhemeName }"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </TreeView.DataTemplates>
+        </TreeView>
+    </StackPanel>
+    <!--<ListBox Items="{Binding Nodes}" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding Name}"></TextBlock>
+            <DataTemplate DataType="structure:IStructureSubstationNode">
+                <TextBlock Text="{Binding SubstationNodeName }"></TextBlock>
             </DataTemplate>
         </ListBox.ItemTemplate>
-    </ListBox>
+    </ListBox>-->
 </UserControl>

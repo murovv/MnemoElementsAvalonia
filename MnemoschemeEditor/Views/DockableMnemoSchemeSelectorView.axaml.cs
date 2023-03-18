@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -43,5 +44,10 @@ public partial class DockableMnemoSchemeSelectorView : UserControl
                 TileMode = TileMode.FlipXY
             };
         }
+    }
+
+    private void OnStructureMnemoSchemeDoubleClicked(object? sender, TappedEventArgs e)
+    {
+        (DataContext as DockableMnemoSchemeSelectorViewModel).OnStructureMnemoSchemeDoubleClicked(sender, e);
     }
 }

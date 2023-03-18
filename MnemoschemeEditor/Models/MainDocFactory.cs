@@ -10,6 +10,8 @@ using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.Mvvm.Controls;
 using Dock.Model.ReactiveUI;
+using IProjectModel.Structure;
+using MnemoschemeEditor.Models.StructureElementsSamples;
 using MnemoschemeEditor.ViewModels;
 using MnemoschemeEditor.Views;
 using ReactiveUI;
@@ -46,7 +48,7 @@ public class MainDocFactory : Factory
             Id = "Document2",
             Title = "Document2"
         };
-        var document3 = new DockableMnemoSchemeSelectorViewModel()
+        var document3 = new DockableMnemoSchemeSelectorViewModel((List<StructureSubstationNodeSample>)_context)
         {
             Id = "Document3",
             Title = "Document3"

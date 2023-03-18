@@ -36,6 +36,7 @@
         <PackageReference Include="Dock.Avalonia" Version="11.0.0-preview4" />
         <PackageReference Include="Dock.Model.Mvvm" Version="11.0.0-preview4" />
         <PackageReference Include="Dock.Model.ReactiveUI" Version="11.0.0-preview4" />
+        <PackageReference Include="EventBinder.Avalonia" Version="2.5.0.2" />
         <PackageReference Include="FirLib.Core.Avalonia" Version="0.1.0" />
         <PackageReference Include="Portable.Xaml" Version="0.26.0" />
         <PackageReference Include="PrivateSetterContractResolver" Version="2.1.0" />

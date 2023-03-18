@@ -15,6 +15,9 @@ public class PointsFile:IPointsAccessor
     public PointsFile(string path)
     {
         _path = path;
+        string canvas = File.ReadAllText(_path);
+        JArray jArray = JArray.Parse(canvas);
+        _points = jArray[1].ToObject<List<Point>>();
     }
 
     public List<Point> GetPoints()

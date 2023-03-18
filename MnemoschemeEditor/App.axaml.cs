@@ -1,9 +1,13 @@
+using System.Collections.Generic;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Dock.Model.Core;
+using IProjectModel.Structure;
 using MnemoschemeEditor.Models;
+using MnemoschemeEditor.Models.StructureElementsSamples;
 using MnemoschemeEditor.ViewModels;
 using MnemoschemeEditor.Views;
 
@@ -19,7 +23,34 @@ namespace MnemoschemeEditor
 
         public override void OnFrameworkInitializationCompleted()
         {
-            var factory = new MainDocFactory(null);
+            var node = new StructureSubstationNodeSample()
+            {
+                SubstationNodeName = "да что это"
+            };
+            var anotherNode = new StructureSubstationNodeSample()
+            {
+                SubstationNodeName = "дочерний узел",
+                StructureSubstationNodeParent = node
+            };
+            var schemes = new[]
+            {
+                new StructureMnemoSchemeSample(new MnemoschemeAccessor(@$"{Directory.GetCurrentDirectory().ToString()}/jsons/canvas.json"))
+                {
+                    MnemoSсhemeName = "мнемосхема моя мнемосхемма",
+                    MnemoSсhemeXAML =
+                        File.ReadAllText(
+                            @$"{Directory.GetCurrentDirectory().ToString()}/jsons/canvas.json"),
+                    StructureSubstationNode = node
+                }
+            };
+            node.StructureMnemoSchemes = schemes;
+            node.StructureSubstationNodesChildren = new[] { anotherNode };
+            List<StructureSubstationNodeSample> nodes = new List<StructureSubstationNodeSample>()
+            {
+                node
+            };
+            
+            var factory = new MainDocFactory(nodes);
             var layout = factory.CreateLayout();
             factory.InitLayout(layout);
 
