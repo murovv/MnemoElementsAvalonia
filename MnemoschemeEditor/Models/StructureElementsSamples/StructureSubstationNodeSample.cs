@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using IProjectModel;
 using IProjectModel.Events;
 using IProjectModel.Structure;
+using ReactiveUI;
 
 namespace MnemoschemeEditor.Models.StructureElementsSamples;
 
@@ -23,7 +26,14 @@ public class StructureSubstationNodeSample:IStructureSubstationNode
     public IEnumerable<IEventTemplate> EventTemplates { get; }
     public IEnumerable<IStructureCommutationDevice> StructureCommutationDevices { get; }
     public IEnumerable<IStructureVirtualKey> StructureVirtualKeys { get; }
-    public IEnumerable<IStructureMnemoScheme> StructureMnemoSchemes { get; set; }
+    public IEnumerable<IStructureMnemoScheme> StructureMnemoSchemes
+    {
+        get;
+        set;
+    }
 
-    public IEnumerable<object> Items => StructureMnemoSchemes != null ? StructureMnemoSchemes.Union<object>(StructureSubstationNodesChildren) : new List<object>();
+    public List<object> Items => StructureMnemoSchemes != null
+        ? StructureMnemoSchemes.Union<object>(StructureSubstationNodesChildren).ToList()
+        : new List<object>();
+
 }

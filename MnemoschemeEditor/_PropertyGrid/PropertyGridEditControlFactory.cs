@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Globalization;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -29,7 +30,7 @@ namespace MnemoschemeEditor._PropertyGrid
 {
     public class PropertyGridEditControlFactory
     {
-        private List<IDisposable> bindings = new List<IDisposable>();
+        private List<IDisposable> _bindings = new List<IDisposable>();
         public virtual Control? CreateControl(
             ConfigurablePropertyMetadata property, 
             IEnumerable<ConfigurablePropertyMetadata> allProperties)
@@ -76,7 +77,7 @@ namespace MnemoschemeEditor._PropertyGrid
                 {
                     var bind = ctrlNumeric.Bind(NumericUpDown.ValueProperty,
                         new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
-                    bindings.Add(bind);
+                    _bindings.Add(bind);
                 }
             }
             else
@@ -88,7 +89,7 @@ namespace MnemoschemeEditor._PropertyGrid
                     {
                         var bind = ctrlNumeric.Bind(NumericUpDown.ValueProperty,
                             new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
-                        bindings.Add(bind);
+                        _bindings.Add(bind);
                     }
                     ctrlNumeric.ValueChanged -= handler;
                 };
@@ -114,7 +115,7 @@ namespace MnemoschemeEditor._PropertyGrid
                 {
                     var bind = ctrlCheckBox.Bind(ToggleButton.IsCheckedProperty,
                         new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
-                    bindings.Add(bind);
+                    _bindings.Add(bind);
                 }
             }
             else
@@ -127,7 +128,7 @@ namespace MnemoschemeEditor._PropertyGrid
                     {
                         var bind = ctrlCheckBox.Bind(CheckBox.IsCheckedProperty,
                             new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
-                        bindings.Add(bind);
+                        _bindings.Add(bind);
                     }
                     ctrlCheckBox.Checked -= handler;
                 };
@@ -145,7 +146,7 @@ namespace MnemoschemeEditor._PropertyGrid
         {
             var ctrlTextBox = new TextBox();
             var vals = property.HostObject.Select(x => property.Descriptor.GetValue(x)).ToList();
-            bool allEqual = vals.All(x=>x==vals[0]);
+            bool allEqual = vals.All(x=>x.Equals(vals[0]));
             IValueConverter converter = null;
             BindingMode bindingMode = BindingMode.OneWayToSource;
             if (property.Descriptor.PropertyType == typeof(Color))
@@ -160,7 +161,7 @@ namespace MnemoschemeEditor._PropertyGrid
             {
                 if (converter != null)
                 {
-                    ctrlTextBox.Text = converter.Convert(vals[0], typeof(string),null,null).ToString();
+                    ctrlTextBox.Text = converter.Convert(vals[0], typeof(string),null, CultureInfo.CurrentCulture).ToString();
                 }
                 else
                 {
@@ -185,7 +186,7 @@ namespace MnemoschemeEditor._PropertyGrid
                             Source = prop,
                             Converter = converter,
                         });
-                    bindings.Add(bind);
+                    _bindings.Add(bind);
                 }
 
             }
@@ -202,7 +203,7 @@ namespace MnemoschemeEditor._PropertyGrid
                                 Source = prop,
                                 Converter = converter,
                             });
-                        bindings.Add(bind);
+                        _bindings.Add(bind);
                         
                     }
                     ctrlTextBox.TextChanged -= handler;
@@ -231,7 +232,7 @@ namespace MnemoschemeEditor._PropertyGrid
                     var bind = ctrlComboBox.Bind(ComboBox.SelectedItemProperty,
                         new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
 
-                    bindings.Add(bind);
+                    _bindings.Add(bind);
                 }
             }
             else
@@ -244,7 +245,7 @@ namespace MnemoschemeEditor._PropertyGrid
                     {
                         var bind = ctrlComboBox.Bind(ComboBox.SelectedItemProperty,
                             new Binding(property.Descriptor.Name, BindingMode.OneWayToSource) { Source = prop });
-                        bindings.Add(bind);
+                        _bindings.Add(bind);
                     }
                     ctrlComboBox.SelectionChanged -= handler;
                 };
@@ -258,7 +259,7 @@ namespace MnemoschemeEditor._PropertyGrid
 
         public void Reset()
         {
-            foreach (var binding in bindings)
+            foreach (var binding in _bindings)
             {
                 binding.Dispose();
             }

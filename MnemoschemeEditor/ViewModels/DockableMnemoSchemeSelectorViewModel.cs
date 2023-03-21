@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -10,6 +12,7 @@ using Dock.Model.Mvvm.Controls;
 using IProjectModel.Structure;
 using MnemoschemeEditor.Models;
 using MnemoschemeEditor.Models.StructureElementsSamples;
+using MnemoschemeEditor.Views;
 
 namespace MnemoschemeEditor.ViewModels;
 
@@ -21,6 +24,7 @@ public class DockableMnemoSchemeSelectorViewModel:Tool
     public DockableMnemoSchemeSelectorViewModel(List<StructureSubstationNodeSample> nodes)
     {
         Nodes = nodes;
+
     }
 
     public void OnSelectedNodeChanged(object sender, SelectionChangedEventArgs args)
@@ -30,9 +34,26 @@ public class DockableMnemoSchemeSelectorViewModel:Tool
 
     public void AddMnemo()
     {
-        /*if (SelectedNode.GetType() == typeof(IStructureSubstationNode))
+        
+        string filename = @$"{Directory.GetCurrentDirectory().ToString()}/jsons/{Guid.NewGuid()}.json";
+        using (FileStream fs = File.Create(filename))
         {
-            ((IStructureSubstationNode)SelectedNode).StructureMnemoSchemes.
+            byte[] info = new UTF8Encoding(true).GetBytes("[{},[]]");
+            // Add some information to the file.
+            fs.Write(info, 0, info.Length);
+        }
+        var newMnemo = new StructureMnemoSchemeSample(new MnemoschemeAccessor(filename))
+        {
+            MnemoSсhemeName = "Новая мнемосхема"
+        };
+        /*if (SelectedNode.GetType().IsAssignableTo(typeof(IStructureSubstationNode)))
+        {
+            ((StructureSubstationNodeSample)SelectedNode).StructureMnemoSchemes.Add(newMnemo);
+        }*/
+
+         /*else if(SelectedNode.GetType().IsAssignableTo(typeof(IStructureMnemoScheme)))
+        {
+            ((StructureSubstationNodeSample)((IStructureMnemoScheme)SelectedNode).StructureSubstationNode).StructureMnemoSchemes = ((StructureSubstationNodeSample)((IStructureMnemoScheme)SelectedNode).StructureSubstationNode).StructureMnemoSchemes.Append(newMnemo);
         }*/
     }
 
