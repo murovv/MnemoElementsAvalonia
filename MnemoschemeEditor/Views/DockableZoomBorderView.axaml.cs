@@ -8,16 +8,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.PanAndZoom;
 using Avalonia.Controls.Shapes;
-using Avalonia.ExtendedToolkit.Extensions;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
-using AvAp2.Interfaces;
 using AvAp2.Models.BaseClasses;
 using AvAp2.Models.Controls;
-using DynamicData;
 using MnemoschemeEditor.ViewModels;
 using ReactiveUI;
 
@@ -112,6 +109,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                 .Where(x => SelectionRect.Bounds
                     .Contains(new Point(Canvas.GetLeft((AvaloniaObject)x), Canvas.GetTop((AvaloniaObject)x))))
                 .Select(x => (x as Panel).Children[0] as BasicMnemoElement)
+                .ToList()
                 .ForEach(
                     element =>
                     {

@@ -1,16 +1,10 @@
-
 using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using Avalonia.Controls;
-using Avalonia.ExtendedToolkit.Extensions;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using AvAp2.Models.BaseClasses;
 using AvAp2.Models.Controls;
-using Dock.Avalonia.Controls;
-using Dock.Model.Controls;
 using IProjectModel;
 using MnemoschemeEditor.ViewModels;
 
@@ -129,7 +123,7 @@ namespace MnemoschemeEditor.Views
             var zIndex =
                 (DataContext as MainWindowViewModel).CurrentMnemo.Children.Max(x =>
                     ((x as Panel).Children[0] as BasicMnemoElement).ZIndex) + 1;
-            (DataContext as MainWindowViewModel).SelectedMnemoElements.ForEach(control =>
+            (DataContext as MainWindowViewModel).SelectedMnemoElements.ToList().ForEach(control =>
             {
                 ((BasicMnemoElement)control).Parent.ZIndex = zIndex ;
             } );
@@ -140,7 +134,7 @@ namespace MnemoschemeEditor.Views
             var zIndex =
                 (DataContext as MainWindowViewModel).CurrentMnemo.Children.Min(x =>
                     ((x as Panel).Children[0] as BasicMnemoElement).ZIndex) - 1;
-            (DataContext as MainWindowViewModel).SelectedMnemoElements.ForEach(control =>
+            (DataContext as MainWindowViewModel).SelectedMnemoElements.ToList().ForEach(control =>
             {
                 ((BasicMnemoElement)control).Parent.ZIndex = zIndex ;
             } );

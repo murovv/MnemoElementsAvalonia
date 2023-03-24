@@ -1,13 +1,10 @@
 ﻿
 
 using System;
-using System.IO;
 using Avalonia;
 using Avalonia.Data.Converters;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using IProjectModel;
 
 namespace AvAp2.Converters
 {

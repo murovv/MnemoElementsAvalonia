@@ -1,29 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reflection;
-using System.Text;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Converters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
-using Avalonia.ExtendedToolkit.Converters;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Xaml.Interactions.Core;
-using Avalonia.Xaml.Interactivity;
-using DynamicData;
 using MnemoschemeEditor.Converters;
-using MnemoschemeEditor.Models;
-using ReactiveUI;
 using Color = Avalonia.Media.Color;
 
 namespace MnemoschemeEditor._PropertyGrid
