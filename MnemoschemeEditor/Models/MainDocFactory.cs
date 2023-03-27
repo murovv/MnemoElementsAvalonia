@@ -48,7 +48,7 @@ public class MainDocFactory : Factory
             Id = "Document2",
             Title = "Document2"
         };
-        var document3 = new DockableMnemoSchemeSelectorViewModel((List<StructureSubstationNodeSample>)_context)
+        var document3 = new DockableMnemoSchemeSelectorViewModel()
         {
             Id = "Document3",
             Title = "Document3"
@@ -127,6 +127,7 @@ public class MainDocFactory : Factory
             [nameof(ITool)] = () => _context,
             ["Document1"] = () => new Document(),
             ["Document2"] = () => new Document(),
+            ["Document3"] = () => _context,
             ["LeftPane"] = () => _context,
             ["LeftPaneTop"] = () => _context,
             ["LeftPaneTopSplitter"] = () => _context,
@@ -164,7 +165,7 @@ public class MainDocFactory : Factory
 
         base.InitLayout(layout);
 
-        SetActiveDockable(_documentDock);
-        SetFocusedDockable(_documentDock, _documentDock.VisibleDockables?.FirstOrDefault());
+        /*SetActiveDockable(_documentDock);
+        SetFocusedDockable(_documentDock, _documentDock.VisibleDockables?.FirstOrDefault());*/
     }
 }

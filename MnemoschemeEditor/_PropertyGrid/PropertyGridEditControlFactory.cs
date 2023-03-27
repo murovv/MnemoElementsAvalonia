@@ -47,6 +47,7 @@ namespace MnemoschemeEditor._PropertyGrid
                     throw new ArgumentOutOfRangeException($"Unsupported value {property.ValueType}");
             }
 
+            ctrlValueEdit.Name = property.Descriptor.Name;
             return ctrlValueEdit;
         }
 

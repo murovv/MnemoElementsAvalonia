@@ -36,6 +36,7 @@
         <PackageReference Include="Dock.Avalonia" Version="11.0.0-preview4" />
         <PackageReference Include="Dock.Model.Mvvm" Version="11.0.0-preview4" />
         <PackageReference Include="Dock.Model.ReactiveUI" Version="11.0.0-preview4" />
+        <PackageReference Include="Dock.Serializer" Version="11.0.0-preview4" />
         <PackageReference Include="EventBinder.Avalonia" Version="2.5.0.2" />
         <PackageReference Include="FirLib.Core.Avalonia" Version="0.1.0" />
         <PackageReference Include="Portable.Xaml" Version="0.26.0" />
@@ -93,5 +94,8 @@
     </ItemGroup>
     <ItemGroup>
       <AdditionalFiles Include="Views\DockableZoomBorderView.axaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="bin\Debug\net6.0\jsons\layout.json" />
     </ItemGroup>
 </Project>

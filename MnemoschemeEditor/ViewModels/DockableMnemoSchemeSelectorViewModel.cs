@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,11 @@ public class DockableMnemoSchemeSelectorViewModel:Tool
 {
     public List<StructureSubstationNodeSample> Nodes { get; set; }
     public object SelectedNode { get; set; }
-    
-    public DockableMnemoSchemeSelectorViewModel(List<StructureSubstationNodeSample> nodes)
-    {
-        Nodes = nodes;
 
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        if(e.PropertyName == "Context")
+            Nodes = (List<StructureSubstationNodeSample>?)Context;
     }
 
     public void OnSelectedNodeChanged(object sender, SelectionChangedEventArgs args)

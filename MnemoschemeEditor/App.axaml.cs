@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Dock.Model.Core;
+using Dock.Serializer;
 using IProjectModel.Structure;
 using MnemoschemeEditor.Models;
 using MnemoschemeEditor.Models.StructureElementsSamples;
@@ -51,7 +54,11 @@ namespace MnemoschemeEditor
             };
             
             var factory = new MainDocFactory(nodes);
-            var layout = factory.CreateLayout();
+            IDock loaded =
+                new DockSerializer(typeof(ObservableCollection<>)).Load<IDock>(
+                    @$"{Directory.GetCurrentDirectory().ToString()}/jsons/layout.json");
+            IDock layout = loaded ?? factory.CreateLayout();
+
             factory.InitLayout(layout);
 
             var mainWindowViewModel = new MainWindowViewModel()

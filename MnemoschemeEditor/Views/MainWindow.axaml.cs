@@ -1,10 +1,14 @@
 using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using AvAp2.Models.BaseClasses;
 using AvAp2.Models.Controls;
+using Dock.Avalonia.Controls;
+using Dock.Serializer;
 using IProjectModel;
 using MnemoschemeEditor.ViewModels;
 
@@ -177,6 +181,16 @@ namespace MnemoschemeEditor.Views
             }
             
             base.OnKeyDown(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            //TODO hardcode
+            var dock = this.FindControl<DockControl>("DockControl");
+            if (dock?.Layout is { })
+            {
+                new DockSerializer(typeof(ObservableCollection<>)).Save(@$"{Directory.GetCurrentDirectory().ToString()}/jsons/layout.json", dock.Layout);
+            }
         }
     }
 }
