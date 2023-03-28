@@ -15,17 +15,211 @@
           "VisibleDockables": [
             {
               "$id": "4",
-              "$type": "Dock.Model.Mvvm.Controls.ToolDock, Dock.Model.Mvvm",
-              "Alignment": -1,
-              "IsExpanded": false,
-              "AutoHide": true,
-              "GripMode": 0,
+              "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDock, Dock.Model.ReactiveUI",
+              "Orientation": 0,
               "VisibleDockables": [
                 {
                   "$id": "5",
-                  "$type": "MnemoschemeEditor.ViewModels.DockableMnemoSchemeSelectorViewModel, MnemoschemeEditor",
-                  "Id": "Document3",
-                  "Title": "Document3",
+                  "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDock, Dock.Model.ReactiveUI",
+                  "Orientation": 0,
+                  "VisibleDockables": [
+                    {
+                      "$id": "6",
+                      "$type": "Dock.Model.Mvvm.Controls.ToolDock, Dock.Model.Mvvm",
+                      "Alignment": -1,
+                      "IsExpanded": false,
+                      "AutoHide": true,
+                      "GripMode": 0,
+                      "VisibleDockables": [
+                        {
+                          "$id": "7",
+                          "$type": "MnemoschemeEditor.ViewModels.DockableMnemoSchemeSelectorViewModel, MnemoschemeEditor",
+                          "Id": "Document3",
+                          "Title": "Document3",
+                          "CanClose": true,
+                          "CanPin": true,
+                          "CanFloat": true
+                        }
+                      ],
+                      "ActiveDockable": {
+                        "$ref": "7"
+                      },
+                      "Proportion": 1.0,
+                      "Dock": 0,
+                      "IsActive": false,
+                      "IsCollapsable": true,
+                      "Id": "",
+                      "Title": "",
+                      "CanClose": true,
+                      "CanPin": true,
+                      "CanFloat": true
+                    }
+                  ],
+                  "ActiveDockable": {
+                    "$ref": "6"
+                  },
+                  "Proportion": 0.14507042253521077,
+                  "Dock": 0,
+                  "IsActive": false,
+                  "IsCollapsable": true,
+                  "Id": "IProportionalDock",
+                  "Title": "IProportionalDock",
+                  "CanClose": true,
+                  "CanPin": true,
+                  "CanFloat": true
+                },
+                {
+                  "$id": "8",
+                  "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDockSplitter, Dock.Model.ReactiveUI",
+                  "Id": "IProportionalDockSplitter",
+                  "Title": "IProportionalDockSplitter",
+                  "CanClose": true,
+                  "CanPin": true,
+                  "CanFloat": true
+                },
+                {
+                  "$id": "9",
+                  "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDock, Dock.Model.ReactiveUI",
+                  "Orientation": 0,
+                  "VisibleDockables": [
+                    {
+                      "$id": "10",
+                      "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDock, Dock.Model.ReactiveUI",
+                      "Orientation": 1,
+                      "VisibleDockables": [
+                        {
+                          "$id": "11",
+                          "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDock, Dock.Model.ReactiveUI",
+                          "Orientation": 0,
+                          "VisibleDockables": [
+                            {
+                              "$id": "12",
+                              "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDock, Dock.Model.ReactiveUI",
+                              "Orientation": 1,
+                              "VisibleDockables": [
+                                {
+                                  "$id": "13",
+                                  "$type": "Dock.Model.ReactiveUI.Controls.ToolDock, Dock.Model.ReactiveUI",
+                                  "Alignment": -1,
+                                  "IsExpanded": false,
+                                  "AutoHide": true,
+                                  "GripMode": 0,
+                                  "VisibleDockables": [
+                                    {
+                                      "$id": "14",
+                                      "$type": "MnemoschemeEditor.ViewModels.DockablePropertyGridViewModel, MnemoschemeEditor",
+                                      "Id": "Document2",
+                                      "Title": "Document2",
+                                      "CanClose": true,
+                                      "CanPin": true,
+                                      "CanFloat": true
+                                    }
+                                  ],
+                                  "ActiveDockable": {
+                                    "$ref": "14"
+                                  },
+                                  "Proportion": 0.5,
+                                  "Dock": 0,
+                                  "IsActive": false,
+                                  "IsCollapsable": true,
+                                  "Id": "IToolDock",
+                                  "Title": "IToolDock",
+                                  "CanClose": true,
+                                  "CanPin": true,
+                                  "CanFloat": true
+                                },
+                                {
+                                  "$id": "15",
+                                  "$type": "Dock.Model.ReactiveUI.Controls.ProportionalDockSplitter, Dock.Model.ReactiveUI",
+                                  "Id": "IProportionalDockSplitter",
+                                  "Title": "IProportionalDockSplitter",
+                                  "CanClose": true,
+                                  "CanPin": true,
+                                  "CanFloat": true
+                                },
+                                {
+                                  "$id": "16",
+                                  "$type": "Dock.Model.ReactiveUI.Controls.ToolDock, Dock.Model.ReactiveUI",
+                                  "Alignment": -1,
+                                  "IsExpanded": false,
+                                  "AutoHide": true,
+                                  "GripMode": 0,
+                                  "VisibleDockables": [
+                                    {
+                                      "$id": "17",
+                                      "$type": "MnemoschemeEditor.ViewModels.DockableZoomBorderViewModel, MnemoschemeEditor",
+                                      "Id": "Document1",
+                                      "Title": "Document1",
+                                      "CanClose": false,
+                                      "CanPin": true,
+                                      "CanFloat": false
+                                    }
+                                  ],
+                                  "ActiveDockable": {
+                                    "$ref": "17"
+                                  },
+                                  "Proportion": 0.5,
+                                  "Dock": 0,
+                                  "IsActive": false,
+                                  "IsCollapsable": true,
+                                  "Id": "IToolDock",
+                                  "Title": "IToolDock",
+                                  "CanClose": true,
+                                  "CanPin": true,
+                                  "CanFloat": true
+                                }
+                              ],
+                              "ActiveDockable": {
+                                "$ref": "16"
+                              },
+                              "Proportion": 1.0,
+                              "Dock": 0,
+                              "IsActive": false,
+                              "IsCollapsable": true,
+                              "Id": "IProportionalDock",
+                              "Title": "IProportionalDock",
+                              "CanClose": true,
+                              "CanPin": true,
+                              "CanFloat": true
+                            }
+                          ],
+                          "ActiveDockable": {
+                            "$ref": "12"
+                          },
+                          "Proportion": 1.0,
+                          "Dock": 0,
+                          "IsActive": true,
+                          "IsCollapsable": true,
+                          "Id": "IProportionalDock",
+                          "Title": "IProportionalDock",
+                          "CanClose": true,
+                          "CanPin": true,
+                          "CanFloat": true
+                        }
+                      ],
+                      "ActiveDockable": {
+                        "$ref": "11"
+                      },
+                      "Proportion": 1.0,
+                      "Dock": 0,
+                      "IsActive": false,
+                      "IsCollapsable": true,
+                      "Id": "IProportionalDock",
+                      "Title": "IProportionalDock",
+                      "CanClose": true,
+                      "CanPin": true,
+                      "CanFloat": true
+                    }
+                  ],
+                  "ActiveDockable": {
+                    "$ref": "10"
+                  },
+                  "Proportion": 0.8549295774647893,
+                  "Dock": 0,
+                  "IsActive": false,
+                  "IsCollapsable": true,
+                  "Id": "IProportionalDock",
+                  "Title": "IProportionalDock",
                   "CanClose": true,
                   "CanPin": true,
                   "CanFloat": true
@@ -34,97 +228,20 @@
               "ActiveDockable": {
                 "$ref": "5"
               },
-              "Proportion": 0.0660211267605635,
+              "Proportion": 1.0,
               "Dock": 0,
               "IsActive": false,
               "IsCollapsable": true,
-              "Id": "",
-              "Title": "",
-              "CanClose": true,
-              "CanPin": true,
-              "CanFloat": true
-            },
-            {
-              "$id": "6",
-              "$type": "Dock.Model.Mvvm.Controls.ProportionalDockSplitter, Dock.Model.Mvvm",
-              "Id": "",
-              "Title": "",
-              "CanClose": true,
-              "CanPin": true,
-              "CanFloat": true
-            },
-            {
-              "$id": "7",
-              "$type": "Dock.Model.Mvvm.Controls.ToolDock, Dock.Model.Mvvm",
-              "Alignment": -1,
-              "IsExpanded": false,
-              "AutoHide": true,
-              "GripMode": 0,
-              "VisibleDockables": [
-                {
-                  "$id": "8",
-                  "$type": "MnemoschemeEditor.ViewModels.DockableZoomBorderViewModel, MnemoschemeEditor",
-                  "Id": "Document1",
-                  "Title": "Document1",
-                  "CanClose": false,
-                  "CanPin": true,
-                  "CanFloat": false
-                }
-              ],
-              "ActiveDockable": {
-                "$ref": "8"
-              },
-              "Proportion": 0.33937793427230056,
-              "Dock": 0,
-              "IsActive": false,
-              "IsCollapsable": true,
-              "Id": "",
-              "Title": "",
-              "CanClose": true,
-              "CanPin": true,
-              "CanFloat": true
-            },
-            {
-              "$id": "9",
-              "$type": "Dock.Model.Mvvm.Controls.ProportionalDockSplitter, Dock.Model.Mvvm",
-              "Id": "",
-              "Title": "",
-              "CanClose": true,
-              "CanPin": true,
-              "CanFloat": true
-            },
-            {
-              "$id": "10",
-              "$type": "Dock.Model.Mvvm.Controls.ToolDock, Dock.Model.Mvvm",
-              "Alignment": -1,
-              "IsExpanded": false,
-              "AutoHide": true,
-              "GripMode": 0,
-              "VisibleDockables": [
-                {
-                  "$id": "11",
-                  "$type": "MnemoschemeEditor.ViewModels.DockablePropertyGridViewModel, MnemoschemeEditor",
-                  "Id": "Document2",
-                  "Title": "Document2",
-                  "CanClose": true,
-                  "CanPin": true,
-                  "CanFloat": true
-                }
-              ],
-              "ActiveDockable": {
-                "$ref": "11"
-              },
-              "Proportion": 0.5946009389671361,
-              "Dock": 0,
-              "IsActive": false,
-              "IsCollapsable": true,
-              "Id": "",
-              "Title": "",
+              "Id": "IProportionalDock",
+              "Title": "IProportionalDock",
               "CanClose": true,
               "CanPin": true,
               "CanFloat": true
             }
           ],
+          "ActiveDockable": {
+            "$ref": "4"
+          },
           "Proportion": "NaN",
           "Dock": 0,
           "IsActive": false,
@@ -137,7 +254,7 @@
         }
       ],
       "ActiveDockable": {
-        "$id": "12",
+        "$id": "18",
         "$type": "Dock.Model.Mvvm.Controls.ToolDock, Dock.Model.Mvvm",
         "Alignment": -1,
         "IsExpanded": false,
@@ -160,6 +277,9 @@
         "CanClose": true,
         "CanPin": true,
         "CanFloat": true
+      },
+      "FocusedDockable": {
+        "$ref": "12"
       },
       "Proportion": "NaN",
       "Dock": 0,

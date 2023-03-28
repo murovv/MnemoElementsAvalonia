@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     private CRectangle CurrentRectangle { get; set; }
     
     private Point ModifyCRectangleStartPoint { get; set; }
+    private List<IDisposable> bindings = new List<IDisposable>();
     
     public Interaction<VideoSettingsViewModel, VideoSettingsViewModel> ShowVideoSettings { get; }
 
@@ -51,8 +53,33 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
                 .MainWindow.DataContext as MainWindowViewModel);
         var zoomBorder = this.Find<ZoomBorder>("ZoomBorder");
-        zoomBorder.Bind(ZoomBorder.ChildProperty, mainWindow.WhenAnyValue(x => x.CurrentMnemo));
-        mainWindow.WhenAnyValue(x => x.CurrentMnemo).Subscribe(OnNext);
+        bindings.Add(zoomBorder.Bind(ZoomBorder.ChildProperty, mainWindow.WhenAnyValue(x => x.CurrentMnemo)));
+        
+        mainWindow.WhenAnyValue(x => x.CurrentMnemo).Buffer(2)
+            .Select(b => (Previous: b[0], Current: b[1])).Subscribe(OnNext);
+        SubscribeMnemo(mainWindow.CurrentMnemo);
+    }
+
+    private void OnNext((Canvas Previous, Canvas Current) obj)
+    {
+        var window = (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
+            .MainWindow.DataContext as MainWindowViewModel);
+        if (window != null)
+            window.SelectedMnemoElements.Clear();
+        UnSubscribeMnemo(obj.Previous);
+        SubscribeMnemo(obj.Current);
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        bindings.ForEach(x=>x.Dispose());
+        UnSubscribeMnemo((GetWindow().DataContext as MainWindowViewModel).CurrentMnemo);
+        base.OnDetachedFromVisualTree(e);
+    }
+
+    ~DockableZoomBorderView()
+    {
+          
     }
 
     private ICommand InitShowVideoSettingsCommand(BasicEquipment control)
@@ -84,22 +111,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         var result = await settings.ShowDialog<VideoSettingsViewModel>(mainWindow);
         interaction.SetOutput(result);
     }
-
-    private void OnNext(Canvas obj)
-    {
-        var window = (((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
-            .MainWindow.DataContext as MainWindowViewModel);
-        if (window != null)
-            window.SelectedMnemoElements.Clear();
-        obj.PointerPressed += CanvasOnPointerPressed;
-        obj.PointerMoved += CanvasOnPointerMoved;
-        obj.PointerReleased += CanvasOnPointerReleased;
-        obj.Children.ToList().ForEach(x =>
-        {
-            ((Panel)x).PointerPressed += PanelOnPointerPressed;
-            ((Panel)x).PointerMoved += PanelOnPointerMoved;
-        });
-    }
+    
 
     private void CanvasOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
@@ -118,7 +130,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
                     {
                         if (!element.ControlISSelected)
                         {
-                            var window = this.FindAncestorOfType<Window>();
+                            var window = GetWindow();
                             element.ControlISSelected = true;
                             (window.DataContext as MainWindowViewModel).SelectedMnemoElements.Add(element);
                         }
@@ -131,7 +143,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             }
             else
             {
-                var window = this.FindAncestorOfType<Window>();
+                var window = GetWindow();
                 (window.DataContext as MainWindowViewModel).SelectedMnemoElements.Add(CurrentLine);
                 ModifyCLineStartPoint = new Point(0, 0);
             }
@@ -145,7 +157,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
             }
             else
             {
-                var window = this.FindAncestorOfType<Window>();
+                var window = GetWindow();
                 (window.DataContext as MainWindowViewModel).SelectedMnemoElements.Add(CurrentRectangle);
                 ModifyCRectangleStartPoint = new Point(0, 0);
             }
@@ -214,7 +226,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         var mouseButton = e.GetCurrentPoint(sender as Canvas).Properties.PointerUpdateKind;
         if (mouseButton == PointerUpdateKind.LeftButtonPressed)
         {
-            var window = this.FindAncestorOfType<Window>();
+            var window = GetWindow();
             var selectedItem = ((MainWindowViewModel)window.DataContext).SelectedMnemoElement;
             if (sender is not Canvas)
             {
@@ -289,7 +301,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
         Canvas canvas = null;
         if (ModifyPressed)
         {
-            var window = this.FindAncestorOfType<Window>();
+            var window = GetWindow();
             canvas = ((MainWindowViewModel)window.DataContext).CurrentMnemo;
             foreach (var mnemoElement in ((MainWindowViewModel)window.DataContext).SelectedMnemoElements)
             {
@@ -316,7 +328,7 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     private void PanelOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var mnemoElement = (sender as Panel).Children[0] as BasicMnemoElement;
-        var window = this.FindAncestorOfType<Window>();
+        var window = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime).MainWindow;
         ModifyStartPoint = e.GetPosition(mnemoElement.FindAncestorOfType<Canvas>());
         ModifyPressed = true;
         if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.LeftButtonPressed)
@@ -346,5 +358,35 @@ public partial class DockableZoomBorderView : ReactiveUserControl<DockableZoomBo
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    private Window GetWindow()
+    {
+        return ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime)
+            .MainWindow;
+    }
+
+    private void SubscribeMnemo(Canvas canvas)
+    {
+        canvas.PointerPressed += CanvasOnPointerPressed;
+        canvas.PointerMoved += CanvasOnPointerMoved;
+        canvas.PointerReleased += CanvasOnPointerReleased;
+        canvas.Children.ToList().ForEach(x =>
+        {
+            ((Panel)x).PointerPressed += PanelOnPointerPressed;
+            ((Panel)x).PointerMoved += PanelOnPointerMoved;
+        });
+    }
+
+    private void UnSubscribeMnemo(Canvas canvas)
+    {
+        canvas.PointerPressed -= CanvasOnPointerPressed;
+        canvas.PointerMoved -= CanvasOnPointerMoved;
+        canvas.PointerReleased -= CanvasOnPointerReleased;
+        canvas.Children.ToList().ForEach(x =>
+        {
+            ((Panel)x).PointerPressed -= PanelOnPointerPressed;
+            ((Panel)x).PointerMoved -= PanelOnPointerMoved;
+        });
     }
 }

@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
-using CommunityToolkit.Mvvm.Input;
 using Dock.Model.Mvvm.Controls;
-using IProjectModel.Structure;
 using MnemoschemeEditor.Models;
 using MnemoschemeEditor.Models.StructureElementsSamples;
-using MnemoschemeEditor.Views;
 
 namespace MnemoschemeEditor.ViewModels;
 
