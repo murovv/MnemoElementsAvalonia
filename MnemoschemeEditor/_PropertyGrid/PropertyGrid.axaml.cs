@@ -41,6 +41,7 @@ namespace MnemoschemeEditor._PropertyGrid
             {
                 value.WhenAnyValue(x => x.Count).Subscribe(OnNext);
                 SetValue(SelectedObjectsProperty, value);
+                OnNext(0);
             }
         }
 

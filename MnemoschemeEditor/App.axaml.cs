@@ -57,7 +57,7 @@ namespace MnemoschemeEditor
             IDock loaded =
                 new DockSerializer(typeof(ObservableCollection<>)).Load<IDock>(
                     @$"{Directory.GetCurrentDirectory().ToString()}/jsons/layout.json");
-            IDock layout = loaded ?? factory.CreateLayout();
+            IDock layout = factory.CreateLayout();
 
             factory.InitLayout(layout);
 
